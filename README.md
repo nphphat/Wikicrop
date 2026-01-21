@@ -35,7 +35,7 @@ Sau đó, mở file LocalSettings.php bằng VS Code hoặc Notepad và sửa c�
 ### Bước 4: Khởi tạo Cơ sở dữ liệu (Database)
 > Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
 ### Bước 5: Kiểm tra
-> Mở trình duyệt và truy cập: http://localhost/wikicrop
+> Mở trình duyệt và truy cập: http://localhost/wikicrop/index.php/Main_Page
 
 -------------------------------------------------------------------------------
 # MediaWiki
