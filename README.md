@@ -1,3 +1,43 @@
+# WIKICROP - Hệ thống Wiki Nông Nghiệp
+**Wikicrop** là hệ thống quản lý tri thức nông nghiệp được xây dựng trên nền tảng MediaWiki, tích hợp các công nghệ Nông nghiệp 4.0.
+
+## Hướng dẫn Cài đặt (Installation Guide)
+Do cấu hình bảo mật, file cấu hình gốc không được đưa lên GitHub. Vui lòng làm theo các bước sau để chạy dự án trên máy của bạn (Môi trường khuyến nghị: **XAMPP** trên Windows).
+
+### Bước 1: Tải mã nguồn (Clone Source)
+Mở **Terminal** (hoặc PowerShell) tại thư mục `C:\xampp\htdocs\` và chạy lệnh:
+
+```bash
+# 1. Clone dự án về máy
+git clone https://github.com/nphphat/Wikicrop.git
+
+# 2. Truy cập vào thư mục dự án
+cd wikicrop 
+```
+
+### Bước 2: Cài đặt thư viện (QUAN TRỌNG)
+> Dự án không lưu thư mục vendor trên Git để giảm dung lượng. Bạn bắt buộc phải chạy lệnh sau để tải các thư viện cần thiết:
+```bash
+composer install --no-dev
+```
+
+### Bước 3: Thiết lập Cấu hình (Configuration)
+> Hệ thống sử dụng file mẫu để bảo mật mật khẩu. Bạn cần tạo file cấu hình chính thức từ file mẫu này.
+```bash
+copy LocalSettings.sample.php LocalSettings.php
+```
+
+Sau đó, mở file LocalSettings.php bằng VS Code hoặc Notepad và sửa các dòng sau:
+- `YOUR_CLARITY_ID` nếu dùng Clarity
+- `YOUR_KEYCLOAK_CLIENT_SECRET` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak-(1).pdf
+- `YOUR_GOOGLE_APP_PASSWORD` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
+
+### Bước 4: Khởi tạo Cơ sở dữ liệu (Database)
+> Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
+### Bước 5: Kiểm tra
+> Mở trình duyệt và truy cập: http://localhost/wikicrop
+
+-------------------------------------------------------------------------------
 # MediaWiki
 
 MediaWiki is a free and open-source wiki software package written in PHP. It
@@ -33,3 +73,5 @@ MediaWiki is the result of global collaboration and cooperation. The CREDITS
 file lists technical contributors to the project. The COPYING file explains
 MediaWiki's copyright and license (GNU General Public License, version 2 or
 later). Many thanks to the Wikimedia community for testing and suggestions.
+
+

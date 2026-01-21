@@ -53,7 +53,7 @@ $wgSMTP = [
     'IDHost' => 'localhost',
     'auth' => true,
     'username' => 'YOUR_EMAIL', // Your full Gmail address
-    'password' => 'YOUR_APP_PASSWORD' // The App Password you generated
+    'password' => 'YOUR_GOOGLE_APP_PASSWORD' // The App Password you generated
 ];
 
 $wgEmergencyContact = "";
@@ -301,7 +301,7 @@ $wgPluggableAuth_Config['Keycloak Login'] = [
     'data' => [
         'providerURL' => 'http://localhost:8090/realms/my_realm',
         'clientID' => 'my_client',
-        'clientsecret' => 'YOUR_SECRET',
+        'clientsecret' => 'YOUR_KEYCLOAK_CLIENT_SECRET',
     ],
     'groupsyncs' => [
         'sync_from_keycloak' => [ 
@@ -330,7 +330,7 @@ $wgGroupPermissions['sysop']['approverevisions'] = true;
 wfLoadExtension( 'ApiPlantDB' );
 wfLoadExtension( 'MicrosoftClarity' );
 
-$wgMicrosoftClarityID = 'IDClarity'; // Thay thế bằng Clarity ID
+$wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
 
 $wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skinTemplate, &$links ) {
     $user = $skinTemplate->getUser();
@@ -347,5 +347,4 @@ $wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skinTemplate, &$li
 
 $wgGroupPermissions['sysop']['manage-nongnghiep40'] = true;
 wfLoadExtension( 'NongNghiep40' );
-
 

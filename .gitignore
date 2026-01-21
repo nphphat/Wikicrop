@@ -1,0 +1,32 @@
+# MediaWiki configuration
+LocalSettings.php
+AdminSettings.php
+.env
+
+# Cache and generated files
+/cache/
+/images/temp/
+/images/thumb/
+/maintenance/archives/
+
+# User uploads (keeping the directory structure but not the files)
+# Review this if you WANT to version control user images
+/images/*
+!/images/README
+!/images/.htaccess
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+.vscode/
+.idea/
+*.swp
+error_log
