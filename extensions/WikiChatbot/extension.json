@@ -1,0 +1,34 @@
+{
+	"name": "WikiChatbot",
+	"version": "1.0",
+	"author": "Ban",
+	"url": "https://localhost",
+	"description": "Chatbot trợ lý cây trồng",
+	"type": "other",
+	"manifest_version": 2,
+    "config": {
+        "WikiChatbotEnabled": {
+            "value": true, 
+            "description": "Bật hoặc tắt Chatbot trên toàn trang"
+        },
+        "WikiChatbotApiUrl": {
+            "value": "http://localhost:8000/ask",
+            "description": "URL API của Chatbot Server"
+        }
+    },
+	"ResourceModules": {
+		"ext.wikichatbot": {
+            "localBasePath": "",
+	        "remoteExtPath": "WikiChatbot",
+			"scripts": "modules/ext.chatbot.js",
+			"styles": "modules/ext.chatbot.css",
+			"targets": [ "desktop", "mobile" ]
+		}
+	},
+	"Hooks": {
+		"BeforePageDisplay": "WikiChatbotHooks::onBeforePageDisplay"
+	},
+	"AutoloadClasses": {
+		"WikiChatbotHooks": "includes/WikiChatbotHooks.php"
+	}
+}

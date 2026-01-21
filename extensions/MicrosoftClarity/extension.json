@@ -1,0 +1,21 @@
+{
+    "name": "MicrosoftClarity",
+    "author": "Nguyen Phuoc Phat",
+    "version": "1.0.0",
+    "description": "Extension để tích hợp Microsoft Clarity vào MediaWiki",
+    "type": "other",
+    "manifest_version": 2,
+    "AutoloadNamespaces": {
+        "MediaWiki\\Extension\\MicrosoftClarity\\": "includes/"
+    },
+    "Hooks": {
+        "BeforePageDisplay": "MediaWiki\\Extension\\MicrosoftClarity\\Hooks::onBeforePageDisplay"
+    },
+    "config": {
+		"MicrosoftClarityID": {
+            "value": "",
+            "type": "string",
+            "required": true
+        }
+	}
+}

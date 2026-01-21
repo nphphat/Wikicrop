@@ -1,0 +1,11 @@
+{
+	"_comment": "Nguyen Huu Dat, TTTT HK3 2024-2025",
+	"extra": {
+		"merge-plugin": {
+			"include": [
+				"extensions/OpenIDConnect/composer.json",
+				"extensions/AbuseFilter/composer.json"
+			]
+		}
+	}
+}

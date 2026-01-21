@@ -1,0 +1,42 @@
+{
+    "name": "NongNghiep40",
+    "version": "1.0.0",
+    "author": "Nguyen Phuoc Phat",
+    "description": "Extension để quản lý danh sách website/youtube nông nghiệp",
+    "type": "specialpage",
+    "requires": {
+        "MediaWiki": ">= 1.35"
+    },
+    "AutoloadClasses": {
+        "SpecialNongNghiep40": "includes/SpecialNongNghiep40.php",
+        "NongNghiep40Hooks": "includes/NongNghiep40Hooks.php"
+    },
+    "AvailableRights": [
+        "manage-nongnghiep40"
+    ],
+    "GroupPermissions": {
+        "sysop": {
+            "manage-nongnghiep40": true
+        }
+    },
+    "SpecialPages": {
+        "NongNghiep40": "SpecialNongNghiep40"
+    },
+    "Hooks": {
+        "LoadExtensionSchemaUpdates": "NongNghiep40Hooks::onLoadExtensionSchemaUpdates"
+    },
+    "MessagesDirs": {
+        "NongNghiep40": [
+            "i18n"
+        ]
+    },
+    "ResourceModules": {
+        "ext.nongnghiep40": {
+            "localBasePath": "",
+            "remoteExtPath": "NongNghiep40",
+            "scripts": "modules/ext.nongnghiep40.js",
+            "styles": "modules/ext.nongnghiep40.css"
+        }
+    },
+    "manifest_version": 2
+}

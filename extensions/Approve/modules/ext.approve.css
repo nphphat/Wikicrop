@@ -1,0 +1,190 @@
+/* extensions/Approve/modules/ext.approve.css */
+
+:root {
+    --approve-primary: #36c;
+    --approve-primary-hover: #2a4b8d;
+    --approve-success: #28a745;
+    --approve-success-hover: #218838;
+    --approve-danger: #d33;
+    --approve-danger-hover: #b21f2d;
+    --approve-bg: #fff;
+    --approve-border: #eaecf0;
+    --approve-text: #202122;
+    --approve-text-light: #72777d;
+    --approve-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dashboard Container */
+.approve-dashboard-wrapper {
+    background: var(--approve-bg);
+    border: 1px solid var(--approve-border);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--approve-shadow);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Lato, Helvetica, Arial, sans-serif;
+    color: var(--approve-text);
+}
+
+/* Toolbar Area */
+.approve-dashboard-wrapper > div:first-child {
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Buttons */
+.approve-dashboard-wrapper button,
+.mw-ui-button {
+    border: 1px solid #c8ccd1;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    color: var(--approve-text);
+    font-size: 14px;
+}
+
+.approve-dashboard-wrapper button:hover {
+    background-color: #f8f9fa;
+    border-color: #a2a9b1;
+}
+
+.approve-dashboard-wrapper button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Specific Button Styles */
+#btn-approve-all {
+    background-color: var(--approve-success);
+    color: #fff;
+    border-color: var(--approve-success);
+}
+#btn-approve-all:hover {
+    background-color: var(--approve-success-hover);
+}
+
+#btn-import-data {
+    background-color: var(--approve-primary);
+    color: #fff;
+    border-color: var(--approve-primary);
+}
+#btn-import-data:hover {
+    background-color: var(--approve-primary-hover);
+}
+
+/* Search Input */
+#approve-search-input {
+    padding: 8px 12px !important;
+    border: 1px solid #c8ccd1 !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    width: 250px;
+    transition: border-color 0.2s;
+}
+
+#approve-search-input:focus {
+    border-color: var(--approve-primary) !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(51, 102, 204, 0.2);
+}
+
+/* Table Styles */
+.approve-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 15px;
+    border: 1px solid var(--approve-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.approve-table thead tr {
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid var(--approve-border) !important;
+}
+
+.approve-table th {
+    padding: 12px 16px !important;
+    text-align: left;
+    font-weight: 600;
+    color: #54595d;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border: none !important;
+}
+
+.approve-table td {
+    padding: 14px 16px !important;
+    border-top: 1px solid var(--approve-border);
+    color: var(--approve-text);
+    vertical-align: middle;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+}
+
+/* JS adds inline hover background, but we can enforce better cursor */
+.approve-table tbody tr {
+    transition: background-color 0.15s ease-in-out;
+}
+.approve-table tbody tr:hover {
+    background-color: #f0f4fd !important; /* Overriding JS inline style slightly for consistency if needed, or let JS handle it */
+}
+
+/* Action Buttons in Table */
+.btn-approve {
+    background-color: #e6f4ea !important;
+    color: var(--approve-success) !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px;
+    padding: 6px 12px !important;
+    font-weight: 600;
+}
+.btn-approve:hover {
+    background-color: var(--approve-success) !important;
+    color: #fff !important;
+}
+
+.btn-reject {
+    background-color: #fce8e6 !important;
+    color: var(--approve-danger) !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px;
+    padding: 6px 12px !important;
+    font-weight: 600;
+    margin-left: 8px; /* Spacing */
+}
+.btn-reject:hover {
+    background-color: var(--approve-danger) !important;
+    color: #fff !important;
+}
+
+/* Links */
+.approve-table a {
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.approve-table a:hover {
+    text-decoration: underline;
+}
+
+/* Pagination Info */
+#page-info {
+    font-variant-numeric: tabular-nums;
+    color: var(--approve-text-light);
+}
+
+/* Metadata in table */
+.approve-table div[style*="font-size: 0.85em"] {
+    color: #72777d !important;
+    font-size: 13px !important;
+    margin-top: 4px;
+}
+
+#pagination-controls {
+    margin-top: 20px;
+}

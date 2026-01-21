@@ -1,0 +1,27 @@
+
+
+Start request GET /mediawiki/index.php/C%C3%A2y_m%C4%83ng_c%E1%BB%A5t
+IP: ::1
+HTTP HEADERS:
+HOST: localhost
+CONNECTION: keep-alive
+SEC-CH-UA: "Google Chrome";v="137", "Chromium";v="137", "Not/A)Brand";v="24"
+SEC-CH-UA-MOBILE: ?0
+SEC-CH-UA-PLATFORM: "Windows"
+UPGRADE-INSECURE-REQUESTS: 1
+USER-AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+ACCEPT: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+SEC-FETCH-SITE: none
+SEC-FETCH-MODE: navigate
+SEC-FETCH-USER: ?1
+SEC-FETCH-DEST: document
+ACCEPT-ENCODING: gzip, deflate, br, zstd
+ACCEPT-LANGUAGE: en-US,en;q=0.9,vi;q=0.8
+COOKIE: my_wikiUserName=Admin; my_wikilanguage=en; my_wikiUserID=1; my_wikiToken=3c88b479977dea2ba0b0d5f2ed62a0f1; loginnotify_prevlogins=2025-8jasco-ckua6exlgnroxcc71i8raq4gvppylxx; VEE=wikitext
+(end headers)
+[session] SessionManager using store Wikimedia\ObjectCache\APCUBagOStuff
+[localisation] LocalisationCache using store LCStoreDB
+[localisation] LocalisationCache::loadCoreData: got localisation for vi from source
+[exception] [de687973ccfd0511ee89b33f] /mediawiki/index.php/C%C3%A2y_m%C4%83ng_c%E1%BB%A5t   PHP Fatal Error from line 462 of C:\xampp8.2.12\htdocs\mediawiki\includes\libs\rdbms\database\Database.php: Maximum execution time of 120 seconds exceeded
+#0 [internal function]: MWExceptionHandler::handleFatalError()
+#1 {main}

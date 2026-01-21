@@ -1,0 +1,55 @@
+{
+  "name": "Approve",
+  "version": "1.0.0",
+  "author": "Nguyen Phuoc Phat",
+  "description": "Duyệt bài cho chatbot",
+  "type": "other",
+  "manifest_version": 2,
+  "requires": {
+    "MediaWiki": ">= 1.35.0"
+  },
+
+  "AutoloadNamespaces": {
+    "MediaWiki\\Extension\\Approve\\": "includes/"
+  },
+
+  "config": {
+    "ApproveChatbotIngestUrl": {
+      "value": "http://localhost:8000/ingest",
+      "description": "URL API Ingest của Chatbot Server"
+    }
+  },
+
+  "Hooks": {
+    "LoadExtensionSchemaUpdates": "MediaWiki\\Extension\\Approve\\ApproveHooks::onSchemaUpdate",
+    "RevisionRecordInserted": "MediaWiki\\Extension\\Approve\\ApproveHooks::onRevisionRecordInserted",
+    "BeforePageDisplay": "MediaWiki\\Extension\\Approve\\ApproveHooks::onBeforePageDisplay"
+  },
+
+  "APIModules": {
+    "approvelist": "MediaWiki\\Extension\\Approve\\ApiApproveList",
+    "approve": "MediaWiki\\Extension\\Approve\\ApiApprove",
+    "approveimport": "MediaWiki\\Extension\\Approve\\ApiApproveImport"
+  },
+
+  "SpecialPages": {
+    "Approve": "MediaWiki\\Extension\\Approve\\SpecialApprove"
+  },
+
+  "ResourceModules": {
+    "ext.approve": {
+      "localBasePath": "modules",
+      "remoteExtPath": "Approve/modules",
+      "scripts": ["ext.approve.js"],
+      "styles": ["ext.approve.css"],
+      "dependencies": ["mediawiki.api", "mediawiki.util", "mediawiki.user"],
+      "targets": ["desktop", "mobile"]
+    }
+  },
+
+  "AvailableRights": ["approverevisions"],
+  "GroupPermissions": {
+    "sysop": { "approverevisions": true },
+    "bureaucrat": { "approverevisions": true }
+  }
+}

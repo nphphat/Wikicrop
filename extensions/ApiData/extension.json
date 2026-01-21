@@ -1,0 +1,17 @@
+{
+    "name": "ApiData",
+    "type": "other",
+    "author": ["Nguyen Huu Dat"],
+    "AutoloadNamespaces": {
+        "MediaWiki\\Extension\\ApiData\\": "src/"
+    },
+    "HookHandlers": {
+        "api-data": {
+            "class": "MediaWiki\\Extension\\ApiData\\Hook"
+        }
+    },
+    "Hooks": {
+        "ParserFirstCallInit": "api-data"
+    },
+    "manifest_version": 2
+}

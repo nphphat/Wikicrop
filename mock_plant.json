@@ -1,0 +1,610 @@
+{
+  "id": 25,
+  "origin": "Chưa biết",
+  "type_id": 2,
+  "Images": [
+    {
+      "id": 23,
+      "url": "https://khuvuonxanh.com/uploads/2023/07/cay-lua-co-ten-khoa-hoc-la-oryza-sativa.jpg",
+      "name": "Lúa",
+      "is_representative": 1
+    }
+  ],
+  "SpeciesNames": [
+    {
+      "id": 25,
+      "name": "Lúa 1",
+      "is_primary": 1
+    }
+  ],
+  "PropertiesValues": [
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 18,
+      "enum_properties_id": 37,
+      "Property": {
+        "id": 18,
+        "name": "Màu phiến lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 37,
+        "enum_value": "Xanh"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 19,
+      "enum_properties_id": 43,
+      "Property": {
+        "id": 19,
+        "name": "Màu bẹ lá căn bản",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 43,
+        "enum_value": "Xanh"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 20,
+      "enum_properties_id": 47,
+      "Property": {
+        "id": 20,
+        "name": "Góc lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 47,
+        "enum_value": "Thẳng"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 21,
+      "enum_properties_id": 50,
+      "Property": {
+        "id": 21,
+        "name": "Góc lá cờ",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 50,
+        "enum_value": "Thẳng"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 22,
+      "enum_properties_id": 55,
+      "Property": {
+        "id": 22,
+        "name": "Chiều dài thìa lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 55,
+        "enum_value": "5-19 mm: ngắn"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 23,
+      "enum_properties_id": 59,
+      "Property": {
+        "id": 23,
+        "name": "Màu thìa lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 59,
+        "enum_value": "Sọc tím"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 24,
+      "enum_properties_id": 62,
+      "Property": {
+        "id": 24,
+        "name": "Dạng thìa",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 62,
+        "enum_value": "Ðỉnh xẻ đôi"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 25,
+      "enum_properties_id": 64,
+      "Property": {
+        "id": 25,
+        "name": "Màu cổ lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 64,
+        "enum_value": "Xanh nhạt"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 26,
+      "enum_properties_id": 67,
+      "Property": {
+        "id": 26,
+        "name": "Màu tai lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 67,
+        "enum_value": "Trắng"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 27,
+      "enum_properties_id": 70,
+      "Property": {
+        "id": 27,
+        "name": "Góc thân",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 70,
+        "enum_value": "Thẳng (<30°)"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 28,
+      "enum_properties_id": 76,
+      "Property": {
+        "id": 28,
+        "name": "Màu lóng",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 76,
+        "enum_value": "Vàng nhạt"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 29,
+      "enum_properties_id": 79,
+      "Property": {
+        "id": 29,
+        "name": "Ðộ cứng của thân",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 79,
+        "enum_value": "Cứng (không ngã)"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 30,
+      "enum_properties_id": 84,
+      "Property": {
+        "id": 30,
+        "name": "Kiểu bông",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 84,
+        "enum_value": "Túm"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 31,
+      "enum_properties_id": 90,
+      "Property": {
+        "id": 31,
+        "name": "Phân nhánh cấp hai",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 90,
+        "enum_value": "Chụm lại"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 32,
+      "enum_properties_id": 93,
+      "Property": {
+        "id": 32,
+        "name": "Ðộ trổ bông",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 93,
+        "enum_value": "Vừa thoát"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 33,
+      "enum_properties_id": 97,
+      "Property": {
+        "id": 33,
+        "name": "Trục bông",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 97,
+        "enum_value": "Rũ"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 35,
+      "enum_properties_id": 104,
+      "Property": {
+        "id": 35,
+        "name": "Khả năng suốt bông",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 104,
+        "enum_value": "Trung bình"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 36,
+      "enum_properties_id": 107,
+      "Property": {
+        "id": 36,
+        "name": "Râu",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 107,
+        "enum_value": "Râu ngắn và một phần"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 38,
+      "enum_properties_id": 116,
+      "Property": {
+        "id": 38,
+        "name": "Màu nút đít",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 116,
+        "enum_value": "Trắng"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 39,
+      "enum_properties_id": 123,
+      "Property": {
+        "id": 39,
+        "name": "Màu nướm",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 123,
+        "enum_value": "Trắng"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 41,
+      "enum_properties_id": 142,
+      "Property": {
+        "id": 41,
+        "name": "Lông tơ trên trấu",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 142,
+        "enum_value": "Lông ngắn"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 43,
+      "enum_properties_id": 150,
+      "Property": {
+        "id": 43,
+        "name": "Chiều dài của dĩnh",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 150,
+        "enum_value": "Trung bình (1.6 - 2.5 mm)"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 46,
+      "enum_properties_id": 162,
+      "Property": {
+        "id": 46,
+        "name": "Màu gạo lức",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 162,
+        "enum_value": "Trắng"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 47,
+      "enum_properties_id": 169,
+      "Property": {
+        "id": 47,
+        "name": "Loại phôi nhủ",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 169,
+        "enum_value": "Không dính (gạo)"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 48,
+      "enum_properties_id": 172,
+      "Property": {
+        "id": 48,
+        "name": "Mùi thơm",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 172,
+        "enum_value": "Không thơm"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 49,
+      "enum_properties_id": 176,
+      "Property": {
+        "id": 49,
+        "name": "Bạc bụng",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 176,
+        "enum_value": "Bạc bụng thấp (<10%)"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 53,
+      "enum_properties_id": 183,
+      "Property": {
+        "id": 53,
+        "name": "Ðộ ngập sâu trong năm",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 183,
+        "enum_value": "Sâu (<1m)"
+      }
+    },
+    {
+      "number_value": null,
+      "species_id": 25,
+      "properties_id": 59,
+      "enum_properties_id": 198,
+      "Property": {
+        "id": 59,
+        "name": "Lông trên phiến lá",
+        "value_type": "enum"
+      },
+      "EnumProperty": {
+        "id": 198,
+        "enum_value": "Trung bình"
+      }
+    },
+    {
+      "number_value": 1,
+      "species_id": 25,
+      "properties_id": 62,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 62,
+        "name": "Chiều cao mạ (cm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 1,
+      "species_id": 25,
+      "properties_id": 63,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 63,
+        "name": "Chiều dài lá (cm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 3,
+      "species_id": 25,
+      "properties_id": 64,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 64,
+        "name": "Chiều rộng lá (cm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 1,
+      "species_id": 25,
+      "properties_id": 65,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 65,
+        "name": "Chiều cao cây(cm):",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 2,
+      "species_id": 25,
+      "properties_id": 66,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 66,
+        "name": "Số chồi",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 2,
+      "species_id": 25,
+      "properties_id": 67,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 67,
+        "name": "Ðường kính của lóng thân cơ bản (mm):",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 1,
+      "species_id": 25,
+      "properties_id": 68,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 68,
+        "name": "Chiều dài bông (cm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 1,
+      "species_id": 25,
+      "properties_id": 69,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 69,
+        "name": "Trọng lượng 1000 hạt (g)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 2,
+      "species_id": 25,
+      "properties_id": 70,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 70,
+        "name": "Chiều dài hạt lúa (mm):",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 2,
+      "species_id": 25,
+      "properties_id": 71,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 71,
+        "name": "Chiều rộng hạt lúa (mm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 1,
+      "species_id": 25,
+      "properties_id": 72,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 72,
+        "name": "Chiều dài hạt gạo (mm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 2,
+      "species_id": 25,
+      "properties_id": 73,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 73,
+        "name": "Chiều rộng hạt gạo (mm)",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 105,
+      "species_id": 25,
+      "properties_id": 74,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 74,
+        "name": "Chiều dài phôi nhũ (mm):",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    },
+    {
+      "number_value": 4,
+      "species_id": 25,
+      "properties_id": 75,
+      "enum_properties_id": null,
+      "Property": {
+        "id": 75,
+        "name": "Sự phân hóa kiềm (thử Alkali):",
+        "value_type": "num"
+      },
+      "EnumProperty": null
+    }
+  ]
+}
