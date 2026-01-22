@@ -133,10 +133,56 @@
         $submitBtn = $( '#nn-btn-submit' );
         $cancelBtn = $( '#nn-btn-cancel' );
 
+        // Setup Autocomplete
+        setupAutocomplete();
+
         // Đăng ký sự kiện (Binding Events)
         $( document ).on( 'click', '.edit-btn', handleEdit );
         $cancelBtn.on( 'click', handleCancel );
         $( document ).on( 'click', '.delete-form button', handleDelete );
+    }
+
+    function setupAutocomplete() {
+        var $suggestions = $( '#nn-category-suggestions' );
+        var categories = mw.config.get( 'nnCategories' ) || [];
+
+        // Show suggestions function
+        function showSuggestions( value ) {
+            $suggestions.empty();
+            var filtered = categories.filter( function ( cat ) {
+                return cat.toLowerCase().indexOf( value.toLowerCase() ) !== -1;
+            } );
+
+            if ( filtered.length > 0 ) {
+                filtered.forEach( function ( cat ) {
+                    var $item = $( '<div>' )
+                        .addClass( 'nongnghiep-suggestion-item' )
+                        .text( cat );
+                    
+                    $item.on( 'click', function () {
+                        $categoryInput.val( cat );
+                        $suggestions.hide();
+                    } );
+
+                    $suggestions.append( $item );
+                } );
+                $suggestions.show();
+            } else {
+                $suggestions.hide();
+            }
+        }
+
+        // Input focus/input/click event
+        $categoryInput.on( 'focus input click', function () {
+            showSuggestions( $( this ).val() );
+        } );
+
+        // Hide when clicking outside
+        $( document ).on( 'click', function ( e ) {
+            if ( !$( e.target ).closest( '.nongnghiep-form-group' ).length ) {
+                $suggestions.hide();
+            }
+        } );
     }
 
     // Gọi hàm init khi trang tải xong

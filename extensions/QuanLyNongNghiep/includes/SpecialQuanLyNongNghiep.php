@@ -26,6 +26,8 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
 
             $dbw = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
+            $redirectParams = [];
+
             if ( $action === 'add' || $action === 'edit' ) {
                 $name = $request->getVal( 'name' );
                 $url = $request->getVal( 'url' );
@@ -49,23 +51,42 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
 
                 if ( $action === 'add' ) {
                     $dbw->insert( 'nongnghiep40_resources', $data );
-                    $output->addHTML( '<div class="successbox">Đã thêm mới thành công!</div>' );
+                    $redirectParams['msg'] = 'added';
                 } elseif ( $action === 'edit' && $id > 0 ) {
                     unset($data['nn_added_by']);
                     $dbw->update( 'nongnghiep40_resources', $data, [ 'nn_id' => $id ] );
-                    $output->addHTML( '<div class="successbox">Cập nhật thành công!</div>' );
+                    $redirectParams['msg'] = 'updated';
                 }
             } elseif ( $action === 'delete' ) {
                 $id = $request->getInt( 'id' );
                 if ( $id > 0 ) {
                     $dbw->delete( 'nongnghiep40_resources', [ 'nn_id' => $id ] );
-                    $output->addHTML( '<div class="successbox">Đã xóa dữ liệu.</div>' );
+                    $redirectParams['msg'] = 'deleted';
                 }
+            }
+
+            // Redirect to avoid form resubmission (PRG Pattern)
+            if ( !empty( $redirectParams ) ) {
+                $output->redirect( $this->getPageTitle()->getLocalURL( $redirectParams ) );
+                return;
             }
         }
 
+        // Display messages based on URL parameter
+        $msg = $request->getVal( 'msg' );
+        if ( $msg === 'added' ) {
+             $output->addHTML( '<div class="successbox">Đã thêm mới thành công!</div>' );
+        } elseif ( $msg === 'updated' ) {
+             $output->addHTML( '<div class="successbox">Cập nhật thành công!</div>' );
+        } elseif ( $msg === 'deleted' ) {
+             $output->addHTML( '<div class="successbox">Đã xóa dữ liệu.</div>' );
+        }
+
         $existingCategories = $this->getExistingCategories();
-        $output->addHTML( $this->getAddForm( $existingCategories ) );
+        // Pass categories to JS via config
+        $output->addJsConfigVars( 'nnCategories', $existingCategories );
+        
+        $output->addHTML( $this->getAddForm() );
 
         $this->displayList( $output );
     }
@@ -89,13 +110,7 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
         return $categories;
     }
 
-    private function getAddForm( $categories = [] ) {
-        // Tạo HTML cho datalist options
-        $dataListOptions = '';
-        foreach ( $categories as $cat ) {
-            $dataListOptions .= '<option value="' . htmlspecialchars( $cat ) . '">';
-        }
-
+    private function getAddForm() {
         // Lấy token bảo mật
         $token = $this->getUser()->getEditToken();
 
@@ -117,12 +132,10 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
                 <textarea name="summary" id="nn-form-summary" rows="3" class="nongnghiep-input"></textarea>
             </div>
 
-            <div class="nongnghiep-form-group">
+            <div class="nongnghiep-form-group" style="position: relative;">
                 <label>' . $this->msg('nongnghiep40-category')->text() . ':</label>
-                <input type="text" name="category" id="nn-form-category" list="category-list" class="nongnghiep-input" placeholder="Chọn hoặc nhập mới...">
-                <datalist id="category-list">
-                    ' . $dataListOptions . '
-                </datalist>
+                <input type="text" name="category" id="nn-form-category" class="nongnghiep-input" placeholder="Chọn hoặc nhập mới..." autocomplete="off">
+                <div id="nn-category-suggestions" class="nongnghiep-suggestions"></div>
             </div>
 
             <div class="nongnghiep-form-group">

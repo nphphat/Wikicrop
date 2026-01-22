@@ -15,6 +15,9 @@ class SpecialNongNghiep40 extends SpecialPage
 		$out->addModules('ext.nongnghiep40');
 		$out->setPageTitle($this->msg('nongnghieptube-title')->text());
 
+		// Filter parameters
+		$category = $this->getRequest()->getText('category');
+
 		// Pagination parameters
 		$limit = 12;
 		$page = $this->getRequest()->getInt('page', 1);
@@ -24,18 +27,23 @@ class SpecialNongNghiep40 extends SpecialPage
 		$offset = ($page - 1) * $limit;
 
 		// Get total count for pagination
-		$totalVideos = $this->getTotalVideoCount();
+		$totalVideos = $this->getTotalVideoCount($category);
 		$totalPages = ceil($totalVideos / $limit);
 
 		// Fetch videos
-		$videos = $this->getVideos($limit, $offset);
+		$videos = $this->getVideos($limit, $offset, $category);
+
+		// Build Category Filter
+		$categories = $this->getAllCategories();
+		$html = $this->buildCategoryFilter($categories, $category);
 
 		if (empty($videos) && $page == 1) {
 			$out->addWikiMsg('nongnghieptube-no-videos');
+			$out->addHTML($html); // Show filter even if no videos found
 			return;
 		}
 
-		$html = '<div class="nongnghieptube-container">';
+		$html .= '<div class="nongnghieptube-container">';
 		foreach ($videos as $video) {
 			$html .= $this->buildVideoCard($video);
 		}
@@ -43,13 +51,33 @@ class SpecialNongNghiep40 extends SpecialPage
 
 		// Pagination Controls
 		if ($totalPages > 1) {
-			$html .= $this->buildPagination($page, $totalPages);
+			$html .= $this->buildPagination($page, $totalPages, $category);
 		}
 
 		// Append Modal HTML
 		$html .= $this->buildModalParams();
 
 		$out->addHTML($html);
+	}
+
+	private function buildCategoryFilter($categories, $currentCategory)
+	{
+		$url = $this->getPageTitle()->getLocalURL();
+		$html = '<div class="nongnghieptube-filter">';
+		$html .= '<label for="nongnghieptube-category-select">' . $this->msg('nongnghieptube-filter-category')->text() . ':</label>';
+		$html .= '<select id="nongnghieptube-category-select" onchange="window.location.href=\'' . htmlspecialchars($url) . '?category=\' + this.value;">';
+		
+		$selected = ($currentCategory === '') ? 'selected' : '';
+		$html .= '<option value="" ' . $selected . '>' . $this->msg('nongnghieptube-all-categories')->text() . '</option>';
+
+		foreach ($categories as $cat) {
+			$selected = ($currentCategory === $cat) ? 'selected' : '';
+			$html .= '<option value="' . htmlspecialchars($cat) . '" ' . $selected . '>' . htmlspecialchars($cat) . '</option>';
+		}
+
+		$html .= '</select>';
+		$html .= '</div>';
+		return $html;
 	}
 
 	private function buildModalParams()
@@ -68,13 +96,18 @@ class SpecialNongNghiep40 extends SpecialPage
 HTML;
 	}
 
-	private function buildPagination($currentPage, $totalPages)
+	private function buildPagination($currentPage, $totalPages, $category)
 	{
 		$html = '<div class="nongnghieptube-pagination">';
+		$queryParams = [];
+		if ($category !== '') {
+			$queryParams['category'] = $category;
+		}
 
 		// Previous Button
 		if ($currentPage > 1) {
-			$prevUrl = $this->getPageTitle()->getLocalURL(['page' => $currentPage - 1]);
+			$queryParams['page'] = $currentPage - 1;
+			$prevUrl = $this->getPageTitle()->getLocalURL($queryParams);
 			$html .= '<a href="' . htmlspecialchars($prevUrl) . '" class="nongnghieptube-page-btn">&laquo;</a>';
 		}
 
@@ -84,7 +117,8 @@ HTML;
 
 		// Always show first page if logic allows gap
 		if ($start > 1) {
-			$url = $this->getPageTitle()->getLocalURL(['page' => 1]);
+			$queryParams['page'] = 1;
+			$url = $this->getPageTitle()->getLocalURL($queryParams);
 			$html .= '<a href="' . htmlspecialchars($url) . '" class="nongnghieptube-page-btn">1</a>';
 			if ($start > 2) {
 				$html .= '<span class="nongnghieptube-page-dots">...</span>';
@@ -92,7 +126,8 @@ HTML;
 		}
 
 		for ($i = $start; $i <= $end; $i++) {
-			$url = $this->getPageTitle()->getLocalURL(['page' => $i]);
+			$queryParams['page'] = $i;
+			$url = $this->getPageTitle()->getLocalURL($queryParams);
 			$activeClass = ($i == $currentPage) ? ' active' : '';
 			$html .= '<a href="' . htmlspecialchars($url) . '" class="nongnghieptube-page-btn' . $activeClass . '">' . $i . '</a>';
 		}
@@ -102,13 +137,15 @@ HTML;
 			if ($end < $totalPages - 1) {
 				$html .= '<span class="nongnghieptube-page-dots">...</span>';
 			}
-			$url = $this->getPageTitle()->getLocalURL(['page' => $totalPages]);
+			$queryParams['page'] = $totalPages;
+			$url = $this->getPageTitle()->getLocalURL($queryParams);
 			$html .= '<a href="' . htmlspecialchars($url) . '" class="nongnghieptube-page-btn">' . $totalPages . '</a>';
 		}
 
 		// Next Button
 		if ($currentPage < $totalPages) {
-			$nextUrl = $this->getPageTitle()->getLocalURL(['page' => $currentPage + 1]);
+			$queryParams['page'] = $currentPage + 1;
+			$nextUrl = $this->getPageTitle()->getLocalURL($queryParams);
 			$html .= '<a href="' . htmlspecialchars($nextUrl) . '" class="nongnghieptube-page-btn">&raquo;</a>';
 		}
 
@@ -116,24 +153,32 @@ HTML;
 		return $html;
 	}
 
-	private function getTotalVideoCount()
+	private function getTotalVideoCount($category = '')
 	{
 		$dbr = \MediaWiki\MediaWikiServices::getInstance()->getConnectionProvider()->getReplicaDatabase();
+		$conds = [];
+		if ($category !== '') {
+			$conds['nn_category'] = $category;
+		}
 		return $dbr->selectField(
 			'nongnghiep40_resources',
 			'COUNT(*)',
-			[],
+			$conds,
 			__METHOD__
 		);
 	}
 
-	private function getVideos($limit, $offset)
+	private function getVideos($limit, $offset, $category = '')
 	{
 		$dbr = \MediaWiki\MediaWikiServices::getInstance()->getConnectionProvider()->getReplicaDatabase();
+		$conds = [];
+		if ($category !== '') {
+			$conds['nn_category'] = $category;
+		}
 		$res = $dbr->select(
 			'nongnghiep40_resources',
-			['nn_name', 'nn_url', 'nn_summary'],
-			[],
+			['nn_name', 'nn_url', 'nn_summary', 'nn_category'],
+			$conds,
 			__METHOD__,
 			['ORDER BY' => 'nn_timestamp DESC', 'LIMIT' => $limit, 'OFFSET' => $offset]
 		);
@@ -146,12 +191,33 @@ HTML;
 					'title' => $row->nn_name,
 					'url' => $row->nn_url,
 					'summary' => $row->nn_summary,
+					'category' => $row->nn_category,
 					'videoId' => $videoId
 				];
 			}
 		}
 
 		return $videos;
+	}
+
+	private function getAllCategories()
+	{
+		$dbr = \MediaWiki\MediaWikiServices::getInstance()->getConnectionProvider()->getReplicaDatabase();
+		$res = $dbr->select(
+			'nongnghiep40_resources',
+			'DISTINCT nn_category',
+			[],
+			__METHOD__,
+			['ORDER BY' => 'nn_category ASC']
+		);
+
+		$categories = [];
+		foreach ($res as $row) {
+			if (!empty($row->nn_category)) {
+				$categories[] = $row->nn_category;
+			}
+		}
+		return $categories;
 	}
 
 	private function getYouTubeId($url)
@@ -169,6 +235,7 @@ HTML;
 		$imageUrl = htmlspecialchars("https://img.youtube.com/vi/" . $video['videoId'] . "/hqdefault.jpg");
 		$title = htmlspecialchars($video['title']);
 		$summary = htmlspecialchars($video['summary']);
+		$category = htmlspecialchars($video['category']);
 		$videoId = htmlspecialchars($video['videoId']);
 
 		return <<<HTML
@@ -182,6 +249,7 @@ HTML;
 			<div class="nongnghieptube-info">
 				<div class="nongnghieptube-title">$title</div>
 				<div class="nongnghieptube-desc">$summary</div>
+				<div class="nongnghieptube-category">Danh mục: $category</div>
 			</div>
 		</div>
 HTML;

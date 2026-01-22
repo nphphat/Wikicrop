@@ -7,5 +7,7 @@
 	"nongnghieptube": "NongNghiep40",
 	"nongnghieptube-desc": "A YouTube-like video gallery for NongNghiep40 resources.",
 	"nongnghieptube-title": "Nông Nghiệp 4.0",
-	"nongnghieptube-no-videos": "No videos found."
+	"nongnghieptube-no-videos": "No videos found.",
+	"nongnghieptube-filter-category": "Filter by category",
+	"nongnghieptube-all-categories": "All categories"
 }

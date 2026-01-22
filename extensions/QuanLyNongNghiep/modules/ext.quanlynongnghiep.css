@@ -95,6 +95,40 @@
     vertical-align: top;
 }
 
-.nongnghiep-table tr:hover {
-    background-color: #f8f9fa;
+/* Autocomplete Suggestions */
+.nongnghiep-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none; /* Hidden by default */
+}
+
+.nongnghiep-suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.nongnghiep-suggestion-item:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.successbox {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    color: #155724;
 }
