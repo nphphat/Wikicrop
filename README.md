@@ -29,7 +29,7 @@ copy LocalSettings.sample.php LocalSettings.php
 
 Sau đó, mở file LocalSettings.php bằng VS Code hoặc Notepad và sửa các dòng sau:
 - `YOUR_CLARITY_ID` nếu dùng Clarity
-- `YOUR_KEYCLOAK_CLIENT_SECRET` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak-(1).pdf
+- `YOUR_KEYCLOAK_CLIENT_SECRET` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
 - `YOUR_GOOGLE_APP_PASSWORD` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
 
 ### Bước 4: Khởi tạo Cơ sở dữ liệu (Database)
