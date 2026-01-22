@@ -1,0 +1,100 @@
+/* CSS for NongNghiep40 Extension */
+
+/* Form Styling */
+#nongnghiep-entry-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.nongnghiep-form-group {
+    margin-bottom: 15px;
+}
+
+.nongnghiep-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.nongnghiep-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Fix padding expanding width */
+    font-size: 14px;
+}
+
+.nongnghiep-input:focus {
+    border-color: #36c;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(51, 102, 204, 0.2);
+}
+
+/* Button Styling */
+.nongnghiep-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.nongnghiep-btn.primary {
+    background-color: #36c;
+    color: white;
+}
+.nongnghiep-btn.primary:hover { background-color: #2a4b8d; }
+
+.nongnghiep-btn.danger {
+    background-color: #d33;
+    color: white;
+}
+.nongnghiep-btn.danger:hover { background-color: #b00; }
+
+.nongnghiep-btn.secondary {
+    background-color: #ddd;
+    color: #333;
+    margin-left: 10px;
+}
+.nongnghiep-btn.secondary:hover { background-color: #ccc; }
+
+.edit-btn {
+    background-color: #eaecf0;
+    color: #333;
+    border: 1px solid #a2a9b1;
+}
+.edit-btn:hover { background-color: #d3d3d3; }
+
+/* Table Styling */
+.nongnghiep-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.nongnghiep-table th {
+    background-color: #eaecf0;
+    color: #333;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #c8ccd1;
+}
+
+.nongnghiep-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+}
+
+.nongnghiep-table tr:hover {
+    background-color: #f8f9fa;
+}

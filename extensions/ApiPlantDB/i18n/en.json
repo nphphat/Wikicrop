@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"apiplantdb": "API PlantDB Connect",
+	"plantdb": "Api PlantDB",
+	"apiplantdb-desc": "Connects and maps Wiki pages to PlantDB resources",
+	"plantdb-legend": "Add/Edit Mapping",
+	"plantdb-wiki-label": "Wiki Page (Title or URL)",
+	"plantdb-plantdb-label": "PlantDB URL (or ID)",
+	"plantdb-submit": "Save Mapping",
+	"plantdb-list-wiki-id": "Wiki Page ID",
+	"plantdb-list-wiki-name": "Wiki Page Name",
+	"plantdb-list-plantdb-id": "PlantDB ID",
+	"plantdb-list-action": "Actions",
+	"plantdb-delete-confirm": "Are you sure you want to delete this mapping?",
+	"plantdb-delete": "Delete",
+    "plantdb-edit": "Edit",
+	"plantdb-error-wiki-not-found": "Wiki page not found: $1",
+	"plantdb-error-plantdb-id": "Could not extract ID from PlantDB URL.",
+	"plantdb-error-db": "Database error: $1",
+	"plantdb-success-saved": "Mapping saved successfully!",
+	"plantdb-success-deleted": "Mapping deleted.",
+	"plantdb-no-data": "No mappings found."
+}

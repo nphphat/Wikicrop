@@ -1,132 +1,189 @@
 <?php
 
-class SpecialNongNghiep40 extends SpecialPage {
-    public function __construct() {
-        parent::__construct( 'NongNghiep40', 'manage-nongnghiep40' );
-    }
+class SpecialNongNghiep40 extends SpecialPage
+{
+	public function __construct()
+	{
+		parent::__construct('NongNghiep40');
+	}
 
-    public function execute( $par ) {
-        $this->checkPermissions(); 
-        $request = $this->getRequest();
-        $output = $this->getOutput();
-        $this->setHeaders();
-        $output->addModules( 'ext.nongnghiep40' );  
+	public function execute($par)
+	{
+		$this->setHeaders();
+		// $this->outputHeader(); // Removed to prevent displaying nongnghiep40-summary collision
+		$out = $this->getOutput();
+		$out->addModules('ext.nongnghiep40');
+		$out->setPageTitle($this->msg('nongnghieptube-title')->text());
 
-        $action = $request->getVal( 'action' );
-        if ( $request->wasPosted() ) {
-            if ( !$this->getUser()->isAllowed( 'edit' ) ) {  
-                $output->addHTML( '<p>Bạn không có quyền chỉnh sửa.</p>' );
-                return;
-            }
-            $dbw = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		// Pagination parameters
+		$limit = 12;
+		$page = $this->getRequest()->getInt('page', 1);
+		if ($page < 1) {
+			$page = 1;
+		}
+		$offset = ($page - 1) * $limit;
 
-            if ( $action === 'add' || $action === 'edit' ) {
-                $name = $request->getVal( 'name' );
-                $url = $request->getVal( 'url' );
-                $summary = $request->getVal( 'summary' );
-                $id = $request->getInt( 'id', 0 );
+		// Get total count for pagination
+		$totalVideos = $this->getTotalVideoCount();
+		$totalPages = ceil($totalVideos / $limit);
 
-                if ( empty( $name ) || empty( $url ) ) {
-                    $output->addHTML( '<p>Dữ liệu không hợp lệ.</p>' );
-                    return;
-                }
+		// Fetch videos
+		$videos = $this->getVideos($limit, $offset);
 
-                $data = [
-                    'nn_name' => $name,
-                    'nn_url' => $url,
-                    'nn_summary' => $summary,
-                    'nn_added_by' => $this->getUser()->getId(),
-                    'nn_timestamp' => $dbw->timestamp()
-                ];
+		if (empty($videos) && $page == 1) {
+			$out->addWikiMsg('nongnghieptube-no-videos');
+			return;
+		}
 
-                if ( $action === 'add' ) {
-                    $dbw->insert( 'nongnghiep40_resources', $data );
-                } elseif ( $action === 'edit' && $id > 0 ) {
-                    $dbw->update( 'nongnghiep40_resources', $data, [ 'nn_id' => $id ] );
-                }
-            } elseif ( $action === 'delete' ) {
-                $id = $request->getInt( 'id' );
-                if ( $id > 0 ) {
-                    $dbw->delete( 'nongnghiep40_resources', [ 'nn_id' => $id ] );
-                }
-            }
-        }
+		$html = '<div class="nongnghieptube-container">';
+		foreach ($videos as $video) {
+			$html .= $this->buildVideoCard($video);
+		}
+		$html .= '</div>';
 
-        $output->addHTML( $this->getAddForm() );
+		// Pagination Controls
+		if ($totalPages > 1) {
+			$html .= $this->buildPagination($page, $totalPages);
+		}
 
-        $this->displayList( $output );
-    }
+		// Append Modal HTML
+		$html .= $this->buildModalParams();
 
-    private function getAddForm( $id = 0, $name = '', $url = '', $summary = '' ) {
+		$out->addHTML($html);
+	}
 
-        $html = '<form method="post" id="nongnghiep-entry-form">
-            <input type="hidden" name="action" value="add" id="nn-form-action">
-            <input type="hidden" name="id" value="" id="nn-form-id">
-            
-            <div class="nongnghiep-form-group">
-                <label>' . $this->msg('nongnghiep40-name')->text() . ':</label>
-                <input type="text" name="name" id="nn-form-name" required value="" class="nongnghiep-input">
-            </div>
+	private function buildModalParams()
+	{
+		return <<<HTML
+		<div id="nongnghieptube-modal" class="nongnghieptube-modal">
+			<div class="nongnghieptube-modal-content">
+				<span class="nongnghieptube-close">&times;</span>
+				<div class="nongnghieptube-modal-video-container">
+					<iframe id="nongnghieptube-modal-iframe" src="" allowfullscreen></iframe>
+				</div>
+				<h2 id="nongnghieptube-modal-title"></h2>
+				<p id="nongnghieptube-modal-desc"></p>
+			</div>
+		</div>
+HTML;
+	}
 
-            <div class="nongnghiep-form-group">
-                <label>' . $this->msg('nongnghiep40-url')->text() . ':</label>
-                <input type="url" name="url" id="nn-form-url" required value="" class="nongnghiep-input">
-            </div>
+	private function buildPagination($currentPage, $totalPages)
+	{
+		$html = '<div class="nongnghieptube-pagination">';
 
-            <div class="nongnghiep-form-group">
-                <label>' . $this->msg('nongnghiep40-summary')->text() . ':</label>
-                <textarea name="summary" id="nn-form-summary" rows="3" class="nongnghiep-input"></textarea>
-            </div>
+		// Previous Button
+		if ($currentPage > 1) {
+			$prevUrl = $this->getPageTitle()->getLocalURL(['page' => $currentPage - 1]);
+			$html .= '<a href="' . htmlspecialchars($prevUrl) . '" class="nongnghieptube-page-btn">&laquo;</a>';
+		}
 
-            <div class="nongnghiep-form-group">
-                <button type="submit" id="nn-btn-submit" class="nongnghiep-btn primary">' . $this->msg('nongnghiep40-save')->text() . '</button>
-                <button type="button" id="nn-btn-cancel" class="nongnghiep-btn secondary" style="display:none;">Hủy</button>
-            </div>
-        </form>';
-        return $html;
-    }
+		// Page Numbers
+		$start = max(1, $currentPage - 2);
+		$end = min($totalPages, $currentPage + 2);
 
-    private function displayList( $output ) {
-        $dbr = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
-        $res = $dbr->select( 'nongnghiep40_resources', '*', '', __METHOD__, [ 'ORDER BY' => 'nn_timestamp DESC' ] );
+		// Always show first page if logic allows gap
+		if ($start > 1) {
+			$url = $this->getPageTitle()->getLocalURL(['page' => 1]);
+			$html .= '<a href="' . htmlspecialchars($url) . '" class="nongnghieptube-page-btn">1</a>';
+			if ($start > 2) {
+				$html .= '<span class="nongnghieptube-page-dots">...</span>';
+			}
+		}
 
-        $html = '<table class="nongnghiep-table">
-            <thead>
-                <tr>
-                    <th>' . $this->msg('nongnghiep40-name')->text() . '</th>
-                    <th>' . $this->msg('nongnghiep40-url')->text() . '</th>
-                    <th>' . $this->msg('nongnghiep40-summary')->text() . '</th>
-                    <th style="width: 150px;">Hành động</th>
-                </tr>
-            </thead>
-            <tbody>';
-        
-        foreach ( $res as $row ) {
-            $deleteForm = '<form method="post" class="delete-form" style="display:inline;">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="id" value="' . $row->nn_id . '">
-                <button type="submit" class="nongnghiep-btn danger">' . $this->msg('nongnghiep40-delete')->text() . '</button>
-            </form>';
+		for ($i = $start; $i <= $end; $i++) {
+			$url = $this->getPageTitle()->getLocalURL(['page' => $i]);
+			$activeClass = ($i == $currentPage) ? ' active' : '';
+			$html .= '<a href="' . htmlspecialchars($url) . '" class="nongnghieptube-page-btn' . $activeClass . '">' . $i . '</a>';
+		}
 
-            $editBtn = '<button type="button" class="nongnghiep-btn edit-btn" 
-                data-id="' . $row->nn_id . '"
-                data-name="' . htmlspecialchars( $row->nn_name ) . '"
-                data-url="' . htmlspecialchars( $row->nn_url ) . '"
-                data-summary="' . htmlspecialchars( $row->nn_summary ) . '"
-                >' . $this->msg('nongnghiep40-edit')->text() . '</button>';
+		// Always show last page if logic allows gap
+		if ($end < $totalPages) {
+			if ($end < $totalPages - 1) {
+				$html .= '<span class="nongnghieptube-page-dots">...</span>';
+			}
+			$url = $this->getPageTitle()->getLocalURL(['page' => $totalPages]);
+			$html .= '<a href="' . htmlspecialchars($url) . '" class="nongnghieptube-page-btn">' . $totalPages . '</a>';
+		}
 
-            $html .= '<tr>
-                        <td>' . htmlspecialchars( $row->nn_name ) . '</td>
-                        <td><a href="' . htmlspecialchars( $row->nn_url ) . '" target="_blank">' . htmlspecialchars( $row->nn_url ) . '</a></td>
-                        <td>' . nl2br( htmlspecialchars( $row->nn_summary ) ) . '</td>
-                        <td>' . $editBtn . ' ' . $deleteForm . '</td>
-                      </tr>';
-        }
-        $html .= '</tbody></table>';
-        $output->addHTML( $html );
-    }
+		// Next Button
+		if ($currentPage < $totalPages) {
+			$nextUrl = $this->getPageTitle()->getLocalURL(['page' => $currentPage + 1]);
+			$html .= '<a href="' . htmlspecialchars($nextUrl) . '" class="nongnghieptube-page-btn">&raquo;</a>';
+		}
 
-    protected function getGroupName() {
-        return 'other';  
-    }
+		$html .= '</div>';
+		return $html;
+	}
+
+	private function getTotalVideoCount()
+	{
+		$dbr = \MediaWiki\MediaWikiServices::getInstance()->getConnectionProvider()->getReplicaDatabase();
+		return $dbr->selectField(
+			'nongnghiep40_resources',
+			'COUNT(*)',
+			[],
+			__METHOD__
+		);
+	}
+
+	private function getVideos($limit, $offset)
+	{
+		$dbr = \MediaWiki\MediaWikiServices::getInstance()->getConnectionProvider()->getReplicaDatabase();
+		$res = $dbr->select(
+			'nongnghiep40_resources',
+			['nn_name', 'nn_url', 'nn_summary'],
+			[],
+			__METHOD__,
+			['ORDER BY' => 'nn_timestamp DESC', 'LIMIT' => $limit, 'OFFSET' => $offset]
+		);
+
+		$videos = [];
+		foreach ($res as $row) {
+			$videoId = $this->getYouTubeId($row->nn_url);
+			if ($videoId) {
+				$videos[] = [
+					'title' => $row->nn_name,
+					'url' => $row->nn_url,
+					'summary' => $row->nn_summary,
+					'videoId' => $videoId
+				];
+			}
+		}
+
+		return $videos;
+	}
+
+	private function getYouTubeId($url)
+	{
+		$pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i';
+		if (preg_match($pattern, $url, $match)) {
+			return $match[1];
+		}
+		return null;
+	}
+
+	private function buildVideoCard($video)
+	{
+		$embedUrl = htmlspecialchars("https://www.youtube.com/embed/" . $video['videoId']);
+		$imageUrl = htmlspecialchars("https://img.youtube.com/vi/" . $video['videoId'] . "/hqdefault.jpg");
+		$title = htmlspecialchars($video['title']);
+		$summary = htmlspecialchars($video['summary']);
+		$videoId = htmlspecialchars($video['videoId']);
+
+		return <<<HTML
+		<div class="nongnghieptube-video-card" data-video-id="$videoId" data-title="$title" data-summary="$summary">
+			<div class="nongnghieptube-thumbnail">
+				<img src="$imageUrl" alt="$title" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;">
+				<div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:68px; height:48px; background:rgba(33,33,33,0.8); border-radius:12px; display:flex; align-items:center; justify-content:center;">
+					<div style="width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 15px solid white;"></div>
+				</div>
+			</div>
+			<div class="nongnghieptube-info">
+				<div class="nongnghieptube-title">$title</div>
+				<div class="nongnghieptube-desc">$summary</div>
+			</div>
+		</div>
+HTML;
+	}
 }

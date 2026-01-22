@@ -1,59 +1,49 @@
-( function ( $, mw ) {
-    'use strict';
 
-    $( function () {
-        console.log( 'NongNghiep40 JS loaded' );
+( function () {
+	$( function () {
+		var $modal = $( '#nongnghieptube-modal' );
+		var $iframe = $( '#nongnghieptube-modal-iframe' );
+		var $title = $( '#nongnghieptube-modal-title' );
+		var $desc = $( '#nongnghieptube-modal-desc' );
+		var $closeBtn = $( '.nongnghieptube-close' );
 
-        var $form = $( '#nongnghiep-entry-form' );
-        var $action = $( '#nn-form-action' );
-        var $idInput = $( '#nn-form-id' );
-        var $nameInput = $( '#nn-form-name' );
-        var $urlInput = $( '#nn-form-url' );
-        var $summaryInput = $( '#nn-form-summary' );
-        var $submitBtn = $( '#nn-btn-submit' );
-        var $cancelBtn = $( '#nn-btn-cancel' );
+		// Open modal when clicking on title or thumbnail (delegated)
+		$( document ).on( 'click', '.nongnghieptube-video-card', function ( e ) {
+			e.preventDefault();
+			var videoId = $( this ).data( 'video-id' );
+			var title = $( this ).data( 'title' );
+			var summary = $( this ).data( 'summary' );
 
-        $( document ).on( 'click', '.edit-btn', function ( e ) {
-            e.preventDefault(); 
-            console.log( 'Edit button clicked' );
+			if ( videoId ) {
+				$iframe.attr( 'src', 'https://www.youtube.com/embed/' + videoId + '?autoplay=1' );
+				$title.text( title );
+				$desc.text( summary );
+				$modal.addClass( 'show' );
+				$modal.show();
+			}
+		} );
 
-            var $btn = $( this );
-            var id = $btn.data( 'id' );
-            var name = $btn.data( 'name' );
-            var url = $btn.data( 'url' );
-            var summary = $btn.data( 'summary' );
+		// Close modal
+		function closeModal() {
+			$modal.hide();
+			$modal.removeClass( 'show' );
+			$iframe.attr( 'src', '' ); // Stop video
+		}
 
-            $action.val( 'edit' );
-            $idInput.val( id );
-            $nameInput.val( name );
-            $urlInput.val( url );
-            $summaryInput.val( summary );
+		$closeBtn.on( 'click', closeModal );
 
-            $submitBtn.text( 'Cập nhật' );
-            $cancelBtn.show();
+		// Close when clicking outside content
+		$modal.on( 'click', function ( e ) {
+			if ( $( e.target ).is( $modal ) ) {
+				closeModal();
+			}
+		} );
 
-            if ( $form.length ) {
-                $( 'html, body' ).animate( { scrollTop: $form.offset().top - 100 }, 500 );
-            } else {
-                console.error('Form #nongnghiep-entry-form not found');
-            }
-        } );
-
-        $cancelBtn.on( 'click', function ( e ) {
-            e.preventDefault();
-            console.log( 'Cancel button clicked' );
-
-            $form[0].reset();
-            $action.val( 'add' );
-            $idInput.val( '' );
-
-            $submitBtn.text( 'Lưu dữ liệu' );
-            $cancelBtn.hide();
-        } );
-
-        $( document ).on( 'click', '.delete-form button', function () {
-            return confirm( 'Bạn có chắc chắn muốn xóa không?' );
-        } );
-
-    } );
-}( jQuery, mediaWiki ) );
+		// Close with Escape key
+		$( document ).on( 'keydown', function ( e ) {
+			if ( e.key === 'Escape' && $modal.is( ':visible' ) ) {
+				closeModal();
+			}
+		} );
+	} );
+}() );

@@ -50,9 +50,8 @@ class ApiPlantDBHooks {
     }
 
     private static function fetchFromApi( $plantId ) {
-        // $apiUrl = "https://plantdb.lab.io.vn/api/species/" . $plantId; 
-        // Giả sử đây là URL API đúng
-        $apiUrl = "http://localhost/wikicrop/mock_plant.json";
+        $apiUrl = "https://plantdb.lab.io.vn/api/species/" . $plantId; 
+        // $apiUrl = "http://localhost/wikicrop/mock_plant.json";
 
         $opts = [
             "http" => [

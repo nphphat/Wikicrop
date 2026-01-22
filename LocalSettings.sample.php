@@ -211,7 +211,7 @@ $wgEnablePageTranslation = true;
 //$wgPageTranslationLanguageList = ['vi', 'en']; // Ngôn ngữ hỗ trợ
 
 // Cấu hình ngôn ngữ hệ thống
-$wgLanguageCode = 'vi'; // Ngôn ngữ mặc định (tiếng Việt)
+// $wgLanguageCode = 'vi'; // Ngôn ngữ mặc định (tiếng Việt)
 $wgDefaultLanguageVariant = 'vi';
 
 // Cấu hình Universal Language Selector
@@ -332,19 +332,19 @@ wfLoadExtension( 'MicrosoftClarity' );
 
 $wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
 
-$wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skinTemplate, &$links ) {
-    $user = $skinTemplate->getUser();
-    if ( !$user->isRegistered() ) {
-        return true;
-    }
-    $links['user-menu']['jupyterhub'] = [
-        'text' => 'Jupyter Hub',
-        'href' => 'http://localhost:9090/hub'
-    ];
+// $wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skinTemplate, &$links ) {
+//     $user = $skinTemplate->getUser();
+//     if ( !$user->isRegistered() ) {
+//         return true;
+//     }
+//     $links['user-menu']['jupyterhub'] = [
+//         'text' => 'Jupyter Hub',
+//         'href' => 'http://localhost:9090/hub'
+//     ];
 
-    return true;
-};
+//     return true;
+// };
 
-$wgGroupPermissions['sysop']['manage-nongnghiep40'] = true;
 wfLoadExtension( 'NongNghiep40' );
+wfLoadExtension( 'QuanLyNongNghiep' );
 

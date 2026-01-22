@@ -47,7 +47,7 @@
     }
   },
 
-  "AvailableRights": ["approverevisions"],
+  "AvailableRights": ["editer"],
   "GroupPermissions": {
     "sysop": { "approverevisions": true },
     "bureaucrat": { "approverevisions": true }

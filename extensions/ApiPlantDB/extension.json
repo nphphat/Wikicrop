@@ -1,6 +1,6 @@
 {
   "name": "ApiPlantDB",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "Nguyen Phuoc Phat",
   "description": "Kết nối API PlantDB và hiển thị thông tin giống cây trồng",
   "type": "other",
@@ -14,6 +14,21 @@
   "Hooks": {
     "LoadExtensionSchemaUpdates": "MediaWiki\\Extension\\ApiPlantDB\\ApiPlantDBHooks::onSchemaUpdate",
     "OutputPageParserOutput": "MediaWiki\\Extension\\ApiPlantDB\\ApiPlantDBHooks::onOutputPageParserOutput"
+  },
+  "MessagesDirs": {
+    "ApiPlantDB": [
+      "i18n"
+    ]
+  },
+  "ResourceModules": {
+    "ext.apiplantdb": {
+      "localBasePath": "",
+      "remoteExtPath": "ApiPlantDB",
+      "styles": "modules/ext.apiplantdb.css",
+      "scripts": "modules/ext.apiplantdb.js",
+      "targets": [ "desktop", "mobile" ],
+      "dependencies": [ "jquery" ]
+    }
   },
   "SpecialPages": {
     "PlantDB": "MediaWiki\\Extension\\ApiPlantDB\\SpecialPlantDB"

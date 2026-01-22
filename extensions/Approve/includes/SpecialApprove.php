@@ -7,7 +7,7 @@ use SpecialPage;
 class SpecialApprove extends SpecialPage {
     public function __construct() {
         // Đăng ký tên trang là "Approve" và yêu cầu quyền "approverevisions"
-        parent::__construct( 'Approve', 'approverevisions' );
+        parent::__construct( 'Approve', 'editer' );
     }
 
     public function execute( $par ) {

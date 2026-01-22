@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"apiplantdb": "Kết nối API PlantDB",
+	"plantdb": "Quản lý PlantDB",
+	"apiplantdb-desc": "Kết nối và ánh xạ trang Wiki với tài nguyên PlantDB",
+	"plantdb-legend": "Thêm/Sửa ánh xạ mới",
+	"plantdb-wiki-label": "Tên bài Wiki (hoặc URL)",
+	"plantdb-plantdb-label": "PlantDB URL (hoặc ID)",
+	"plantdb-submit": "Lưu ánh xạ",
+	"plantdb-list-wiki-id": "Wiki Page ID",
+	"plantdb-list-wiki-name": "Tên bài Wiki",
+	"plantdb-list-plantdb-id": "PlantDB ID",
+	"plantdb-list-action": "Hành động",
+	"plantdb-delete-confirm": "Bạn có chắc muốn xóa không?",
+	"plantdb-delete": "Xóa",
+    "plantdb-edit": "Sửa",
+	"plantdb-error-wiki-not-found": "Không tìm thấy trang Wiki: $1",
+	"plantdb-error-plantdb-id": "Không lấy được ID từ PlantDB URL.",
+	"plantdb-error-db": "Lỗi cơ sở dữ liệu: $1",
+	"plantdb-success-saved": "Đã lưu ánh xạ thành công!",
+	"plantdb-success-deleted": "Đã xóa ánh xạ.",
+	"plantdb-no-data": "Chưa có dữ liệu ánh xạ nào."
+}
