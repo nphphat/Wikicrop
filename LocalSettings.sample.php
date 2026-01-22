@@ -119,14 +119,14 @@ $wgLocaltimezone = "Europe/Berlin";
 ## be publicly accessible from the web.
 #$wgCacheDirectory = "$IP/cache";
 
-$wgSecretKey = "f87644f0b1ebbd45885b2ef166fbed53253d0260418fa9257917c05cda619e30";
+$wgSecretKey = "STRING_RANDOM_64_CHARACTERS";
 
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
 
 # Site upgrade key. Must be set to a string (default provided) to turn on the
 # web installer while LocalSettings.php is in place
-$wgUpgradeKey = "a2118201b0d28666";
+$wgUpgradeKey = "STRING_RANDOM";
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
