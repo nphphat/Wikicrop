@@ -14,16 +14,23 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
 
         $action = $request->getVal( 'action' );
         if ( $request->wasPosted() ) {
-            if ( !$this->getUser()->isAllowed( 'edit' ) ) {  
+            if ( !$this->getUser()->isAllowed( 'editer' ) ) {  
                 $output->addHTML( '<p>Bạn không có quyền chỉnh sửa.</p>' );
                 return;
             }
+
+            if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
+                $output->addHTML( '<div class="errorbox">Lỗi xác thực phiên làm việc (Token mismatch). Hãy tải lại trang.</div>' );
+                return;
+            }
+
             $dbw = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
             if ( $action === 'add' || $action === 'edit' ) {
                 $name = $request->getVal( 'name' );
                 $url = $request->getVal( 'url' );
                 $summary = $request->getVal( 'summary' );
+                $category = $request->getVal( 'category');
                 $id = $request->getInt( 'id', 0 );
 
                 if ( empty( $name ) || empty( $url ) ) {
@@ -35,47 +42,87 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
                     'nn_name' => $name,
                     'nn_url' => $url,
                     'nn_summary' => $summary,
+                    'nn_category' => $category,
                     'nn_added_by' => $this->getUser()->getId(),
                     'nn_timestamp' => $dbw->timestamp()
                 ];
 
                 if ( $action === 'add' ) {
                     $dbw->insert( 'nongnghiep40_resources', $data );
+                    $output->addHTML( '<div class="successbox">Đã thêm mới thành công!</div>' );
                 } elseif ( $action === 'edit' && $id > 0 ) {
+                    unset($data['nn_added_by']);
                     $dbw->update( 'nongnghiep40_resources', $data, [ 'nn_id' => $id ] );
+                    $output->addHTML( '<div class="successbox">Cập nhật thành công!</div>' );
                 }
             } elseif ( $action === 'delete' ) {
                 $id = $request->getInt( 'id' );
                 if ( $id > 0 ) {
                     $dbw->delete( 'nongnghiep40_resources', [ 'nn_id' => $id ] );
+                    $output->addHTML( '<div class="successbox">Đã xóa dữ liệu.</div>' );
                 }
             }
         }
 
-        $output->addHTML( $this->getAddForm() );
+        $existingCategories = $this->getExistingCategories();
+        $output->addHTML( $this->getAddForm( $existingCategories ) );
 
         $this->displayList( $output );
     }
 
-    private function getAddForm( $id = 0, $name = '', $url = '', $summary = '' ) {
+    private function getExistingCategories() {
+        $dbr = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
+        $res = $dbr->select(
+            'nongnghiep40_resources',
+            'DISTINCT nn_category',
+            [],
+            __METHOD__,
+            [ 'ORDER BY' => 'nn_category ASC']
+        );
+
+        $categories = [];
+        foreach ( $res as $row ) {
+            if ( !empty($row->nn_category)) {
+                $categories[] = $row->nn_category;
+            }
+        }
+        return $categories;
+    }
+
+    private function getAddForm( $categories = [] ) {
+        // Tạo HTML cho datalist options
+        $dataListOptions = '';
+        foreach ( $categories as $cat ) {
+            $dataListOptions .= '<option value="' . htmlspecialchars( $cat ) . '">';
+        }
+
+        // Lấy token bảo mật
+        $token = $this->getUser()->getEditToken();
 
         $html = '<form method="post" id="nongnghiep-entry-form">
             <input type="hidden" name="action" value="add" id="nn-form-action">
             <input type="hidden" name="id" value="" id="nn-form-id">
-            
-            <div class="nongnghiep-form-group">
+            <input type="hidden" name="wpEditToken" value="' . htmlspecialchars( $token ) . '"> <div class="nongnghiep-form-group">
                 <label>' . $this->msg('nongnghiep40-name')->text() . ':</label>
-                <input type="text" name="name" id="nn-form-name" required value="" class="nongnghiep-input">
+                <input type="text" name="name" id="nn-form-name" required class="nongnghiep-input">
             </div>
 
             <div class="nongnghiep-form-group">
                 <label>' . $this->msg('nongnghiep40-url')->text() . ':</label>
-                <input type="url" name="url" id="nn-form-url" required value="" class="nongnghiep-input">
+                <input type="url" name="url" id="nn-form-url" required class="nongnghiep-input">
             </div>
 
             <div class="nongnghiep-form-group">
                 <label>' . $this->msg('nongnghiep40-summary')->text() . ':</label>
                 <textarea name="summary" id="nn-form-summary" rows="3" class="nongnghiep-input"></textarea>
+            </div>
+
+            <div class="nongnghiep-form-group">
+                <label>' . $this->msg('nongnghiep40-category')->text() . ':</label>
+                <input type="text" name="category" id="nn-form-category" list="category-list" class="nongnghiep-input" placeholder="Chọn hoặc nhập mới...">
+                <datalist id="category-list">
+                    ' . $dataListOptions . '
+                </datalist>
             </div>
 
             <div class="nongnghiep-form-group">
@@ -94,11 +141,9 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
 
         $dbr = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
         
-        // Get total count
         $total = $dbr->selectField( 'nongnghiep40_resources', 'COUNT(*)', '', __METHOD__ );
         $totalPages = ceil( $total / $limit );
 
-        // Ensure page is valid
         if ( $page < 1 ) $page = 1;
         if ( $page > $totalPages && $totalPages > 0 ) $page = $totalPages;
         
@@ -108,11 +153,14 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
             '', 
             __METHOD__, 
             [ 
-                'ORDER BY' => 'nn_timestamp DESC',
-                'LIMIT' => $limit,
-                'OFFSET' => $offset
+                'ORDER BY' => 'nn_timestamp DESC', 
+                'LIMIT' => $limit, 
+                'OFFSET' => $offset 
             ] 
         );
+
+        // Lấy token cho nút xóa
+        $token = $this->getUser()->getEditToken();
 
         $html = '<table class="nongnghiep-table">
             <thead>
@@ -120,15 +168,18 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
                     <th>' . $this->msg('nongnghiep40-name')->text() . '</th>
                     <th>' . $this->msg('nongnghiep40-url')->text() . '</th>
                     <th>' . $this->msg('nongnghiep40-summary')->text() . '</th>
+                    <th>' . $this->msg('nongnghiep40-category')->text() . '</th>
                     <th style="width: 150px;">Hành động</th>
                 </tr>
             </thead>
             <tbody>';
         
         foreach ( $res as $row ) {
+            // Form xóa cũng cần Token
             $deleteForm = '<form method="post" class="delete-form" style="display:inline;">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="' . $row->nn_id . '">
+                <input type="hidden" name="wpEditToken" value="' . htmlspecialchars( $token ) . '">
                 <button type="submit" class="nongnghiep-btn danger">' . $this->msg('nongnghiep40-delete')->text() . '</button>
             </form>';
 
@@ -137,12 +188,14 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
                 data-name="' . htmlspecialchars( $row->nn_name ) . '"
                 data-url="' . htmlspecialchars( $row->nn_url ) . '"
                 data-summary="' . htmlspecialchars( $row->nn_summary ) . '"
+                data-category="' . htmlspecialchars( $row->nn_category ) . '"
                 >' . $this->msg('nongnghiep40-edit')->text() . '</button>';
 
             $html .= '<tr>
                         <td>' . htmlspecialchars( $row->nn_name ) . '</td>
                         <td><a href="' . htmlspecialchars( $row->nn_url ) . '" target="_blank">' . htmlspecialchars( $row->nn_url ) . '</a></td>
                         <td>' . nl2br( htmlspecialchars( $row->nn_summary ) ) . '</td>
+                        <td>' . htmlspecialchars( $row->nn_category ) . '</td>
                         <td>' . $editBtn . ' ' . $deleteForm . '</td>
                       </tr>';
         }
