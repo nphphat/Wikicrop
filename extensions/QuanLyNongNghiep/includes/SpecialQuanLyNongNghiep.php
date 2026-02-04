@@ -116,16 +116,21 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
         if (!file_exists($venvPython)) {
             return json_encode(['error' => 'Virtual environment not found']);
         }
+        
+        // Retrieve API Key from global config (LocalSettings.php)
+        global $wgQuanLyNongNghiepGeminiKey;
+        $apiKey = $wgQuanLyNongNghiepGeminiKey ?? "";
 
         // Build command
         // Escaping args is important for security
         // Remove 2>&1 to avoid stderr polluting stdout (JSON)
         $cmd = sprintf(
-            '"%s" "%s" --action %s --url "%s"',
+            '"%s" "%s" --action %s --url "%s" --api_key "%s"',
             $venvPython,
             $pythonScript,
             escapeshellarg($action),
-            escapeshellarg($url)
+            escapeshellarg($url),
+            escapeshellarg($apiKey)
         );
 
         $output = shell_exec($cmd);

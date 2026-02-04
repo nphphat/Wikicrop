@@ -133,13 +133,13 @@ if __name__ == "__main__":
         selected_model = st.selectbox("Chọn Model:", model_options, index=0)
         
         # Cấu hình API Key
-        DEFAULT_API_KEY = "AIzaSyAOxPM5hG1t0A3U-5yreo7Z9R5qLS9XCDo" 
+        # API Key removed for security. Please input manually or set via environment variable.
+        DEFAULT_API_KEY = "" 
         
         api_key_input = st.text_input("Nhập Gemini API Key:", type="password", help="Nhập API Key của bạn để sử dụng tính năng tóm tắt.")
         
         api_key = api_key_input
-        # Nếu người dùng đã sửa DEFAULT_API_KEY trong code và chưa nhập key mới thì ưu tiên dùng key mặc định
-        if DEFAULT_API_KEY != "YOUR_API_KEY" and not api_key:
+        if not api_key:
             api_key = DEFAULT_API_KEY
 
         if st.button("Tóm tắt nội dung"):

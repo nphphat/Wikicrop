@@ -30,3 +30,11 @@ Thumbs.db
 .idea/
 *.swp
 error_log
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyd
+
+extensions/QuanLyNongNghiep/venv/
