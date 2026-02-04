@@ -322,6 +322,7 @@ $wgGroupPermissions['*']['autocreateaccount'] = true;
 wfLoadExtension( 'Approve' );
 wfLoadExtension( 'WikiChatbot' );
 $wgWikichatbot = true;
+$wgWikichatbotEnabled = true;
 
 $wgGroupPermissions['approver']['approverevisions'] = true;
 $wgGroupPermissions['sysop']['approverevisions'] = true;

@@ -1,71 +1,8 @@
-// ( function ( $, mw ) {
-//     'use strict';
-
-//     $( function () {
-//         console.log( 'NongNghiep40 JS loaded' );
-
-//         var $form = $( '#nongnghiep-entry-form' );
-//         var $action = $( '#nn-form-action' );
-//         var $idInput = $( '#nn-form-id' );
-//         var $nameInput = $( '#nn-form-name' );
-//         var $urlInput = $( '#nn-form-url' );
-//         var $summaryInput = $( '#nn-form-summary' );
-//         var $categoryInput = $( '#nn-form-category' );
-//         var $submitBtn = $( '#nn-btn-submit' );
-//         var $cancelBtn = $( '#nn-btn-cancel' );
-
-//         $( document ).on( 'click', '.edit-btn', function ( e ) {
-//             e.preventDefault(); 
-//             console.log( 'Edit button clicked' );
-
-//             var $btn = $( this );
-//             var id = $btn.data( 'id' );
-//             var name = $btn.data( 'name' );
-//             var url = $btn.data( 'url' );
-//             var summary = $btn.data( 'summary' );
-//             var category = $btn.data('category');
-
-//             $action.val( 'edit' );
-//             $idInput.val( id );
-//             $nameInput.val( name );
-//             $urlInput.val( url );
-//             $summaryInput.val( summary );
-//             $categoryInput.val( category );
-
-//             $submitBtn.text( 'Cập nhật' );
-//             $cancelBtn.show();
-
-//             if ( $form.length ) {
-//                 $( 'html, body' ).animate( { scrollTop: $form.offset().top - 100 }, 500 );
-//             } else {
-//                 console.error('Form #nongnghiep-entry-form not found');
-//             }
-//         } );
-
-//         $cancelBtn.on( 'click', function ( e ) {
-//             e.preventDefault();
-//             console.log( 'Cancel button clicked' );
-
-//             $form[0].reset();
-//             $action.val( 'add' );
-//             $idInput.val( '' );
-
-//             $submitBtn.text( 'Lưu dữ liệu' );
-//             $cancelBtn.hide();
-//         } );
-
-//         $( document ).on( 'click', '.delete-form button', function () {
-//             return confirm( 'Bạn có chắc chắn muốn xóa không?' );
-//         } );
-
-//     } );
-// }( jQuery, mediaWiki ) );
-
 ( function ( $, mw ) {
     'use strict';
 
     // 1. Khai báo biến ở phạm vi ngoài để dùng chung cho các hàm
-    var $form, $action, $idInput, $nameInput, $urlInput, $summaryInput, $categoryInput, $submitBtn, $cancelBtn;
+    var $form, $action, $idInput, $nameInput, $urlInput, $summaryInput, $categoryInput, $submitBtn, $cancelBtn, $summarizeBtn, $urlFeedback;
 
     // 2. Hàm xử lý khi bấm nút Edit
     function handleEdit( e ) {
@@ -111,6 +48,9 @@
 
         $submitBtn.text( 'Lưu dữ liệu' );
         $cancelBtn.hide();
+        
+        $submitBtn.text(mw.msg('nongnghiep40-save'));
+        $urlFeedback.hide();
     }
 
     // 4. Hàm xử lý xác nhận xóa
@@ -118,7 +58,79 @@
         return confirm( 'Bạn có chắc chắn muốn xóa không?' );
     }
 
-    // 5. Hàm khởi tạo (Init) - Chạy khi DOM Ready
+    // Handle fetching video info
+    function handleUrlChange() {
+        var url = $urlInput.val().trim();
+        if (!url) return;
+
+        // Basic check for youtube url
+        if (url.indexOf('youtube.com') === -1 && url.indexOf('youtu.be') === -1) {
+            return;
+        }
+
+        $urlFeedback.text('Đang lấy thông tin video...').show();
+        
+        $.ajax({
+            url: window.location.href, // Post to current page
+            data: {
+                action: 'ajax_process',
+                sub_action: 'info',
+                url: url
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $nameInput.val(response.data.title);
+                    $urlFeedback.text('Đã lấy tên video thành công.').css('color', 'green');
+                    setTimeout(function() { $urlFeedback.fadeOut(); }, 3000);
+                } else {
+                    $urlFeedback.text('Lỗi: ' + response.error).css('color', 'red');
+                }
+            },
+            error: function() {
+                $urlFeedback.text('Lỗi kết nối máy chủ.').css('color', 'red');
+            }
+        });
+    }
+
+    // Handle summarization
+    function handleSummarize() {
+        var url = $urlInput.val().trim();
+        if (!url) {
+            alert('Vui lòng nhập URL YouTube trước.');
+            return;
+        }
+
+        var originalText = $summarizeBtn.text();
+        $summarizeBtn.text('Đang xử lý...').prop('disabled', true);
+        $summaryInput.attr('placeholder', 'Đang tóm tắt nội dung video, vui lòng chờ...');
+
+        $.ajax({
+            url: window.location.href,
+            data: {
+                action: 'ajax_process',
+                sub_action: 'summarize',
+                url: url
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $summaryInput.val(response.data.summary);
+                } else {
+                    alert('Lỗi: ' + response.error);
+                }
+            },
+            error: function() {
+                alert('Lỗi kết nối máy chủ hoặc quá thời gian chờ.');
+            },
+            complete: function() {
+                $summarizeBtn.text(originalText).prop('disabled', false);
+                $summaryInput.attr('placeholder', '');
+            }
+        });
+    }
+
+    // 6. Hàm khởi tạo (Init) - Chạy khi DOM Ready
     function init() {
         console.log( 'NongNghiep40 JS loaded' );
 
@@ -132,6 +144,8 @@
         $categoryInput = $( '#nn-form-category' );
         $submitBtn = $( '#nn-btn-submit' );
         $cancelBtn = $( '#nn-btn-cancel' );
+        $summarizeBtn = $( '#nn-btn-summarize' );
+        $urlFeedback = $( '#nn-url-feedback' );
 
         // Setup Autocomplete
         setupAutocomplete();
@@ -140,6 +154,9 @@
         $( document ).on( 'click', '.edit-btn', handleEdit );
         $cancelBtn.on( 'click', handleCancel );
         $( document ).on( 'click', '.delete-form button', handleDelete );
+        
+        $urlInput.on('blur', handleUrlChange);
+        $summarizeBtn.on('click', handleSummarize);
     }
 
     function setupAutocomplete() {

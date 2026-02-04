@@ -13,6 +13,17 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
         $output->addModules( 'ext.quanlynongnghiep' );  
 
         $action = $request->getVal( 'action' );
+        
+        // Handle AJAX requests for Python script
+        if ( $action === 'ajax_process' ) {
+            $output->disable(); 
+            header('Content-Type: application/json');
+            $subAction = $request->getVal('sub_action');
+            $url = $request->getVal('url');
+            echo $this->processPythonRequest($subAction, $url);
+            die();
+        }
+
         if ( $request->wasPosted() ) {
             if ( !$this->getUser()->isAllowed( 'editer' ) ) {  
                 $output->addHTML( '<p>Bạn không có quyền chỉnh sửa.</p>' );
@@ -91,6 +102,43 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
         $this->displayList( $output );
     }
 
+    private function processPythonRequest($action, $url) {
+        // Path configuration
+        $extensionDir = __DIR__ . '/..';
+        $pythonScript = $extensionDir . '/python/api_service.py';
+        $venvPython = $extensionDir . '/venv/Scripts/python.exe'; // Windows path
+        
+        if (!file_exists($venvPython)) {
+            // MacOS/Linux path fallback
+            $venvPython = $extensionDir . '/venv/bin/python';
+        }
+
+        if (!file_exists($venvPython)) {
+            return json_encode(['error' => 'Virtual environment not found']);
+        }
+
+        // Build command
+        // Escaping args is important for security
+        // Remove 2>&1 to avoid stderr polluting stdout (JSON)
+        $cmd = sprintf(
+            '"%s" "%s" --action %s --url "%s"',
+            $venvPython,
+            $pythonScript,
+            escapeshellarg($action),
+            escapeshellarg($url)
+        );
+
+        $output = shell_exec($cmd);
+        
+        // decode to check validity, otherwise return raw output as error
+        $json = json_decode($output);
+        if ($json === null) {
+            return json_encode(['error' => 'Python script error', 'raw_output' => $output]);
+        }
+
+        return $output;
+    }
+
     private function getExistingCategories() {
         $dbr = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
         $res = $dbr->select(
@@ -119,17 +167,21 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
             <input type="hidden" name="id" value="" id="nn-form-id">
             <input type="hidden" name="wpEditToken" value="' . htmlspecialchars( $token ) . '"> <div class="nongnghiep-form-group">
                 <label>' . $this->msg('nongnghiep40-name')->text() . ':</label>
-                <input type="text" name="name" id="nn-form-name" required class="nongnghiep-input">
+                <input type="text" name="name" id="nn-form-name" required class="nongnghiep-input" placeholder="Tên sẽ tự động điền khi nhập URL YouTube...">
             </div>
 
             <div class="nongnghiep-form-group">
                 <label>' . $this->msg('nongnghiep40-url')->text() . ':</label>
-                <input type="url" name="url" id="nn-form-url" required class="nongnghiep-input">
+                <input type="url" name="url" id="nn-form-url" required class="nongnghiep-input" placeholder="Dán link YouTube tại đây...">
+                <small id="nn-url-feedback" style="display:none; color: #666; font-style: italic;"></small>
             </div>
 
             <div class="nongnghiep-form-group">
                 <label>' . $this->msg('nongnghiep40-summary')->text() . ':</label>
-                <textarea name="summary" id="nn-form-summary" rows="3" class="nongnghiep-input"></textarea>
+                <div style="display: flex; gap: 10px; align-items: start;">
+                    <textarea name="summary" id="nn-form-summary" rows="5" class="nongnghiep-input" style="flex-grow: 1;"></textarea>
+                    <button type="button" id="nn-btn-summarize" class="nongnghiep-btn secondary" style="white-space: nowrap;">Tóm tắt</button>
+                </div>
             </div>
 
             <div class="nongnghiep-form-group" style="position: relative;">
@@ -207,9 +259,13 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
             $html .= '<tr>
                         <td>' . htmlspecialchars( $row->nn_name ) . '</td>
                         <td><a href="' . htmlspecialchars( $row->nn_url ) . '" target="_blank">' . htmlspecialchars( $row->nn_url ) . '</a></td>
-                        <td>' . nl2br( htmlspecialchars( $row->nn_summary ) ) . '</td>
+                        <td>
+                            <div class="nongnghiep-summary-wrapper" title="' . htmlspecialchars($row->nn_summary) . '">
+                                ' . nl2br( htmlspecialchars( $row->nn_summary ) ) . '
+                            </div>
+                        </td>
                         <td>' . htmlspecialchars( $row->nn_category ) . '</td>
-                        <td>' . $editBtn . ' ' . $deleteForm . '</td>
+                         <td>' . $editBtn . ' ' . $deleteForm . '</td>
                       </tr>';
         }
         $html .= '</tbody></table>';

@@ -95,6 +95,24 @@
     vertical-align: top;
 }
 
+/* Summary Truncation */
+.nongnghiep-summary-wrapper {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Show 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: 4.5em; /* Fallback for non-webkit */
+    transition: max-height 0.3s ease-out; /* Smooth transition attempt */
+    cursor: help;
+}
+
+.nongnghiep-summary-wrapper:hover {
+    -webkit-line-clamp: unset;
+    display: block;
+    max-height: 500px; /* Arbitrary large height for expansion */
+    overflow: visible;
+}
+
 /* Autocomplete Suggestions */
 .nongnghiep-suggestions {
     position: absolute;
