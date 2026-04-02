@@ -11,7 +11,6 @@ class ApiPlantDBHooks {
 
     /**
      * Hook: LoadExtensionSchemaUpdates
-     * Đã sửa tên hàm thành onSchemaUpdate (không có s) cho khớp với JSON
      */
     public static function onSchemaUpdate( DatabaseUpdater $updater ) {
         // Lưu ý: Đảm bảo đường dẫn file SQL đúng
