@@ -68,7 +68,7 @@ def summarize_text(api_key, text, model_name='gemini-flash-latest'):
         client = genai.Client(api_key=api_key)
         response = client.models.generate_content(
             model=model_name,
-            contents=f"Hãy tóm tắt nội dung sau đây bằng tiếng Việt một cách chi tiết và súc tích (Tóm tắt khoảng 100-150 từ):\n\n{text}"
+            contents=f"Hãy tóm tắt nội dung sau đây bằng tiếng Việt một cách chi tiết và súc tích đồng thời không bỏ bớt ý nghĩa của video (Tóm tắt khoảng 100-150 từ, không cần viết số từ ở cuối):\n\n{text}"
         )
         return response.text
     except Exception as e:

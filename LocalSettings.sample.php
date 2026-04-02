@@ -348,4 +348,4 @@ $wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
 
 wfLoadExtension( 'NongNghiep40' );
 wfLoadExtension( 'QuanLyNongNghiep' );
-
+$wgQuanLyNongNghiepGeminiKey = 'YOUR_GEMINI_KEY'; // Thay thế bằng Gemini Key của bạn

@@ -120,20 +120,48 @@ class SpecialQuanLyNongNghiep extends SpecialPage {
         // Retrieve API Key from global config (LocalSettings.php)
         global $wgQuanLyNongNghiepGeminiKey;
         $apiKey = $wgQuanLyNongNghiepGeminiKey ?? "";
+        
+        $debugFile = $extensionDir . '/python_debug.log';
+        $errorFile = $extensionDir . '/python_error.log';
+        
+        // Prepare config data
+        $configData = [
+            'action' => $action,
+            'url' => $url,
+            'api_key' => $apiKey,
+            'model' => 'gemini-flash-latest'
+        ];
+        
+        // Write to temp file
+        $configFile = tempnam(sys_get_temp_dir(), 'nongnghiep_');
+        file_put_contents($configFile, json_encode($configData));
 
         // Build command
-        // Escaping args is important for security
-        // Remove 2>&1 to avoid stderr polluting stdout (JSON)
+        // Only pass the config file path, avoiding all escaping hell with URLs and Keys
         $cmd = sprintf(
-            '"%s" "%s" --action %s --url "%s" --api_key "%s"',
+            '"%s" "%s" --config "%s" 2>"%s"',
             $venvPython,
             $pythonScript,
-            escapeshellarg($action),
-            escapeshellarg($url),
-            escapeshellarg($apiKey)
+            $configFile, // tempnam returns path without quotes inside, so we quote it here. Windows paths uses backslashes, PHP handles it.
+            $errorFile
         );
 
         $output = shell_exec($cmd);
+        $stderr = file_exists($errorFile) ? file_get_contents($errorFile) : '';
+        
+        // Log for debugging
+        file_put_contents($debugFile, date('Y-m-d H:i:s') . " CMD: $cmd\nCONFIG: " . json_encode($configData) . "\nSTDOUT: $output\nSTDERR: $stderr\n----------------\n", FILE_APPEND);
+        
+        // Clean up
+        @unlink($configFile);
+        
+        // decode to check validity
+        $json = json_decode($output);
+        if ($json === null) {
+            // Return extended error info
+            $err = "Python script error. STDERR: " . substr($stderr, 0, 200); 
+            return json_encode(['error' => $err, 'raw_output' => $output]);
+        }
         
         // decode to check validity, otherwise return raw output as error
         $json = json_decode($output);

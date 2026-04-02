@@ -10,13 +10,34 @@ from app import extract_video_id, get_video_title, get_transcript_text, summariz
 
 def main():
     parser = argparse.ArgumentParser(description="YouTube API Helper for QuanLyNongNghiep")
-    parser.add_argument("--action", required=True, choices=["info", "summarize"], help="Action to perform")
-    parser.add_argument("--url", required=True, help="YouTube Video URL")
+    parser.add_argument("--config", help="Path to JSON config file containing arguments")
+    parser.add_argument("--action", choices=["info", "summarize"], help="Action to perform")
+    parser.add_argument("--url", help="YouTube Video URL")
     parser.add_argument("--api_key", required=False, help="Gemini API Key")
     parser.add_argument("--model", default="gemini-flash-latest", help="Gemini Model")
 
     args = parser.parse_args()
     
+    # Load args from config file if provided
+    if args.config:
+        try:
+            with open(args.config, 'r', encoding='utf-8') as f:
+                config_args = json.load(f)
+                # Overwrite args with config values
+                args.action = config_args.get('action')
+                args.url = config_args.get('url')
+                args.api_key = config_args.get('api_key', args.api_key)
+                args.model = config_args.get('model', args.model)
+        except Exception as e:
+            # If config fails, print error as JSON
+            print(json.dumps({"success": False, "error": f"Config file error: {str(e)}"}, ensure_ascii=False))
+            return
+
+    # Check required arguments
+    if not args.action or not args.url:
+         print(json.dumps({"success": False, "error": "Missing required arguments (action, url)"}, ensure_ascii=False))
+         return
+
     # Capture original stdout/stderr to disable them
     original_stdout = sys.stdout
     original_stderr = sys.stderr
