@@ -1,0 +1,35 @@
+{
+	"@metadata": {
+		"authors": [
+			"Abuluntu",
+			"AnB",
+			"Danmichaelo",
+			"Jeblad",
+			"Johanna Strodt (WMDE)",
+			"Jon Harald Søby",
+			"Kingu",
+			"Orf3us"
+		]
+	},
+	"popups-message": "Forhåndsvisninger",
+	"popups-desc": "Viser forhåndsvisning når brukeren fører pekeren over en lenke.",
+	"popups-settings-title": "Forhåndsvisninger",
+	"popups-settings-option-page": "Sideforhåndsvisninger",
+	"popups-settings-option-page-description": "Få raske forhåndsvisninger av et emne mens man leser en side.",
+	"popups-settings-option-reference": "Forhåndsvis referanser",
+	"popups-settings-option-reference-description": "Få forhåndsvisninger av en referanse mens du leser på siden.",
+	"popups-settings-save": "Lagre",
+	"popups-settings-help-ok": "Ferdig",
+	"popups-settings-cancel": "Avbryt",
+	"popups-settings-help": "Du kan skru på forhåndsvisning igjen ved å bruke lenken i sidens bunntekst.",
+	"popups-settings-enable": "Tilpass forhåndsvisningen",
+	"popups-settings-icon-gear-title": "Endre innstillinger for forhåndsvisning",
+	"popups-preview-no-preview": "Det oppstod en feil under fremvisning av forhåndsvisningen.",
+	"popups-preview-footer-read": "Gå til denne siden",
+	"popups-preview-disambiguation": "Denne tittelen relaterer til mer enn én side",
+	"popups-preview-disambiguation-link": "Vis lignende sider",
+	"prefs-reading": "Lesepreferanser",
+	"popups-prefs-optin": "Aktiver forhåndsvisning (vise forhåndsvisning av et emne mens du leser en side)",
+	"popups-prefs-disable-nav-gadgets-info": "Du må [[$1|slå av tilleggsfunksjonen «Navigation Popups»]] under innstillinger for tilleggsfunksjoner for å aktivere forhåndsvisning.",
+	"popups-prefs-conflicting-gadgets-info": "Visse tilleggsfunksjoner og andre tilpasninger kan påvirke denne funksjonen. Om du opplever problemer, sjekk dine tilleggsfunksjoner og brukerskript, inkludert dine globale skript."
+}

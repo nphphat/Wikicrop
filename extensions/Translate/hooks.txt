@@ -1,0 +1,62 @@
+This document describes how event hooks work in the Translate extension;
+how to add hooks for an event; and how to run hooks for an event.
+
+== Rationale ==
+
+Hooks allow us to decouple optionally-run code from code that is run for
+everyone. It allows MediaWiki hackers, third-party developers and local
+administrators to define code that will be run at certain points in the mainline
+code, and to modify the data run by that mainline code. Hooks can keep mainline
+code simple, and make it easier to write extensions. Hooks are a principled
+alternative to local patches.
+
+== Writing hooks ==
+
+=== PHP hooks ===
+The hooks for the Translate extension are documented here:
+https://doc.wikimedia.org/Translate/master/php/classMediaWiki_1_1Extension_1_1Translate_1_1HookRunner.html
+
+For a guide to PHP hooks, navigate to your root MediaWiki
+directory, and then find docs/Hooks.md.
+
+The documentation is part of the hook interfaces.
+
+=== JavaScript hooks ===
+JavaScript hooks for the Translate extension use the standard mw.hook API provided
+by MediaWiki.
+
+Hooks are prefixed with mw.translate as a convention.
+
+== Events and parameters ==
+
+This is a list of known events and parameters; please add to it if you're going
+to add events to the Translate extension.
+
+<!--
+Post processing step to format in wiki
+^;([^ ]+): >>> ;<nowiki>\1</nowiki>:
+-->
+
+=== JavaScript events ===
+
+;mw.translate.editor.afterSubmit: Provides an opportunity to modify a Translate translation form immediately after it is submitted
+ jQuery          form: The form that has just been submitted
+
+;mw.translate.editor.afterEditorShown: Provides an opportunity to manipulate the editing interface once it's shown
+ jQuery          translateEditor.$editor: The current translation-editing form
+
+;mw.translate.editor.beforeSubmit: Provides an opportunity to modify a Translate translation form immediately before it is submitted
+ jQuery          form: The form being submitted
+
+;mw.translate.messagetable.formatMessageBeforeTable: Provides an opportunity to manipulate the display of translation strings (messages) in the main table
+ object          message: The message object, with a range of useful (and manipulable) properties
+
+;mw.translate.editor.showTranslationHelpers: Provides an opportunity to handle custom translation helpers
+ object          result.helpers: JSON subset focusing on the helpers returned e.g. result.helpers.definition
+ jQuery          translateEditor.$editor: The current translation-editing form
+
+;mw.translate.translationView.stateChange: Returns the new state of the group after the state changes (i.e. after the message group or target language changes)
+ object          stateInfo: The new state object, with info on message group, language and message list
+
+;wikipage.content: See this hook in MediaWiki core. Fired for message documentation in the translation editor.
+ jQuery          $content

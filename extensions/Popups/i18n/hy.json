@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac",
+			"Դավիթ Սարոյան"
+		]
+	},
+	"popups-message": "Նախադիտում",
+	"popups-desc": "Ցուցադրում է նախադիտման թռուցիկները, երբ մասնակիցը սավառնում է հղման վրա",
+	"popups-settings-title": "Նախադիտում",
+	"popups-settings-option-page": "Էջի նախադիտում",
+	"popups-settings-save": "Հիշել",
+	"popups-settings-help-ok": "Արված է",
+	"popups-settings-cancel": "Չեղարկել",
+	"popups-settings-enable": "Խմբագրել նախադիտման կարգավորումները",
+	"popups-preview-footer-read": "Անցնել այս էջ",
+	"popups-preview-disambiguation-link": "Դիտեք նմանատիպ էջերը"
+}

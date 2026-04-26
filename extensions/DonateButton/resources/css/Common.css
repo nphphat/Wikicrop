@@ -1,0 +1,19 @@
+/* CSS placed here will be applied to all skins */
+
+#p-donatebutton .portlet {
+	margin: 0;
+	width: auto;
+}
+#p-donatebutton .body,
+#p-donatebutton .mw-portlet-body,
+#p-donatebutton .pBody {
+	background-color: transparent !important;
+	background-image: none !important;
+	border: 0 !important;
+	padding: 0;
+	text-align: center;
+}
+#p-donatebutton img {
+	height: 26px;
+	width: auto;
+}

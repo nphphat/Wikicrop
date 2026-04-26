@@ -1,0 +1,21 @@
+@import '../../../ui/styles/mw.cx.mixins.less';
+
+.ve-ce-cxSectionNode {
+	transition: all 100ms ease-out;
+	transition-property: background-color, box-shadow;
+
+	// By default oveflow is hidden for SectionNode, override it to
+	// allow horizontal scroll for CX columns.
+	overflow: auto;
+
+	.clearfix;
+}
+
+/* Reset opacity of non-active sections */
+.ve-ce-cxSectionNode:not( .ve-ce-activeNode-active ) {
+	opacity: 1;
+}
+
+.mw-section-hide {
+	display: none;
+}

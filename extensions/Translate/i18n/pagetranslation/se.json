@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kimberli Mäkäräinen (WMNO)",
+			"Yupik"
+		]
+	},
+	"pagetranslation": "Siidduid jorgaleapmi",
+	"tpt-translation-settings-save": "Vurke ásahusaid",
+	"translate-tag-translate-link-desc": "Jorgal dán siiddu",
+	"tpt-languages-legend": "Eará gielat:",
+	"tpt-languages-nonzero": "$1 ($2% jorgaluvvon)",
+	"tpt-tab-translate": "Jorgal",
+	"tpt-aggregategroup-save": "Vurke",
+	"tpt-aggregategroup-close": "Gidde",
+	"tpt-aggregategroup-new-description": "Govvádus (eaktodáhtolaš):",
+	"tpt-aggregategroup-edit-description": "Govvádus:",
+	"tpt-aggregategroup-update": "Vurke",
+	"tpt-aggregategroup-update-cancel": "Gaskkalduhte",
+	"pt-movepage-list-other": "Eará {{PLURAL:$1|oalgesiidu|oalgesiiddut}}",
+	"pt-deletepage-current": "Siidonamma:",
+	"pm-savepages-button-label": "Vurke",
+	"pm-cancel-button-label": "Gaskkalduhte",
+	"pp-cancel-button-label": "Gaskkalduhte"
+}

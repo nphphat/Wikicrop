@@ -23,29 +23,26 @@ class ApiApprove extends ApiBase {
         $count = 0;
 
         if ( $mode === 'approveall' ) {
-            // Tăng thời gian timeout cho xử lý số lượng lớn
+            
             if ( function_exists( 'set_time_limit' ) ) {
                 set_time_limit( 0 );
             }
             ignore_user_abort( true );
 
-            // Xây dựng options
             $options = [];
             if ( $limit > 0 ) {
                 $options['LIMIT'] = $limit;
             }
 
-            // Lấy tất cả bài đang pending
             $res = $dbw->select(
                 'approve_queue',
                 [ 'aq_id', 'aq_revision_id', 'aq_page_title' ],
                 [ 'aq_status' => 'pending' ],
                 __METHOD__,
-                $options // Sử dụng limit
+                $options 
             );
 
             foreach ( $res as $row ) {
-                // Update DB
                 $dbw->update(
                     'approve_queue',
                     [

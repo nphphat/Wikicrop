@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeblad",
+			"Johanna Strodt (WMDE)",
+			"Njardarlogar"
+		]
+	},
+	"popups-message": "Sideførehandvising",
+	"popups-desc": "Vis førehandvising når brukaren fører muspekeren over ei lenkje.",
+	"popups-settings-title": "Sideførehandsvising",
+	"popups-settings-option-page": "Påslege",
+	"popups-settings-option-page-description": "Få raske førehandvisingar av eit emne medan ein les ei side.",
+	"popups-settings-save": "Lagra",
+	"popups-settings-help-ok": "Ferdig",
+	"popups-settings-cancel": "Avbryt",
+	"popups-settings-help": "Du kan skru på igjen førehandvising ved å bruka lenkja i botnteksta til sida.",
+	"popups-settings-enable": "Slå på førehandsvising",
+	"popups-preview-no-preview": "Det oppstod ein feil under framvisinga av førehandsvisinga",
+	"popups-preview-footer-read": "Gå til sida",
+	"popups-preview-disambiguation": "Denne tittelen kan visa til meir enn éi side",
+	"popups-preview-disambiguation-link": "Sjå liknande sider",
+	"prefs-reading": "Leseinnstillingar",
+	"popups-prefs-optin": "Førhandsvisningar (få kjapp førhandsvisning av eit emne medan du les ei side):",
+	"popups-prefs-disable-nav-gadgets-info": "Du må [[$1 |slå av tilleggsfunksjonen «Navigation Popups»]] for å kunne slå på sideførehandvising",
+	"popups-prefs-conflicting-gadgets-info": "Visse tilleggsfunksjonar og andre tilpassingar kan påverka ytinga til denne funksjonen. Ved problem bør du sjekka tilleggsfunksjonane og brukarskripta dine, inkludert globale skript."
+}

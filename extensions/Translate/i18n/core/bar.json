@@ -1,0 +1,34 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bua333",
+			"Joe Watzmo",
+			"Mucalexx"
+		]
+	},
+	"translate": "Iwersétzen",
+	"translate-desc": "Dagänzd a [[Special:Translate|Speziaalseiten]] zan Ywersétzen vah d' MediaWiki-Systémnoochrichtner und dénen eanerre weidern Auhwendunger.",
+	"translate-taction-translate": "Iwersétzen",
+	"translate-taction-proofread": "Koarekturleesen",
+	"translate-taction-lstats": "Statistiken zur Sprooch",
+	"translate-taction-mstats": "Statistiken zur Noochrichtengrubben",
+	"translate-taction-export": "Exportian",
+	"translate-taction-disabled": "Dé Akzión is in dém Wiki deaktiviad.",
+	"translate-page-language": "Sprooch",
+	"translate-page-limit": "Limit",
+	"translate-submit": "Hóin",
+	"translate-edit-information": "Informazión zur da Systémnoochricht ($1)",
+	"translationstats": "Staatistiken zua d' Ywersétzungen",
+	"translate-sidebar-alltrans": "Auf åndre Sproochen",
+	"translations": "Olle Ywersetzungen",
+	"languagestats": "Staatistiken zur Sprooch",
+	"translate-langstats-expandall": "olle auskloppm",
+	"translate-language": "Sprooch",
+	"supportedlanguages": "Aktiave Sproochen",
+	"supportedlanguages-recenttranslations": "Aktuelle Ywersétzungen",
+	"translate-documentation-language": "Noochrichtendókumentazión",
+	"translate-searchprofile": "Iwersétzungan",
+	"translate-searchprofile-tooltip": "Suach in Iwasetzunga",
+	"tux-editor-expand-tooltip": "Auskloppn",
+	"tux-editor-collapse-tooltip": "eikloppn"
+}

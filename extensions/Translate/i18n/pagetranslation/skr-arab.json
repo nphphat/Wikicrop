@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"Saraiki",
+			"Umar Shahid"
+		]
+	},
+	"tpt-select-prioritylangs-reason": "سبب:",
+	"tpt-translation-settings-page-title": "ترجمہ ترتیباں",
+	"tpt-translation-settings-save": "ترتیباں محفوظ کرو",
+	"tpt-languages-legend": "ٻیاں زباناں:",
+	"tpt-languages-nonzero": "$1 ($2% ترجمہ تھی ڳیا)",
+	"tpt-tab-translate": "ترجمہ کرو",
+	"tpt-aggregategroup-save": "بچاؤ",
+	"tpt-aggregategroup-edit": "مجموعی گروپ وچ ترمیم کرو۔",
+	"tpt-aggregategroup-language-none": "(کوئی وی کائنی)",
+	"tpt-aggregategroup-new-name": "ناں:",
+	"tpt-aggregategroup-remove-confirm-title": "مجموعی گروپ ڈیلیٹ کرو",
+	"tpt-aggregategroup-edit-name": "ناں:",
+	"tpt-aggregategroup-edit-description": "تفصیل:",
+	"tpt-aggregategroup-update-cancel": "منسوخ",
+	"tpt-aggregategroup-empty-name": "مجموعی سنیہا گروپ دا ناں خالی نہیں تھی سڳدا",
+	"pt-movepage-new": "نواں ناں:",
+	"pt-movepage-reason": "سبب:",
+	"pt-deletepage-reason": "سبب:",
+	"pm-import-button-label": "اندر گھن آؤ",
+	"pm-savepages-button-label": "بچاؤ",
+	"pm-cancel-button-label": "منسوخ",
+	"pp-prepare-button-label": "تیار کرو",
+	"pp-save-button-label": "بچاؤ",
+	"pp-cancel-button-label": "منسوخ",
+	"pp-page-does-not-exist": "ورقہ $1 موجود کائنی۔",
+	"tpt-general-area-header": "عمومی علاقہ",
+	"tpt-generic-button": "تصدیق",
+	"tpt-manage-message-group-subscriptions-raw-titles": "گروپس:"
+}

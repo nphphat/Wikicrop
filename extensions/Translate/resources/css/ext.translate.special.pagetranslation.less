@@ -1,0 +1,67 @@
+@import 'mediawiki.skin.variables.less';
+
+.mw-tpt-sp-section {
+	padding-bottom: 1.5em;
+
+	&-type-old {
+		opacity: 0.65;
+	}
+
+	&-type-general {
+		.mw-tpt-sp-legend {
+			margin-bottom: 1em;
+		}
+
+		& > .mw-tpt-sp-content {
+			padding: unset;
+		}
+
+		& > .oo-ui-fieldLayout-body {
+			align-items: center;
+			flex-direction: row;
+		}
+	}
+}
+
+.mw-tpt-m-vertical {
+	margin: 0.5em 0 !important;
+}
+
+.mw-tpt-sp-legend {
+	font-weight: bold;
+	font-size: 110%;
+	overflow-wrap: break-word;
+}
+
+.mw-tpt-sp-content {
+	font-size: small;
+	padding-left: 2em;
+	padding-right: 2em;
+	overflow-wrap: break-word;
+}
+
+.mw-tpt-sp-markform {
+	hr {
+		margin-bottom: 1em;
+	}
+
+	&.mw-tpt-hide-custom-fuzzy .mw-tpt-action-field,
+	&.mw-tpt-hide-unchanged .mw-tpt-sp-section-type-old:not( .mw-tpt-sp-section-type-title ) {
+		display: none;
+	}
+}
+
+.mw-tpt-pagelist-item {
+	overflow-wrap: break-word;
+}
+
+.mw-content-container .mw-tpt-vm {
+	margin: 1em 0;
+}
+
+.client-nojs {
+	.mw-tpt-sp-section-type-general,
+	.mw-tpt-sp-markform .mw-widgets-pendingTextInputWidget {
+		display: none;
+	}
+}

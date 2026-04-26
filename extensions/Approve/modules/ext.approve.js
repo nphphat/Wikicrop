@@ -1,18 +1,12 @@
-/* extensions/Approve/modules/ext.approve.js */
-/* globals mw, $ */
-
 (function ($, mw) {
     'use strict';
 
-    // --- 1. TRẠNG THÁI & CẤU HÌNH (STATE) ---
     var currentPage = 1;
     var itemsPerPage = 20;
     var totalItems = 0;
     var currentSearch = "";
     var sortOrder = "desc";
     var $dashboardContainer;
-
-    // --- 2. CÁC HÀM HỖ TRỢ (HELPERS) ---
     
     function escapeHtml(text) {
         if (!text) return "";
@@ -27,8 +21,6 @@
         $("#btn-prev").prop("disabled", currentPage <= 1);
         $("#btn-next").prop("disabled", currentPage >= maxPage);
     }
-
-    // --- 3. CÁC HÀM XỬ LÝ API & LOGIC ---
 
     function loadList() {
         var api = new mw.Api();
@@ -136,8 +128,6 @@
                 $btn.prop("disabled", false).text("Đã tải bài cũ");
             });
     }
-
-    // --- 4. XỬ LÝ DUYỆT TẤT CẢ (Batch Processing) ---
     
     function runBatchApprove(api, $btn, totalApproved) {
         var batchSize = 10;
@@ -187,8 +177,6 @@
         runBatchApprove(api, $btn, 0);
     }
 
-    // --- 5. RENDER GIAO DIỆN CHÍNH ---
-
     function renderDashboardHTML(container) {
         container.innerHTML = `
             <div class="approve-dashboard-wrapper" style="font-family: sans-serif;">
@@ -222,8 +210,6 @@
             </div>`;
     }
 
-    // --- 6. KHỞI TẠO & BIND EVENTS (MAIN) ---
-
     function bindEvents() {
         $("#btn-reload-list").on("click", function () { currentPage = 1; loadList(); });
         $("#btn-import-data").on("click", runImportData);
@@ -244,7 +230,6 @@
             loadList();
         });
 
-        // Event Delegation cho Search và các nút sinh ra động (Duyệt/Từ chối)
         $(document).on("click", "#approve-search-btn", function () {
             currentPage = 1;
             currentSearch = $("#approve-search-input").val().trim();
@@ -270,7 +255,6 @@
         loadList();
     }
 
-    // --- 7. LOADER ---
     mw.loader.using(["mediawiki.api", "mediawiki.util", "mediawiki.user"], function () {
         $(document).ready(init);
     });

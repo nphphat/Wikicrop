@@ -1,0 +1,46 @@
+<details class="cdx-accordion mw-translate-aggregategroup-container" data-group-id="{{ id }}" {{#shouldExpand}}open{{/shouldExpand}}>
+	<summary {{#hasManageRights}}class="cdx-accordion--has-icon"{{/hasManageRights}}>
+		<h3 class="cdx-accordion__header">
+			<span class="cdx-accordion__header__title">
+				{{ name }}
+			</span>
+			<span class="cdx-accordion__header__description">
+				{{ description }}
+			</span>
+		</h3>
+		{{#hasManageRights}}
+		<button
+			class="cdx-button cdx-button--icon-only cdx-button--size-large cdx-accordion__action cdx-button--action-progressive cdx-button--weight-quiet js-button-edit"
+			aria-label="{{ editLabel }}"
+		>
+			<span class="cdx-button__icon cdx-aggregate-group-icon--edit"></span>
+		</button>
+		<button
+			class="cdx-button cdx-button--icon-only cdx-button--size-large cdx-accordion__action cdx-button--action-destructive cdx-button--weight-quiet js-button-delete"
+			aria-label="{{ deleteLabel }}"
+		>
+			<span class="cdx-button__icon cdx-aggregate-group-icon--delete"></span>
+		</button>
+		{{/hasManageRights}}
+	</summary>
+	<div class="cdx-accordion__content">
+		<ol>
+			{{#subGroups}}
+				<li data-group-id="{{ id }}">
+					{{{ labelHtml }}}
+					{{#hasManageRights}}
+						<button
+							class="cdx-button cdx-button--icon-only cdx-button--action-destructive cdx-button--weight-quiet js-button-subgroup-delete cdx-aggregate-group-subgroup-delete"
+							aria-label="{{ removeItemLabel }}"
+						>
+							<span class="cdx-button__icon cdx-aggregate-group-subgroup-icon--delete"></span>
+						</button>
+					{{/hasManageRights}}
+					{{ note }}
+				</li>
+			{{/subGroups}}
+		</ol>
+		<div class="mw-translate-aggregategroup-associate">
+		</div>
+	</div>
+</details>

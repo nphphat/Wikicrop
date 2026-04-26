@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"Athena in Wonderland",
+			"CaiusSPQR",
+			"Dianakc",
+			"Diniscoelho",
+			"Emma Franzen",
+			"Fitoschido",
+			"Fúlvio",
+			"Hamilton Abreu",
+			"Imperadeiro98",
+			"Johanna Strodt (WMDE)",
+			"Macofe",
+			"Mansil alfalb",
+			"MokaAkashiyaPT",
+			"SandroHc",
+			"Vitorvicentevalente"
+		]
+	},
+	"popups-message": "Antevisões",
+	"popups-desc": "Mostra janelas de antevisão quando o utilizador passa o ponteiro do rato por cima de uma hiperligação",
+	"popups-settings-title": "Antevisões",
+	"popups-settings-option-page": "Ativar",
+	"popups-settings-option-page-description": "Obter antevisões rápidas de assuntos durante a leitura de uma página.",
+	"popups-settings-option-reference": "Antevisões de referências",
+	"popups-settings-option-reference-description": "Obter antevisões rápidas de uma referência durante a leitura de uma página.",
+	"popups-settings-save": "Gravar",
+	"popups-settings-help-ok": "Concluído",
+	"popups-settings-cancel": "Cancelar",
+	"popups-settings-help": "Pode reativar as antevisões usando uma hiperligação no rodapé da página.",
+	"popups-settings-enable": "Editar configurações da antevisão",
+	"popups-settings-icon-gear-title": "Alterar as configurações da antevisão de páginas",
+	"popups-preview-no-preview": "Ocorreu um erro ao mostrar esta antevisão",
+	"popups-preview-footer-read": "Vá para esta página",
+	"popups-preview-disambiguation": "Este título está relacionado com mais do que uma página",
+	"popups-preview-disambiguation-link": "Ver páginas semelhantes",
+	"prefs-reading": "Preferências de leitura",
+	"popups-prefs-optin": "Ativar as antevisões de páginas (obter antevisões rápidas de um assunto durante a leitura de uma página)",
+	"popups-prefs-disable-nav-gadgets-info": "Tem de [[$1|desativar o ''gadget'' da navegação flutuante]] (''navigation popups'') nas preferências de ''Gadgets'' para ativar a antevisão de páginas.",
+	"popups-prefs-conflicting-gadgets-info": "Certos ''gadgets'' e outras personalizações podem afetar negativamente o desempenho desta funcionalidade. Se tiver problemas, reveja os seus ''gadgets'' e ficheiros de comandos (''scripts'') de utilizador, incluindo os globais."
+}

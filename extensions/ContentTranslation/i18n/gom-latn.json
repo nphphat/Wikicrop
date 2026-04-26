@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"The Discoverer"
+		]
+	},
+	"cx": "Panache onnkar kor",
+	"cx-header-all-translations": "Soglleo onnkara",
+	"tag-contenttranslation-description": "Mozkur Content Translation sadhon vaprun dusrea bhaxent savn bhaxantor kela.",
+	"tag-contenttranslation-v2-description": "Mozkur Content Translation sadhonachem avruti 2 vaprun dusrea bhaxent savn bhaxantor kela.",
+	"cx-translation-filter-published-translations": "Prokaxit",
+	"cx-translation-filter-draft-translations": "Chalu asa",
+	"cx-create-new-translation": "Novem onnkar suru kor",
+	"cx-contributions-new-contributions": "Novem yogdan",
+	"cx-contributions-new-article": "Novem pan",
+	"cx-contributions-translation": "Onnkar",
+	"cx-contributions-upload": "Madhyom upload kor",
+	"cx-campaign-no-thanks": "Naka, Dev borem korum",
+	"cx-campaign-contributionsmenu-mytranslations": "Onnkaram",
+	"cx-campaign-contributionsmenu-mytranslations-tooltip": "Novo onnkar zodd",
+	"cx-campaign-contributionsmenu-myuploads": "Upload kel'le madhyom",
+	"cx-campaign-contributionsmenu-myuploads-tooltip": "Tuvem upload kellya madheomanchi volleri",
+	"echo-category-title-cx": "Onnkaram",
+	"cx-notification-tenth-translation": "Tujea dhavi onnkarakhatir porbim! Tum ek boro onnkarpi zatai.\nHem borem kam oxench chalu dovor!",
+	"cx-uls-relevant-languages-banner-text-multiple-missing": "<span>$1</span>, <span>$2</span> ani heranim mellona",
+	"cx-uls-relevant-languages-panel-message": "Tuka kollta oxea kaim bhasani hem pan mellona. Tuven tacho onnkar mintani korunk ieta!",
+	"cx-uls-translate-page-quick-action-label": "Hea panachem onnkar kor"
+}

@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hugo.arg"
+		]
+	},
+	"cx": "Pargoldītė poslapi",
+	"cx-header-all-translations": "Vėsė pargoldīmā",
+	"cx-source-view-page": "veizietė poslapi",
+	"cx-publish-page-success": "Poslapis paskelbts $1",
+	"cx-publish-button": "Skelbtė pargoldīma",
+	"cx-publish-button-publishing": "Vīkst skelbėms...",
+	"cx-publish-summary": "Poslapis padėrbts pargoldont poslapi „$1“",
+	"cx-translation-add-translation": "Pridietė pargoldīma",
+	"tag-contenttranslation": "TorėnėPargoldīms",
+	"cx-entrypoint-dialog-button-translate-from": "Pargoldītė ėš $1",
+	"cx-tools-instructions-text5": "Skelbtė pargoldīma",
+	"cx-tools-link-title": "Nūruoda",
+	"cx-tools-link-add": "Pridietė nūruoda",
+	"cx-tools-mt-title": "Mašėnėnis pargoldīms",
+	"cx-tools-mt-provider-title": "Ėš $1",
+	"cx-translation-filter-draft-translations": "Goldoma",
+	"cx-create-new-translation": "Pradietė pargoldīma",
+	"cx-save-draft-save-success": "Ėšsauguota prīš {{PLURAL:$1|mėnotė|$1 mėnotės|$1 mėnotiu|0=daba}}",
+	"cx-save-draft-saving": "Sauguojama īr...",
+	"cx-contributions-new-article": "Naus poslapis",
+	"cx-contributions-translation": "Pargoldīms",
+	"cx-draft-cancel-button-label": "Pabengtė",
+	"cx-campaign-no-thanks": "Diekou, ne",
+	"cx-campaign-contributionsmenu-mytranslations": "Pargoldīmā",
+	"cx-campaign-contributionsmenu-myuploads": "Ožkrautė abruozdielē",
+	"echo-category-title-cx": "Pargoldīmā"
+}

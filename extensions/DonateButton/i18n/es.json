@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiMANNia"
+		]
+	},
+	"donatebutton-msg": "Botón de “Donar”",
+	"donatebutton-desc": "Agregar un botón “Donar” a la [https://www.mediawiki.org/wiki/Sidebar/es barra lateral].",
+	"donatebutton": "Rogamos que puedas",
+	"sitesupport": "Donar",
+	"lang": "es"
+}

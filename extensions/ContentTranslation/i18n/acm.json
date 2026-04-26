@@ -1,0 +1,35 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dušan Kreheľ",
+			"MRidhaAJ"
+		]
+	},
+	"cx": "ترجمة الصفحه",
+	"cx-javascript": "هاي الأداة ما تشتغل بدون جافا سكربت. الجافا سكربت طافي، فشل بالشغل، لو هاذ المتصفح مو مدعوم.",
+	"cx-specialpage-enable-betafeature": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Content_translation ترجمه المحتوه] هيه شغله تخليك اترجم صفحات بسرعه للغه مالتك. [$1 جربهه هسه!]",
+	"cx-license-agreement": "لو استمريت فإنته توافق على [https://foundation.wikimedia.org/wiki/Terms_of_Use/ar شروط الاستخدام] وعلى نشر ترجماتك جوا رخصات [https://creativecommons.org/licenses/by-sa/4.0/deed.ar المشاع الإبداعي 4.0] و[//ar.wikipedia.org/wiki/ويكيبيديا:نص_رخصة_جنو_للوثائق_الحرة الوثائق الحرة 1.3].",
+	"cx-error-server-connection": "خطأ: تعذر الاتصال بالسيرفر.",
+	"cx-desc": "تسهل [[Special:ContentTranslation|ترجمة]] صفحات المحتوى",
+	"cx-header-translation-center": "مركز الترجمة",
+	"cx-header-all-translations": "كل الترجمات",
+	"cx-source-view-page": "طلع الصفحة",
+	"cx-target-view-page": "طلع الصفحة",
+	"cx-publish-page-success": "نشرت الصفحة في $1",
+	"cx-publish-error-abuse-filter": "حددت مرشحات التعديلات تلقائية محتوى مال مشاكل بترجمتك، ضربة المرشح: $1",
+	"cx-publish-error-empty": "رد الخادم بدون بيانات.",
+	"cx-publish-error-spam-blacklist": "تم اكتشاف محتوى محتمل مو مرغوب بيه في ترجمتك، التفاصيل: $1",
+	"cx-publish-error-title-blacklist": "العنوان اللي كتبته مدرج في القائمه السوده; يُرجَى اختيار اسم ثاني لترجمتك.",
+	"cx-publish-summary": "أُنشئَت بترجمة الصفحه \"$1\"",
+	"cx-translation-add-translation": "حط ترجمه",
+	"cx-beta": "ترجمة المحتوى",
+	"cx-entrypoint-dialog-button-translate-from": "ترجم من $1",
+	"cx-entrypoint-dialog-desc": "تكدر تساعد ويكيبيديا بترجمة هاي الصفحه. الترجمه هي وسيله سهله حتى تسوي محتوى جديد بلغتك.",
+	"cx-campaign-newbytranslation-start": "ابدي ترجم",
+	"cx-tools-instructions-text1": "{{GENDER:|دوس|دوسي}} على الفقرات للترجمه",
+	"cx-tools-instructions-text2": "مو لازم {{GENDER:|تحطها|تحطينها}} كلها",
+	"cx-tools-instructions-text3": "{{GENDER:|سوي}} النص سهل القراءه",
+	"cx-tools-instructions-text4": "الترجمه الآليه مفيده بس يمكن {{GENDER:|تسوي|تسوين}} أغلاط محتمله",
+	"cx-tools-instructions-text5": "انشر{{GENDER:||ي}} الترجمه",
+	"cx-tools-instructions-text6": "من {{GENDER:|توصل|توصلين}} لنتيجه مرضيه, {{GENDER:|دوس|دوسي}} \"{{int:cx-publish-button}}\"."
+}

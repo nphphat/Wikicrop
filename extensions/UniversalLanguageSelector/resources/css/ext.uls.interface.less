@@ -1,0 +1,101 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins';
+
+/* stylelint-disable selector-max-id */
+#uls-settings-block {
+	// set default background color to #fcfcfc, to match ULS-LCD background color (inside jquery.uls.lcd.ss)
+	// TODO: There is no design token for this color. We should fix to use a design token here.
+	background-color: #fcfcfc;
+
+	&.uls-settings-block--vector-2022 {
+		display: flex;
+		justify-content: space-between;
+		padding: 8px 12px;
+
+		// override grid styles, as we use flexbox here
+		&.row {
+			&::before,
+			&::after {
+				content: none;
+			}
+		}
+
+		&.uls-settings-block--with-add-languages {
+			background-color: #f8f9fa;
+			border-top: @border-width-base @border-style-base @border-color-subtle;
+		}
+
+		> button {
+			&.uls-add-languages-button {
+				background: transparent url( ../images/add.svg ) no-repeat left center;
+				margin-right: 32px;
+				padding-left: 32px;
+			}
+
+			&.uls-language-settings-button {
+				background: transparent url( ../images/cog.svg ) no-repeat center;
+				margin-left: auto;
+				border: 0;
+				min-height: 20px;
+				min-width: 20px;
+			}
+		}
+	}
+
+	&:not( .uls-settings-block--vector-2022 ) {
+		background-color: #f8f9fa;
+		border-top: @border-width-base @border-style-base @border-color-subtle;
+		padding-left: 10px;
+		line-height: 1.2em;
+		border-radius: 0 0 @border-radius-base @border-radius-base;
+
+		> button {
+			background: left top transparent no-repeat;
+			// Support: Safari 3.1-6.1 & Android browser 3-4.3
+			// Don't support `background-size` values in `background` shorthand
+			background-size: 20px auto;
+			color: @color-subtle;
+			display: inline-block;
+			margin: 8px 15px;
+			border: 0;
+			padding: 0 0 0 26px;
+			font-size: medium;
+			cursor: pointer;
+
+			&:hover {
+				// TODO: This shouldn't be `@color-base`.
+				color: #202122;
+			}
+
+			&.display-settings-block {
+				background-image: url( ../images/display.svg );
+			}
+
+			&.input-settings-block {
+				background-image: url( ../images/input.svg );
+			}
+		}
+	}
+}
+
+.uls-tipsy.uls-tipsy {
+	z-index: 1000;
+}
+
+.uls-empty-state {
+	padding: 28px;
+
+	.uls-empty-state__header,
+	.uls-empty-state__desc {
+		color: @color-subtle;
+	}
+
+	.uls-language-action-items {
+		list-style: none;
+		margin: 1em 0;
+	}
+}
+
+.empty-language-selector__language-settings-button {
+	margin: 12px;
+}

@@ -1,0 +1,22 @@
+{
+	"name": "Translate",
+	"private": true,
+	"scripts": {
+		"doc": "jsdoc -c jsdoc.json -p",
+		"lint:js": "grunt lint:js",
+		"minify:svg": "svgo --config=.svgo.config.js -q -r -f resources/images/",
+		"test": "grunt test"
+	},
+	"devDependencies": {
+		"@wikimedia/codex-design-tokens": "2.0.0-rc.1",
+		"eslint-config-wikimedia": "0.30.0",
+		"grunt": "1.6.1",
+		"grunt-banana-checker": "0.13.0",
+		"grunt-eslint": "24.3.0",
+		"grunt-stylelint": "0.20.1",
+		"jsdoc": "4.0.4",
+		"jsdoc-wmf-theme": "1.1.0",
+		"stylelint-config-wikimedia": "0.18.0",
+		"svgo": "3.2.0"
+	}
+}

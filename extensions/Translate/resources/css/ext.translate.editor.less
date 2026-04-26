@@ -1,0 +1,602 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins';
+
+.tux-message-editor {
+	position: relative;
+	border: @border-width-base @border-style-base @border-color-interactive;
+	background-color: @background-color-base;
+	cursor: default;
+	box-shadow: @box-shadow-drop-medium;
+
+	.grid & .close {
+		.cdx-mixin-css-icon( @cdx-icon-close );
+		padding: 16px;
+		cursor: @cursor-base--hover;
+		float: right;
+	}
+
+	.grid & .editor-info-toggle {
+		padding: 16px;
+		cursor: @cursor-base--hover;
+		float: right;
+	}
+
+	.editor-contract {
+		.cdx-mixin-css-icon( @cdx-icon-double-chevron-start );
+	}
+
+	.editor-expand {
+		.cdx-mixin-css-icon( @cdx-icon-double-chevron-end );
+	}
+
+	.editcolumn {
+		border-right: @border-base;
+		transition: width 0.5s;
+		background-color: @background-color-base;
+		z-index: @z-index-above-content;
+		/* Padding to have space for the arrow indicating split section */
+		padding-right: 40px;
+	}
+
+	.grid & .tux-editor-titletools {
+		/* Ignore the padding added for the arrow */
+		margin-right: -40px;
+	}
+
+	.grid & .tux-editor-sourcemessage-container {
+		position: relative;
+
+		.tux-editor-copy-original-button {
+			.cdx-mixin-css-icon( @cdx-icon-copy );
+			position: absolute;
+			top: 3px;
+			right: -30px;
+			padding: 16px;
+			cursor: @cursor-base--hover;
+			border: 0;
+			opacity: 0;
+
+			&.copied {
+				.cdx-mixin-css-icon( @cdx-icon-check );
+				cursor: @cursor-base;
+				opacity: 1;
+			}
+		}
+
+		&:hover .tux-editor-copy-original-button,
+		.tux-editor-copy-original-button:focus {
+			opacity: 1;
+		}
+	}
+
+	&__caret {
+		&::before,
+		&::after {
+			border-top: 20px solid transparent;
+			border-right: 20px solid @border-color-base;
+			border-bottom: 20px solid transparent;
+			content: '';
+			display: inline-block;
+			left: -21px;
+			position: absolute;
+			bottom: 50%;
+			z-index: @z-index-toolbar;
+			transition: visibility 0s 0.5s;
+		}
+
+		&::after {
+			// This border color must match the background color of .infocolumn-block
+			border-right: 20px solid @background-color-neutral-subtle;
+			left: -20px;
+		}
+	}
+
+	&--expanded {
+		.grid & .editcolumn {
+			width: 100%;
+			padding-right: 5px;
+		}
+
+		.grid & .tux-editor-titletools {
+			margin-right: -5px;
+		}
+
+		.grid & .tux-editor-sourcemessage-container .tux-editor-copy-original-button {
+			right: 6px;
+		}
+
+		.tux-message-editor__caret {
+			&::before,
+			&::after {
+				visibility: hidden;
+				transition: visibility 0s 0s;
+			}
+		}
+	}
+
+	textarea {
+		border: @border-width-base @border-style-base @border-color-interactive;
+		font-size: 16px;
+		/* The (30px + 5px paddings) 40px for bottom is for the insertables */
+		padding: 5px 5px 40px 5px;
+		/* Normalize margin across skins (esp. Timeless) */
+		margin: 0;
+		height: 100px;
+		min-height: 150px;
+		overflow-y: auto;
+		position: relative;
+		z-index: 100;
+		/* We have automatic resizing for height, and horizontal makes no sense */
+		resize: none;
+		/* Avoid weird extra space appearing at the bottom of enclosing div when
+		 * the default value inline-block is used in Chrome.
+		 * https://stackoverflow.com/questions/5196424/inconsistent-textarea-handling-in-browsers */
+		display: block;
+	}
+
+	.editarea {
+		position: relative;
+	}
+
+	.grid & .messagekey {
+		color: @color-base;
+		font-size: 13px;
+		font-weight: bold;
+		padding: 5px 0 5px 10px;
+		cursor: @cursor-base--hover;
+
+		.caret {
+			border-top: 4px solid @color-base;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			display: inline-block;
+			vertical-align: middle;
+			margin: 0 4px;
+		}
+	}
+
+	.sourcemessage {
+		font-size: 18px;
+		line-height: 1.6em;
+		padding: 5px 0 10px 10px;
+		word-wrap: break-word;
+
+		&.long {
+			font-size: 16px;
+		}
+
+		&.longer {
+			font-size: 14px;
+		}
+	}
+
+	.shortcutinfo {
+		color: @color-subtle;
+		font-size: 13px;
+		padding: 0 5px 5px 10px;
+		display: none;
+
+		@media screen and ( min-width: 980px ) {
+			display: block;
+		}
+	}
+
+	.grid & .infocolumn-block {
+		font-size: 12pt;
+		background: @background-color-neutral-subtle;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		padding: 0;
+		transition: width 0.5s;
+
+		.infocolumn {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 10px;
+			padding: 0 5px;
+			overflow: auto;
+
+			.message-desc {
+				font-size: 16px;
+				padding: 5px 0;
+				margin-right: 5px;
+
+				&-editor {
+					padding: 5px 0;
+					margin-right: 5px;
+				}
+
+				&.long {
+					font-size: 14px;
+					border-bottom: @border-subtle;
+				}
+
+				&.compact {
+					max-height: 100px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				&-control {
+					font-size: 14px;
+					padding: 3px 0 5px 0;
+
+					.read-more {
+						font-size: 14px;
+						color: @color-progressive;
+						cursor: @cursor-base--hover;
+						margin-right: 5px;
+					}
+				}
+
+				&-edit::before {
+					content: '';
+					.cdx-mixin-css-icon( @cdx-icon-edit, currentColor, @size-icon-small, @param-vertical-align: middle );
+					margin-right: @spacing-25;
+				}
+			}
+		}
+	}
+
+	.help {
+		font-size: 16px;
+		padding: 10px 5px;
+
+		a {
+			font-size: 14px;
+			padding: 0 0 0 5px;
+		}
+	}
+
+	.tux-translation-aid-disabled:hover {
+		cursor: @cursor-not-allowed;
+	}
+}
+
+.grid .row {
+	.tm-suggestion,
+	.in-other-language {
+		margin: 0 5px 3px -5px;
+	}
+}
+
+.tux-editor-editsummary-block {
+	padding: 0 5px;
+
+	input {
+		border: @border-subtle;
+		font-size: 14px;
+		width: 100%;
+		height: 30px;
+		margin: 5px 0 0;
+		padding: 1px 4px;
+
+		&:disabled {
+			background-color: @background-color-disabled;
+		}
+	}
+}
+
+.tux-textarea-documentation {
+	height: 100px;
+	overflow: auto;
+}
+
+.tm-suggestions-title,
+.edit-summaries-title,
+.in-other-languages-title {
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 0;
+}
+
+.edit-summaries {
+	&-title {
+		display: flex;
+
+		span {
+			flex: 1;
+		}
+
+		a {
+			margin-right: 10px;
+			font-size: 0.75em;
+
+			&::before {
+				content: '';
+				.cdx-mixin-css-icon( @cdx-icon-history, currentColor, @size-icon-small, @param-vertical-align: middle );
+				margin-right: @spacing-25;
+			}
+		}
+	}
+
+	ul {
+		margin: 0 0.2em 0.3em 0.4em;
+	}
+
+	li > span {
+		display: flex;
+		white-space: nowrap;
+		font-size: 13px;
+	}
+}
+
+.edit-summary-message {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.edit-summary-spacer {
+	font-weight: bold;
+	padding: 0 3px;
+}
+
+.update-without-summary {
+	color: @color-subtle;
+	font-size: 13px;
+}
+
+.tm-suggestion,
+.in-other-language {
+	font-size: 14px;
+	border: @border-subtle;
+	border-left: @border-width-thick @border-style-base @border-color-progressive;
+	padding: 5px 5px 5px 10px;
+	background-color: @background-color-interactive;
+
+	&:hover {
+		cursor: @cursor-base--hover;
+		background-color: @background-color-interactive--hover;
+		border-left-color: @border-color-progressive--hover;
+	}
+
+	&:active {
+		background-color: @background-color-interactive--active;
+		border-left-color: @border-color-progressive--active;
+	}
+}
+
+.tux-tm-suggestion-source,
+.tux-translation-aid-error {
+	font-size: 13px;
+	margin-bottom: 15px;
+}
+
+.tux-translation-aid-error {
+	margin-top: 15px;
+	margin-right: 15px;
+}
+
+.in-other-language .language {
+	color: @color-subtle;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.editarea {
+	.tux-notices-block {
+		position: relative;
+	}
+
+	.tux-more-notices {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		cursor: @cursor-base--hover;
+		z-index: @z-index-above-content;
+
+		&::after {
+			content: '';
+			.cdx-mixin-css-icon( @cdx-icon-expand );
+		}
+
+		&.open::after {
+			.cdx-mixin-css-icon( @cdx-icon-collapse );
+		}
+	}
+}
+
+.tux-notice {
+	background-color: @background-color-warning-subtle;
+
+	&-message {
+		position: relative;
+		font-size: 14px;
+		padding: 2px 13% 2px 5px;
+		padding-left: @size-150; /* Needs to match width of icons below */
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		&.warning::before {
+			.cdx-mixin-css-icon( @cdx-icon-flag, @color-warning, @size-icon-small );
+			height: @size-full;
+			width: @size-150;
+		}
+
+		&.error,
+		&.translation-saving {
+			background-color: @background-color-error-subtle;
+			color: @color-error;
+
+			&::before {
+				.cdx-mixin-css-icon( @cdx-icon-error, @color-error, @size-icon-small );
+				height: @size-full;
+				width: @size-150;
+			}
+		}
+
+		&.diff {
+			&::before {
+				.cdx-mixin-css-icon( @cdx-icon-clock, @color-subtle, @size-icon-small );
+				height: @size-full;
+				width: @size-150;
+			}
+
+			td.diff-marker {
+				font-size: 1.2em;
+				padding: 0;
+			}
+		}
+
+		.show-diff-link {
+			color: @color-progressive;
+			cursor: pointer;
+			padding-left: 5px;
+		}
+	}
+
+	.diff {
+		background-size: 14px;
+		background-position: left 5px center;
+
+		&-deletedline,
+		&-addedline {
+			font-size: 0.75em;
+			font-family: monospace;
+		}
+	}
+}
+
+.tux-highlight {
+	background-color: @background-color-destructive;
+	color: @color-inverted-fixed;
+}
+
+.tux-editor-request-right {
+	font-size: 13px;
+	padding: 0 5px;
+	color: @color-subtle;
+}
+
+.tux-editor-ask-permission {
+	padding: 0 5px;
+}
+
+.tux-editor-editarea-block {
+	padding: 0 5px;
+}
+
+.tux-editor-actions-block {
+	position: relative;
+
+	.grid & .tux-editor-insert-buttons {
+		position: absolute;
+		/* 30px + 5px padding on bottom */
+		top: -35px;
+		margin-left: 10px;
+		padding-right: 20px;
+		z-index: 110;
+	}
+}
+
+.tux-editor-insert-buttons {
+	button {
+		padding: 0 5px;
+		min-width: 30px;
+		margin-right: 5px;
+		margin-bottom: 5px;
+		border: @border-subtle;
+		border-radius: @border-radius-base;
+		background: @background-color-interactive-subtle;
+		color: @color-base;
+		font-size: 13px;
+		line-height: 30px;
+		overflow-wrap: anywhere;
+
+		&:hover {
+			cursor: @cursor-base--hover;
+			background: @background-color-interactive-subtle--hover;
+		}
+
+		&:active {
+			background: @background-color-interactive-subtle--active;
+		}
+	}
+
+	.tux-editor-paste-original-button::before {
+		content: '';
+		.cdx-mixin-css-icon( @cdx-icon-paste, currentColor, @size-icon-small, @param-vertical-align: middle );
+		margin-right: @spacing-25;
+	}
+}
+
+.message-desc-editor .mw-ui-button,
+.tux-editor-control-buttons .mw-ui-button {
+	margin: 10px 5px;
+}
+
+.sourcemessage,
+.suggestiontext {
+	white-space: pre-wrap;
+}
+
+.infocolumn .loading {
+	color: @color-subtle;
+	padding: 10px;
+	font-size: 14px;
+}
+
+.tux-message-tools-menu li {
+	a {
+		color: @color-subtle;
+		display: block;
+		font-size: 14px;
+		padding: 0 2px;
+		text-decoration: none;
+
+		&:hover {
+			cursor: pointer;
+			background-color: @background-color-interactive;
+			color: @color-base;
+		}
+	}
+
+	&.selected {
+		color: @color-base;
+
+		& a::after {
+			content: '';
+			.cdx-mixin-css-icon( @cdx-icon-check, currentColor, @size-icon-small );
+			margin-left: @spacing-25;
+			float: right;
+		}
+	}
+}
+
+/* Hide the cancel button by default, but show it in the last message. */
+.tux-editor-cancel-button {
+	display: none;
+}
+
+.last-message {
+	.tux-editor-cancel-button {
+		display: inline-block;
+	}
+
+	.tux-editor-skip-button {
+		display: none;
+	}
+}
+
+.shortcut-popup {
+	width: 18px;
+	height: 18px;
+	line-height: 18px;
+	overflow: hidden;
+	font-size: 13px;
+	text-align: center;
+	border: @border-width-base @border-style-dashed @border-color-interactive;
+	border-radius: @border-radius-circle;
+	z-index: 110;
+	background-color: @background-color-base;
+	padding: 3px;
+}

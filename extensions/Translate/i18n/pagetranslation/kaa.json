@@ -1,0 +1,29 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajiniyaz Nurniyazov",
+			"Janabaevazizbek"
+		]
+	},
+	"tpt-select-prioritylangs-reason": "Sebebi:",
+	"tpt-rev-encourage": "qayta tiklew",
+	"translate-tag-translate-link-desc": "Bul betti awdarıw",
+	"translate-tag-hasnew": "Bul bet <span class=\"plainlinks\">[$1 redaktorlawdan]</span> ibarat hám awdarıwǵa belgilenbeydi.",
+	"tpt-translation-intro": "Bul bet [[$2]] betiniń <span class=\"plainlinks\">[$1 awdarılǵan kórinisi]</span> hám awdarma $3%ke juwmaqlanǵan.",
+	"tpt-languages-legend": "Basqa tiller:",
+	"tpt-languages-nonzero": "$1 ($2% awdarılǵan)",
+	"tpt-tab-translate": "Awdarıw",
+	"aggregategroups": "Agregat toparlar",
+	"tpt-aggregategroup-close": "Jabıw",
+	"tpt-aggregategroup-new-name": "Atı:",
+	"tpt-aggregategroup-new-description": "Sıpatlaması (shárt emes):",
+	"tpt-aggregategroup-edit-name": "Atı:",
+	"tpt-aggregategroup-edit-description": "Sıpatlaması:",
+	"tpt-aggregategroup-update-cancel": "Biykar etiw",
+	"log-name-pagetranslation": "Bet awdarması jurnalı",
+	"pt-movepage-reason": "Sebebi:",
+	"pt-deletepage-reason": "Sebebi:",
+	"pt-deletepage-reason-details": "Basqa/qosımsha sebep:",
+	"pm-cancel-button-label": "Biykar etiw",
+	"pp-cancel-button-label": "Biykar etiw"
+}

@@ -1,0 +1,33 @@
+@import '../../../ui/styles/mw.cx.mixins.less';
+
+.ve-ui-cxDesktopContext {
+	position: relative;
+
+	.ve-ui-desktopContext-menu {
+		position: static;
+		width: auto;
+
+		.ve-ui-linearContextItem > .ve-ui-linearContextItem-head {
+			> .ve-ui-linearContextItem-title {
+				> .oo-ui-labelWidget {
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+
+	.ve-ui-contextItem,
+	.ve-ui-cxDesktopContext-inspectors {
+		.cx-tool-card;
+
+		.oo-ui-processDialog-content .oo-ui-window-body {
+			// Remove the outline border for the inspector window. Since the inspector
+			// is embedded in tools column.
+			outline-width: 0;
+		}
+	}
+
+	.ve-ui-cxDesktopContext-inspectors:empty {
+		margin-bottom: 0;
+	}
+}

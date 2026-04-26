@@ -1,6 +1,3 @@
-/* extensions/Approve/modules/ext.approve.js */
-/* globals mw, $ */
-
 (function () {
   function escapeHtml(text) {
     if (!text) return "";
@@ -78,7 +75,7 @@
 
             var api = new mw.Api();
             var totalApproved = 0;
-            var batchSize = 10; // Duyệt mỗi lần 10 bài (Giảm xuống để tránh timeout)
+            var batchSize = 10; // Duyệt mỗi lần 10 bài 
 
             function processBatch() {
                 api.postWithToken("csrf", {
@@ -106,7 +103,6 @@
                         // Tiếp tục batch tiếp theo
                         setTimeout(processBatch, 300);
                     } else {
-                        // Không còn bài nào pending
                         alert("Đã duyệt hoàn tất! Tổng cộng: " + totalApproved + " bài viết.");
                         $btn.prop("disabled", false).text("Duyệt tất cả");
                         currentPage = 1;
@@ -121,7 +117,6 @@
                 });
             }
 
-            // Bắt đầu quy trình
             processBatch();
         });
 
@@ -146,7 +141,6 @@
         $(document).on("click", "#approve-search-btn", function () {
           currentPage = 1;
           currentSearch = $("#approve-search-input").val().trim();
-          // console.log("Giá trị sau khi delegation:", currentSearch);
           loadList();
         });
 
@@ -184,7 +178,7 @@
                 : "Hệ thống đã đồng bộ."
             );
             $status.text("");
-            currentPage = 1; // Reset về trang 1 sau khi import
+            currentPage = 1; 
             loadList();
           })
           .fail(function (code) {
@@ -339,11 +333,10 @@
             if (data.error) {
               alert("Lỗi: " + data.error.info);
             } else {
-              loadList(); // Tải lại trang hiện tại sau khi duyệt
+              loadList(); 
             }
           })
           .fail(function (code, result) {
-            // Sửa ở đây để xem lỗi chính xác là gì
             if (code === "http") {
               alert(
                 "Lỗi kết nối mạng: " + (result ? result.textStatus : "Unknown")

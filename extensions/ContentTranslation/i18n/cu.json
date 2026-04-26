@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"NR Deblocked",
+			"Илья Драконов",
+			"ОйЛ"
+		]
+	},
+	"cx": "страницѧ прѣложєниѥ",
+	"cx-header-all-translations": "вьсѥ прѣложєниꙗ",
+	"cx-tools-link-title": "съвѧꙁь",
+	"cx-tools-categories-count-message": "{{PLURAL:$1|$1 катигорїꙗ|$1 катигорїи|$1 катигорїѩ|0=катагорїи нѣстъ}}",
+	"cx-create-new-translation": "ново прѣложєниѥ",
+	"cx-save-draft-saving": "съхранѥниѥ ···",
+	"cx-contributions-new-article": "нова страница",
+	"cx-contributions-translation": "прѣложєниѥ",
+	"cx-campaign-contributionsmenu-mytranslations": "прѣложєниꙗ",
+	"echo-category-title-cx": "прѣложєниꙗ",
+	"cx-suggestion-list-favorites-division": "​длѧ​ последꙋющего"
+}

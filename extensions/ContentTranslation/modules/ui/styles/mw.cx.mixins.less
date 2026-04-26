@@ -1,0 +1,102 @@
+@import 'mediawiki.mixins.less';
+@import 'mediawiki.skin.variables.less';
+@import 'grid/agora-grid.less';
+
+.box-shadow-card() {
+	box-shadow: 0 1px 1px rgba( 0, 0, 0, 0.15 );
+}
+
+.stick-to-side() {
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+
+.stick-to-bottom() {
+	position: fixed;
+	top: auto;
+	bottom: 0;
+	left: 0;
+	box-shadow: 0 -3px 0 0 rgba( 0, 0, 0, 0.05 );
+	max-height: 20%;
+	min-height: 3em;
+	overflow: hidden auto;
+	transition: max-height 0.25s;
+
+	&:hover {
+		max-height: 50%;
+	}
+}
+
+// Centers flex items vertically
+.flex-center() {
+	.flex-display;
+	align-items: center; // Modern syntax
+}
+
+// Center vertically and applies justify-content: space-between
+.flex-center-justify() {
+	.flex-center;
+	.flex;
+}
+
+// Mixin for justify-content: space-around, with passed flex direction
+// FIXME: Appears to be unused. Drop?
+/* stylelint-disable-next-line selector-class-pattern */
+.flex-around( @direction: column ) {
+	.flex-display;
+	flex-direction: @direction;
+	justify-content: space-around;
+}
+
+.flex-item() {
+	width: auto; // Fallback for flex-basis
+	flex: 0 1 auto;
+}
+
+.loading-indicator() {
+	@dot-size: 16px;
+	@verticalPadding: 15px;
+	background-color: @background-color-interactive-subtle;
+	height: @dot-size + @verticalPadding;
+	padding-top: @verticalPadding;
+	border-top: @border-subtle;
+
+	.cx-spinner {
+		width: 3 * @dot-size;
+		height: @dot-size;
+		margin: 0 auto;
+	}
+}
+
+.break-overflowing-word() {
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+.clearfix() {
+	&::after {
+		// Non empty content value avoids an Opera bug that creates space around
+		// clearfixed elements if the contenteditable attribute is also present
+		// somewhere in the HTML.
+		content: ' ';
+		display: block;
+		clear: both;
+	}
+}
+
+.text-ellipsis() {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.cx-tool-card() {
+	font-size: 0.875em;
+	background-color: #fff;
+	border-radius: @border-radius-base;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 1px rgba( 0, 0, 0, 0.15 );
+
+	.clearfix;
+}

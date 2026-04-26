@@ -1,0 +1,29 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dušan Kreheľ",
+			"Marat-avgust",
+			"Run Li",
+			"Ерней",
+			"З. ӘЙЛЕ",
+			"Ильнар"
+		]
+	},
+	"cx-license-agreement": "Cез бирелгән [https://foundation.wikimedia.org/wiki/Terms_of_Use Куллану шартлары] белән килешүегезне һәм берсүзсез барлык кертелгән кертемегез [https://creativecommons.org/licenses/by-sa/4.0/ CC BY-SA 4.0] һәм [https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_GNU_Free_Documentation_License GFDL 1.3  лицензияләре] тарафыннан таратылуы белән килешәсез.",
+	"cx-publish-button": "Саклау",
+	"cx-publish-summary": "«$1» битен тәрҗемә итеп ясалган",
+	"tag-contenttranslation": "эчтәлек тәрҗемә итү",
+	"tag-contenttranslation-v2": "эчтәлек тәрҗемә итү (2 төре)",
+	"cx-beta": "Эчтәлеген тәрҗемә итү",
+	"cx-entrypoint-title": "Бу битне $1 теленә тәрҗемә итү",
+	"cx-entrypoint-dialog-page-doesnt-exist-yet": "Бу бит $1 телендә әлегә юк. {{GENDER:|Сез}} аны төзергә телисезме?",
+	"cx-entrypoint-dialog-button-translate-from": "$1 теленән тәржемәләү",
+	"cx-contributions-new-contributions": "Яңа кертем",
+	"cx-contributions-new-article": "Яңа бит",
+	"cx-contributions-translation": "Тәрҗемә",
+	"cx-contributions-upload": "Медиафайл өстәү",
+	"cx-campaign-contributionsmenu-mytranslations": "Тәрҗемәләр",
+	"cx-campaign-contributionsmenu-myuploads": "Төялгән медиа",
+	"echo-category-title-cx": "Тәрҗемәләр",
+	"cx-sx-publish-lead-section-summary": "$1 битенең кереш өлешен тәрҗемә итеп ясалган"
+}

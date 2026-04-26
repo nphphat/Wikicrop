@@ -1,0 +1,25 @@
+BASIC:
+  class: MediaWikiExtensionMessageGroup
+  id: ext-exampleextension2
+  namespace: 8
+  label: Example Extension 2
+  descriptionmsg: exampleextension2-desc
+
+FILES:
+  format: Json
+  sourcePattern: "%GROUPROOT%/mediawiki-extensions/extensions/foo"
+
+VALIDATORS:
+  - id: BraceBalance
+  - id: MediaWikiLink
+  - id: MediaWikiPageName
+  - id: MediaWikiParameter
+  - id: MediaWikiPlural
+
+INSERTABLES:
+  - class: "MediaWiki\\Extension\\Translate\\TranslatorInterface\\Insertable\\MediaWikiInsertablesSuggester"
+
+TAGS:
+  optional:
+    - "*-extensionname"
+    - skinname-*

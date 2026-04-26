@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Tofeiku"
+		]
+	},
+	"cx": "ترجمهکن لامن",
+	"cx-header-all-translations": "سموا ترجمهن",
+	"cx-source-view-page": "ليهت لامن",
+	"cx-publish-button": "تربيت",
+	"cx-publish-button-publishing": "منربيتکن…",
+	"cx-tools-link-title": "ڤاءوتن",
+	"cx-captcha-dialog-cancel": "بطل",
+	"cx-translation-filter-suggested-translations": "چادڠن",
+	"cx-suggestionlist-title": "چادڠن",
+	"cx-contributions-new-article": "لامن بارو",
+	"cx-contributions-translation": "ترجمهن",
+	"cx-draft-cancel-button-label": "بطل",
+	"cx-campaign-contributionsmenu-mytranslations": "ترجمهن",
+	"echo-category-title-cx": "ترجمهن",
+	"cx-publish-destination-namespace-main": "لامن بارو",
+	"cx-suggestion-list-new-pages-division": "لامن بارو",
+	"cx-translation-list-all-languages-option-label": "سموا",
+	"cx-sx-sentence-selector-done-button-label": "سلساي",
+	"cx-sx-sentence-selector-skip-translation-button-label": "لڠکاو",
+	"cx-sx-followup-feedback-new-indicator": "بارو",
+	"cx-sx-article-search-nearby-title": "بردکتن"
+}

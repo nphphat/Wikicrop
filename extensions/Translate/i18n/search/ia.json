@@ -1,0 +1,34 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"searchtranslations": "Cercar traductiones",
+	"tux-sst-edit": "Modificar traduction",
+	"tux-sst-view-foreign": "Vider sur $1",
+	"tux-sst-search": "Cercar",
+	"tux-sst-search-ph": "Cerca in traductiones",
+	"tux-sst-search-info": "Usa le operator <code>language:</code> o <code>group:</code> pro qualificar ulteriormente le criterios de recerca",
+	"tux-sst-count": "{{PLURAL:$1|Un resultato trovate|$1 resultatos trovate}}",
+	"tux-sst-facet-language": "Linguas",
+	"tux-sst-facet-group": "Gruppos de messages",
+	"tux-sst-nosolr-title": "Recerca indisponibile",
+	"tux-sst-nosolr-body": "Iste wiki non ha un servicio de recerca de traductiones.",
+	"tux-sst-solr-offline-title": "Recerca indisponibile",
+	"tux-sst-solr-offline-body": "Le servicio de recerca es temporarimente indisponibile.",
+	"tux-sst-next": "Sequente ›",
+	"tux-sst-prev": "‹ Precedente",
+	"tux-sst-default": "Traductiones",
+	"tux-sst-translated": "Traductiones ab $1",
+	"tux-sst-untranslated": "Nulle traduction ab $1",
+	"tux-sst-outdated": "Traductiones obsolete ab $1",
+	"tux-sst-ellipsis-untranslated": "Nulle traduction",
+	"tux-sst-ellipsis-outdated": "Traductiones obsolete",
+	"tux-sst-link-all-match": "Requirer tote le parolas de recerca.",
+	"tux-sst-match-message": "Se monstra le traductiones que corresponde a qualcunque del parolas a cercar. $1",
+	"tux-sst-case-sensitive": "Distinguer majusculas de minusculas",
+	"tux-sst-error-offset": "Non es possibile monstrar plus resultatos del recerca. Per favor restringe tu recerca.",
+	"tux-sst-error-language": "Iste lingua non pote esser usate con iste typo de recerca.",
+	"tux-sst-error-unsupported-language": "Le recerca in lingua <code>$1</code> non es supportate."
+}

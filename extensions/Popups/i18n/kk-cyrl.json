@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Arystanbek",
+			"Hedeyohu22",
+			"СеніңШешең"
+		]
+	},
+	"popups-message": "Қалқып шығушы терезелер",
+	"popups-desc": "Пайдаланушы жүгіргіні бет сілтемесіне жақындатқанда бет мазмұны түйіндемесін қалқып шығушы терезелерімен көрсету",
+	"popups-settings-title": "Бетті қарап өту",
+	"popups-settings-option-page": "Қарапайым",
+	"popups-settings-option-page-description": "Беттің алғашқы сөйлемін көру және суретті қарап шығу. Бұл оқырмандар үшін ұсынылады.",
+	"popups-settings-save": "Сақтау",
+	"popups-settings-help-ok": "OK",
+	"popups-settings-cancel": "Болдырмау",
+	"popups-settings-help": "Сіз беттің төменгі жағындағы сілтемені пайдаланып қарап шығуды қайта қоса аласыз.",
+	"popups-settings-enable": "Қалқып шығуды іске қосу"
+}

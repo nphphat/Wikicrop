@@ -1,0 +1,41 @@
+{
+	"@metadata": {
+		"authors": [
+			"C.R."
+		]
+	},
+	"apihelp-cxpublish-param-title": "'O titulo d' 'a paggena int' 'a quale s'avessera ffà aziune.",
+	"apihelp-cxpublish-param-html": "'E cuntenute 'a sarvà.",
+	"apihelp-cxpublish-param-from": "'O codece r' 'a lengua origgine",
+	"apihelp-cxpublish-param-to": "'O codece d' 'a lengua destinaziona.",
+	"apihelp-cxpublish-param-sourcetitle": "'O titulo d' 'a paggena origgene.",
+	"apihelp-cxpublish-param-categories": "'E categurie 'e quale s'avess'a miett' 'a paggena a dinto.",
+	"apihelp-cxpublish-param-wpCaptchaId": "ID Captcha (quanno se sarva cu na risposta captcha).",
+	"apihelp-cxpublish-param-wpCaptchaWord": "Risposta a lu captcha (quanno se sarva cu na risposta captcha).",
+	"apihelp-query+contenttranslation-param-translationid": "ID d' 'a traduzione.",
+	"apihelp-query+contenttranslation-param-from": "'O codece r' 'a lengua origgine.",
+	"apihelp-query+contenttranslation-param-to": "'O codece d' 'a lengua destinaziona.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "'O titulo d' 'a paggena origgene.",
+	"apihelp-query+contenttranslation-param-limit": "'O nummero massimo 'e traduziune ca s'avess'a turnà.",
+	"apihelp-query+contenttranslation-param-offset": "'O spustamento int' 'o nzieme 'e rizurtate (opzionale).",
+	"apihelp-query+contenttranslation-example-1": "Vide 'e traduziune apparate 'a ll'utente 'e mo'.",
+	"apihelp-query+contenttranslation-example-2": "Vide 'e bozze 'e traduzione pe' ID.",
+	"apihelp-query+contenttranslation-example-3": "Tròva na traduzione qualunque p' 'o titolo dato pe' par' 'e llengue",
+	"apihelp-query+contenttranslationsuggestions-param-from": "'O codece r' 'a lengua origgine",
+	"apihelp-query+contenttranslationsuggestions-param-to": "'O codece d' 'a lengua destinaziona.",
+	"apihelp-query+contenttranslationsuggestions-param-limit": "'O nummero massimo 'e suggerimiente 'e traduzione ca s'avess'a turnà.",
+	"apihelp-query+contenttranslationsuggestions-example-1": "Arrepiglia 'e paggene suggerite p' 'a traduziona fatt' 'a ll'ingrese (en) a 'o spagnuolo (es).",
+	"apihelp-query+cxpublishedtranslations-param-from": "'O codece d' 'a lengua origgene.",
+	"apihelp-query+cxpublishedtranslations-param-to": "'O codece d' 'a lengua destinazione.",
+	"apihelp-query+cxpublishedtranslations-param-limit": "'O nummero massimo 'e traduziune ca s'avess'a turnà.",
+	"apihelp-query+cxpublishedtranslations-example-1": "Arrepiglia p' 'e mmusta tutt' 'e traduziune pubbrecate",
+	"apihelp-query+cxpublishedtranslations-example-2": "Arrepiglia p' 'e mmustà, tutt' 'e traduziune pubbrecate, traduciute 'a ll'ingrese",
+	"apihelp-query+cxpublishedtranslations-example-3": "Arrepiglia p' 'e mmustà, tutt' 'e traduziune pubbrecate traduciute 'a ll'ingrese mmerz' 'o spagnuolo",
+	"apihelp-cxtoken-example-1": "Arrepiglia p' 'e mmustà 'o token autenticazione p' 'o cxserver",
+	"apihelp-cxdelete-param-from": "'O codece d' 'a lengua origgene.",
+	"apihelp-cxdelete-param-to": "'O codece d' 'a lengua destinaziona.",
+	"apihelp-cxdelete-param-sourcetitle": "'O titulo d' 'a paggena origgene.",
+	"apihelp-cxdelete-example-1": "Scancella na bozza suòcia a nu dato par' 'e llengue e nu dato titolo.",
+	"apihelp-cxsave-param-sourcerevision": "'A verziona d' 'a paggena origgene.",
+	"apihelp-cxsave-param-progress": "Nfurmaziune ncopp' 'a quantità 'e traduzione cumpretata ('o prugresso). 'O JSON ch' 'e parole chiave <code>any</code>, <code>human</code>, <code>mt</code> e <code>mtSectionsCount</code>. 'E valure d' 'e chiave so' tante procent."
+}

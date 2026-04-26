@@ -1,0 +1,34 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dinhxuanduyet",
+			"Doraemonluonbentoi",
+			"Flyplanevn27",
+			"Louis Anderson",
+			"Minh Nguyen",
+			"Nghiemtrongdai VN",
+			"Skye Darcy"
+		]
+	},
+	"popups-message": "Phiếu tóm tắt",
+	"popups-desc": "Hiển thị bản xem trước bật lên khi người dùng di chuột lên một liên kết",
+	"popups-settings-title": "Xem trước",
+	"popups-settings-option-page": "Xem trước trang",
+	"popups-settings-option-page-description": "Xem trước một đề tài nhanh chóng trong khi đọc trang.",
+	"popups-settings-option-reference": "Xem trước chú thích",
+	"popups-settings-option-reference-description": "Xem trước nhanh chú thích khi đọc trang.",
+	"popups-settings-save": "Lưu",
+	"popups-settings-help-ok": "OK",
+	"popups-settings-cancel": "Hủy bỏ",
+	"popups-settings-help": "Bạn có thể bật lại chế độ xem trước bằng liên kết ở cuối trang.",
+	"popups-settings-enable": "Thiết lập tính năng xem trước",
+	"popups-settings-icon-gear-title": "Thay đổi cài đặt xem trước trang",
+	"popups-preview-no-preview": "Đã gặp vấn đề khi tóm tắt trang này",
+	"popups-preview-footer-read": "Mở trang này",
+	"popups-preview-disambiguation": "Tên trang này ứng với nhiều trang",
+	"popups-preview-disambiguation-link": "Xem các trang có liên quan",
+	"prefs-reading": "Tùy chọn đọc",
+	"popups-prefs-optin": "Bật xem trước trang (xem trước nhanh một chủ đề khi đang đọc trang)",
+	"popups-prefs-disable-nav-gadgets-info": "Bạn cần [[$1|tắt tiện ích popup điều hướng]] trong thẻ Tiện ích của trang tùy chọn để bật xem trước trang.",
+	"popups-prefs-conflicting-gadgets-info": "Một số tiện ích và tùy chỉnh khác có thể có ảnh hưởng đến hiệu suất của tính năng này. Nếu bạn gặp phải, xin hãy xem lại các tiện ích và kịch bản cá nhân của bạn, kể cả các tiện ích toàn cục."
+}

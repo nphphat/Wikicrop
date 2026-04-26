@@ -1,0 +1,173 @@
+/**
+ * @author Niklas Laxström
+ * @author Pau Giner
+ * @since 2013-01-10
+ */
+@import 'mediawiki.skin.variables.less';
+
+.tux-searchpage .tux-selectedbox .facet-item {
+	background-color: @background-color-neutral;
+	margin-right: 5px;
+}
+
+.tux-searchpage .tux-searchboxform .tux-selectedbox,
+.tux-searchpage .searchcontent .facets {
+	padding: 0 15px 0 5px;
+}
+
+/* Facets */
+.tux-searchpage .facet {
+	color: @color-base;
+	font-size: @font-size-xx-large;
+	padding: 20px 0 10px 0;
+}
+
+.tux-searchpage .facet-item {
+	font-size: @font-size-medium;
+	padding: 4px 5px;
+	overflow-wrap: anywhere;
+}
+
+.tux-searchpage .facet-item:hover {
+	background: @background-color-neutral-subtle;
+	cursor: pointer;
+}
+
+.grid.tux-searchpage .facet-item:first-child {
+	margin-top: 10px;
+}
+
+.tux-searchpage .facet-item .facet-count {
+	color: @color-subtle;
+	float: right;
+	margin-right: 5%;
+}
+
+.tux-searchpage .facet-level-0 {
+	font-size: @font-size-medium;
+}
+
+.tux-searchpage .facet-level-1 {
+	font-size: @font-size-small;
+}
+
+.tux-searchpage .facet-level-2 {
+	font-size: @font-size-x-small;
+}
+
+.tux-searchpage .facet-level-3 {
+	font-size: 10px;
+}
+
+.tux-searchpage .facet-item .facet-name.selected {
+	font-weight: bold;
+}
+
+.tux-searchpage .facet-item a:visited,
+.tux-searchpage .facet-item a:link {
+	color: @color-progressive;
+}
+
+/* Results */
+.tux-searchpage .count {
+	color: @color-subtle;
+	font-size: @font-size-medium;
+	padding-bottom: 10px;
+}
+
+.tux-searchpage .searchcontent .results {
+	color: @color-base;
+	padding-left: 10px;
+}
+
+.tux-searchpage .results .tux-text {
+	text-align: left;
+	font-size: @font-size-medium;
+	padding-top: 20px;
+}
+
+.tux-searchpage .results .tux-title {
+	text-align: left;
+	color: @color-subtle;
+	overflow-wrap: anywhere;
+}
+
+/* Pagination links */
+.tux-searchpage .results .tux-pagination-line {
+	color: @background-color-neutral;
+	font-size: 1px;
+}
+
+.tux-searchpage .results .tux-pagination-links {
+	font-size: @font-size-x-large;
+	padding-top: 20px;
+	text-align: center;
+}
+
+/* Search area */
+.tux-searchpage .searchinput {
+	padding: 10px 0;
+}
+
+.tux-searchpage .searchinput .searchinputbox {
+	width: 60%;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.tux-search-operators {
+	margin: 5px 0;
+}
+
+.mw-special-SearchTranslations h1.firstHeading {
+	display: none;
+}
+
+.translate-search-more-groups,
+.translate-search-more-languages {
+	background-color: @background-color-neutral-subtle;
+	font-size: @font-size-medium;
+	cursor: pointer;
+	padding: 0 6px;
+	border-radius: 2px;
+	border: @border-width-base @border-style-base @border-color-muted;
+}
+
+.translate-search-more-groups:hover,
+.translate-search-more-languages:hover {
+	border-color: @border-color-subtle;
+	text-decoration: none;
+}
+
+.translate-search-more-groups-info,
+.translate-search-more-languages-info {
+	color: @color-subtle;
+	font-size: @font-size-small;
+	padding: 0 8px;
+}
+
+/* Override tabs */
+.tux-searchpage .tux-messagetable-header .seven {
+	width: @size-full;
+}
+
+.tux-searchpage .tux-message-selector .more ul {
+	width: auto;
+}
+
+.tux-searchpage .tux-message-selector .more ul a {
+	white-space: pre-wrap;
+}
+
+.tux-searchpage .mw-message-box-success {
+	margin-left: 25%;
+}
+
+.tux-search-highlight {
+	background-color: @background-color-disabled;
+}
+
+.tux-searchpage .tux-searchinputbox-hint {
+	font-size: 0.9em;
+	margin-top: 5px;
+}

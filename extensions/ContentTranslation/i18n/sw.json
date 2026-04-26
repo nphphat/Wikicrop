@@ -1,0 +1,35 @@
+{
+	"@metadata": {
+		"authors": [
+			"Edwingudfriend",
+			"Kipala",
+			"Kisare",
+			"MaryMunyoki",
+			"Pwaigi",
+			"Rance",
+			"Wangombe",
+			"Yasen igra"
+		]
+	},
+	"cx": "Tafsiri kurasa",
+	"cx-specialpage-enable-betafeature": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Content_translation Tafsiri ya Maudhui] ni zana ya kutafsiri haraka kurasa katika lugha yako [$1 Jaribu Tena]",
+	"cx-header-translation-center": "Kituo cha Tafsiri",
+	"cx-header-all-translations": "Tafsiri zote",
+	"cx-tools-instructions-text4": "Tafsiri ya kompyuta kwa kawaida haina matokeo mazuri kwa Kiswahili, unahitaji kupitia tena matini yote na kusahihisha.",
+	"cx-tools-link-add": "Ongeza kiungo",
+	"cx-create-new-translation": "Tafsiri upya",
+	"cx-campaign-no-thanks": "Hapana, asante lakini!",
+	"cx-campaign-contributionsmenu-mytranslations": "Tafsiri",
+	"cx-campaign-contributionsmenu-mytranslations-tooltip": "Ongeza tafsiri mpya",
+	"cx-campaign-contributionsmenu-myuploads": "Midia zilizopatiwa",
+	"cx-campaign-contributionsmenu-myuploads-tooltip": "Orodha ya midia zilizopatiwa",
+	"cx-no-source-categories": "Hakuna jamii",
+	"cx-no-target-categories": "Hakuna jamii. Fikiria kuongeza baadhi ili kuainisha mada vyema.",
+	"echo-category-title-cx": "Tafsiri",
+	"cx-contributions-link": "Michango yangu",
+	"cx-your-translations-link": "{{GENDER:$1| Tafsiri zako}}",
+	"cx-infobar-view-issues": "Tazama mambo",
+	"cx-sx-content-comparator-missing-section-placeholder-title": "Sehemu mpya itaongezwa hapa mara tu utakapokamilisha tafsiri",
+	"sx-missing-languages-entrypoint-panel-text-one-missing": "Kukosa kwa <span>$1</span>",
+	"sx-confirm-back-navigation-dialog-title": "Ungependa kuacha tafsiri yako?"
+}

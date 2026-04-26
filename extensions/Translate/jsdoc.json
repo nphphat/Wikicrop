@@ -1,0 +1,43 @@
+{
+	"opts": {
+		"destination": "docs/js",
+		"pedantic": true,
+		"readme": "README",
+		"recurse": true,
+		"template": "node_modules/jsdoc-wmf-theme"
+	},
+	"plugins": [
+		"node_modules/jsdoc-wmf-theme/plugins/default"
+	],
+	"source": {
+		"include": [ "resources" ],
+		"exclude": [
+			"resources/js/ext.translate.special.pagemigration.js",
+			"resources/js/ext.translate.base.js",
+			"resources/js/ext.translate.special.translate.js",
+			"resources/js/ext.translate.parsers.js",
+			"resources/js/ext.translate.editor.helpers.js",
+			"resources/lib/Chart.js/Chart.js",
+			"resources/src/ext.translate.specialTranslationStash/storage.js",
+			"resources/src/ext.translate.specialTranslationStash/index.js"
+		]
+	},
+	"templates": {
+		"cleverLinks": true,
+		"default": {
+			"useLongnameInNav": true
+		},
+		"wmf": {
+			"repository": "https://gerrit.wikimedia.org/g/mediawiki/extensions/Translate/",
+			"prefixMap": {
+				"ve.": "https://doc.wikimedia.org/visualeditor-standalone/master/{type}.html",
+				"ve.dm.MW": "https://doc.wikimedia.org/VisualEditor/master/js/{type}.html",
+				"ve.ce.MW": "https://doc.wikimedia.org/VisualEditor/master/js/{type}.html",
+				"ve.ui.MW": "https://doc.wikimedia.org/VisualEditor/master/js/{type}.html",
+				"ve.dm.MWTranslateAnnotation": true,
+				"ve.ce.MWTranslateAnnotation": true,
+				"ve.ui.MWTranslateAnnotation": true
+			}
+		}
+	}
+}

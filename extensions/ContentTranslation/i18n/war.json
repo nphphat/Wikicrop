@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Harvzsf",
+			"JinJian"
+		]
+	},
+	"cx-publish-button-publishing": "Ginmamantala...",
+	"cx-entrypoint-dialog-button-translate-from": "Ighubad tikang $1",
+	"cx-tools-link-title": "Sumpay",
+	"cx-tools-link-add": "Dugnga hin sumpay",
+	"cx-tools-mt-provider-title": "Gamita $1",
+	"cx-publish-captcha-title": "Ginkikita nga diri ka robot",
+	"cx-captcha-dialog-error": "Baga hin diri asya an imo baton. Alayon, pag-utro.",
+	"cx-captcha-dialog-cancel": "Pasagdi",
+	"cx-translation-filter-published-translations": "Ginmantalâ",
+	"cx-translation-filter-suggested-translations": "Mga suhestyon",
+	"cx-contributions-new-article": "Bag-o nga pakli",
+	"cx-contributions-translation": "Paghubad",
+	"cx-campaign-no-thanks": "Diri, salamat nala"
+}

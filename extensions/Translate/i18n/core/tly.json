@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"Erdemaslancan",
+			"Patriot Kor",
+			"Patriot Kur",
+			"QeneralĞasım",
+			"Гусейн"
+		]
+	},
+	"translate": "Pegordynije",
+	"translate-taction-export": "Ixroč",
+	"translate-page-settings-legend": "Səbəro",
+	"translate-page-language": "Zyvon",
+	"translate-next": "Dumotono šə səhifə",
+	"translate-page-edit": "sərost bykə",
+	"translate-edit-title": "Ovaxtej \"$1\"",
+	"translate-stats-edits": "Ovaxtə cijon",
+	"translate-statsf-scale-months": "Mangon",
+	"translate-statsf-scale-weeks": "Həfton",
+	"translate-statsf-scale-days": "Ružon",
+	"translate-statsf-scale-hours": "Saaton",
+	"translate-translations-fieldset-title": "Nomə",
+	"translate-translations-messagename": "Nom:",
+	"translate-translations-project": "Projekt:",
+	"translate-translations-history-short": "tar.",
+	"translate-total": "Noməon",
+	"translate-ls-column-group": "Ǧədəǧon dastə",
+	"translate-mgs-group": "Ǧədəǧon dastə:",
+	"supportedlanguages-portallink": "[$1] $2 - $3",
+	"supportedlanguages-portallink-nocldr": "[$1] $2",
+	"translate-smg-rename-cancel": "Ləğv karde",
+	"translate-documentation-language": "Gruppi sənədon",
+	"translate-msggroupselector-search-all": "Həmmə",
+	"tux-tab-all": "Həmmə",
+	"tux-edit": "Sərost bykə",
+	"tux-editor-cancel-button-label": "Ləğv karde",
+	"tux-proofread-edit-label": "Sərost bykə",
+	"tux-editor-doc-editor-placeholder": "Nomə dokumentasiyə",
+	"tux-editor-doc-editor-cancel": "Ləğv karde",
+	"tpt-cleanchanges-language-na": "Həmmə"
+}

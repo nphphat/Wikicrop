@@ -32,5 +32,10 @@
   },
   "SpecialPages": {
     "PlantDB": "MediaWiki\\Extension\\ApiPlantDB\\SpecialPlantDB"
+  },
+  "config": {
+    "ApiPlantDBUrl": {
+      "value": "https://plantdb.lab.io.vn/api"
+    }
   }
 }

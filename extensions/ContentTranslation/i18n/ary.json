@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ideophagous",
+			"Reda Benkhadra",
+			"عبد الإله صديقي"
+		]
+	},
+	"cx": "طرجم صفحة",
+	"cx-javascript": "هاد التول ماكاتخدمش بلا جاڤاسكريپت. راه جاڤاسكريپت عندك يا مديزاكتيڤي، يا فيه شي موشكيل، ؤلا لبراوزر ديالك مامصيپورطيش.",
+	"cx-specialpage-enable-betafeature": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Content_translation الطرجامة د لمحتوى] هيّ واحد التول باش تطرجم الصفاحي ل لوغتك بزّربة. [$1 جرّبها دابا نيت!]",
+	"cx-license-agreement": "يلا كمّلتي راك كاتوافق على [https://foundation.wikimedia.org/wiki/Terms_of_Use/ary شروط التخدام] و على نشر الطرجامات ديالك تحت رخصات [https://creativecommons.org/licenses/by-sa/4.0/deed.ary كومنز 4.0] و [//ar.wikipedia.org/wiki/ويكيبيديا:نص_رخصة_جنو_للوثائق_الحرة لوتايق لحرة 1.3].",
+	"cx-publish-page-success": "الصفحة تنشرات ف $1",
+	"cx-publish-summary": "تصاوبات ب الطرجامة د الصفحة \"$1\"",
+	"cx-tools-mt-dont-use": "بدا ب فقرة خاوية",
+	"cx-save-draft-save-success": "تصوڤات {{PLURAL:$1|هادي دقيقة|هادي $1 دقيقة|0=يالله دابا}}",
+	"cx-translation-label-draft": "الطرجامات لي غاديين",
+	"cx-campaign-contributionsmenu-myuploads": "لفيشيات لمشارجيه",
+	"cx-notification-first-translation": "مبروك الطرجامة اللولة ديالك! شوف لمساهمات ديالك، و لقى صفاحي خرين تطرجمهوم.",
+	"cx-notification-tenth-translation": "مبروك عليك الطرجامة لعاشرة ديالك! راك وليتي مطرجم حرايفي، ستامر...",
+	"cx-notification-hundredth-translation": "راك وصلتي ل الطرجامة نمرة 100 ديالك، مبروك عليك! پارطاجي هاد لإنجاز معا لكتاتبيا لخرين.",
+	"cx-infobar-old-version": "هاد الطرجامة مبازية على ڤيرسيون قديمة ديال لمحتوى. الصفحة السورس تقدر تكون تبدّلات بزاف، و تقدر تبغي تعاود الطرجامة من اللول.",
+	"cx-tools-linter-reference-message": "واحد لمرجيع ماتدارش ليه الطرونصفير ل الطرجامة حيت مخدّم موضيل عندو قلدة مختالفة.\n\nعافاك بدّل التفاصيل د لمرجيع ف الطرجامة باش تعمّر لمعلومات لي ناقصين.",
+	"cx-translator-header": "إحصائيات ديالك",
+	"cx-linkcontextitem-missing-title-description": "هاد صفحة مازال ماكاينة",
+	"cx-sx-article-search-no-search-results-message": "$2 حتا پاج ماتلقات ب \"$1\" ف",
+	"sx-missing-languages-entrypoint-panel-text-two-missing": "ناقص ف <span>$1</span> ؤ <span>$2</span>",
+	"sx-missing-languages-entrypoint-panel-text-more-missing": "ناقص ف <span>$1</span>، <span>$2</span> ؤ زيد",
+	"cx-uls-relevant-languages-banner-text-single-missing": "ناقص ف <span>$1</span> ؤ زيد",
+	"cx-uls-relevant-languages-banner-text-multiple-missing": "ناقص ف <span>$1</span>، <span>$2</span> ؤ زيد",
+	"cx-uls-relevant-languages-panel-header": "طرجم هاد صفحة",
+	"cx-sx-dashboard-stats-panel-title": "التأتير ديالك"
+}

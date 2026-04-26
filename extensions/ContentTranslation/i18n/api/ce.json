@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Умар"
+		]
+	},
+	"apihelp-cxpublish-param-html": "Чулацам Ӏалашбан.",
+	"apihelp-cxpublish-param-from": "ДӀаболалун меттан код.",
+	"apihelp-cxpublish-param-to": "Ӏалашонан меттан код",
+	"apihelp-cxpublish-param-sourcetitle": "ДӀайолалун агӀонан цӀе.",
+	"apihelp-query+contenttranslation-param-translationid": "Гочдаран ID.",
+	"apihelp-query+cxpublishedtranslations-param-from": "Хьостан меттан код.",
+	"apihelp-query+cxpublishedtranslations-param-to": "Ӏалашонан меттан код.",
+	"apihelp-cxdelete-param-from": "Хьостан меттан код.",
+	"apihelp-cxdelete-param-to": "Ӏалашонан меттан код.",
+	"apihelp-cxdelete-param-sourcetitle": "ДӀайолалун агӀонан цӀе.",
+	"apihelp-cxsave-param-sourcerevision": "ДӀайолалун агӀонан верси."
+}

@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Erdemaslancan",
+			"Patriot Kor",
+			"Patriot Kur",
+			"Гусейн"
+		]
+	},
+	"uls-region-WW": "Həmmə dynjo",
+	"uls-region-SP": "Xysusi",
+	"uls-region-AM": "Əmerikə",
+	"uls-region-AF": "Afrika",
+	"uls-region-EU": "Avropə",
+	"uls-region-AS": "Asijə",
+	"uls-region-ME": "Mijonə Həšipemə",
+	"uls-region-PA": "Pasifik",
+	"uls-region-all": "Həmmə zyvonon",
+	"uls-no-results-found": "Hiči pəjdo byəni",
+	"uls-common-languages": "Tovsijə kardə byə zyvonon",
+	"uls-no-results-suggestion-title": "Bəzyne be ki bo šymə maraǧinin yn zyvonon:",
+	"uls-search-help": "Šymə bəzynejon de zyvoni nomi ja nyvyštəj nyve, de zyvoni ISO kodi ja de vilojəti dijə karde.",
+	"uls-search-placeholder": "Zyvoni nəve",
+	"uls-search-placeholder-short": "Nəve"
+}

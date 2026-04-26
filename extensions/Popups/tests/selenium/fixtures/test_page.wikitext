@@ -1,0 +1,13 @@
+=Popups test page=
+
+==Valid links==
+* [[Page popups test page 2]]
+
+==Invalid links==
+# blah
+
+==Hash fragments==
+
+[[#section]]
+
+__NOTOC__

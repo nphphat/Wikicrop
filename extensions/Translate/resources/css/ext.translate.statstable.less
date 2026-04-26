@@ -1,0 +1,62 @@
+@import 'mediawiki.skin.variables.less';
+
+.groupexpander-all {
+	text-align: right;
+}
+
+.groupexpander {
+	float: right;
+}
+
+.statstable {
+	border-collapse: collapse;
+	border-style: hidden;
+	box-shadow: 0 1px 1px rgba( 0, 0, 0, 0.15 );
+
+	.statstable-hide {
+		display: none;
+	}
+
+	/* Small zebra rows effect */
+	> * > tr {
+		&.tux-statstable-even > td {
+			background-color: @background-color-neutral-subtle;
+		}
+
+		&:hover > td {
+			// Work-around a Firefox issue:
+			// https://bugzilla.mozilla.org/show_bug.cgi?id=688556
+			background-clip: padding-box;
+			filter: brightness( 0.95 );
+		}
+
+		> th {
+			background-color: @background-color-neutral;
+			border: 1px solid @border-color-inverted;
+			padding: 0.5em;
+			font-weight: normal;
+			letter-spacing: 1px;
+			position: sticky;
+			top: 0;
+			z-index: 1;
+		}
+
+		> td {
+			background-color: @background-color-base;
+			padding: 0.5em;
+			border-left: 1px solid @border-color-muted;
+			border-right: 1px solid @border-color-muted;
+		}
+
+		/* Align numbers to the right */
+		> td:nth-child( n+2 ):nth-child( -n+6 ) {
+			text-align: right;
+			padding-right: 1em;
+		}
+
+		/* De-emphasize 0% outdated */
+		> td:nth-child( 6 )[ data-sort-value='0.00000' ] {
+			color: @color-subtle;
+		}
+	}
+}

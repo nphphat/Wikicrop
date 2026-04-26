@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Merrahtar"
+		]
+	},
+	"cx-header-all-translations": "Пугк ёарркмуж",
+	"cx-source-view-page": "кӣһче лыст",
+	"cx-campaign-contributionsmenu-mytranslations": "Ёарркмуж",
+	"cx-your-translations-link": "{{GENDER:$1|То̄н ёарркмуж}}",
+	"cx-sx-language-selector-dialog-title": "О̄дзэ кӣл",
+	"cx-translation-list-all-languages-option-label": "Пугк",
+	"cx-sx-sentence-selector-translated-segment-paragraph-option": "Абзаһц",
+	"cx-sx-article-search-nearby-title": "Алльт",
+	"sx-article-search-language-selector-dialog-title": "Кӣл",
+	"cx-sx-language-selector-placeholder": "О̄дзэ кӣл",
+	"sx-translation-list-language-selector-dialog-title": "Кӣл"
+}

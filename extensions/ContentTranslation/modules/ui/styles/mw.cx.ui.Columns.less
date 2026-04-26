@@ -1,0 +1,71 @@
+// Common styles for source or translation columns of translation view
+@import 'mediawiki.skin.variables.less';
+@import 'mw.cx.variables.less';
+@import 'mw.cx.mixins.less';
+
+.cx-widget__columns {
+	min-height: 100vh;
+	padding: 0 @spacing-75;
+	.clearfix;
+
+	&::after {
+		height: 4em;
+	}
+
+	&.cx-disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+.cx-column {
+	background-color: #fff;
+}
+
+.cx-column__sub-heading,
+.cx-column-sub-heading {
+	.flex-center-justify;
+	.mw-ui-one-whole;
+	padding: 5px 0;
+	height: 3em;
+}
+
+.cx-column__content {
+	clear: both;
+	position: relative;
+	line-height: 1.5em;
+	.break-overflowing-word;
+}
+
+.cx-column-page-title,
+.cx-column-language-label,
+.cx-column--language-label,
+.cx-column--sub-heading__view-page,
+.cx-column-sub-heading-view-page {
+	max-height: 3em;
+	padding: 0;
+	font-weight: normal;
+	.text-ellipsis;
+}
+
+.cx-column--language-label,
+.cx-column-language-label {
+	.mw-ui-one-half;
+	text-align: left;
+	color: @color-subtle;
+}
+
+.cx-column-page-title {
+	text-align: left;
+	color: @color-subtle;
+	font-size: 1.2em;
+	padding-top: 8px;
+}
+
+.cx-column-title {
+	color: @color-base;
+	margin-bottom: 10px;
+	font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+	font-size: 2.2em;
+	.break-overflowing-word;
+}

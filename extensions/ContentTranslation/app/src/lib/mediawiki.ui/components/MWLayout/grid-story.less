@@ -1,0 +1,31 @@
+.storybook-grid {
+  .row,
+  .column > div {
+    border: 1px solid #999;
+    font-size: 1em;
+    color: #222;
+    font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  &.spacing-demo {
+    .row {
+      outline: 1px dashed #ddd;
+    }
+  }
+
+  &.responsiveness-demo {
+    .row {
+      outline: 1px dashed #ddd;
+    }
+    table {
+      border-collapse: collapse;
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 4px;
+      }
+    }
+  }
+}

@@ -1,0 +1,135 @@
+// mediawiki.ui button mixins for MediaWiki (deprecated)
+//
+// Helper mixins used to create button styles. This file is importable
+// by all LESS files via `@import 'mediawiki.ui/mixins.buttons.less';`.
+
+/* stylelint-disable selector-class-pattern */
+
+// Default button mixin.
+.mw-ui-button() {
+  // Container layout
+  display: inline-flex;
+
+  min-width: 4em;
+  max-width: 28.75em; // equivalent to 460px, @see T95367
+  margin: 0;
+  padding: 0.5em 0.75em; // equivalent to `8px 12px`
+  border: @border-base;
+  border-radius: @border-radius-base;
+  cursor: pointer;
+  // Ensure that buttons and inputs are nicely aligned when they have differing heights
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+
+  // Inherit the font rather than apply user agent stylesheet (T72072)
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: bold;
+  line-height: 1;
+  // Disable weird iOS styling
+  -webkit-appearance: none;
+}
+
+// Mixin for button interaction states.
+.mw-ui-button-states() {
+  // Make sure that `color` isn't inheriting from user-agent styles
+  &:visited {
+    color: @color-base;
+  }
+
+  &:hover {
+    background-color: @background-color-base;
+    color: @color-base--hover;
+    border-color: @border-color-base;
+  }
+
+  &:focus {
+    background-color: @background-color-base;
+    // Make sure that `color` isn't inheriting from user-agent styles
+    color: @color-base;
+    border-color: @border-color-progressive--focus;
+    box-shadow: @box-shadow-inset-small @box-shadow-color-progressive--focus,
+      @box-shadow-inset-medium @background-color-base;
+    outline: @outline-base--focus;
+
+    // Remove the inner border and padding in Firefox.
+    &::-moz-focus-inner {
+      border-color: transparent;
+      padding: 0;
+    }
+  }
+
+  &:active,
+  &.is-on {
+    background-color: @background-color-interactive;
+    color: @color-emphasized;
+    border-color: @color-disabled;
+    box-shadow: none;
+  }
+
+  &:disabled {
+    background-color: @background-color-disabled;
+    color: @color-inverted;
+    border-color: @background-color-interactive;
+    cursor: default;
+
+    // Make sure disabled buttons don't have hover and active states
+    &:hover,
+    &:active {
+      background-color: @background-color-interactive;
+      color: @color-inverted;
+      box-shadow: none;
+      border-color: @background-color-interactive;
+    }
+  }
+
+  // `:not()` is used exclusively for `transition`s as both are not supported by IE < 9
+  &:not(:disabled) {
+    transition: background-color 100ms, color 100ms, border-color 100ms,
+      box-shadow 100ms;
+  }
+}
+
+// Primary buttons mixin.
+.mw-ui-button-colors-primary( @bgColor, @highlightColor, @activeColor ) {
+  background-color: @bgColor;
+  color: @color-inverted;
+  // border of the same color as background so that light background and
+  // dark background buttons are the same height and width
+  border: 1px solid @bgColor;
+
+  &:hover {
+    background-color: @highlightColor;
+    border-color: @highlightColor;
+    color: @color-inverted;
+  }
+
+  &:focus {
+    box-shadow: @box-shadow-inset-small @bgColor, @box-shadow-inset-medium @box-shadow-color-inverted;
+  }
+
+  &:active,
+  &.is-on {
+    background-color: @activeColor;
+    border-color: @activeColor;
+    box-shadow: none;
+  }
+
+  &:disabled {
+    background-color: @background-color-interactive;
+    color: @color-inverted;
+    border-color: @background-color-interactive;
+
+    // Make sure disabled buttons don't have hover and active states
+    &:hover,
+    &:active {
+      background-color: @background-color-interactive;
+      color: @color-inverted;
+      border-color: @background-color-interactive;
+      box-shadow: none;
+    }
+  }
+}

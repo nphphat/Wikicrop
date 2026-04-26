@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Abijeet Patro"
+		]
+	},
+	"mint-translation-list-all-languages-option-label": "सभी",
+	"ax-home-random-topic-loading-label": "लोड हो रहा है…",
+	"mint-language-selector-title": "भाषाएँ",
+	"mint-language-selector-input-placeholder": "भाषा चुनें",
+	"mint-language-selector-no-search-results": "कोई परिणाम नहीं",
+	"mint-view-translation-page-disclaimer-learn-more-link": "अधिक जानिए",
+	"mint-view-translation-page-source-article-link-label": "$1 में खोलें",
+	"ax-translation-view-feedback-positive": "हाँ",
+	"ax-translation-view-feedback-negative": "नहीं",
+	"ax-translation-view-feedback-confirm-title": "आपके सुझाव"
+}

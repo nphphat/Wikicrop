@@ -1,0 +1,39 @@
+@import 'mediawiki.skin.variables.less';
+
+.cx-new-interlanguage-link {
+	.new {
+		/* stylelint-disable-next-line declaration-no-important */
+		color: #72777d !important; // Beat color definition by #mw-panel .portal .body li a
+	}
+
+	.cx-entrypoint-dialog {
+		.cx-entrypoint-dialog__desc,
+		.cx-entrypoint-dialog__actions {
+			margin: 14px;
+		}
+
+		.cx-entrypoint-dialog__settings {
+			float: right;
+			opacity: 0.7;
+		}
+
+		.cx-entrypoint-dialog__license {
+			background-color: #f8f9fa;
+			color: @color-subtle;
+			border-top: @border-subtle;
+			padding: 14px;
+			line-height: 1.3333333;
+		}
+
+		&.oo-ui-popupWidget .oo-ui-buttonElement.oo-ui-labelElement > .oo-ui-buttonElement-button > .oo-ui-labelElement-label {
+			/* stylelint-disable-next-line declaration-no-important */
+			color: #fff !important; // Beat color definition by #mw-panel .portal .body li a;
+		}
+
+		.oo-ui-popupWidget-head > .oo-ui-labelElement-label {
+			color: @color-subtle;
+			font-size: 1.4em;
+			font-weight: bold;
+		}
+	}
+}

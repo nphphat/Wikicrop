@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"MGA73",
+			"Saederup92"
+		]
+	},
+	"apihelp-cxpublish-param-title": "Titlen på den side der skal udføres handlinger på.",
+	"apihelp-cxpublish-param-html": "Det indhold der skal gemmes.",
+	"apihelp-cxpublish-param-from": "Sprogkoden på kilden.",
+	"apihelp-cxpublish-param-to": "Sprogkoden på målet.",
+	"apihelp-cxpublish-param-sourcetitle": "Titlen på kildesiden.",
+	"apihelp-cxpublish-param-categories": "Kategorierne at putte den udgivne side i.",
+	"apihelp-query+contenttranslation-param-translationid": "Oversættelse-ID.",
+	"apihelp-query+contenttranslation-param-from": "Sprogkoden på kilden.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "Titlen på kildesiden.",
+	"apihelp-query+contenttranslation-param-type": "Status på oversættelsen.",
+	"apihelp-query+contenttranslation-example-1": "Hent oversættelser startet af den aktuelle bruger.",
+	"apihelp-query+contenttranslationcorpora-param-translationid": "ID for oversættelsen.",
+	"apihelp-query+contenttranslationsuggestions-param-from": "Sprogkoden på kilden.",
+	"apihelp-query+contenttranslationsuggestions-param-to": "Sprogkoden på målet.",
+	"apihelp-query+cxpublishedtranslations-param-from": "Sprogkoden på kilden.",
+	"apihelp-query+cxpublishedtranslations-param-to": "Sprogkoden på målet.",
+	"apihelp-cxdelete-param-from": "Sprogkoden på kilden.",
+	"apihelp-cxdelete-param-to": "Sprogkoden på målet.",
+	"apihelp-cxdelete-param-sourcetitle": "Titlen på kildesiden.",
+	"apihelp-cxsave-param-from": "Sprogkoden på kilden.",
+	"apihelp-cxsave-param-to": "Sprogkoden på målet.",
+	"apihelp-cxsave-param-sourcetitle": "Titlen på kildesiden.",
+	"apierror-cx-inuse": "En anden bruger er allerede igang med at oversætte denne artikel.",
+	"apierror-cx-invalidlanguage": "Ugyldigt sprog.",
+	"apierror-cx-invalidprogress": "Ugyldig fremgang.",
+	"apierror-cx-invalidsourcelanguage": "Ugyldigt kildesprog.",
+	"apierror-cx-invalidtargetlanguage": "Ugyldigt målsprog.",
+	"apierror-cx-jwtmissing": "JWT er ikke installeret.",
+	"apierror-cx-missingdraft": "Kladden findes ikke.",
+	"apierror-cx-translationnotfound": "Oversættelse ikke fundet.",
+	"apihelp-cxpublishsection-param-html": "Det indhold der skal gemmes.",
+	"apihelp-cxpublishsection-param-sourcelanguage": "Sprogkoden på kilden."
+}

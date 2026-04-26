@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Huuchin",
+			"Алия"
+		]
+	},
+	"translate": "Орчулх",
+	"translate-page-settings-legend": "Тохрлһ",
+	"translate-page-group": "Баг",
+	"translate-page-language": "Келн",
+	"translate-page-limit": "Кизәрллт",
+	"translate-page-limit-option": "$1 {{PLURAL:$1|зәңг|зәңгс}} халхд",
+	"translate-submit": "Үзүлх",
+	"translate-page-navigation-legend": "Залурдлһ",
+	"translate-page-showing": "Showing messages from $1 to $2 of $3.",
+	"translate-page-showing-none": "Үзүлх зәңг уга",
+	"translate-next": "Дарук халх",
+	"translate-prev": "Өмнк халх",
+	"translate-page-description-legend": "Багин туск медәлл",
+	"translate-edit-tmmatch": "$1% хүвин зокцл",
+	"translate-pref-editassistlang": "Assistant languages:",
+	"translate-sidebar-alltrans": "Бусд келәр",
+	"translate-language": "Келн",
+	"supportedlanguages": "Идвктә керглгддг келмүд",
+	"translate-documentation-language": "Зәңгин бәрмтҗүллт",
+	"translate-searchprofile": "Орчуллһ"
+}

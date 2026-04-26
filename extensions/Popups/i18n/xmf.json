@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Narazeni"
+		]
+	},
+	"popups-message": "გიწოთოლორაფა",
+	"popups-desc": "ოძირანს გიწოთოლორაფაშ ოსინთეს, სოდე ჩქჷ რინელი ხასჷლაშ აკოდგინალა; მუკმორჩქინდუ კურსორიშ რსხილშა მეღალაშის.",
+	"popups-settings-title": "გიწოთოლორაფა",
+	"popups-settings-option-page": "ხასჷლაშ გიწოთოლორაფა",
+	"popups-settings-option-page-description": "თემაშ გიწოთოლორაფა ხასჷლაშ კითხირიშის.",
+	"popups-settings-option-reference": "სქოლიოშ გიწოთოლორაფა",
+	"popups-settings-option-reference-description": "სქოლიოშ უწაია გიწოთოლორაფაშ მეღება ხასჷლაშ კითხირიშის.",
+	"popups-settings-save": "ჩუალა",
+	"popups-settings-help-ok": "ცაცილი რე",
+	"popups-settings-cancel": "გოუქვაფა",
+	"popups-settings-help": "თქვა შეილებჷნა გიწოთოლორაფაშ კინოჩართება ხასჷლაშ გიმე რსხილიშ გჷმორინაფათ.",
+	"popups-settings-enable": "გიწოთოლორაფაშ პარამეტრეფიშ თირუა",
+	"popups-settings-icon-gear-title": "ხასჷლაშ გიწოთოლორაფაშ პარამეტრეფიშ თირუა",
+	"popups-preview-no-preview": "გიწოთოლორაფაშის პრობლემაქ გორჩქინდჷ",
+	"popups-preview-footer-read": "ხასჷლაშა გინულა",
+	"popups-preview-disambiguation": "ათე დუდჯოხო მერსხილი რე ართშე უმოსი ხასჷლაწკჷმა",
+	"popups-preview-disambiguation-link": "მოგვენი ხასჷლეფი ძირაფა",
+	"prefs-reading": "კითხირიშ პარამეტრეფი",
+	"popups-prefs-optin": "ხასჷლაშ გიწოთოლორაფა\n\n<em>თემაშ უწაია გიწოთოლორაფა ხასჷლაშ კითხირიშის</em>",
+	"popups-prefs-disable-nav-gadgets-info": "თქვა [[$1|გოთიშათ-ოკო გაჯეტი „ნავიგაციური ოსინთეეფი“]] გაჯეტეფიშ პარამეტრეფს ხასჷლეფიშ გიწოთოლორაფაშ ჩართებელო.",
+	"popups-prefs-conflicting-gadgets-info": "კანკალე გაჯეტიქ დო შხვა პარამეტრიქ შილებე გოულა იღვენუან ათე ფუნქციაშ ომუშებელო. დო მუთუნი პრობლემაქ ქუგაშუეს-და, ქორთხინთ, გეგნაჯინით თქვანი გაჯეტეფს დო ომახვარებე სკრიპტეფს, გლობალურიშამო."
+}

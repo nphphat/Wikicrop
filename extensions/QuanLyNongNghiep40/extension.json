@@ -1,0 +1,42 @@
+{
+    "name": "QuanLyNongNghiep40",
+    "version": "1.0.0",
+    "author": "Nguyen Phuoc Phat",
+    "description": "Extension để quản lý danh sách website/youtube nông nghiệp 4.0",
+    "type": "specialpage",
+    "requires": {
+        "MediaWiki": ">= 1.35"
+    },
+    "AutoloadClasses": {
+        "SpecialQuanLyNongNghiep40": "includes/SpecialQuanLyNongNghiep40.php",
+        "QuanLyNongNghiep40Hooks": "includes/QuanLyNongNghiep40Hooks.php"
+    },
+    "AvailableRights": [
+        "editer"
+    ],
+    "GroupPermissions": {
+        "sysop": {
+            "editer": true
+        }
+    },
+    "SpecialPages": {
+        "QuanLyNongNghiep40": "SpecialQuanLyNongNghiep40"
+    },
+    "Hooks": {
+        "LoadExtensionSchemaUpdates": "QuanLyNongNghiep40Hooks::onLoadExtensionSchemaUpdates"
+    },
+    "MessagesDirs": {
+        "QuanLyNongNghiep40": [
+            "i18n"
+        ]
+    },
+    "ResourceModules": {
+        "ext.quanlynongnghiep40": {
+            "localBasePath": "",
+            "remoteExtPath": "QuanLyNongNghiep40",
+            "scripts": "modules/ext.quanlynongnghiep40.js",
+            "styles": "modules/ext.quanlynongnghiep40.css"
+        }
+    },
+    "manifest_version": 2
+}

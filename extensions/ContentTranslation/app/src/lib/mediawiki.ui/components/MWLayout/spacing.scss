@@ -1,0 +1,89 @@
+@use "breakpoints" as *;
+
+$spacings: 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16;
+
+// Generate margin and padding style for different breakpoints.
+@mixin generateSpacing($media) {
+  $mediaKey: if($media == "", "", "#{$media}-");
+  .ms-#{$mediaKey}auto {
+    margin-inline-start: auto;
+  }
+  .me-#{$mediaKey}auto {
+    margin-inline-end: auto;
+  }
+  .mx-#{$mediaKey}auto {
+    margin-inline: auto;
+  }
+  .mt-#{$mediaKey}auto {
+    margin-block-start: auto;
+  }
+  .mb-#{$mediaKey}auto {
+    margin-block-end: auto;
+  }
+  .my-#{$mediaKey}auto {
+    margin-block: auto;
+  }
+
+  @each $space in $spacings {
+    $width: $space * 4;
+
+    .ps-#{$mediaKey}#{$space} {
+      padding-inline-start: #{$width}px;
+    }
+    .ms-#{$mediaKey}#{$space} {
+      margin-inline-start: #{$width}px;
+    }
+    .pe-#{$mediaKey}#{$space} {
+      padding-inline-end: #{$width}px;
+    }
+    .me-#{$mediaKey}#{$space} {
+      margin-inline-end: #{$width}px;
+    }
+    .px-#{$mediaKey}#{$space} {
+      padding-inline: #{$width}px;
+    }
+    .py-#{$mediaKey}#{$space} {
+      padding-block: #{$width}px;
+    }
+    .mx-#{$mediaKey}#{$space} {
+      margin-inline: #{$width}px;
+    }
+    .my-#{$mediaKey}#{$space} {
+      margin-block: #{$width}px;
+    }
+    .pt-#{$mediaKey}#{$space} {
+      padding-block-start: #{$width}px;
+    }
+    .mt-#{$mediaKey}#{$space} {
+      margin-block-start: #{$width}px;
+    }
+    .pb-#{$mediaKey}#{$space} {
+      padding-block-end: #{$width}px;
+    }
+    .mb-#{$mediaKey}#{$space} {
+      margin-block-end: #{$width}px;
+    }
+    .pa-#{$mediaKey}#{$space} {
+      padding: #{$width}px;
+    }
+    .ma-#{$mediaKey}#{$space} {
+      margin: #{$width}px;
+    }
+    .gap-#{$mediaKey}#{$space} {
+      gap: #{$width}px;
+    }
+  }
+}
+
+.container {
+  .row,
+  .column {
+    @include generateSpacing("");
+
+    @each $breakpoint, $value in $breakpoints {
+      @include mediaQuery($breakpoint) {
+        @include generateSpacing($breakpoint);
+      }
+    }
+  }
+}

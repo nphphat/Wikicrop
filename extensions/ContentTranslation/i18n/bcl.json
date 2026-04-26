@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Brazal.dang",
+			"Geopoet",
+			"Kunokuno",
+			"ShimunUfesoj"
+		]
+	},
+	"cx": "Pahina nin dakit-taramon",
+	"cx-header-all-translations": "Gabos na dinakit-taramon",
+	"cx-source-view-page": "tanawon an pahina",
+	"cx-publish-button": "Publikar",
+	"cx-publish-button-publishing": "Nagpupublikar...",
+	"tag-contenttranslation": "Dakit-taramon_nin_laman",
+	"cx-tools-link-title": "Kasugponan",
+	"cx-tools-link-add": "Magdagdag nin Kasugponan",
+	"cx-tools-mt-provider-title": "Maggamit nin $1",
+	"cx-tools-mt-dont-use": "Magpuon sa mayong talata",
+	"cx-tools-mt-preferred": "pwestong normal",
+	"cx-tools-categories-count-message": "{{PLURAL:$1|$1 kategorya|$1 mga kategorya|0=Mayong mga kategorya}}",
+	"cx-sx-article-search-input-placeholder": "Maghanap nin pahina na ipapalis sa ibang lenggwahe."
+}

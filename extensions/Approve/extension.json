@@ -16,7 +16,7 @@
   "config": {
     "ApproveChatbotIngestUrl": {
       "value": "http://localhost:8000/ingest",
-      "description": "URL API Ingest của Chatbot Server"
+      "description": "URL API Ingest của Chatbot Server. Mặc định là http://localhost:8000/ingest. Có thể cấu hình trong LocalSettings.php bằng biến $wgApproveChatbotIngestUrl."
     }
   },
 

@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Servien"
+		]
+	},
+	"popups-message": "Floepviensters",
+	"popups-desc": "Laot floepviensters zien mit wat der op die zied steet a'j langes verwiezingen heer gaon.",
+	"popups-settings-title": "Ziedveurbeeld",
+	"popups-settings-option-page": "Eenvoudig",
+	"popups-settings-option-page-description": "Bekiek de inleidende zinne van n zied mit n aofbeelding derbie. Dit is anbeveulen veur lezers",
+	"popups-settings-save": "Opslaon",
+	"popups-settings-cancel": "Afbreaken",
+	"popups-settings-enable": "Veurbeeldviensters anzetten",
+	"popups-preview-no-preview": "Der güng yts faut by et weadergeaven van dit vöärbealdvinster",
+	"popups-preview-footer-read": "Gå nå disse syde",
+	"popups-preview-disambiguation": "Disse titel hevt meyrere beteykenissen",
+	"popups-preview-disambiguation-link": "Vergelykbåre syden bekyken"
+}

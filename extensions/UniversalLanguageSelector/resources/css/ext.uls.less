@@ -1,0 +1,68 @@
+@import 'mediawiki.skin.variables.less';
+@import 'ext.uls.mixins.less';
+
+/* Overrides to follow MediaWiki style */
+.uls-menu {
+	border-radius: @border-radius-base;
+	/* Ensure base font size is same in different skins */
+	font-size: medium;
+}
+
+.uls-search,
+.uls-language-settings-close-block {
+	border-top-right-radius: @border-radius-base;
+	border-top-left-radius: @border-radius-base;
+}
+
+.uls-language-list {
+	border-bottom-right-radius: @border-radius-base;
+	border-bottom-left-radius: @border-radius-base;
+}
+
+.uls-menu.callout {
+	.caret();
+}
+
+.uls-ui-languages button {
+	margin: 5px 15px 5px 0;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.uls-search-wrapper-wrapper {
+	position: relative;
+	padding-left: 40px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.uls-icon-back {
+	background: transparent url( ../images/back-grey-ltr.svg ) no-repeat scroll center center;
+	background-size: 28px;
+	height: 32px;
+	width: 40px;
+	display: block;
+	position: absolute;
+	left: 0;
+	border-right: @border-width-base @border-style-base @border-color-subtle;
+	opacity: @opacity-icon-base;
+}
+
+.uls-icon-back:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.uls-menu .uls-no-results-view {
+	.uls-no-found-more {
+		background-color: @background-color-base;
+	}
+
+	h3 {
+		padding: 0 28px;
+		margin: 0;
+		color: @color-subtle;
+		font-size: 1em;
+		font-weight: normal;
+	}
+}

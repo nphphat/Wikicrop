@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Andriykopanytsia",
+			"Base",
+			"DDPAT",
+			"Ice bulldog",
+			"Movses",
+			"Olion",
+			"Piramidion",
+			"Renamerr",
+			"Vlad5250",
+			"Ата",
+			"Максим Підліснюк"
+		]
+	},
+	"popups-message": "Попередній перегляд",
+	"popups-desc": "Показує спливні вікна з попереднім переглядом сторінки при наведенні вказівника миші на посилання",
+	"popups-settings-title": "Спливні вікна",
+	"popups-settings-option-page": "Попередній перегляд сторінки",
+	"popups-settings-option-page-description": "Отримувати швидкий попередній перегляд теми під час читання сторінки.",
+	"popups-settings-option-reference": "Попередній перегляд джерел",
+	"popups-settings-option-reference-description": "Отримайте швидкий попередній перегляд джерел під час читання сторінки.",
+	"popups-settings-save": "Зберегти",
+	"popups-settings-help-ok": "Готово",
+	"popups-settings-cancel": "Скасувати",
+	"popups-settings-help": "Ви можете повернути назад передперегляди з допомогою посилання унизу сторінки.",
+	"popups-settings-enable": "Редагувати налаштування спливних вікон",
+	"popups-settings-icon-gear-title": "Змініть параметри попереднього перегляду сторінки",
+	"popups-preview-no-preview": "Сталася проблема під час показу цього попереднього перегляду",
+	"popups-preview-footer-read": "Перейти на цю сторінку",
+	"popups-preview-disambiguation": "Ця назва стосується більше ніж однієї сторінки",
+	"popups-preview-disambiguation-link": "Див. подібні сторінки",
+	"prefs-reading": "Параметри читання",
+	"popups-prefs-optin": "Дозволити попередні перегляди сторінок (отримувати швидкі попередні перегляди тем під час читання сторінки)",
+	"popups-prefs-disable-nav-gadgets-info": "Щоб увімкнути попередні перегляди сторінок, вам треба [[$1| вимкнути додаток навігаційних спливних вікон]] на вкладці «Додатки» своїх налаштувань.",
+	"popups-prefs-conflicting-gadgets-info": "Деякі додатки та інші персональні налаштування можуть вплинути на продуктивність цієї функції. Якщо у вас виникають якісь проблеми, будь ласка, перевірте свої додатки та користувацькі скрипти, включно з глобальними."
+}

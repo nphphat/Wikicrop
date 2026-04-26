@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Cedric31"
+		]
+	},
+	"apihelp-groupreview-param-language": "Còdi de lenga.",
+	"apihelp-query+languagestats-param-language": "Còdi de lenga.",
+	"apihelp-query+messagecollection-param-language": "Còdi de lenga.",
+	"apihelp-query+messagetranslations-example-1": "Lista de las traduccions del wiki per «MediaWiki:genièr»",
+	"apihelp-ttmserver-example-1": "Obténer de suggestions per traduire \"Ajuda\" de l'anglés cap al finés",
+	"apihelp-searchtranslations-param-offset": "Decalatge per las traduccions.",
+	"apihelp-searchtranslations-example-1": "Afichar las traduccions per la lenga."
+}

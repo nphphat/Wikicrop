@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Arystanbek",
+			"Casserium",
+			"СеніңШешең"
+		]
+	},
+	"apihelp-cxpublish-param-title": "Әрекетті орындау үшін бет атауы.",
+	"apihelp-cxpublish-param-html": "Сақтау үшін мәтін.",
+	"apihelp-cxpublish-param-from": "Бастапқы тіл коды.",
+	"apihelp-cxpublish-param-to": "Нысана тіл коды.",
+	"apihelp-cxpublish-param-sourcetitle": "Бастапқы беттің атауы.",
+	"apihelp-cxpublish-param-categories": "Санаттар жарияланған беттен қосылатын болады.",
+	"apihelp-query+contenttranslation-param-translationid": "Аударма ID-і.",
+	"apihelp-query+contenttranslation-param-from": "Бастапқы тіл коды.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "Бастапқы беттің атауы.",
+	"apihelp-query+contenttranslation-example-3": "Берілген тіл жұбы арасынан кез келген аударманы берілген атаудан табу",
+	"apihelp-query+contenttranslationsuggestions-param-from": "Бастапқы тіл коды.",
+	"apihelp-query+cxpublishedtranslations-param-from": "Бастапқы тіл коды.",
+	"apihelp-query+cxpublishedtranslations-param-to": "Нысана тіл коды.",
+	"apihelp-query+cxpublishedtranslations-example-1": "Барлық жарияланған аудармалардан таңдау",
+	"apihelp-query+cxpublishedtranslations-example-2": "Ағылшыншадан аударылған, барлық жарияланған аудармалардан таңдау",
+	"apihelp-query+cxpublishedtranslations-example-3": "Испаншадан аударылған, барлық жарияланған аудармалардан таңдау",
+	"apihelp-cxdelete-param-from": "Бастапқы тіл коды.",
+	"apihelp-cxdelete-param-to": "Нысана тіл коды.",
+	"apihelp-cxdelete-param-sourcetitle": "Бастапқы беттің атауы.",
+	"apihelp-cxsave-param-sourcerevision": "Бастапқы беттің нұсқасы.",
+	"apihelp-cxsave-param-from": "Бастапқы тіл коды.",
+	"apihelp-cxsave-param-sourcetitle": "Бастапқы беттің атауы."
+}

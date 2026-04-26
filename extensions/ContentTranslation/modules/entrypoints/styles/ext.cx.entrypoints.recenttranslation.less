@@ -1,0 +1,45 @@
+@import 'mediawiki.skin.variables.less';
+
+.sx-recent-translation-entrypoint .sx-recent-translation-banner {
+	background: @background-color-neutral-subtle;
+	margin-bottom: @spacing-100;
+	padding: @spacing-50;
+	cursor: @cursor-base--hover;
+	box-sizing: @box-sizing-base;
+	display: flex;
+	flex: 0 1 auto;
+	flex-wrap: wrap;
+
+	&__icon {
+		.cdx-mixin-css-icon( @cdx-icon-article, @color-progressive );
+		margin-top: @spacing-12;
+
+		[ dir='ltr' ] & {
+			margin-right: @spacing-50;
+		}
+
+		[ dir='rtl' ] & {
+			margin-left: @spacing-50;
+		}
+	}
+
+	&__content {
+		flex-basis: 0;
+		flex-grow: 1;
+		max-width: @size-full;
+
+		&-header {
+			padding: @spacing-0;
+			margin-bottom: @spacing-25;
+			font-size: @font-size-small;
+			font-weight: @font-weight-bold;
+			color: @color-progressive;
+		}
+
+		p.sx-recent-translation-banner__content-details {
+			margin: @spacing-0;
+			font-size: @font-size-small;
+			color: @color-subtle;
+		}
+	}
+}

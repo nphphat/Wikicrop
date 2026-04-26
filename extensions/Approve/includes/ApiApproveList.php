@@ -11,39 +11,29 @@ class ApiApproveList extends ApiBase {
         $limit = $params['limit'];
         $offset = $params['offset'];
         
-        // 1. Nhận tham số Sort và Search
         $sort = strtoupper($params['sort']); // 'ASC' hoặc 'DESC'
         $search = $params['search'];
 
         $dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
-        // Các bảng cần query (Mặc định chỉ có approve_queue)
         $tables = [ 'approve_queue' ];
         $join_conds = [];
         $conds = [ 'aq_status' => 'pending' ];
         $options = [
             'LIMIT' => $limit, 
             'OFFSET' => $offset, 
-            'ORDER BY' => "aq_id $sort" // <-- Sắp xếp động theo tham số
+            'ORDER BY' => "aq_id $sort" 
         ];
 
-        // 2. Xử lý logic Search (Nếu có từ khóa)
         if ( !empty( $search ) ) {
-            // Để tìm theo tên bài, phải JOIN với bảng 'page'
             $tables[] = 'page';
             $join_conds['page'] = [ 'INNER JOIN', 'aq_page_id = page_id' ];
-
-            // Chuẩn hóa từ khóa (MediaWiki lưu title bằng dấu gạch dưới thay vì khoảng trắng)
             $searchTitle = str_replace( ' ', '_', $search );
             
-            // Tạo điều kiện LIKE %keyword% an toàn
             $like = $dbr->buildLike( $dbr->anyString(), $searchTitle, $dbr->anyString() );
             
-            // Tìm kiếm trong cột page_title
             $conds[] = "page_title $like";
         }
-
-        // 3. Đếm tổng số (Cần truyền cả tables và join_conds để đếm đúng khi search)
         $total = $dbr->selectField(
             $tables,
             'COUNT(*)',
@@ -53,10 +43,9 @@ class ApiApproveList extends ApiBase {
             $join_conds
         );
 
-        // 4. Lấy danh sách ID (Kết hợp tables, conds, options và join_conds)
         $res = $dbr->select(
             $tables,
-            [ 'approve_queue.*' ], // Lấy tất cả cột của bảng queue
+            [ 'approve_queue.*' ],
             $conds,
             __METHOD__,
             $options,
@@ -114,12 +103,10 @@ class ApiApproveList extends ApiBase {
                 ApiBase::PARAM_TYPE => 'integer',
                 ApiBase::PARAM_DFLT => 0,
             ],
-            // Thêm tham số Search
             'search' => [
                 ApiBase::PARAM_TYPE => 'string',
                 ApiBase::PARAM_DFLT => '',
             ],
-            // Thêm tham số Sort
             'sort' => [
                 ApiBase::PARAM_TYPE => ['asc', 'desc'],
                 ApiBase::PARAM_DFLT => 'desc',

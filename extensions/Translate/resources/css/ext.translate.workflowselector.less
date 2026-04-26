@@ -1,0 +1,59 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins';
+
+.tux-workflow-status {
+	background: @background-color-neutral;
+	color: @color-base;
+	border: @border-width-base @border-style-base @border-color-muted;
+	cursor: @cursor-base--hover;
+	display: inline-block;
+	padding: 2px 4px;
+	margin-top: 5px;
+	min-width: 150px;
+	margin-bottom: 5px;
+
+	&:hover {
+		border: @border-subtle;
+	}
+
+	&-triangle {
+		float: right;
+
+		&::after {
+			margin: 3px;
+			border-left: 3px solid transparent;
+			border-right: 3px solid transparent;
+			border-top: 3px solid @color-base;
+			content: '';
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
+ul.tux-workflow-status-selector {
+	min-width: 150px;
+	margin-top: -1px;
+
+	li {
+		color: @color-subtle;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		font-size: 14px;
+		padding: 0 2px;
+
+		&.changeable:hover {
+			background-color: @background-color-interactive;
+			color: @color-base;
+			cursor: @cursor-base--hover;
+		}
+
+		&.selected::after {
+			content: '';
+			.cdx-mixin-css-icon( @cdx-icon-check, @color-base, @size-icon-small );
+			margin-left: auto;
+			padding-left: @spacing-25;
+		}
+	}
+}

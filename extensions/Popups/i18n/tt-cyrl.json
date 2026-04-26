@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Don Alessandro",
+			"Ерней",
+			"Ильнар"
+		]
+	},
+	"popups-message": "Алдан карау",
+	"popups-settings-title": "Алдан карау",
+	"popups-settings-option-page": "Кабызу",
+	"popups-settings-save": "Саклау",
+	"popups-settings-help-ok": "Тәмам",
+	"popups-settings-cancel": "Кире алу",
+	"prefs-reading": "Уку көйләнмәләре",
+	"popups-prefs-optin": "Битләрне алдан карау активлаштырылсын (мәкалә укыганда темаларны тиз карау кулланылыр)"
+}

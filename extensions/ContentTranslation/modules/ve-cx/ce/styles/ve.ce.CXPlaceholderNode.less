@@ -1,0 +1,40 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins';
+
+.ve-ce-cxPlaceholderNode {
+	background-color: #f8f9fa;
+	color: @color-placeholder;
+	opacity: 0;
+	display: table;
+	width: 100%;
+	box-shadow: 0 0 0 4px #f8f9fa;
+	font-size: 1.25em;
+	text-align: center;
+	transition: opacity 100ms ease-out;
+
+	.ve-ui-cxTargetSurface--ready &:first-child,
+	&.ve-ce-focusableNode-focused,
+	&.ve-ce-cxPendingNode-indicator {
+		opacity: 1;
+	}
+
+	.ve-ui-cxTargetSurface--non-empty &:first-child,
+	.ve-ui-cxTargetSurface:hover &:first-child {
+		opacity: 0;
+	}
+
+	// We don't want to show the placeholder during publishing,
+	// so content container is checked if it's disabled.
+	.cx-content-container:not( .oo-ui-widget-disabled ) &:hover,
+	.cx-content-container:not( .oo-ui-widget-disabled ) &:first-child:hover {
+		cursor: pointer;
+		opacity: 1;
+	}
+
+	> .oo-ui-buttonWidget {
+		opacity: 0.5;
+		display: table-cell;
+		margin: 0;
+		vertical-align: middle;
+	}
+}

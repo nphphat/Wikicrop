@@ -1,0 +1,92 @@
+@import 'mediawiki.skin.variables.less';
+
+.mw-cx-tools-IssueTracking {
+	> .mw-cx-tools-IssueTracking-head {
+		.oo-ui-iconWidget {
+			cursor: pointer;
+			border: @border-width-base @border-style-base @border-color-transparent;
+
+			&:focus {
+				border-color: @border-color-progressive;
+				box-shadow: @box-shadow-inset-small @box-shadow-color-progressive--focus;
+			}
+		}
+
+		.oo-ui-labelWidget {
+			color: @color-subtle;
+		}
+	}
+
+	> .mw-cx-tools-IssueTracking-body {
+		max-height: none;
+		border-top: @border-width-base @border-style-base #eaecf0;
+		padding: 0;
+
+		> .cx-tools-linter-issues-layout {
+			padding-top: 1.5em;
+		}
+
+		> .cx-tools-linter-errors-count,
+		> .cx-tools-linter-warnings-count {
+			padding: 1em;
+
+			.oo-ui-iconElement-icon {
+				display: inline-block;
+				position: static; // Reset OOUI absolute positioning
+				min-width: 0; // Reset OOUI value
+				width: 0.5em;
+				min-height: 0; // Reset OOUI value
+				height: 0.5em;
+				margin-right: 0.3em;
+				border-radius: 50%;
+				opacity: 1;
+			}
+
+			.oo-ui-labelElement-label {
+				color: #72777d;
+				font-weight: bold;
+			}
+		}
+
+		> .cx-tools-linter-errors-count .oo-ui-iconElement-icon {
+			background-color: @color-destructive;
+		}
+
+		> .cx-tools-linter-warnings-count .oo-ui-iconElement-icon {
+			background-color: @background-color-warning-subtle;
+		}
+	}
+
+	&-header {
+		display: table;
+		width: 100%;
+		padding: 0.5em 1em;
+	}
+
+	&-title {
+		display: table-cell;
+		width: 100%;
+
+		> .oo-ui-labelWidget {
+			margin-left: 0.4em;
+		}
+	}
+
+	&-actions {
+		display: table-cell;
+
+		> .oo-ui-buttonGroupWidget {
+			white-space: nowrap;
+			padding: 0;
+
+			> .cx-tools-linter-next-issue {
+				padding-right: 0.4em;
+				box-shadow: 0.4em 0 0 -0.3em #c8ccd1;
+			}
+
+			> .oo-ui-buttonWidget:last-child {
+				padding-left: 0.4em;
+			}
+		}
+	}
+}

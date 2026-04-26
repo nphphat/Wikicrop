@@ -1,0 +1,83 @@
+{
+	"name": "DonateButton",
+	"author": "[//wikimannia.org WikiMANNia]",
+	"url": "https://www.mediawiki.org/wiki/Extension:DonateButton",
+	"license-name": "GPL-2.0-or-later",
+	"version": "1.7.0",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
+	"namemsg": "donatebutton-msg",
+	"descriptionmsg": "donatebutton-desc",
+	"ConfigRegistry": {
+		"donatebutton": "GlobalVarConfig::newInstance"
+	},
+	"config": {
+		"DonateButton": {
+			"type": "boolean",
+			"value": "true"
+		},
+		"DonateButtonEnabledPaypal": {
+			"type": "boolean",
+			"value": false
+		},
+		"DonateButtonURL": {
+			"type": "string",
+			"value": "",
+			"description": "Something like: https://yourdomain.org/donationpage.php?lang="
+		},
+		"DonateButtonLangs": {
+			"type": "string",
+			"value": "de, en, es, fr, he, it, nl, pt, ru"
+		}
+	},
+	"manifest_version": 2,
+	"type": "other",
+	"AutoloadClasses": {
+		"DonateButtonHooks": "includes/Hooks.php"
+	},
+	"Hooks": {
+	    "BeforePageDisplay": "main",
+		"MonacoStaticboxEnd": "main",
+	    "SkinAfterPortlet": "main",
+		"SkinBuildSidebar": "main"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "DonateButtonHooks"
+		}
+	},
+	"MessagesDirs": {
+		"DonateButton": [ "i18n" ]
+	},
+	"ResourceModules": {
+		"ext.donatebutton.common": {
+			"styles": "css/Common.css"
+		},
+		"ext.donatebutton.citizen": {
+			"styles": "css/Citizen.css"
+		},
+		"ext.donatebutton.cologneblue": {
+			"styles": "css/Cologneblue.css"
+		},
+		"ext.donatebutton.modern": {
+			"styles": "css/Modern.css"
+		},
+		"ext.donatebutton.monaco": {
+			"styles": "css/Monaco.css"
+		},
+		"ext.donatebutton.monobook": {
+			"styles": "css/Monobook.css"
+		},
+		"ext.donatebutton.timeless": {
+			"styles": "css/Timeless.css"
+		},
+		"ext.donatebutton.vector": {
+			"styles": "css/Vector.css"
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "DonateButton/resources"
+	}
+}

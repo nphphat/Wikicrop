@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joetaras"
+		]
+	},
+	"popups-message": "Andeprime",
+	"popups-desc": "Face 'ndrucà 'nu popup de andeprime quanne l'utende passe 'u pundatore sus a 'u collegamende",
+	"popups-settings-title": "Andeprime",
+	"popups-settings-option-page": "Abbilite",
+	"popups-settings-option-page-description": "Pigghie 'n'andeprime veloce de 'n argomende, mendre ca ste lìgge 'na pàgene.",
+	"popups-settings-option-reference": "Andeprime de le refereminde",
+	"popups-settings-option-reference-description": "Pigghie 'n'adeprime veloce de 'ne referimende mendre ca ste lìgge 'na pàgene.",
+	"popups-settings-save": "Reggìstre",
+	"popups-settings-help-ok": "Fatte",
+	"popups-settings-cancel": "Annulle",
+	"popups-settings-help": "Puè abbilità arrete le andeprime ausanne 'u collegamende jndr'à 'u funne d'a pàgene.",
+	"popups-settings-enable": "Cange le 'mbostaziune de l'andeprime",
+	"popups-settings-icon-gear-title": "Cange le 'mbostaziune de l'andeprime d'a pàgene",
+	"popups-preview-no-preview": "Ha assute 'nu probbleme sus a'u 'ndrucamende de l'andeprime",
+	"popups-preview-footer-read": "Vèje a sta pàgene",
+	"popups-preview-disambiguation": "Stu titole se referisce a cchiù de 'na pàgene",
+	"popups-preview-disambiguation-link": "'Ndruche le pàggene ca s'assemegghiane",
+	"prefs-reading": "Preferenze de letture",
+	"popups-prefs-optin": "Abbilite l'andeprime d'a pàgene (pigghie le andeprime veloce de 'n'argomende quanne ste lìgge 'a vôsce)",
+	"popups-prefs-disable-nav-gadgets-info": "Tu a [[$1|disabbilità 'u gadget Popup de navigazzione]] jndr'à le preferenze tune de le Gadget pe abbilità le andeprime de le pàggene.",
+	"popups-prefs-conflicting-gadgets-info": "Certe accessore e otre personalizzazziune ponne avè conzeguenze sus a le prestaziune de sta funzione. Ce tìne quacche probbleme 'ndruche arrete le accessore tue e le script utende, 'ngluse chidde globbale."
+}

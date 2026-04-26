@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hitaypayan",
+			"Translatealcd"
+		]
+	},
+	"cx": "Gbganiy zngazyan",
+	"cx-header-translation-center": "Pcyuwagan sa sinmung pgnbang",
+	"cx-header-all-translations": "Kwara’ ginnbang",
+	"cx-source-view-page": "’nblaq mita’ zzngazyan",
+	"cx-publish-button": "Aniy gmazyang quw ginbang",
+	"cx-publish-button-publishing": "Skayal kwara’ squliq...",
+	"cx-beta": "Ginbang sa kay’ na qsahuy qasa",
+	"cx-tools-link-title": "P’ubuy",
+	"cx-tools-link-add": "Twangiy sa ’ubuy",
+	"cx-tools-mt-title": "Gmbang miru’ nanak",
+	"cx-tools-mt-use-source": "Puqing balay binrwan quw pcyawganiy",
+	"cx-tools-mt-provider-title": "Mbing $1",
+	"cx-publish-captcha-title": "’zzyuwaw na anzeng",
+	"cx-translation-filter-published-translations": "Wal skayal kwara’ squliq",
+	"cx-translation-filter-draft-translations": "Cyuw mtzyuwaw",
+	"cx-translation-filter-suggested-translations": "Bniq na kay’",
+	"cx-create-new-translation": "Misan tnwang ginbang miru’",
+	"cx-contributions-new-contributions": "Misan tnwang na miq sa pincyuwagan",
+	"cx-contributions-new-article": "Qiqas na zngazyan",
+	"cx-contributions-translation": "Gmbang miru’",
+	"cx-contributions-upload": "Pawsa’ sa kktan ta’ quw meti’",
+	"cx-publishing-dialog-publish-anyway-button": "Siy kiy skayal kwara’ squliq na’",
+	"cx-translation-label-draft": "Cyuw tmrang gmbang",
+	"cx-translation-label-published": "Wal skayal kwara’ squliq quwbniru’ginbang",
+	"cx-feedback-link": "Biq sa kay’ na iwan snyuk",
+	"cx-draft-cancel-button-label": "Laxan",
+	"cx-campaign-no-thanks": "Nway kya, mhway su’!",
+	"cx-campaign-try": "Tlamiy gmbang qsahuy niiya’",
+	"cx-campaign-contributionsmenu-mytranslations": "Gmbang miru’",
+	"cx-campaign-contributionsmenu-myuploads": "Wal pawsun sa kktan quw meti’",
+	"echo-category-title-cx": "Gmbang miru’",
+	"cx-contributions-link": "Pincyuwagan su’",
+	"cx-suggestionlist-refresh": "T’aring smr’zyut  bniq na kay’",
+	"cx-publish-destination-namespace-main": "Qiqas na zngazyan"
+}

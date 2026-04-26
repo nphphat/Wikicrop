@@ -1,0 +1,29 @@
+{
+	"@metadata": {
+		"authors": [
+			"LoveIceLang",
+			"Snævar",
+			"Stefán Örvar Sigmundsson",
+			"Sveinn í Felli"
+		]
+	},
+	"popups-desc": "Sýnir forskoðunar sprettiglugga þegar notandi hangir yfir tengli",
+	"popups-settings-title": "Forskoðanir",
+	"popups-settings-option-page": "Virkja",
+	"popups-settings-option-page-description": "Fá snögga forskoðun á viðfangsefni á meðan þú lest síðu.",
+	"popups-settings-option-reference": "Forskoðun á heimildum",
+	"popups-settings-option-reference-description": "Fá snöggar forskoðanir á heimildum á meðan þú lest síðu.",
+	"popups-settings-save": "Vista",
+	"popups-settings-help-ok": "Lokið",
+	"popups-settings-cancel": "Hætta við",
+	"popups-settings-help": "Þú getur kveikt aftur á forskoðun með því að nota tengil neðst á síðunni.",
+	"popups-settings-enable": "Breyta forskoðunarstillingum",
+	"popups-settings-icon-gear-title": "Breyta stillingum forskoðunar síðu",
+	"popups-preview-no-preview": "Það var villa við að sýna þessa forskoðun",
+	"popups-preview-footer-read": "Fara á þessa síðu",
+	"popups-preview-disambiguation": "Þessi titil tengist fleiri en einni síðu",
+	"popups-preview-disambiguation-link": "Skoða svipaðar síður",
+	"prefs-reading": "Kjörstillingar við lestur",
+	"popups-prefs-optin": "Virkja forskoðun síðna (fá snögga forskoðun á efni á meðan þú lest síðu)",
+	"popups-prefs-disable-nav-gadgets-info": "Þú þarft að [[$1|afvirkja Navigation popups-græjuna]] í stillingunum þínum til að virkja forskoðun síðna."
+}

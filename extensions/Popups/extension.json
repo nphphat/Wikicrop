@@ -1,0 +1,191 @@
+{
+	"name": "Popups",
+	"namemsg": "popups-message",
+	"author": [
+		"Prateek Saxena",
+		"[https://www.mediawiki.org/wiki/Reading/Web/Team Readers Web Team]",
+		"Yair Rand"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:Popups",
+	"descriptionmsg": "popups-desc",
+	"license-name": "GPL-2.0-or-later",
+	"requires": {
+		"MediaWiki": ">= 1.44"
+	},
+	"AutoloadNamespaces": {
+		"Popups\\": "includes/"
+	},
+	"ConfigRegistry": {
+		"popups": "GlobalVarConfig::newInstance"
+	},
+	"Hooks": {
+		"BeforePageDisplay": "PopupsHooks",
+		"ResourceLoaderGetConfigVars": "PopupsHooks",
+		"GetPreferences": "PopupsHooks",
+		"MakeGlobalVariablesScript": "PopupsHooks"
+	},
+	"HookHandlers": {
+		"PopupsHooks": {
+			"class": "Popups\\PopupsHooks",
+			"services": [
+				"Popups.Config",
+				"Popups.Context",
+				"Popups.Logger",
+				"UserOptionsManager"
+			]
+		}
+	},
+	"MessagesDirs": {
+		"Popups": [
+			"i18n"
+		]
+	},
+	"attributes": {
+		"EventLogging": {
+			"Schemas": {
+				"VirtualPageView": "/analytics/legacy/virtualpageview/1.0.0"
+			}
+		}
+	},
+	"config": {
+		"PopupsVirtualPageViews": {
+			"description": "@var bool: Whether the extension should log virtual pageviews.",
+			"value": false
+		},
+		"PopupsHideOptInOnPreferencesPage": {
+			"description": "@var bool: Whether the option to enable/disable Page Previews should be hidden on Preferences page. False by default",
+			"value": false
+		},
+		"PopupsConflictingNavPopupsGadgetName": {
+			"description": "@var string: Navigation popups gadget name",
+			"value": "Navigation_popups"
+		},
+		"PopupsGateway": {
+			"description": "Which gateway to use for fetching Popups data. Available options: [mwApiPlain|restbasePlain|restbaseHTML]. Full and always up to date list is available in src/gateway/index.js",
+			"value": "mwApiPlain"
+		},
+		"PopupsRestGatewayEndpoint": {
+			"description": "Specify a REST endpoint where summaries should be sourced from. Endpoint must meet the spec at https://www.mediawiki.org/wiki/Specs/Summary/1.2.0",
+			"value": "/api/rest_v1/page/summary/"
+		},
+		"PopupsStatsvSamplingRate": {
+			"description": "Sampling rate for logging performance data to statsv.",
+			"value": 0
+		},
+		"PopupsPageDisabled": {
+			"description": "List of pages that should not show Popups. Includes subpages. These pages are subject to the HTML cache policy of the wiki. A purge on these pages maybe needed to see the effect of this configuration variable. Every excluded page should be defined by a canonical name, eg: Special:Userlogin",
+			"value": [
+				"Special:CreateAccount",
+				"Special:GlobalRenameRequest",
+				"Special:Userlogin",
+				"Special:MergeAccount",
+				"Special:ChangeCredentials",
+				"Special:OAuthListConsumers",
+				"Special:GlobalUserRights",
+				"Special:Notifications",
+				"Special:UserRights",
+				"Special:Upload",
+				"Special:VipsTest",
+				"Special:ApiFeatureUsage",
+				"Special:ExpandTemplates",
+				"Special:GadgetUsage",
+				"Special:GraphSandbox",
+				"Special:TemplateSandbox",
+				"Special:MostLinkedFiles",
+				"Special:Book"
+			]
+		},
+		"PopupsTextExtractsIntroOnly": {
+			"description": "Whether we should extract intro text only or full page text. This is only applicable when using PopupsGateway=mwApiPlain.",
+			"value": true
+		}
+	},
+	"ResourceModules": {
+		"ext.popups.icons": {
+			"class": "MediaWiki\\ResourceLoader\\OOUIIconPackModule",
+			"selectorWithoutVariant": ".popups-icon--{name}",
+			"icons": [
+				"infoFilled",
+				"settings"
+			]
+		},
+		"ext.popups": {
+			"packageFiles": [
+				{
+					"name": "resources/ext.popups/types.json",
+					"callback": "Popups\\PopupsHooks::getCustomPopupTypes"
+				},
+				"resources/ext.popups/index.js"
+			]
+		},
+		"ext.popups.main": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"codexStyleOnly": true,
+			"codexComponents": [
+				"CdxButton",
+				"CdxIcon",
+				"CdxCheckbox"
+			],
+			"scripts": [
+				"resources/dist/index.js"
+			],
+			"styles": [
+				"src/ui/index.less"
+			],
+			"messages": [
+				"popups-settings-title",
+				"popups-settings-option-page",
+				"popups-settings-option-page-description",
+				"popups-settings-option-reference",
+				"popups-settings-option-reference-description",
+				"popups-settings-save",
+				"popups-settings-cancel",
+				"popups-settings-enable",
+				"popups-settings-icon-gear-title",
+				"popups-settings-help",
+				"popups-settings-help-ok",
+				"popups-preview-no-preview",
+				"popups-preview-footer-read",
+				"popups-preview-disambiguation",
+				"popups-preview-disambiguation-link"
+			],
+			"dependencies": [
+				"web2017-polyfills",
+				"mediawiki.experiments",
+				"mediawiki.jqueryMsg",
+				"mediawiki.storage",
+				"mediawiki.Title",
+				"mediawiki.user",
+				"mediawiki.util"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "Popups"
+	},
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
+	"DefaultUserOptions": {
+		"popups": "1"
+	},
+	"ConditionalUserOptions": {
+		"popups": [
+			[
+				"1",
+				[
+					"registered-after",
+					"20170816000000"
+				]
+			],
+			[
+				"0",
+				[
+					"named-user"
+				]
+			]
+		]
+	},
+	"manifest_version": 2
+}

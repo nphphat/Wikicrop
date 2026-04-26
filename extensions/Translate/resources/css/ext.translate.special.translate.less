@@ -1,0 +1,263 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins.less';
+
+/*
+ * Breadcrumb for message group selector
+ */
+.tux-breadcrumb {
+	color: @color-base;
+	margin-top: 5px;
+	font-size: 14pt;
+	line-height: 1.25em;
+
+	/* This applies to all items in the breadcrumb */
+	.grouptitle {
+		float: left;
+		padding: 0 6px 0 0;
+		font-size: 0.75em;
+	}
+
+	/* Not all of these are links, so name is wrong besides being too generic.
+	 * This excludes the first item which says "message group". */
+	.grouplink {
+		padding: 0 6px;
+
+		/* Arrow between breadcrumb items */
+		&::after {
+			border-left: 4px solid @color-subtle;
+			border-top: 4px solid transparent;
+			border-bottom: 4px solid transparent;
+			content: '';
+			display: inline-block;
+			vertical-align: middle;
+			position: relative;
+			right: -5px;
+		}
+
+		&:last-of-type {
+			font-size: 1em;
+			margin: 6px 0 4px 0;
+			clear: both;
+
+			&::after {
+				display: none;
+			}
+		}
+
+		&.tux-breadcrumb__item--aggregate:last-of-type > span {
+			font-size: 0.75em;
+			margin-inline-start: 6px;
+		}
+	}
+
+	/* Color clickable groups to look as links */
+	&__item--aggregate,
+	.grouplink.tux-breadcrumb__item--aggregate:last-of-type > span > span {
+		cursor: @cursor-base--hover;
+		color: @color-progressive;
+	}
+
+	.grouplink.tux-breadcrumb__item--aggregate:last-of-type {
+		color: unset;
+	}
+
+	.mw-ui-button.tux-watch-button {
+		float: left;
+		padding: 3px 8px;
+		margin-left: 3px;
+		margin-top: 2px;
+	}
+
+	.tux-watch-button {
+		.tux-watch-icon {
+			background: no-repeat left center transparent;
+			background-size: contain;
+			width: 20px;
+			height: 20px;
+		}
+
+		&.tux-watch-group--unwatch .tux-watch-icon {
+			.cdx-mixin-css-icon( @cdx-icon-bookmark-outline, @param-vertical-align: middle );
+		}
+
+		&.tux-watch-group--watch .tux-watch-icon {
+			.cdx-mixin-css-icon( @cdx-icon-bookmark, @param-vertical-align: middle );
+		}
+
+		.tux-watch-label {
+			font-size: 0.75em;
+			padding-inline-start: 3px;
+		}
+
+		.tux-watch-label,
+		.tux-watch-icon {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
+/** Move the triangle for the groupselector */
+.tux-groupselector.tux-groupselector-tpt {
+	&::before {
+		left: 19px;
+	}
+
+	&::after {
+		left: 20px;
+	}
+}
+
+.tux-message-selector {
+	font-size: 14px;
+	margin: 0;
+	padding: 6px 0 0 0;
+	list-style: none;
+
+	.column {
+		border: medium none;
+		font-size: 14pt;
+		cursor: @cursor-base--hover;
+		font-weight: normal;
+		line-height: 1.25em;
+		top: 1px;
+		display: block;
+		margin-bottom: 0;
+	}
+
+	.more {
+		padding: 0 40px 0 5px;
+
+		ul {
+			display: none;
+			cursor: @cursor-base;
+			border: @border-width-base @border-style-base @border-color-interactive;
+			border-top: 2px solid transparent;
+			padding: 3px 5px 10px 5px;
+			width: 300px;
+			z-index: 10;
+			background: @background-color-base;
+			top: 100%;
+			left: -5px;
+
+			a {
+				display: block;
+				white-space: nowrap;
+				margin-left: 1px;
+			}
+		}
+
+		&:hover {
+			ul {
+				display: block;
+				position: absolute;
+			}
+
+			li {
+				float: none;
+			}
+		}
+	}
+
+	li {
+		&.selected {
+			border-bottom: @border-width-thick @border-style-base @border-color-progressive;
+
+			a {
+				color: @color-progressive;
+			}
+		}
+
+		a {
+			color: @color-subtle;
+			text-decoration: none;
+			white-space: nowrap;
+			margin-left: 1px;
+		}
+	}
+
+	label {
+		color: @color-subtle;
+		font-size: 12pt;
+		top: 1px;
+	}
+}
+
+.tux-editor-header {
+	color: @color-base;
+	font-size: 14px;
+	padding-bottom: 10px;
+
+	.description {
+		margin: 5px 0;
+	}
+
+	.mw-message-box {
+		margin-bottom: 5px;
+	}
+
+	.tux-group-warning.tux-group-warning {
+		padding: 0.5em 1.2em;
+	}
+}
+
+.tux-group-warning:empty {
+	display: none;
+}
+
+.tux-messagetable-header {
+	padding-top: 5px;
+	border-bottom: @border-width-base @border-style-base @border-color-interactive;
+	box-shadow: @box-shadow-drop-medium;
+	font-size: 14px;
+	margin: 0;
+	list-style: none;
+	transition: width 250ms;
+
+	@media screen and ( min-height: 600px ) {
+		background: @background-color-base;
+		position: sticky;
+		padding-top: 5px;
+		top: 0;
+		z-index: 200;
+	}
+}
+
+.tux-message-filter-wrapper {
+	position: relative;
+
+	&::before {
+		content: '';
+		.cdx-mixin-css-icon( @cdx-icon-search, @color-subtle );
+		height: 28px; // Identical to height of input box below
+		width: 34px; // Identical to right padding of input box below
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+
+	.tux-message-filter-box {
+		background-size: 18px;
+		font-size: 14px;
+		/* FIXME: `box-sizing` lives here due to a shortcoming in Timeless, isn't needed in other skins
+		As soon as https://phabricator.wikimedia.org/T276896 is resolved, next line should be removed */
+		box-sizing: border-box !important;
+		height: 28px;
+		border: @border-subtle;
+		width: 100%;
+		padding: 0 5px 0 34px;
+		margin: 0;
+	}
+}
+
+.client-nojs .tux-messagetable-header {
+	display: none;
+}
+
+.client-js .tux-nojs {
+	display: none;
+}
+
+.mw-special-Translate #firstHeading {
+	display: none;
+}

@@ -1,0 +1,1901 @@
+{
+	"name": "ContentTranslation",
+	"author": [
+		"Amir Aharoni",
+		"David Chan",
+		"Joel Sahleen",
+		"Kartik Mistry",
+		"Nik Gκοuntas",
+		"Niklas Laxström",
+		"Pau Giner",
+		"Petar Petković",
+		"Runa Bhattacharjee",
+		"Santhosh Thottingal",
+		"Siebrand Mazeland",
+		"Sucheta Ghoshal"
+	],
+	"url": "https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:ContentTranslation",
+	"descriptionmsg": "cx-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "specialpage",
+	"requires": {
+		"MediaWiki": ">= 1.45",
+		"extensions": {
+			"Cite": "*",
+			"UniversalLanguageSelector": "*",
+			"VisualEditor": "*",
+			"WikimediaMessages": "*"
+		}
+	},
+	"ExtensionMessagesFiles": {
+		"ContentTranslationAliases": "ContentTranslation.alias.php"
+	},
+	"ValidSkinNames": {
+		"contenttranslation": {
+			"class": "ContentTranslation\\Skin\\SkinContentTranslation",
+			"skippable": true,
+			"args": [
+				{
+					"name": "contenttranslation",
+					"responsive": true,
+					"styles": [
+						"mw.cx.skin"
+					],
+					"messages": [
+						"cx-javascript"
+					]
+				}
+			]
+		}
+	},
+	"HookHandlers": {
+		"sxbeforepublish": {
+			"class": "ContentTranslation\\SectionTranslationBeforePublishHandler",
+			"services": [
+				"ContentHandlerFactory",
+				"HttpRequestFactory",
+				"WikiPageFactory",
+				"MainConfig"
+			]
+		},
+		"axArticleFooterEntrypointRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\AxArticleFooterEntrypointRegistrationHandler",
+			"services": [
+				"ConfigFactory",
+				"ContentLanguage"
+			],
+			"optional_services": [
+				"DisambiguatorLookup"
+			]
+		},
+		"mfFrequentLanguagesEntrypointRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\MfFrequentLanguagesEntrypointRegistrationHandler",
+			"services": [
+				"LanguageFactory",
+				"LanguageNameUtils"
+			]
+		},
+		"mfLanguageSearcherEntrypointsRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\MfLanguageSearcherEntrypointsRegistrationHandler",
+			"services": [
+				"ContentTranslation.PreferenceHelper"
+			]
+		},
+		"ulsRelevantLanguagesEntrypointRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\ULSRelevantLanguagesEntrypointRegistrationHandler",
+			"services": [
+				"ContentTranslation.PreferenceHelper"
+			]
+		},
+		"ulsQuickActionEntrypointRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\ULSQuickActionEntrypointRegistrationHandler",
+			"services": [
+				"ActionFactory"
+			]
+		},
+		"recentEditEntrypointRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\RecentEditEntrypointRegistrationHandler",
+			"services": [
+				"ContentTranslation.RecentSignificantEditStore",
+				"ContentTranslation.WikidataIdFetcher"
+			]
+		},
+		"recentTranslationEntrypointRegistrar": {
+			"class": "ContentTranslation\\HookHandler\\RecentTranslationEntrypointRegistrationHandler",
+			"services": [
+				"DBLoadBalancer",
+				"RevisionStore",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"main": {
+			"class": "ContentTranslation\\Hooks"
+		},
+		"schema": {
+			"class": "ContentTranslation\\SchemaHooks"
+		}
+	},
+	"Hooks": {
+		"LoadExtensionSchemaUpdates": "schema",
+		"BeforePageDisplay": [
+			"main",
+			"mfFrequentLanguagesEntrypointRegistrar",
+			"mfLanguageSearcherEntrypointsRegistrar",
+			"ulsRelevantLanguagesEntrypointRegistrar",
+			"ulsQuickActionEntrypointRegistrar",
+			"recentEditEntrypointRegistrar",
+			"recentTranslationEntrypointRegistrar",
+			"axArticleFooterEntrypointRegistrar"
+		],
+		"GetPreferences": "main",
+		"GetBetaFeaturePreferences": "ContentTranslation\\Hooks::onGetBetaFeaturePreferences",
+		"ResourceLoaderRegisterModules": "main",
+		"SpecialContributionsBeforeMainOutput": "main",
+		"ListDefinedTags": "main",
+		"ChangeTagsListActive": "main",
+		"SaveUserOptions": "main",
+		"EditPage::showEditForm:initial": "main",
+		"BeforeCreateEchoEvent": "ContentTranslation\\Hooks::onBeforeCreateEchoEvent",
+		"EchoGetBundleRules": "ContentTranslation\\Hooks::onEchoGetBundleRules",
+		"SectionTranslationBeforePublish": "sxbeforepublish",
+		"ContributeCards": "main",
+		"SkinAfterContent": "axArticleFooterEntrypointRegistrar"
+	},
+	"DomainEventIngresses": [
+		{
+			"events": [
+				"PageRevisionUpdated"
+			],
+			"class": "ContentTranslation\\Events\\SignificantEditEventIngress",
+			"services": [
+				"RevisionStore",
+				"ContentTranslation.RecentSignificantEditStore",
+				"ContentTranslation.EditedSectionFinder",
+				"ContentTranslation.WikidataIdFetcher"
+			]
+		}
+	],
+	"APIModules": {
+		"cxdelete": {
+			"class": "ContentTranslation\\ActionApi\\ApiContentTranslationDelete",
+			"services": [
+				"ContentTranslation.TranslationCorporaStore",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"sxdelete": {
+			"class": "ContentTranslation\\ActionApi\\ApiSectionTranslationDelete",
+			"services": [
+				"ContentTranslation.TranslationCorporaStore",
+				"ContentTranslation.SectionTranslationStore",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"cxpublish": {
+			"class": "ContentTranslation\\ActionApi\\ApiContentTranslationPublish",
+			"services": [
+				"ContentTranslation.ParsoidClientFactory",
+				"LanguageFactory",
+				"StatsFactory",
+				"LanguageNameUtils",
+				"ContentTranslation.TranslationStore",
+				"ContentTranslation.TranslationTargetUrlCreator",
+				"ContentTranslation.UserPermissionChecker",
+				"ChangeTagsStore"
+			]
+		},
+		"cxpublishsection": {
+			"class": "ContentTranslation\\ActionApi\\ApiSectionTranslationPublish",
+			"services": [
+				"TitleFactory",
+				"HookContainer",
+				"LanguageNameUtils",
+				"ContentTranslation.SectionContentEvaluator",
+				"ContentTranslation.SectionPositionCalculator",
+				"ContentTranslation.SandboxTitleMaker",
+				"ContentTranslation.SectionTranslationStore",
+				"ContentTranslation.TranslationStore",
+				"ContentTranslation.TranslationTargetUrlCreator",
+				"ContentTranslation.UserPermissionChecker",
+				"ChangeTagsStore"
+			]
+		},
+		"cxsave": {
+			"class": "ContentTranslation\\ActionApi\\ApiContentTranslationSave",
+			"services": [
+				"ContentTranslation.TranslationCorporaManager",
+				"ContentTranslation.ConnectionProvider",
+				"ContentTranslation.TranslationUnitValidator",
+				"LanguageNameUtils",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"sxsave": {
+			"class": "ContentTranslation\\ActionApi\\ApiSectionTranslationSave",
+			"services": [
+				"ContentTranslation.TranslationCorporaManager",
+				"ContentTranslation.ConnectionProvider",
+				"ContentTranslation.SectionTranslationStore",
+				"ContentTranslation.SandboxTitleMaker",
+				"TitleFactory",
+				"LanguageNameUtils",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"cxsplit": {
+			"class": "ContentTranslation\\ActionApi\\ApiContentTranslationSplit",
+			"services": [
+				"ContentTranslation.ConnectionProvider",
+				"ContentTranslation.TranslationSplitter",
+				"ContentTranslation.TranslationStore",
+				"ContentTranslation.SectionTranslationStore"
+			]
+		},
+		"cxcheckunreviewed": {
+			"class": "ContentTranslation\\ActionApi\\ApiContentTranslationUnreviewedCheck",
+			"services": [
+				"ContentTranslation.TranslationStore",
+				"ContentTranslation.TranslationCorporaStore",
+				"ContentTranslation.UserService"
+			]
+		},
+		"cxfavoritesuggestions": {
+			"class": "ContentTranslation\\ActionApi\\ApiContentTranslationFavoriteSuggestions",
+			"services": [
+				"ContentTranslation.FavoriteSuggestionStore",
+				"ContentTranslation.UserService",
+				"TitleFactory",
+				"LanguageNameUtils"
+			]
+		},
+		"cxtoken": "ContentTranslation\\ActionApi\\ApiContentTranslationToken"
+	},
+	"APIListModules": {
+		"contenttranslation": {
+			"class": "ContentTranslation\\ActionApi\\ApiQueryContentTranslation",
+			"services": [
+				"ContentTranslation.SectionTranslationStore",
+				"ContentTranslation.TranslationCorporaManager",
+				"ContentTranslation.UserService",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"contenttranslationcorpora": {
+			"class": "ContentTranslation\\ActionApi\\ApiQueryContentTranslationCorpora",
+			"services": [
+				"ContentTranslation.TranslationCorporaManager"
+			]
+		},
+		"contenttranslationsuggestions": {
+			"class": "ContentTranslation\\ActionApi\\ApiQueryContentTranslationSuggestions",
+			"services": [
+				"ContentTranslation.UserService",
+				"ContentTranslation.TranslationStore"
+			]
+		},
+		"cxpublishedtranslations": {
+			"class": "ContentTranslation\\ActionApi\\ApiQueryPublishedTranslations",
+			"services": [
+				"LanguageNameUtils"
+			]
+		},
+		"cxtranslatorstats": {
+			"class": "ContentTranslation\\ActionApi\\ApiQueryTranslatorStats",
+			"services": [
+				"ContentTranslation.UserService"
+			]
+		},
+		"automatictranslationdenselanguages": {
+			"class": "ContentTranslation\\ActionApi\\ApiQueryAutomaticTranslationDenseLanguages",
+			"services": [
+				"HttpRequestFactory",
+				"MainWANObjectCache"
+			]
+		}
+	},
+	"APIMetaModules": {
+		"cxdeletedtranslations": "ContentTranslation\\ActionApi\\ApiQueryDeletedTranslations"
+	},
+	"APIPropModules": {
+		"langlinkscount": "ContentTranslation\\ActionApi\\ApiQueryLangLinksCount"
+	},
+	"MessagesDirs": {
+		"ContentTranslation": [
+			"i18n",
+			"i18n/api",
+			"i18n/minT"
+		]
+	},
+	"SpecialPages": {
+		"ContentTranslation": {
+			"class": "ContentTranslation\\Special\\SpecialContentTranslation",
+			"services": [
+				"SkinFactory",
+				"ContentTranslation.PreferenceHelper"
+			]
+		},
+		"AutomaticTranslation": {
+			"class": "ContentTranslation\\Special\\SpecialAutomaticTranslation",
+			"services": [
+				"LanguageNameUtils"
+			]
+		}
+	},
+	"AutoloadNamespaces": {
+		"ContentTranslation\\": "includes/",
+		"ContentTranslation\\Skin\\": "skin/"
+	},
+	"TestAutoloadNamespaces": {
+		"ContentTranslation\\Tests\\": "tests/phpunit/"
+	},
+	"DefaultUserOptions": {
+		"echo-subscriptions-web-cx": true,
+		"cx": false,
+		"cx-enable-entrypoints": true,
+		"cx-entrypoint-fd-status": "notshown",
+		"cx_campaign_newarticle_shown": false
+	},
+	"DatabaseVirtualDomains": [
+		"virtual-cx"
+	],
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
+	"config": {
+		"ContentTranslationDomainCodeMapping": {
+			"value": {
+				"be-x-old": "be-tarask",
+				"bho": "bh",
+				"en-simple": "simple",
+				"gsw": "als",
+				"lzh": "zh-classical",
+				"nan": "zh-min-nan",
+				"nb": "no",
+				"rup": "roa-rup",
+				"sgs": "bat-smg",
+				"simple": "simple",
+				"vro": "fiu-vro",
+				"yue": "zh-yue"
+			}
+		},
+		"ContentTranslationDatabase": {
+			"description": "The Database domain ID of the relevant wiki or false for the local wiki",
+			"value": false
+		},
+		"ContentTranslationCluster": {
+			"description": "The external Database cluster name where the database lives or false if not exists",
+			"value": false
+		},
+		"ContentTranslationSiteTemplates": {
+			"value": {
+				"view": "https://$1.wikipedia.org/wiki/$2",
+				"action": "https://$1.wikipedia.org/w/index.php?title=$2",
+				"api": "https://$1.wikipedia.org/w/api.php",
+				"cx": "http://localhost:8080/v1",
+				"cookieDomain": null
+			}
+		},
+		"ContentTranslationTranslateInTarget": {
+			"description": "Whether to open Special:ContentTranslation in the target wiki when clicking the button in the entry point. The domain will be based on $wgContentTranslationSiteTemplates. The default is to open Special:ContentTranslation on the same wiki",
+			"value": false
+		},
+		"ContentTranslationAsBetaFeature": {
+			"description": "Whether to have CX available only as a beta feature and only shown to the users who have enabled the beta feature.",
+			"value": true
+		},
+		"ContentTranslationTargetNamespace": {
+			"description": "Target namespace to publish articles. Values can be valid namespace ids. Example: 0 for Main, 2 for User namespace",
+			"value": 0
+		},
+		"ContentTranslationCampaigns": {
+			"value": {
+				"specialcx": true,
+				"newarticle": true,
+				"specialcontribute": true,
+				"cx2outreach": {
+					"edittag": "cx2-outreach"
+				}
+			}
+		},
+		"ContentTranslationCXServerAuth": {
+			"value": {
+				"algorithm": "HS256",
+				"key": "",
+				"age": "3600"
+			}
+		},
+		"ContentTranslationEnableSuggestions": {
+			"value": true
+		},
+		"ContentTranslationEnableMT": {
+			"description": "Whether Machine Translation services are enabled for this target wiki",
+			"value": true
+		},
+		"RecommendToolAPIURL": {
+			"description": "Web API URL for translation recommendation tool",
+			"value": "https://api.wikimedia.org/service/lw/recommendation/api/v1/translation"
+		},
+		"ContentTranslationVersion": {
+			"value": "2"
+		},
+		"ContentTranslationUnmodifiedMTThresholdForPublish": {
+			"description": "If the user exceeds a threshold an error will be shown to the user when they try to publish. The threshold will be calculated for the whole document, and it will prevent publishing until the content is modified.",
+			"value": 95
+		},
+		"ContentTranslationPublishRequirements": {
+			"description": "List of requirements for user account to be able to publish in main namespace. Possible requirements: * userGroups: User should belong to any group in this list in order to be able to publish.",
+			"value": {
+				"userGroups": [
+					"*"
+				]
+			}
+		},
+		"ContentTranslationExcludedNamespaces": {
+			"description": "Array with keys as canonical namespaces(English names) excluded from translating. Matching is case insensitive. All talk namespaces(with odd number ids) are excluded.",
+			"value": {
+				"File": true,
+				"Gadget definition": true,
+				"Gadget": true,
+				"MediaWiki": true,
+				"Module": true,
+				"Template": true,
+				"Topic": true,
+				"Translations": true
+			}
+		},
+		"ContentTranslationEnableAnonSectionTranslation": {
+			"description": "Whether section translation is enabled for anonymous users",
+			"value": false
+		},
+		"SectionTranslationTargetLanguages": {
+			"description": "If set, section translation will be only available for the specified target languages. Additionally these languages are used for language search entrypoints in Mobilefrontend.",
+			"value": null
+		},
+		"ContentTranslationContentImportForSectionTranslation": {
+			"description": "Whether to auto import existing pages from production wikis to local wiki before publishing section translation. Useful for development and testing",
+			"value": false
+		},
+		"ContentTranslationDevMode": {
+			"description": "Whether Content translation need to run in dev mode with features like Hot Module Replacement",
+			"value": false
+		},
+		"ContentTranslationEnableUnifiedDashboard": {
+			"description": "Whether the unified dashboard should be used for Content Translation",
+			"value": false
+		},
+		"DraftMaxAge": {
+			"description": "Maximum age of unpublished drafts before they're purged from DB. Expressed in days and defaults to approximate value of 15 months.",
+			"value": 456
+		},
+		"AutomaticTranslationLanguageSearcherEntrypointEnabledLanguages": {
+			"description": "Languages for which the mobile language searcher entrypoint for Automatic Translation should be enabled",
+			"value": null
+		}
+	},
+	"ResourceModules": {
+		"ext.cx.contributions": {
+			"scripts": [
+				"entrypoints/ext.cx.contributions.js"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.contributions.less"
+			],
+			"skinStyles": {
+				"vector": [
+					"entrypoints/styles/ext.cx.contributions.vector.less"
+				],
+				"vector-2022": [
+					"entrypoints/styles/ext.cx.contributions.vector.less"
+				]
+			},
+			"dependencies": [
+				"oojs-ui-core",
+				"oojs-ui.styles.icons-content",
+				"oojs-ui.styles.icons-editing-advanced",
+				"mediawiki.util"
+			],
+			"messages": [
+				"cx-contributions-new-contributions",
+				"cx-contributions-new-article",
+				"cx-contributions-translation",
+				"cx-contributions-upload",
+				"cx-contributions-new-article-tooltip",
+				"cx-contributions-translation-tooltip",
+				"cx-contributions-upload-tooltip"
+			]
+		},
+		"ext.cx.model": {
+			"scripts": [
+				"base/ext.cx.model.js"
+			]
+		},
+		"sx.publishing.followup": {
+			"packageFiles": [
+				"entrypoints/ext.cx.entrypoints.publishingfollowup/index.js",
+				"entrypoints/ext.cx.entrypoints.publishingfollowup/sx.publishing.followup.highlight.js",
+				"entrypoints/ext.cx.entrypoints.publishingfollowup/sx.publishing.followup.confirmation.js",
+				"entrypoints/ext.cx.entrypoints.publishingfollowup/PublishFeedback.vue"
+			],
+			"messages": [
+				"cx-sx-followup-feedback-new-indicator",
+				"cx-sx-published-section-confirmation-header",
+				"cx-sx-published-section-confirmation-content",
+				"cx-sx-published-section-invitation-title",
+				"cx-sx-published-section-invitation-missing-sections-info"
+			],
+			"dependencies": [
+				"vue",
+				"mw.cx.SiteMapper",
+				"mw.cx.util"
+			]
+		},
+		"ext.cx.articlefilters": {
+			"packageFiles": [
+				"articlefilters/ext.cx.articlefilters.js",
+				{
+					"name": "articletopics.json",
+					"callback": "ContentTranslation\\ArticleTopicsDefinition::getTopics"
+				},
+				{
+					"name": "articlecountries.json",
+					"callback": "ContentTranslation\\ArticleCountriesDefinition::getCountries"
+				}
+			]
+		},
+		"mw.cx3": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"localBasePath": "app",
+			"remoteExtPath": "ContentTranslation/app",
+			"packageFiles": [
+				{
+					"name": "dist/cx3.es.js",
+					"callback": "ContentTranslation\\Hooks::devModeCallback",
+					"callbackParam": [
+						"dist/cx3.es.js",
+						"src/main.dev.js"
+					]
+				}
+			],
+			"styles": [
+				"dist/style.css"
+			],
+			"dependencies": [
+				"vue",
+				"vuex",
+				"mediawiki.user",
+				"mw.cx.SiteMapper",
+				"mw.cx.util",
+				"ext.cx.articlefilters"
+			],
+			"codexComponents": [
+				"CdxButton",
+				"CdxIcon",
+				"CdxDialog",
+				"CdxInfoChip",
+				"CdxSearchInput",
+				"CdxTextInput",
+				"CdxMenu",
+				"CdxMessage",
+				"CdxTabs",
+				"CdxTab"
+			],
+			"messages": [
+				"cx-create-new-translation",
+				"cx-translation-filter-suggested-translations",
+				"cx-translation-filter-draft-translations",
+				"cx-translation-filter-published-translations",
+				"cx-translation-label-published",
+				"cx-translation-label-draft",
+				"cx-translation-label-draft",
+				"cx-suggestionlist-title",
+				"cx-suggestionlist-expand-sections-title",
+				"cx-suggestionlist-refresh",
+				"cx-license-agreement",
+				"cx-sx-select-section",
+				"cx-sx-missing-section-stats",
+				"cx-sx-section-selector-title",
+				"cx-sx-section-selector-subtitle",
+				"cx-sx-section-selector-desc",
+				"cx-sx-language-selector-dialog-title",
+				"cx-sx-existing-translation-status",
+				"cx-sx-existing-translation-additional-info",
+				"cx-sx-start-translation-button-label",
+				"cx-sx-view-translation-anchor",
+				"cx-sx-existing-translation-learn-more",
+				"cx-sx-section-selector-missing-sections-title",
+				"cx-sx-section-selector-present-sections-title",
+				"cx-sx-section-selector-more-details-title",
+				"cx-sx-section-selector-view-article-button-label",
+				"cx-sx-section-selector-empty-missing-sections-title",
+				"cx-sx-section-selector-empty-missing-sections-desc",
+				"cx-sx-section-selector-pick-other-translation-button-label",
+				"cx-sx-section-selector-automatic-section-matching-title",
+				"cx-sx-section-selector-automatic-section-matching-description",
+				"cx-sx-section-selector-learn-more-anchor-label",
+				"cx-sx-section-selector-unsupported-sections-title",
+				"cx-sx-section-selector-unsupported-sections-description",
+				"sx-section-selector-next-button-aria-label",
+				"cx-suggestion-list-new-pages-division",
+				"cx-translation-list-all-languages-option-label",
+				"cx-sx-translation-list-empty-title",
+				"cx-sx-translation-list-empty-description",
+				"cx-sx-content-comparator-back-to-sections-button-label",
+				"cx-sx-content-comparator-translation-section-button-label",
+				"cx-sx-content-comparator-review-contents-title",
+				"cx-sx-content-comparator-review-contents-rest",
+				"cx-sx-content-comparator-source-selector-title",
+				"sx-quick-tutorial-main-point-step-1",
+				"sx-quick-tutorial-main-point-step-2",
+				"sx-quick-tutorial-secondary-point-step-1",
+				"sx-quick-tutorial-secondary-point-step-2",
+				"sx-quick-tutorial-translate-button-label",
+				"cx-sx-sentence-selector-header-close-button-aria-label",
+				"cx-sx-sentence-selector-header-title",
+				"cx-sx-sentence-selector-done-button-label",
+				"cx-sx-sentence-selector-suggested-translation-title",
+				"cx-sx-sentence-selector-mt-settings-button-aria-label",
+				"cx-sx-sentence-selector-edit-translation-button-label",
+				"cx-sx-sentence-selector-previous-translation-button-aria-label",
+				"cx-sx-sentence-selector-apply-translation-button-label",
+				"cx-sx-sentence-selector-skip-translation-button-label",
+				"cx-sx-content-comparator-target-selector-full-article-title",
+				"cx-sx-content-comparator-translation-section-button-label",
+				"cx-sx-content-comparator-mapped-section-header-title",
+				"cx-sx-content-comparator-target-selector-target-section-title",
+				"cx-sx-content-comparator-mapped-section-clarifications",
+				"cx-sx-translation-confirmer-title",
+				"cx-sx-translation-confirmer-views-count",
+				"cx-sx-translation-confirmer-translation-time-lead-section",
+				"cx-sx-translation-confirmer-translation-time-single-section",
+				"cx-sx-translation-confirmer-translation-time-whole-article",
+				"cx-sx-translation-confirmer-translation-time-sections",
+				"cx-sx-translation-confirmer-bookmark-button-aria-label",
+				"cx-sx-content-comparator-discarded-section-clarifications",
+				"cx-sx-content-comparator-discarded-section-label",
+				"cx-sx-sentence-selector-translation-options-header-title",
+				"cx-sx-sentence-selector-translation-options-header-text",
+				"cx-sx-sentence-selector-translation-options-original-card-title",
+				"cx-sx-sentence-selector-translation-options-empty-card-title",
+				"cx-tools-mt-noservices",
+				"cx-sx-content-comparator-present-section-placeholder-title",
+				"cx-sx-content-comparator-present-section-placeholder-subtitle",
+				"cx-sx-content-comparator-content-header-translate-button-label",
+				"cx-sx-content-comparator-missing-section-placeholder-title",
+				"cx-sx-editor-original-panel-label",
+				"cx-sx-publisher-header-title",
+				"cx-sx-publisher-header-close-button-aria-label",
+				"cx-sx-publisher-header-check-button-aria-label",
+				"cx-sx-publisher-publish-panel-new-section-status",
+				"cx-sx-publisher-publish-panel-new-section-result",
+				"cx-sx-publisher-review-info",
+				"cx-sx-publisher-animation-publishing-indicator-title",
+				"cx-sx-publisher-animation-publishing-indicator-subtitle",
+				"cx-sx-publisher-animation-success-message-title",
+				"cx-sx-publisher-animation-success-message-subtitle",
+				"cx-sx-publisher-animation-failure-message-title",
+				"cx-sx-publisher-animation-failure-message-subtitle",
+				"cx-sx-publisher-preview-options-title",
+				"cx-sx-publisher-preview-options-back-button-aria-label",
+				"cx-sx-publisher-new-section-option-label",
+				"cx-sx-publisher-lead-section-option-label",
+				"cx-sx-publisher-new-section-option-details",
+				"cx-sx-publisher-lead-section-option-details",
+				"cx-sx-publisher-sandbox-option-label",
+				"cx-sx-publisher-sandbox-option-details",
+				"cx-sx-publisher-publish-panel-sandbox-section-result",
+				"cx-sx-publisher-review-info-error",
+				"cx-sx-publisher-review-info-learn-more",
+				"cx-sx-publisher-review-info-previous-button-aria-label",
+				"cx-sx-publisher-review-info-next-button-aria-label",
+				"cx-sx-publisher-configure-button-aria-label",
+				"cx-sx-publisher-edit-button-aria-label",
+				"cx-sx-dashboard-banner-title",
+				"cx-sx-dashboard-banner-description",
+				"cx-sx-dashboard-banner-learn-more",
+				"cx-sx-dashboard-banner-access-previous",
+				"cx-sx-sentence-selector-translated-segment-no-edits-label",
+				"cx-sx-sentence-selector-translated-segment-modification-percentage",
+				"cx-sx-sentence-selector-translated-segment-modification-percentage-header",
+				"cx-sx-sentence-selector-translated-segment-sentence-option",
+				"cx-sx-sentence-selector-translated-segment-paragraph-option",
+				"cx-sx-sentence-selector-translated-segment-next-button-aria-label",
+				"cx-sx-sentence-selector-translated-segment-previous-button-aria-label",
+				"cx-sx-publisher-mt-abuse-message-title",
+				"cx-sx-publisher-mt-abuse-error-title",
+				"cx-sx-publisher-mt-abuse-message-body",
+				"cx-sx-publisher-mt-abuse-error-body",
+				"cx-sx-translation-suggestion-info",
+				"cx-sx-translation-suggestion-quick",
+				"cx-sx-article-search-input-placeholder",
+				"cx-sx-article-search-recently-edited-title",
+				"cx-sx-article-search-nearby-title",
+				"sx-article-search-language-selector-dialog-title",
+				"sx-article-search-close-button-aria-label",
+				"cx-sx-language-selector-placeholder",
+				"cx-sx-language-selector-all-languages",
+				"cx-sx-language-selector-suggestions",
+				"cx-sx-language-selector-no-search-results",
+				"sx-translation-list-language-selector-dialog-title",
+				"cx-sx-article-search-header",
+				"cx-sx-article-search-no-suggestions-message",
+				"cx-sx-article-search-no-search-results-message",
+				"cx-sx-translation-confirmer-action-message-single-missing-multiple-present",
+				"cx-sx-translation-confirmer-action-message-single-missing-none-present",
+				"cx-sx-translation-confirmer-action-message-none-missing-multiple-present",
+				"cx-sx-translation-confirmer-action-message-none-missing-none-present",
+				"cx-sx-translation-confirmer-action-view-section",
+				"cx-sx-translation-confirmer-action-new-translation",
+				"cx-sx-translation-confirmer-more-sections-button-label",
+				"cx-sx-translation-confirmer-translate-prefilled-section-button-label",
+				"cx-sx-translation-confirmer-new-desktop-translation-button-label",
+				"cx-sx-translation-confirmer-prefilled-section-heading",
+				"cx-sx-translation-confirmer-continue-translation-button-label",
+				"sx-editor-feedback-overlay-title",
+				"sx-editor-feedback-overlay-clarification",
+				"sx-editor-feedback-overlay-stats",
+				"cx-suggestion-list-favorites-division",
+				"sx-block-template-adaptation-card-body-header-success",
+				"sx-block-template-adaptation-card-edit-button-label",
+				"sx-block-template-adaptation-card-body-header-failure",
+				"cx-sx-publisher-publish-panel-lead-section-result",
+				"sx-block-template-adaptation-card-edit-button-label-no-adapted-params",
+				"sx-block-template-adaptation-card-title-placeholder",
+				"sx-block-template-adaptation-card-status-button-aria-label",
+				"cx-sx-publisher-captcha-dialog-header-title",
+				"cx-sx-publisher-captcha-dialog-publish-button",
+				"cx-sx-publisher-captcha-dialog-close-button-aria-label",
+				"cx-sx-proposed-translation-not-available-message",
+				"cx-sx-proposed-translation-retry-button",
+				"cx-sx-proposed-translation-other-options-button",
+				"cx-sx-block-template-mapping-status-title-no-target-template",
+				"cx-sx-block-template-mapping-status-title-unadapted-template",
+				"cx-sx-block-template-mapping-status-title-partially-template",
+				"cx-sx-block-template-mapping-status-title-fully-template",
+				"cx-sx-block-template-mapping-status-explanation-no-mapping",
+				"cx-sx-block-template-mapping-status-explanation-partial-mapping",
+				"cx-sx-block-template-mapping-status-explanation-full-mapping",
+				"cx-sx-block-template-no-equivalent-template-suggestion",
+				"cx-sx-block-template-none-mapped-param-text",
+				"cx-sx-block-template-mapped-params-text",
+				"cx-sx-block-template-no-source-params-text",
+				"cx-sx-block-template-missing-mandatory-params-text",
+				"cx-sx-block-template-missing-optional-params-text",
+				"cx-sx-dashboard-help-panel-title",
+				"cx-sx-dashboard-help-panel-more-info-label",
+				"cx-sx-dashboard-help-panel-feedback-label",
+				"cx-sx-dashboard-stats-panel-title",
+				"cx-sx-dashboard-stats-panel-monthly-stats-label",
+				"cx-sx-dashboard-stats-panel-total-stats-label",
+				"sx-confirm-back-navigation-dialog-title",
+				"sx-confirm-back-navigation-dialog-body",
+				"sx-confirm-back-navigation-dialog-discard-button-label",
+				"sx-confirm-back-navigation-dialog-continue-button-label",
+				"cx-sx-login-dialog-title",
+				"cx-sx-login-dialog-body",
+				"cx-sx-login-dialog-button-label",
+				"sx-confirm-translation-deletion-dialog-body",
+				"sx-translation-deletion-cancel-button-label",
+				"sx-translation-deletion-confirm-button-label",
+				"cx-sx-translation-work-days-since-started",
+				"cx-sx-translation-work-months-since-started",
+				"cx-sx-translation-work-years-since-started",
+				"sx-confirm-draft-translation-start-dialog-title",
+				"sx-confirm-draft-translation-start-dialog-subtitle",
+				"sx-confirm-draft-translation-start-dialog-explanation-first-line",
+				"sx-confirm-draft-translation-start-dialog-explanation-second-line",
+				"sx-confirm-draft-translation-start-dialog-explanation-third-line",
+				"sx-confirm-draft-translation-start-button-label",
+				"sx-published-translation-start-section-translation-button-aria-label",
+				"sx-published-translation-new-translation-button-label",
+				"cx-unreviewed-translation-dialog-title",
+				"cx-unreviewed-translation-dialog-review-translation-button-label",
+				"cx-unreviewed-translation-dialog-close-button-label",
+				"cx-unreviewed-translation-dialog-body",
+				"cx-unreviewed-translation-dialog-learn-more-link-label",
+				"cx-sx-suggestions-filters-invalid-url",
+				"cx-sx-suggestions-filters-header",
+				"cx-sx-suggestions-filters-close-button-aria-label",
+				"cx-sx-suggestions-filters-done-button-label",
+				"cx-sx-suggestions-filters-view-all-collections-group",
+				"cx-sx-suggestions-filters-view-all-regions-group",
+				"cx-sx-suggestions-filters-view-more-countries",
+				"cx-sx-suggestions-filters-tab-all",
+				"cx-sx-suggestions-filters-tab-collections",
+				"cx-sx-suggestions-filters-tab-regions",
+				"cx-sx-suggestions-filters-tab-topics",
+				"cx-sx-suggestions-filter-user-edit-label",
+				"cx-sx-suggestions-filter-most-popular-label",
+				"cx-sx-suggestions-filter-page-collection-label",
+				"cx-sx-suggestions-filter-more-label",
+				"cx-sx-suggestions-filter-active-group-label",
+				"cx-sx-suggestions-filter-default-group-label",
+				"cx-sx-suggestions-filter-page-collections-group-label",
+				"cx-sx-suggestions-filter-search-input-placeholder",
+				"cx-sx-suggestions-filter-search-input-placeholder-collections",
+				"cx-sx-suggestions-filter-search-input-placeholder-regions",
+				"cx-sx-suggestions-filter-search-input-placeholder-topics",
+				"cx-sx-suggestions-filter-search-results-topics-default-description",
+				"cx-sx-suggestions-filter-search-results-topics-alternative-description",
+				"cx-sx-suggestions-filter-search-results-regions-default-description",
+				"cx-sx-suggestions-filter-search-results-regions-alternative-description",
+				"cx-sx-suggestions-filter-search-results-collections-default-description",
+				"cx-sx-suggestions-filter-search-results-collections-alternative-description",
+				"cx-sx-suggestions-filter-search-results-empty-primary",
+				"cx-sx-suggestions-filter-search-results-empty-secondary",
+				"cx-page-collection-dialog-close-button-aria-label",
+				"cx-page-collection-dialog-existing-target-count",
+				"cx-page-collection-dialog-days-left",
+				"cx-page-collection-dialog-page-suggestions-header",
+				"cx-page-collection-dialog-section-suggestions-header",
+				"cx-sx-suggestion-list-empty-title",
+				"cx-sx-suggestion-list-empty-description",
+				"cx-sx-suggestions-filter-collection-group-all-option-label"
+			],
+			"noflip": true
+		},
+		"mw.cx3.ve": {
+			"localBasePath": "app",
+			"remoteExtPath": "ContentTranslation/app",
+			"scripts": [
+				"src/plugins/ve/tools/BackTool.js",
+				"src/plugins/ve/tools/NextTool.js",
+				"src/plugins/ve/commands/BackCommand.js",
+				"src/plugins/ve/commands/NextCommand.js",
+				"src/plugins/ve/target/SectionTranslationTarget.js"
+			],
+			"dependencies": [
+				"ext.visualEditor.targetLoader",
+				"ext.visualEditor.mobileArticleTarget",
+				"ext.cite.visualEditor"
+			]
+		},
+		"mw.cx.util": {
+			"packageFiles": [
+				"util/mw.cx.util.js",
+				"util/mw.cx.eventlogging.translationSessionPosition.js",
+				{
+					"name": "config.json",
+					"config": {
+						"Version": "ContentTranslationVersion",
+						"TargetNamespace": "ContentTranslationTargetNamespace"
+					}
+				}
+			],
+			"dependencies": [
+				"ext.cx.model",
+				"mediawiki.user"
+			]
+		},
+		"mw.cx.SiteMapper": {
+			"packageFiles": [
+				"base/mw.cx.SiteMapper.js",
+				{
+					"name": "config.json",
+					"config": {
+						"DomainCodeMapping": "ContentTranslationDomainCodeMapping",
+						"SiteTemplates": "ContentTranslationSiteTemplates",
+						"TranslateInTarget": "ContentTranslationTranslateInTarget"
+					}
+				}
+			],
+			"dependencies": [
+				"ext.cx.model",
+				"mediawiki.cookie",
+				"mediawiki.ForeignApi",
+				"mediawiki.Title",
+				"mediawiki.user"
+			]
+		},
+		"ext.cx.wikibase.link": {
+			"scripts": [
+				"publish/ext.cx.wikibase.link.js"
+			]
+		},
+		"ext.cx.uls.quick.actions": {
+			"packageFiles": [
+				"entrypoints/ext.cx.uls.quick.actions.js"
+			],
+			"dependencies": [
+				"mw.cx.SiteMapper",
+				"ext.uls.interface",
+				"ext.uls.common"
+			],
+			"messages": [
+				"cx-uls-translate-page-quick-action-label"
+			]
+		},
+		"ext.cx.eventlogging.campaigns": {
+			"scripts": "eventlogging/ext.cx.eventlogging.campaigns.js",
+			"dependencies": [
+				"mediawiki.user"
+			]
+		},
+		"ext.cx.interlanguagelink.init": {
+			"packageFiles": [
+				"entrypoints/ext.cx.interlanguagelink.init.js",
+				{
+					"name": "config.json",
+					"config": [
+						"ContentTranslationDomainCodeMapping"
+					]
+				}
+			],
+			"dependencies": [
+				"ext.uls.common"
+			]
+		},
+		"ext.cx.interlanguagelink": {
+			"scripts": "entrypoints/ext.cx.interlanguagelink.js",
+			"styles": [
+				"entrypoints/styles/ext.cx.interlanguagelink.less"
+			],
+			"messages": [
+				"cx-entrypoint-title",
+				"cx-entrypoint-dialog-page-doesnt-exist-yet",
+				"cx-entrypoint-dialog-desc",
+				"cx-entrypoint-dialog-button-translate-from",
+				"cx-license-agreement"
+			],
+			"dependencies": [
+				"mw.cx.SiteMapper",
+				"oojs-ui-widgets",
+				"oojs-ui.styles.icons-interactions",
+				"ext.uls.common",
+				"jquery.uls.data",
+				"mediawiki.jqueryMsg"
+			]
+		},
+		"ext.cx.translation.conflict": {
+			"scripts": [
+				"translation/ext.cx.translation.conflict.js"
+			],
+			"dependencies": [
+				"mediawiki.jqueryMsg"
+			],
+			"messages": [
+				"cx-translation-already-in-progress",
+				"cx-translation-already-in-progress-unknown",
+				"cx-create-new-translation"
+			]
+		},
+		"ext.cx.entrypoints.recentedit": {
+			"packageFiles": [
+				"entrypoints/ext.cx.entrypoints.recentedit/index.js",
+				"entrypoints/ext.cx.entrypoints.recentedit/RecentEditEntrypointInvitation.vue"
+			],
+			"messages": [
+				"sx-recent-edit-entrypoint-top-banner-header",
+				"sx-recent-edit-entrypoint-top-banner-content",
+				"sx-recent-edit-entrypoint-invitation-button-label",
+				"sx-recent-edit-entrypoint-invitation-button-details"
+			],
+			"dependencies": [
+				"vue",
+				"mw.cx.SiteMapper",
+				"mw.cx.util",
+				"jquery.uls.data"
+			]
+		},
+		"ext.cx.entrypoints.recenttranslation": {
+			"packageFiles": [
+				"entrypoints/ext.cx.entrypoints.recenttranslation/index.js",
+				"entrypoints/ext.cx.entrypoints.recenttranslation/RecentTranslationEntrypointDialog.vue"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.recenttranslation.less"
+			],
+			"messages": [
+				"sx-recent-translation-entrypoint-banner-header",
+				"sx-recent-translation-entrypoint-banner-details",
+				"sx-recent-translation-entrypoint-dialog-header",
+				"sx-recent-translation-entrypoint-dialog-review-switch-text",
+				"sx-recent-translation-entrypoint-dialog-add-section-switch-text",
+				"sx-recent-translation-entrypoint-dialog-review-lead-text",
+				"sx-recent-translation-entrypoint-dialog-natural-contents-list-item-header",
+				"sx-recent-translation-entrypoint-dialog-natural-contents-list-item-details",
+				"sx-recent-translation-entrypoint-dialog-references-list-item-header",
+				"sx-recent-translation-entrypoint-dialog-references-list-item-details",
+				"sx-recent-translation-entrypoint-dialog-compare-original-list-item-header",
+				"sx-recent-translation-entrypoint-dialog-compare-original-list-item-details",
+				"sx-recent-translation-entrypoint-dialog-edit-button-label",
+				"sx-recent-translation-entrypoint-dialog-original-page-anchor",
+				"sx-recent-translation-entrypoint-dialog-add-sections-lead-text",
+				"sx-recent-translation-entrypoint-dialog-translate-button-label",
+				"sx-recent-translation-entrypoint-dialog-translate-notice-text-one-missing",
+				"sx-recent-translation-entrypoint-dialog-translate-notice-text-two-missing",
+				"sx-recent-translation-entrypoint-dialog-translate-notice-text-more-missing"
+			],
+			"dependencies": [
+				"vue",
+				"mw.cx.SiteMapper",
+				"mw.cx.util",
+				"jquery.uls.data",
+				"@wikimedia/codex",
+				"mediawiki.router"
+			]
+		},
+		"ext.cx.entrypoints.newarticle": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.newarticle.js"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.newarticle.less"
+			],
+			"dependencies": [
+				"ext.cx.widgets.callout",
+				"mediawiki.cookie",
+				"mediawiki.jqueryMsg",
+				"mediawiki.ui.button",
+				"mediawiki.util",
+				"oojs-ui-core",
+				"web2017-polyfills"
+			],
+			"messages": [
+				"cx-campaign-newarticle-notice",
+				"cx-campaign-no-thanks",
+				"cx-campaign-try"
+			]
+		},
+		"ext.cx.entrypoints.newarticle.veloader": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.newarticle.veloader.js"
+			]
+		},
+		"ext.cx.entrypoints.languagesearcher.init": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.languagesearcher/ext.cx.entrypoints.languagesearcher.init.js"
+			]
+		},
+		"ext.cx.entrypoints.languagesearcher.legacy": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.languagesearcher/ext.cx.entrypoints.languagesearcher.legacy.js"
+			],
+			"dependencies": [
+				"jquery.uls.data",
+				"mw.cx.SiteMapper"
+			],
+			"messages": [
+				"cx-campaign-mflanguagesearcher-invite"
+			]
+		},
+		"ext.cx.entrypoints.languagesearcher": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"codexStyleOnly": "true",
+			"codexComponents": [
+				"CdxCard"
+			],
+			"packageFiles": [
+				"entrypoints/ext.cx.entrypoints.languagesearcher/ext.cx.entrypoints.languagesearcher.js",
+				"entrypoints/ext.cx.entrypoints.languagesearcher/LanguageSearcherCardContainer.vue"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.languagesearcher.less"
+			],
+			"dependencies": [
+				"vue",
+				"jquery.uls.data",
+				"mw.cx.SiteMapper"
+			],
+			"messages": [
+				"cx-mflanguagesearcher-entrypoint-card-title",
+				"cx-mflanguagesearcher-entrypoint-card-description",
+				"mint-mflanguagesearcher-entrypoint-card-title",
+				"mint-mflanguagesearcher-entrypoint-card-description"
+			]
+		},
+		"ext.cx.entrypoints.mffrequentlanguages": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.mffrequentlanguages.js"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.mffrequentlanguages.less"
+			],
+			"dependencies": [
+				"mw.cx.SiteMapper"
+			],
+			"messages": [
+				"sx-missing-languages-entrypoint-panel-text-one-missing",
+				"sx-missing-languages-entrypoint-panel-text-two-missing",
+				"sx-missing-languages-entrypoint-panel-text-more-missing"
+			]
+		},
+		"ext.cx.entrypoints.ulsrelevantlanguages": {
+			"packageFiles": [
+				"entrypoints/ext.cx.entrypoints.uls.relevantlanguages.js",
+				"entrypoints/ext.cx.entrypoints.uls.relevantlanguages/CxUlsEntrypoint.vue",
+				{
+					"name": "entrypoints/sitematrix.json",
+					"callback": "ContentTranslation\\HookHandler\\ULSRelevantLanguagesEntrypointRegistrationHandler::getWikipediaList"
+				}
+			],
+			"dependencies": [
+				"vue",
+				"mw.cx.SiteMapper",
+				"ext.uls.common",
+				"jquery.uls.data"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.uls.relevantlanguages.less"
+			],
+			"messages": [
+				"cx-uls-relevant-languages-banner-text-single-missing",
+				"cx-uls-relevant-languages-banner-text-multiple-missing",
+				"cx-uls-relevant-languages-panel-header",
+				"cx-uls-relevant-languages-panel-message"
+			]
+		},
+		"ext.cx.entrypoints.newbytranslation": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"packageFiles": [
+				"entrypoints/ext.cx.entrypoints.newbytranslation/index.js",
+				"entrypoints/ext.cx.entrypoints.newbytranslation/NewByTranslationPopup.vue",
+				{
+					"name": "icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconLanguage",
+						"cdxIconClose",
+						"cdxIconArticle",
+						"cdxIconArrowNext",
+						"cdxIconSearch",
+						"cdxIconSettings"
+					]
+				}
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.newbytranslation.less"
+			],
+			"dependencies": [
+				"vue",
+				"jquery.uls.data",
+				"mw.cx.util",
+				"mw.cx.SiteMapper"
+			],
+			"codexComponents": [
+				"CdxCard",
+				"CdxIcon",
+				"CdxButton"
+			],
+			"messages": [
+				"cx-campaign-newbytranslation-title",
+				"cx-campaign-newbytranslation-notice",
+				"cx-campaign-newbytranslation-search",
+				"cx-campaign-newbytranslation-languages",
+				"cx-campaign-newbytranslation-start"
+			]
+		},
+		"ext.cx.entrypoints.newbytranslation.mobile": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.newbytranslation.mobile.js"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.newbytranslation.mobile.less"
+			],
+			"dependencies": [
+				"mw.cx.SiteMapper",
+				"mw.cx.util",
+				"oojs-ui.styles.icons-content"
+			]
+		},
+		"ext.cx.betafeature.init": {
+			"scripts": [
+				"entrypoints/ext.cx.betafeature.init.js"
+			]
+		},
+		"ext.cx.entrypoints.contributionsmenu": {
+			"scripts": [
+				"entrypoints/ext.cx.entrypoints.contributionsmenu.js"
+			],
+			"styles": [
+				"entrypoints/styles/ext.cx.entrypoints.contributionsmenu.less"
+			],
+			"dependencies": [
+				"mediawiki.jqueryMsg",
+				"mediawiki.util"
+			],
+			"messages": [
+				"cx-campaign-contributionsmenu-mytranslations",
+				"cx-campaign-contributionsmenu-mytranslations-tooltip",
+				"cx-campaign-contributionsmenu-myuploads",
+				"cx-campaign-contributionsmenu-myuploads-tooltip"
+			]
+		},
+		"ext.cx.widgets.spinner": {
+			"scripts": [
+				"widgets/spinner/ext.cx.spinner.js"
+			],
+			"styles": [
+				"widgets/spinner/ext.cx.spinner.less"
+			],
+			"dependencies": [
+				"ext.cx.model"
+			]
+		},
+		"ext.cx.widgets.callout": {
+			"scripts": [
+				"widgets/callout/ext.cx.callout.js"
+			],
+			"styles": [
+				"widgets/callout/ext.cx.callout.less"
+			],
+			"skinStyles": {
+				"vector": [
+					"widgets/callout/ext.cx.callout.vector.less"
+				]
+			}
+		},
+		"mw.cx.dm": {
+			"scripts": [
+				"dm/mw.cx.dm.js"
+			],
+			"dependencies": [
+				"ext.cx.model",
+				"oojs"
+			]
+		},
+		"mw.cx.dm.Translation": {
+			"scripts": [
+				"dm/mw.cx.dm.Translation.js"
+			],
+			"dependencies": [
+				"mw.cx.dm"
+			]
+		},
+		"mw.cx.ui": {
+			"scripts": [
+				"ui/mw.cx.ui.js"
+			],
+			"dependencies": [
+				"ext.cx.model",
+				"oojs-ui"
+			]
+		},
+		"mw.cx.visualEditor": {
+			"scripts": [
+				"ve-cx/dm/ve.dm.CXTranslationUnitModel.js",
+				"ve-cx/ui/ve.ui.CXTranslationUnitContextItem.js",
+				"ve-cx/dm/ve.dm.CXSentenceSegmentAnnotation.js",
+				"ve-cx/ce/ve.ce.CXSentenceSegmentAnnotation.js",
+				"ve-cx/ce/mixins/ve.ce.CXPendingNode.js",
+				"ve-cx/ce/ve.ce.CXSectionNode.js",
+				"ve-cx/ce/ve.ce.CXPlaceholderNode.js",
+				"ve-cx/dm/ve.dm.CXPlaceholderNode.js",
+				"ve-cx/dm/ve.dm.CXSectionNode.js",
+				"ve-cx/dm/ve.dm.CXLinkAnnotation.js",
+				"ve-cx/ce/ve.ce.CXLinkAnnotation.js",
+				"ve-cx/ui/ve.ui.CXLinkContextItem.js",
+				"ve-cx/ui/ve.ui.CXExternalLinkContextItem.js",
+				"ve-cx/ui/ve.ui.CXLinkAnnotationInspector.js",
+				"ve-cx/ui/ve.ui.CXMediaContextItem.js",
+				"ve-cx/ui/ve.ui.CXInternalLinkAnnotationWidget.js",
+				"ve-cx/ui/ve.ui.CXTextSelectionContextItem.js",
+				"ve-cx/dm/ve.dm.CXBlockImageNode.js",
+				"ve-cx/dm/ve.dm.CXImageCaptionNode.js",
+				"ve-cx/dm/ve.dm.CXReferenceNode.js",
+				"ve-cx/dm/ve.dm.CXTransclusionNode.js",
+				"ve-cx/ce/ve.ce.CXBlockImageNode.js",
+				"ve-cx/ce/ve.ce.CXImageCaptionNode.js",
+				"ve-cx/ce/ve.ce.CXReferenceNode.js",
+				"ve-cx/ce/ve.ce.CXTransclusionNode.js",
+				"ve-cx/ui/ve.ui.CXTransclusionContextItem.js",
+				"ve-cx/ui/ve.ui.CXReferenceContextItem.js",
+				"ve-cx/ui/ve.ui.CXReferenceDialog.js",
+				"ve-cx/ui/ve.ui.CXTranslationToolbar.js",
+				"ve-cx/ui/actions/ve.ui.CXTranslationAction.js",
+				"ve-cx/ui/tools/ve.ui.CXResetSectionTool.js",
+				"ve-cx/ui/tools/ve.ui.CXSaveMTPreferenceTool.js",
+				"ve-cx/ui/ve.ui.CXPublishSettingsDialog.js",
+				"ve-cx/ui/ve.ui.CXPublishSettingsTool.js"
+			],
+			"styles": [
+				"ve-cx/ce/styles/ve.ce.CXSentenceSegmentAnnotation.less",
+				"ve-cx/ce/styles/ve.ce.CXPlaceholderNode.less",
+				"ve-cx/ce/mixins/ve.ce.CXPendingNode.less",
+				"ve-cx/ce/styles/ve.ce.CXSectionNode.less",
+				"ve-cx/ce/styles/ve.ce.CXLinkAnnotation.less",
+				"ve-cx/ui/styles/ve.ui.CXLinkContextItem.less",
+				"ve-cx/ce/styles/ve.ce.CXReferenceNode.less",
+				"ve-cx/ui/styles/ve.ui.CXTranslationToolbar.less",
+				"ve-cx/ui/tools/ve.ui.CXResetSectionTool.less",
+				"ve-cx/ui/tools/ve.ui.CXSaveMTPreferenceTool.less",
+				"ve-cx/ui/styles/ve.ui.CXPublishSettingsDialog.less"
+			],
+			"dependencies": [
+				"ext.cite.visualEditor",
+				"ext.visualEditor.core",
+				"ext.visualEditor.mediawiki",
+				"ext.visualEditor.desktopTarget",
+				"ext.visualEditor.mwextensions.desktop",
+				"ext.visualEditor.core.desktop",
+				"oojs-ui.styles.icons-moderation",
+				"ve.ce.CXLintableNode",
+				"ve.dm.CXLintableNode"
+			],
+			"messages": [
+				"cx-linkcontextitem-missing-link-title",
+				"cx-linkcontextitem-missing-title-description",
+				"cx-publish-settings",
+				"cx-publish-destination-namespace-main",
+				"cx-publish-destination-namespace-main-description",
+				"cx-publish-destination-namespace-main-exists",
+				"cx-publish-destination-namespace-user",
+				"cx-publish-destination-namespace-user-description",
+				"cx-publish-destination-namespace-draft",
+				"cx-publish-destination-namespace-draft-description",
+				"cx-publish-destination-header",
+				"cx-publish-destination-tooltip",
+				"cx-mt-failed",
+				"cx-tools-mt-title",
+				"cx-tools-mt-set-default",
+				"cx-tools-mt-reset",
+				"cx-tools-mt-preferred",
+				"cx-tools-mt-noservices",
+				"cx-tools-linter-template",
+				"cx-tools-linter-template-add-new",
+				"cx-tools-linter-template-block-message",
+				"cx-tools-linter-template-inline-message",
+				"cx-tools-linter-incomplete-template",
+				"cx-tools-linter-empty-template",
+				"cx-tools-linter-template-missing-mandatory",
+				"cx-tools-linter-reference",
+				"cx-tools-linter-reference-message",
+				"cx-tools-linter-incomplete-reference",
+				"cx-tools-linter-incomplete-reference-message",
+				"cx-tools-link-title",
+				"cx-tools-link-add",
+				"cx-tools-missing-link-text",
+				"cx-tools-missing-link-mark-link"
+			]
+		},
+		"ve.ce.CXLintableNode": {
+			"scripts": [
+				"ve-cx/ce/mixins/ve.ce.CXLintableNode.js"
+			],
+			"styles": [
+				"ve-cx/ce/styles/ve.ce.CXLintableNode.less"
+			],
+			"dependencies": [
+				"ext.visualEditor.core"
+			]
+		},
+		"ve.dm.CXLintableNode": {
+			"scripts": [
+				"dm/mw.cx.dm.TranslationIssue.js",
+				"ve-cx/dm/mixins/ve.dm.CXLintableNode.js"
+			],
+			"dependencies": [
+				"ext.visualEditor.core",
+				"mw.cx.dm"
+			]
+		},
+		"mw.cx.init": {
+			"scripts": [
+				"mw.cx.MachineTranslationManager.js",
+				"mw.cx.MachineTranslationService.js",
+				"cache/mw.cx.ApiResponseCache.js",
+				"cache/mw.cx.CategoryCache.js",
+				"cache/mw.cx.NamespaceCache.js",
+				"cache/mw.cx.TitlePairCache.js",
+				"mw.cx.MwApiRequestManager.js",
+				"tools/mw.cx.tools.IssueTrackingTool.js",
+				"ui/widgets/mw.cx.ui.TranslationIssueWidget.js",
+				"dm/mw.cx.dm.PageTitleModel.js",
+				"dm/mw.cx.dm.SectionTitleModel.js",
+				"ui/widgets/mw.cx.ui.CategoryMultiselectWidget.js",
+				"ui/widgets/mw.cx.ui.CategoryInputWidget.js",
+				"ui/widgets/mw.cx.ui.CategoryTagItemWidget.js",
+				"ui/mw.cx.ui.Categories.js",
+				"ui/widgets/mw.cx.ui.PageTitleWidget.js",
+				"ui/widgets/mw.cx.ui.SectionTitleWidget.js",
+				"ui/mw.cx.ui.TranslationHeader.js",
+				"ui/mw.cx.ui.ArticleColumn.js",
+				"ui/mw.cx.ui.TranslationView.js",
+				"ui/mw.cx.ui.SourceColumn.js",
+				"ui/mw.cx.ui.TargetColumn.js",
+				"ui/mw.cx.ui.ToolsColumn.js",
+				"dm/mw.cx.dm.DraftTranslationDTO.js",
+				"mw.cx.init.Translation.js",
+				"mw.cx.logEvent.js",
+				"mw.cx.TargetArticle.js",
+				"mw.cx.TranslationController.js",
+				"mw.cx.TranslationTracker.js",
+				"mw.cx.UserPermissionChecker.js",
+				"dm/mw.cx.dm.SectionState.js",
+				"eventlogging/ext.cx.eventlogging.translation.js",
+				"dm/mw.cx.dm.WikiPage.js",
+				"mw.cx.init.js"
+			],
+			"styles": [
+				"tools/styles/mw.cx.tools.IssueTrackingTool.less",
+				"ui/styles/widgets/mw.cx.ui.TranslationIssueWidget.less",
+				"ui/styles/widgets/mw.cx.ui.CategoryMultiselectWidget.less",
+				"ui/styles/widgets/mw.cx.ui.CategoryTagItemWidget.less",
+				"ui/styles/mw.cx.ui.Categories.less",
+				"ui/styles/widgets/mw.cx.ui.PageTitleWidget.less",
+				"ui/styles/mw.cx.ui.TranslationHeader.less",
+				"ui/styles/mw.cx.ui.Columns.less",
+				"ui/styles/mw.cx.ui.SourceColumn.less",
+				"ui/styles/mw.cx.ui.TargetColumn.less",
+				"ui/styles/mw.cx.ui.ToolsColumn.less",
+				"ui/styles/mw.cx.ui.TranslationView.less",
+				"ui/styles/mw.cx.init.Translation.less"
+			],
+			"skinStyles": {
+				"monobook": [
+					"ui/styles/widgets/mw.cx.ui.CategoryTagItemWidget.monobook.less"
+				]
+			},
+			"messages": [
+				"categories",
+				"cx",
+				"cx-beta-feature-enabled-notification",
+				"cx-captcha-unsupported-type",
+				"cx-draft-cancel-button-label",
+				"cx-draft-restored",
+				"cx-error-page-not-found",
+				"cx-error-server-connection",
+				"cx-feedback-link",
+				"cx-infobar-view-issues",
+				"cx-infobar-cannot-publish",
+				"cx-infobar-old-version",
+				"cx-init-critical-error",
+				"cx-no-adapted-categories",
+				"cx-no-source-categories",
+				"cx-no-target-categories",
+				"cx-publish-destination-namespace-changed",
+				"cx-tools-categories-count-message",
+				"cx-tools-linter-cannot-publish-action-label",
+				"cx-tools-linter-cannot-publish-message",
+				"cx-tools-linter-cannot-publish-title",
+				"cx-tools-linter-empty-title",
+				"cx-tools-linter-empty-title-message",
+				"cx-tools-linter-errors-count",
+				"cx-tools-linter-generic-title",
+				"cx-tools-linter-invalid-character",
+				"cx-tools-linter-invalid-character-action",
+				"cx-tools-linter-invalid-character-message",
+				"cx-tools-linter-issues",
+				"cx-tools-linter-issues-count",
+				"cx-tools-linter-learn-more",
+				"cx-tools-linter-mark-as-resolved",
+				"cx-tools-linter-old-revision",
+				"cx-tools-linter-old-revision-label",
+				"cx-tools-linter-old-revision-message",
+				"cx-tools-linter-page-exists",
+				"cx-tools-linter-page-exists-message",
+				"cx-tools-linter-restart-translation-cancel",
+				"cx-tools-linter-restart-translation-message",
+				"cx-tools-linter-restart-translation-title",
+				"cx-tools-linter-warnings-count",
+				"cx-lost-session-publish",
+				"cx-mt-abuse-publish-error",
+				"cx-mt-abuse-error-text",
+				"cx-mt-abuse-error-title",
+				"cx-mt-abuse-error-sections",
+				"cx-mt-abuse-warning-text",
+				"cx-mt-abuse-warning-title",
+				"cx-overwriting-with-issues",
+				"cx-publish-error-abuse-filter",
+				"cx-publish-error-empty",
+				"cx-publish-error-readonly",
+				"cx-publish-error-spam-blacklist",
+				"cx-publish-error-offline",
+				"cx-publish-error-title-blacklist",
+				"cx-publish-error-unknown",
+				"cx-publishing-dialog-publish-anyway-button",
+				"cx-publishing-dialog-sub-title",
+				"cx-publishing-dialog-title",
+				"cx-publishing-with-issues-dialog-message",
+				"cx-publishing-with-issues-dialog-title",
+				"cx-save-draft-error",
+				"cx-save-draft-error-retry",
+				"cx-save-draft-offline",
+				"cx-save-draft-save-success",
+				"cx-save-draft-saving",
+				"cx-save-draft-shortcut-label",
+				"cx-save-draft-tooltip",
+				"cx-source-loading",
+				"cx-source-view-page",
+				"cx-target-view-page",
+				"cx-tools-linter-abuse-filter",
+				"cx-tools-mt-use-source",
+				"cx-tools-mt-reset",
+				"cx-tools-mt-provider-title",
+				"cx-tools-mt-dont-use",
+				"cx-tools-view-guidelines-link",
+				"cx-translation-add-translation",
+				"cx-warning-unsaved-translation",
+				"title-invalid-characters"
+			],
+			"dependencies": [
+				"ext.cx.model",
+				"ext.cx.widgets.spinner",
+				"ext.visualEditor.mwmeta",
+				"jquery.uls.data",
+				"mediawiki.user",
+				"mediawiki.api",
+				"mediawiki.language",
+				"mediawiki.storage",
+				"mw.cx.SiteMapper",
+				"mw.cx.dm",
+				"mw.cx.dm.Translation",
+				"mw.cx.tools.TranslationTool",
+				"mw.cx.ui",
+				"mw.cx.ui.Infobar",
+				"mw.cx.util",
+				"oojs-ui",
+				"oojs-ui.styles.icons-alerts",
+				"oojs-ui.styles.icons-content",
+				"oojs-ui.styles.icons-interactions",
+				"oojs-ui-widgets",
+				"oojs-ui-windows",
+				"ve.ce.CXLintableNode",
+				"ve.dm.CXLintableNode",
+				"ve.init.mw.CXTarget"
+			]
+		},
+		"ve.init.mw.CXTarget": {
+			"scripts": [
+				"tools/mw.cx.tools.TranslationToolFactory.js",
+				"ve-cx/init/ve.init.mw.CXTarget.js",
+				"ve-cx/ui/ve.ui.CXPublishTool.js",
+				"ve-cx/ui/ve.ui.CXSurface.js",
+				"ve-cx/ui/ve.ui.CXDesktopContext.js"
+			],
+			"styles": [
+				"ve-cx/ui/styles/ve.ui.CXSurface.less",
+				"ve-cx/ui/styles/ve.ui.CXDesktopContext.less"
+			],
+			"messages": [
+				"cx-auto-failed",
+				"cx-publish-button",
+				"cx-publish-button-publishing",
+				"cx-publish-page-success"
+			],
+			"dependencies": [
+				"mediawiki.jqueryMsg",
+				"ext.cx.model",
+				"mw.cx.SiteMapper",
+				"mw.cx.dm.Translation",
+				"mw.cx.ui",
+				"mw.cx.util",
+				"ext.visualEditor.core.desktop"
+			]
+		},
+		"mw.cx.ui.Infobar": {
+			"scripts": [
+				"ui/mw.cx.ui.Infobar.js",
+				"ui/widgets/mw.cx.ui.MessageWidget.js"
+			],
+			"styles": [
+				"ui/styles/mw.cx.ui.Infobar.less",
+				"ui/styles/widgets/mw.cx.ui.MessageWidget.less"
+			],
+			"messages": [
+				"cx-create-new-translation",
+				"cx-header-all-translations",
+				"cx-special-login-error",
+				"cx-translation-target-page-exists"
+			],
+			"dependencies": [
+				"mw.cx.ui",
+				"mw.cx.util",
+				"oojs-ui-widgets",
+				"oojs-ui.styles.icons-alerts",
+				"oojs-ui.styles.icons-interactions"
+			]
+		},
+		"mw.cx.ui.CaptchaDialog": {
+			"scripts": [
+				"ui/mw.cx.ui.CaptchaDialog.js"
+			],
+			"styles": [
+				"ui/styles/mw.cx.ui.CaptchaDialog.less"
+			],
+			"messages": [
+				"colon-separator",
+				"cx-captcha-dialog-error",
+				"cx-captcha-dialog-cancel",
+				"cx-publish-button",
+				"cx-publish-captcha-title"
+			],
+			"dependencies": [
+				"mw.cx.externalmessages",
+				"mw.cx.ui"
+			]
+		},
+		"mw.cx.ui.LoginDialog": {
+			"scripts": [
+				"ui/mw.cx.ui.LoginDialog.js"
+			],
+			"messages": [
+				"cx-lost-session",
+				"cx-lost-session-draft",
+				"login"
+			],
+			"dependencies": [
+				"mediawiki.util",
+				"mw.cx.ui"
+			]
+		},
+		"mw.cx.tools.InstructionsTool": {
+			"templates": [
+				"tools/instructions.mustache"
+			],
+			"scripts": [
+				"tools/mw.cx.tools.InstructionsTool.js"
+			],
+			"styles": [
+				"tools/styles/mw.cx.tools.InstructionsTool.less"
+			],
+			"messages": [
+				"cx-tools-instructions-text1",
+				"cx-tools-instructions-text2",
+				"cx-tools-instructions-text3",
+				"cx-tools-instructions-text4",
+				"cx-tools-instructions-text5",
+				"cx-tools-instructions-text6",
+				"cx-tools-view-guidelines",
+				"cx-tools-view-guidelines-link"
+			],
+			"dependencies": [
+				"mw.cx.tools.TranslationTool",
+				"mediawiki.jqueryMsg"
+			]
+		},
+		"mw.cx.tools.TranslationTool": {
+			"scripts": [
+				"ui/widgets/mw.cx.ui.TranslationToolWidget.js",
+				"tools/mw.cx.tools.TranslationTool.js"
+			],
+			"styles": [
+				"ui/styles/widgets/mw.cx.ui.TranslationToolWidget.less"
+			],
+			"dependencies": [
+				"mw.cx.ui",
+				"oojs-ui-widgets"
+			]
+		},
+		"mw.cx.ui.FeatureDiscoveryWidget": {
+			"scripts": [
+				"ui/widgets/mw.cx.ui.FeatureDiscoveryWidget.js"
+			],
+			"styles": [
+				"ui/styles/widgets/mw.cx.ui.FeatureDiscoveryWidget.less"
+			],
+			"dependencies": [
+				"mw.cx.ui",
+				"mediawiki.pulsatingdot"
+			]
+		},
+		"mw.cx.skin": {
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
+			"styles": [
+				"skin/styles/skin.less"
+			],
+			"features": {
+				"content-links": true,
+				"content-tables": true,
+				"i18n-ordered-lists": true,
+				"i18n-headings": true
+			},
+			"localBasePath": "",
+			"remoteExtPath": "ContentTranslation"
+		},
+		"mint.styles": {
+			"localBasePath": "minT",
+			"remoteExtPath": "ContentTranslation/minT",
+			"styles": [
+				"styles/mint.less"
+			]
+		},
+		"mint.app": {
+			"localBasePath": "minT/src",
+			"remoteExtPath": "ContentTranslation/minT/src",
+			"packageFiles": [
+				"mintHome.js",
+				"constants.js",
+				"useMintLanguages.js",
+				"useLanguagesUpdate.js",
+				"useWikipediaSites.js",
+				"wikiSite.js",
+				"debounce.js",
+				"useAutocompletion.js",
+				"useKeyboardNavigation.js",
+				"useLanguageSearch.js",
+				"useState.js",
+				"useApi.js",
+				"useCXServerToken.js",
+				"useRouter.js",
+				"useWikidataSearch.js",
+				"useMediawikiSearch.js",
+				"useSearchResultLanguages.js",
+				"useSiteLinksHelper.js",
+				"useSearch.js",
+				"usePageMetadata.js",
+				"useUrlHelper.js",
+				"useLeadSectionTranslationFetch.js",
+				"useSectionTranslate.js",
+				"useTranslationInitialize.js",
+				"useTargetTitle.js",
+				"useSectionTitleTranslate.js",
+				"useEventLogging.js",
+				"mediawikiPage.js",
+				"pageSection.js",
+				"pageSearchResult.js",
+				"htmlHelper.js",
+				"MWLanguageSelector.vue",
+				"SearchTopicPage.vue",
+				"SearchResultItem.vue",
+				"MwSpinner.vue",
+				"ConfirmTopicPage.vue",
+				"ViewTranslationPage.vue",
+				"ViewTranslationPageOptions.vue",
+				"CxIntroductionDialog.vue",
+				"SkeletonLoader.vue",
+				"ExploreLanguagesPage.vue",
+				"TranslationLoadingIndicator.vue",
+				"SectionContentTranslation.vue",
+				{
+					"name": "icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconClose",
+						"cdxIconArrowPrevious",
+						"cdxIconArticle",
+						"cdxIconRobot",
+						"cdxIconSpecialPages",
+						"cdxIconArrowNext",
+						"cdxIconSearch",
+						"cdxIconUserGroup",
+						"cdxIconLinkExternal",
+						"cdxIconEdit",
+						"cdxIconShare",
+						"cdxIconFeedback",
+						"cdxIconEllipsis",
+						"cdxIconReload",
+						"cdxIconNext"
+					]
+				},
+				{
+					"name": "initialLanguages.json",
+					"callback": "ContentTranslation\\Special\\SpecialAutomaticTranslation::getInitialLanguagesData"
+				}
+			],
+			"dependencies": [
+				"vue",
+				"@wikimedia/codex",
+				"mediawiki.api",
+				"mediawiki.ForeignApi",
+				"jquery.uls.data",
+				"mw.cx.SiteMapper"
+			],
+			"messages": [
+				"mint-language-selector-input-placeholder",
+				"mint-language-selector-title",
+				"mint-language-selector-suggestions-header",
+				"mint-language-selector-no-search-results",
+				"mint-translation-list-all-languages-option-label",
+				"ax-home-random-topic-loading-label",
+				"ax-home-random-topic-error",
+				"ax-home-error-title",
+				"mint-search-topic-page-header",
+				"mint-search-topic-page-input-placeholder",
+				"mint-search-topic-page-input-aria-label",
+				"mint-search-topic-page-results-container-empty",
+				"mint-confirm-topic-page-header",
+				"mint-confirm-topic-page-automatic-translation-indicator-text",
+				"mint-confirm-topic-page-language-selector-explanation",
+				"mint-confirm-topic-page-go-to-search-button-label",
+				"mint-confirm-topic-page-target-article-link-container-header",
+				"mint-confirm-topic-page-target-article-link-container-details",
+				"mint-confirm-topic-page-target-article-card-read-article-label",
+				"mint-view-translation-page-header",
+				"mint-view-translation-page-disclaimer-header",
+				"mint-view-translation-page-disclaimer-body",
+				"mint-view-translation-page-disclaimer-learn-more-link",
+				"mint-view-translation-page-target-article-container-header",
+				"mint-view-translation-page-target-article-container-details",
+				"mint-view-translation-page-source-article-link-label",
+				"mint-view-translation-content-translation-entrypoint-title",
+				"mint-view-translation-content-translation-entrypoint-description",
+				"mint-view-translation-overlay-header",
+				"mint-view-translation-overlay-source-article-link-label",
+				"mint-view-translation-overlay-target-article-link-label",
+				"mint-view-translation-overlay-cx-entrypoint-label",
+				"mint-view-translation-overlay-share-button-label",
+				"mint-view-translation-overlay-feedback-link-label",
+				"mint-explore-languages-header",
+				"mint-explore-languages-search-input-placeholder",
+				"mint-explore-languages-explanation-banner-title",
+				"mint-explore-languages-explanation-banner-text",
+				"mint-explore-languages-language-card-container-title",
+				"mint-explore-languages-language-card-sections-count",
+				"mint-explore-languages-language-card-most-detailed-chip-label",
+				"mint-explore-languages-loading-error",
+				"mint-explore-languages-open-language-selector",
+				"mint-explore-languages-more-results",
+				"ax-cx-introduction-dialog-title",
+				"ax-cx-introduction-summary",
+				"ax-cx-introduction-information-accuracy",
+				"ax-cx-introduction-information-expand",
+				"ax-cx-introduction-information-correct",
+				"ax-cx-introduction-dialog-action",
+				"ax-cx-failed-translation-label"
+			]
+		},
+		"ext.ax.articlefooter.entrypoint": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"localBasePath": "minT/entrypoints",
+			"remoteExtPath": "ContentTranslation/minT/entrypoints",
+			"packageFiles": [
+				"ext.ax.articlefooter.entrypoint.js",
+				"ArticleFooterEntrypointCard.vue",
+				{
+					"name": "icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconArticle",
+						"cdxIconRobot"
+					]
+				}
+			],
+			"dependencies": [
+				"mediawiki.api",
+				"mw.cx.SiteMapper",
+				"vue"
+			],
+			"codexComponents": [
+				"CdxCard",
+				"CdxIcon"
+			],
+			"messages": [
+				"ax-article-footer-entrypoint-card-description",
+				"ax-article-footer-entrypoint-card-supporting-text",
+				"ax-article-footer-entrypoint-card-heading"
+			]
+		}
+	},
+	"QUnitTestModule": {
+		"localBasePath": "tests/qunit",
+		"remoteExtPath": "ContentTranslation/tests/qunit",
+		"scripts": [
+			"base/mw.cx.SiteMapper.test.js",
+			"dm/mw.cx.dm.Translation.test.js",
+			"mw.cx.TargetArticle.test.js",
+			"mw.cx.MachineTranslationService.test.js",
+			"mw.cx.TranslationTracker.test.js",
+			"mw.cx.util.test.js",
+			"ui/mw.cx.ui.Infobar.test.js"
+		],
+		"dependencies": [
+			"ext.cx.model",
+			"mw.cx.SiteMapper",
+			"mw.cx.dm.Translation",
+			"mw.cx.init",
+			"mw.cx.ui.Infobar",
+			"mw.cx.util",
+			"ve.init.mw.CXTarget"
+		]
+	},
+	"TrackingCategories": [
+		"cx-unreviewed-translation-category"
+	],
+	"attributes": {
+		"EventLogging": {
+			"Schemas": {
+				"ContentTranslationAbuseFilter": "/analytics/legacy/contenttranslationabusefilter/1.0.0"
+			}
+		}
+	},
+	"ConfigRegistry": {
+		"ArticleFooterEntrypoint": "GlobalVarConfig::newInstance"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "ContentTranslation/modules"
+	},
+	"load_composer_autoloader": true,
+	"manifest_version": 2,
+	"callback": "ContentTranslation\\HookHandler\\RegistrationHandler::onRegistration"
+}

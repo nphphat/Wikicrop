@@ -1,0 +1,55 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mw.cx.mixins.less';
+@import 'mw.cx.variables.less';
+
+.cx-column.cx-column-tools {
+	.mw-ui-one-third;
+	.mw-ui-one-whole(@palm);
+	background-color: #eaecf0;
+	float: left;
+	padding: 0 0 0 @tools-column-margin;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 20px;
+	/* Force the browser to use hardware acceleration to access
+	 the device’s GPU so that sticky transitions are smooth and avoid flickering */
+	transform: translateZ( 0 );
+
+	@media @palm {
+		.stick-to-bottom;
+	}
+
+	@media only screen and ( min-width: @min-width-breakpoint-desktop ) {
+		width: @max-tools-column-width;
+	}
+
+	.cx-column-tools-container {
+		display: flex;
+		flex-direction: column;
+
+		&--contextual > .cx-card-instructions {
+			// Do no show instructions card when the surface is in the focus
+			display: none;
+		}
+
+		// 'dialog' flag for tools container means that non-context tools should be hidden,
+		// such as invitation card, VE toolbar, MT and issue cards
+		// See T193587
+		&--dialog > :not( .ve-ui-context ) {
+			display: none;
+		}
+
+		.ve-ui-linearContextItem.oo-ui-widget-disabled {
+			opacity: 0.6;
+		}
+	}
+
+	.cx-card:not( :empty ) {
+		.oo-ui-toolbar-position-top > .oo-ui-toolbar-bar {
+			border-radius: @border-radius-base;
+			// The parent container has following properties already set.
+			border-bottom: 0;
+			box-shadow: none;
+		}
+	}
+}

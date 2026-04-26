@@ -1,0 +1,15 @@
+@import 'mediawiki.skin.variables.less';
+
+@text-highlight-color: #fef6e7;
+
+.cx-sentence-highlight,
+.cx-section-highlight {
+	// Chrome copies the background-color to inline style while it creates new spans or divs
+	// with enter key presses. To avoid that we are not using background-color
+	background-color: @text-highlight-color;
+	box-shadow: 0 0 0 4px @text-highlight-color;
+}
+
+.cx-sentence-highlight {
+	border-radius: @border-radius-base;
+}

@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kghbln",
+			"Metalhead64"
+		]
+	},
+	"pluggableauth-desc": "Ergänzt ein Framework zur Authentifikation und Autorisierung",
+	"pluggableauth-no-username": "Für den neuen Benutzer fehlt der Benutzername.",
+	"pluggableauth-not-authorized": "{{GENDER:$1|Der Benutzer|Die Benutzerin}} $1 ist nicht berechtigt.",
+	"pluggableauth-authentication-failure": "Der Benutzer konnte nicht authentifiziert werden.",
+	"pluggableauth-authentication-plugin-failure": "Authentifizierungs-Plugin konnte nicht geladen werden",
+	"pluggableauth-authentication-workflow-failure": "Authentifikations-Workflow-Fehler.",
+	"pluggableauth-loginbutton-help": "Authentifizieren mit PluggableAuth",
+	"pluggableauth-fatal-error": "Fehler vom Authentifizierungsanbieter bei der Benutzerauthentifizierung. Bitte {{#FORMAL:versuche|versuchen Sie}} es erneut oder {{#FORMAL:wende dich|wenden Sie sich}} an {{#FORMAL:den|Ihren}} Systemadministrator.",
+	"pluggableauthlogout": "Abmelden"
+}

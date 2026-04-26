@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ooswesthoesbes",
+			"Robin van der Vliet",
+			"Robin0van0der0vliet"
+		]
+	},
+	"cx": "Zèt pagina euver",
+	"cx-javascript": "Dit hölpmiddel wirk neet zónger JavaScrip. JavaScrip steit oet of wirk neet, of de browser waat se gebroeks weurt neet óngerstäönd.",
+	"cx-error-server-connection": "Fout: kós neet verbinje mit de server.",
+	"cx-desc": "Maak 't einveljiger inhawdelike pagina's [[Special:ContentTranslation|euver te zètte]]",
+	"cx-header-translation-center": "Euverzèttingscentrum",
+	"cx-header-all-translations": "Alle euverzèttinge",
+	"cx-source-view-page": "tuin pagina",
+	"cx-publish-page-success": "Pagina oetgebrach op $1",
+	"cx-publish-button": "Bring oet",
+	"cx-publish-button-publishing": "Oet 'nt bringe...",
+	"cx-publish-summary": "Aangemaak door de pagina \"$1\" euver te zètte",
+	"cx-translation-add-translation": "Veug euverzètting tou",
+	"cx-source-loading": "Laje van $1",
+	"cx-beta": "Inhawdseuverzètting",
+	"cx-entrypoint-title": "Zèt dees pagina euver nao 't $1",
+	"cx-entrypoint-dialog-button-translate-from": "Zèt euver vanoet 't $1",
+	"cx-tools-instructions-text5": "{{GENDER:|Bring}} euverzètting oet",
+	"cx-tools-instructions-text6": "{{GENDER:|Klik}} op \"{{int:cx-publish-button}}\" wens se tevreje bös mit 't rizzeltaot.",
+	"cx-tools-view-guidelines": "{{GENDER:|Tuin}} euverzèttingsrichlien",
+	"cx-tools-link-title": "Link",
+	"cx-tools-link-add": "Veug link toe",
+	"cx-tools-mt-title": "Autematise euverzètting",
+	"cx-tools-mt-use-source": "Broek brónteks",
+	"cx-tools-mt-reset": "Zèt euverzètting trögk",
+	"cx-tools-mt-provider-title": "Gebroek $1",
+	"cx-tools-mt-dont-use": "Gebroek gein mesjieneuverzèttinge",
+	"cx-tools-mt-set-default": "Haaj es standerd",
+	"cx-tools-categories-count-message": "{{PLURAL:$1|$1 categorie|$1 categorieje|0=Gein categorieje}}",
+	"cx-contributions-translation": "Euverzètting",
+	"cx-draft-cancel-button-label": "Annelere",
+	"cx-campaign-contributionsmenu-mytranslations": "Euverzèttinge"
+}

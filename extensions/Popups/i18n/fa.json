@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Alireza Ivaz",
+			"Alirezaaa",
+			"Amirsara",
+			"Arash.pt",
+			"Armin1392",
+			"Beginneruser",
+			"Ebraminio",
+			"Huji",
+			"Jeeputer",
+			"Ladsgroup",
+			"Mohammad ebz",
+			"Obzord",
+			"Reza1615"
+		]
+	},
+	"popups-message": "Previews",
+	"popups-desc": "نمایش پیش‌نمایش هنگامی که کاربر موش‌واره را بر یک پیوند نگه می‌دارد.",
+	"popups-settings-title": "پیش‌نمایش",
+	"popups-settings-option-page": "پیش‌نمایش‌های صفحه",
+	"popups-settings-option-page-description": "پیش‌نمایشی سریع از یک موضوع را هنگام خواندن یک صفحه ببینید",
+	"popups-settings-option-reference": "پیش‌نمایش منبع",
+	"popups-settings-option-reference-description": "پیش‌نمایشی سریع از یک ارجاع را به‌هنگام مطالعهٔ صفحه ببینید.",
+	"popups-settings-save": "ذخیره",
+	"popups-settings-help-ok": "انجام شد",
+	"popups-settings-cancel": "انصراف",
+	"popups-settings-help": "با استفاده از پیوند موجود در پایین صفحه می‌توانید پیش‌نمایش‌ها را دوباره فعال کنید.",
+	"popups-settings-enable": "ویرایش تنظیمات پیش‌نمایش",
+	"popups-settings-icon-gear-title": "تغییر تنظیمات پیش‌نمایش صفحه",
+	"popups-preview-no-preview": "مشکلی در نمایش این پیش‌نمایش وجود دارد",
+	"popups-preview-footer-read": "برو به این صفحه",
+	"popups-preview-disambiguation": "این عنوان به بیش از یک صفحه اشاره می‌کند",
+	"popups-preview-disambiguation-link": "نمایش صفحه‌های مشابه",
+	"prefs-reading": "ترجیحات مطالعه",
+	"popups-prefs-optin": "فعال‌سازی پیش‌نمایش صفحه (پیش‌نمایش سریع یک موضوع به‌هنگام مطالعهٔ یک صفحه)",
+	"popups-prefs-disable-nav-gadgets-info": "برای فعال‌سازی پیش‌نمایش صفحه، لازم است که از ترجیحات ابزارها، [[$1|ابزار پاپ‌آپس را غیرفعال کنید]].",
+	"popups-prefs-conflicting-gadgets-info": "برخی ابزارهای خاص و تنظیمات دیگر ممکن است کارایی این ویژگی را تحت‌تأثیر قرار دهند. اگر به مشکلی برخوردید لطفاً ابزارها و اسکریپت‌های کاربردی خود (منجلمه ابزارهای سراسری‌تان) را بررسی کنید."
+}

@@ -1,0 +1,29 @@
+{
+	"@metadata": {
+		"authors": [
+			"Servien"
+		]
+	},
+	"apihelp-cxpublish-param-title": "De titel van de zied um aksies op uut te voeren.",
+	"apihelp-cxpublish-param-html": "De inhoud um op te slaon.",
+	"apihelp-cxpublish-param-from": "De kode van de brontaal.",
+	"apihelp-cxpublish-param-to": "De kode van de doeltaal.",
+	"apihelp-cxpublish-param-sourcetitle": "De titel van de bronzied.",
+	"apihelp-cxpublish-param-categories": "De kategorieën die nog op de uutebröchten zied mutten koemen te staon.",
+	"apihelp-cxpublish-param-wpCaptchaId": "Captcha-ID (a'j opslaon mit n captcha-reaksie).",
+	"apihelp-cxpublish-param-wpCaptchaWord": "Antwoord op de captcha (a'j opslaon mit n captcha-reaksie).",
+	"apihelp-query+contenttranslation-param-translationid": "Vertaalnummer.",
+	"apihelp-query+contenttranslation-example-1": "Laot vertalingen zien die estart bin deur disse gebruker.",
+	"apihelp-query+contenttranslation-example-2": "Laot konseptvertalingen zien op baosis van t ID.",
+	"apihelp-query+contenttranslation-example-3": "Zeuk n vertaling veur de egeven titel tussen de egeven talenkombinasie",
+	"apihelp-query+cxpublishedtranslations-param-from": "De kode van de brontaal.",
+	"apihelp-query+cxpublishedtranslations-param-to": "De kode van de doeltaal.",
+	"apihelp-query+cxpublishedtranslations-example-1": "Laot alle uutebröchten vertalingen zien",
+	"apihelp-query+cxpublishedtranslations-example-2": "Laot alle uutebröchten vertalingen zien die vertaald bin vanuut t Engels",
+	"apihelp-query+cxpublishedtranslations-example-3": "Laot alle uutebröchten vertalingen zien die vertaald bin vanuut t Engels naor t Spaans",
+	"apihelp-cxdelete-param-from": "De kode van de brontaal.",
+	"apihelp-cxdelete-param-to": "De kode van de doeltaal.",
+	"apihelp-cxdelete-param-sourcetitle": "De titel van de bronzied.",
+	"apihelp-cxdelete-example-1": "n Konseptartikel vortdoon die in verbaand ebröcht wördt mit n bepaolde talenkombinasie en de titel.",
+	"apihelp-cxsave-param-sourcerevision": "De versie van de bronzied."
+}

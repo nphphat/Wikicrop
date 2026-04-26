@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bada Kaji",
+			"Ganesh Paudel",
+			"NehalDaveND",
+			"Nirajan pant",
+			"पर्वत सुबेदी",
+			"बडा काजी",
+			"राम प्रसाद जोशी"
+		]
+	},
+	"tpt-rev-encourage": "पूर्वावस्थामा ल्याउनुहोस्",
+	"tpt-translation-intro": "यो पृष्ठ पृष्ठ [[$2]]को <span class=\"plainlinks\">[$1 अनुवादित संस्करण]</span> हो र अनुवाद $3% पूरा भयो।",
+	"tpt-languages-legend": "अन्य भाषाहरू:",
+	"tpt-languages-nonzero": "$1 ($2% अनुवादित)",
+	"tpt-tab-translate": "अनुवाद गर्नुहोस्",
+	"aggregategroups": "कुल समूहहरू",
+	"tpt-aggregategroup-add": "थप्नुहोस्",
+	"tpt-aggregategroup-save": "संग्रह गर्ने",
+	"tpt-aggregategroup-new-name": "नाम :",
+	"tpt-aggregategroup-edit-name": "नाम :",
+	"tpt-aggregategroup-edit-description": "वर्णन :",
+	"tpt-aggregategroup-update": "संग्रह गुर्ने",
+	"tpt-aggregategroup-update-cancel": "रद्द गर्नुहोस्",
+	"tpt-aggregategroup-expand-all-groups": "सबै समूहहरू खुलाउनुहोस्",
+	"pt-movepage-reason": "कारण :",
+	"pt-deletepage-reason": "कारण :",
+	"pt-deletepage-reason-details": "अरू/थप कारण:",
+	"pt-deletepage-reason-other": "अन्य कारण",
+	"pm-import-button-label": "आयात",
+	"pm-savepages-button-label": "संग्रह गर्ने",
+	"pm-cancel-button-label": "रद्द गर्नुहोस्",
+	"pp-save-button-label": "प्रकाशन",
+	"pp-cancel-button-label": "रद्द गर्नुहोस्"
+}

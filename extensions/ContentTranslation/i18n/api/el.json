@@ -1,0 +1,41 @@
+{
+	"@metadata": {
+		"authors": [
+			"Geraki",
+			"Glavkos",
+			"NikosLikomitros",
+			"Nikosgranturismogt"
+		]
+	},
+	"apihelp-cxpublish-summary": "Αποθηκεύσετε μια σελίδα που δημιουργήσατε, χρησιμοποιώντας την επέκταση Μετάφραση Περιεχομένου.",
+	"apihelp-cxpublish-param-title": "Ο τίτλος της σελίδας στην οποία θα γίνουν ενέργειες.",
+	"apihelp-cxpublish-param-html": "Το περιεχόμενο για αποθήκευση.",
+	"apihelp-cxpublish-param-from": "Ο κωδικός της γλώσσας πηγής.",
+	"apihelp-cxpublish-param-to": "Ο κωδικός της γλώσσας στόχου.",
+	"apihelp-cxpublish-param-sourcetitle": "Ο τίτλος της σελίδας πηγής.",
+	"apihelp-query+contenttranslation-param-translationid": "Αναγνωριστικό μετάφρασης",
+	"apihelp-query+contenttranslation-param-from": "Ο κωδικός της γλώσσας πηγής.",
+	"apihelp-query+contenttranslation-param-to": "Ο κωδικός της γλώσσας στόχου.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "Ο τίτλος της σελίδας προέλευσης.",
+	"apihelp-query+contenttranslation-param-type": "Η κατάσταση της μετάφρασης.",
+	"apihelp-query+contenttranslation-example-1": "Δείτε τις μεταφράσεις που ξεκίνησε ο τρέχων χρήστης.",
+	"apihelp-cxdelete-param-from": "Ο κωδικός της γλώσσας πηγής.",
+	"apihelp-cxdelete-param-to": "Ο κωδικός της γλώσσας στόχου.",
+	"apihelp-cxdelete-param-sourcetitle": "Ο τίτλος της σελίδας προέλευσης.",
+	"apihelp-cxsave-param-sourcerevision": "Η αναθεώρηση της σελίδας πηγής.",
+	"apihelp-cxsave-param-progress": "Πληροφορίες σχετικά με την ολοκλήρωση της μετάφρασης (πρόοδο). JSON με τα κλειδιά του <code>κάθε</code>, <code>ανθρώπου</code>, <code>mt</code> και <code>mtSectionsCount</code>. Οι τιμές κλειδιά είναι ποσοστά.",
+	"apihelp-cxsave-param-title": "Ο τίτλος της σελίδας για να εκτελέσετε ενέργειες.",
+	"apihelp-cxsave-param-from": "Ο κωδικός της γλώσσας πηγής.",
+	"apihelp-cxsave-param-to": "Ο κωδικός της γλώσσας στόχου.",
+	"apihelp-cxsave-param-sourcetitle": "Ο τίτλος της σελίδας πηγής.",
+	"apierror-cx-invalidlanguage": "Μη έγκυρη γλώσσα.",
+	"apierror-cx-invalidprogress": "Μη έγκυρη πρόοδος.",
+	"apierror-cx-invalidsourcelanguage": "Μη έγκυρη γλώσσα πηγής.",
+	"apierror-cx-invalidtargetlanguage": "Μη έγκυρη γλώσσα στόχου.",
+	"apierror-cx-invalidtranslator": "Μη έγκυρο όνομα μεταφραστή",
+	"apierror-cx-jwtmissing": "Το JWT δεν είναι εγκατεστημένο.",
+	"apierror-cx-keynotconfigured": "Το κλειδί δεν έχει ρυθμιστεί.",
+	"apierror-cx-missingdraft": "Το πρόχειρο δεν υπάρχει.",
+	"apierror-cx-translationnotfound": "Η μετάφραση δεν βρέθηκε.",
+	"apihelp-query+langlinkscount-summary": "Λάβετε τον αριθμό άλλων γλωσσικών εκδόσεων."
+}

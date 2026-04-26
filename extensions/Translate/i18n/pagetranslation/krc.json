@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ernác",
+			"Iltever",
+			"Къарачайлы"
+		]
+	},
+	"pagetranslation": "Бет кёчюрюу",
+	"nstab-translations": "Кёчюрюу бирим",
+	"right-pagetranslation": "Бетлени версияларын кёчюрюу ючюн белгиле",
+	"action-pagetranslation": "кёчюрюлюрча бетлени оноуун джюрют",
+	"tpt-languages-legend": "Башха тилле:",
+	"tpt-languages-nonzero": "$1 ($2% кёчюрюлгенди)",
+	"tpt-tab-translate": "Кёчюр",
+	"tpt-target-page": "Бу бетни къол бла джангыртырыргъа боллукъ тюлдю.\nБу [[$1]] бетни кёчюрюуюдю, кёчюрюуню энчи [$2 кёчюрюу адырны] болушлугъу бла джангыртыргъа боллукъду.",
+	"log-action-filter-pagetranslation": "Этиуню типи:"
+}

@@ -1,0 +1,32 @@
+{
+	"@metadata": {
+		"authors": [
+			"Seipinne",
+			"Trondtr",
+			"Yupik"
+		]
+	},
+	"tpt-select-prioritylangs-reason": "Suijâ:",
+	"tpt-translation-settings-save": "Vuorkkii asâttâsâid",
+	"translate-tag-translate-link-desc": "Jurgâl taam siijđo",
+	"tpt-languages-legend": "Eres kielah:",
+	"tpt-languages-nonzero": "$1 ($2 % jurgâlum)",
+	"tpt-tab-translate": "Jurgâl",
+	"tpt-aggregategroup-add": "Lasseet",
+	"tpt-aggregategroup-save": "Vuorkkii",
+	"tpt-aggregategroup-new-name": "Nommâ:",
+	"tpt-aggregategroup-edit-name": "Nommâ:",
+	"tpt-aggregategroup-update": "Vuorkkii",
+	"tpt-aggregategroup-update-cancel": "Jooskâ",
+	"pt-movepage-reason": "Suijâ:",
+	"pt-movepage-subpages": "Sirde puoh vyelisiijđoid",
+	"pt-deletepage-current": "Sijđonommâ:",
+	"pt-deletepage-reason": "Suijâ:",
+	"pt-deletepage-reason-other": "Eres suijâ",
+	"pt-deletepage-subpages": "Siho puoh vyelisiijđoid",
+	"pt-deletepage-list-other": "Eres vyelisiijđoh",
+	"pm-savepages-button-label": "Vuorkkii",
+	"pm-cancel-button-label": "Jooskâ",
+	"pp-save-button-label": "Almostit",
+	"pp-cancel-button-label": "Jooskâ"
+}

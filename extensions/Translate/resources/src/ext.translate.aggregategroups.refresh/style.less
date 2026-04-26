@@ -1,0 +1,81 @@
+@import 'mediawiki.skin.variables.less';
+
+.cdx-aggregate-group-icon--delete {
+	.cdx-mixin-css-icon( @cdx-icon-trash, @param-is-button-icon: true );
+}
+
+.cdx-aggregate-group-icon--edit {
+	.cdx-mixin-css-icon( @cdx-icon-edit, @param-is-button-icon: true );
+}
+
+#ext-translate-aggregategroups-refresh {
+	margin-bottom: @spacing-100;
+}
+
+button.tpt-toggle-groups {
+	margin-bottom: @spacing-50;
+}
+
+.mw-translate-aggregategroup-container {
+	summary .cdx-button:first-of-type {
+		right: @min-size-interactive-touch;
+	}
+
+	.cdx-aggregate-group-subgroup-delete {
+		margin-inline-start: @size-12;
+		vertical-align: middle;
+	}
+
+	.cdx-aggregate-group-subgroup-icon--delete {
+		.cdx-mixin-css-icon( @cdx-icon-trash, @param-is-button-icon: true );
+	}
+
+	.mw-translate-aggregategroup-associate form {
+		margin-inline-start: @size-200;
+		margin-top: @size-50;
+		width: @size-half;
+		display: flex;
+		justify-content: flex-start;
+		align-items: baseline;
+		gap: @size-25;
+
+		.cdx-field {
+			flex-grow: 1;
+		}
+
+		.cdx-button {
+			height: @min-size-interactive-pointer;
+			width: fit-content;
+		}
+
+		/** Only disabled item that appears in the selector is about API error */
+		.cdx-menu .cdx-menu-item--disabled {
+			color: @color-error;
+
+			.cdx-menu-item__icon {
+				color: @color-error;
+			}
+		}
+	}
+
+	@media screen and ( max-width: @min-width-breakpoint-tablet ) {
+		/** Let the entity selector grow on smaller screens */
+		.mw-translate-aggregategroup-associate form {
+			width: auto;
+		}
+	}
+
+	@media screen and ( max-width: 420px ) {
+		/** On much smaller screens, put entity selector and associated button on separate lines */
+		.mw-translate-aggregategroup-associate form {
+			flex-direction: column;
+		}
+	}
+}
+
+html.client-nojs .mw-translate-aggregategroup-container {
+	summary .cdx-button,
+	.cdx-aggregate-group-subgroup-icon--delete {
+		display: none;
+	}
+}

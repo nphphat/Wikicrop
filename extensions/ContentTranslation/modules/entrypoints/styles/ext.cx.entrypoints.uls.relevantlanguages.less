@@ -1,0 +1,30 @@
+@import 'mediawiki.skin.variables.less';
+
+.cx-uls-relevant-languages-banner {
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: normal;
+	padding: 12px;
+	background-color: #f8f9fa;
+	color: @color-subtle;
+
+	&__text {
+		padding-inline: 32px 8px;
+
+		span {
+			font-weight: bold;
+		}
+	}
+
+	&__icon {
+		font-size: 0.85em;
+		background: center / contain no-repeat url( ../images/arrow-forward-icon.svg );
+	}
+}
+
+.cx-uls-entrypoint__panel-container {
+	position: absolute;
+	background-color: #fff;
+}

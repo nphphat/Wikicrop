@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dsvyas"
+		]
+	},
+	"popups-message": "પૂર્વાવલોકનો",
+	"popups-desc": "કડી ઉપર કર્શર લઈ જતા પૂર્વાવલોકન દર્શાવતું ખાનું ઉપસી આવશે",
+	"popups-settings-title": "પૂર્વાવલોકનો",
+	"popups-settings-option-page": "પૃષ્ઠ પૂર્વાવલોકનો",
+	"popups-settings-option-page-description": "પૃષ્ઠ વાંચતી વખતે મુદ્દાનું સંક્ષિપ્ત પૂર્વાવલોકન મેળવો",
+	"popups-settings-option-reference": "સંદર્ભ પૂર્વાવલોકનો",
+	"popups-settings-option-reference-description": "પૃષ્ઠ વાંચતી વખતે સંદર્ભનું સંક્ષિપ્ત પૂર્વાવલોકન મેળવો",
+	"popups-settings-save": "સાચવો",
+	"popups-settings-help-ok": "પૂર્ણ",
+	"popups-settings-cancel": "રદ કરો",
+	"popups-settings-help": "પૃષ્ઠના અંતે આપેલી કડી પર જઈ ને તમે પૂર્વાવલોકનો પુનઃસક્રિય કરી શકો છો.",
+	"popups-settings-enable": "પૂર્વાવલોકન ગોઠવણીમાં ફેરબદલ કરો",
+	"popups-settings-icon-gear-title": "પૃષ્ઠ પૂર્વાવલોકન ગોઠવણી બદલો",
+	"popups-preview-no-preview": "આ પૂર્વાવલોકન દર્શાવવામાં ક્ષતિ આવી",
+	"popups-preview-footer-read": "આ પૃષ્ઠ પર જાઓ",
+	"popups-preview-disambiguation": "આ શીર્ષક એક કરતા વધુ પૃષ્ઠ સાથે સંલગ્ન છે",
+	"popups-preview-disambiguation-link": "ભળતા પૃષ્ઠ જુઓ",
+	"prefs-reading": "વાંચન પસંદગી",
+	"popups-prefs-optin": "પૃષ્ઠ પૂર્વાવલોકન સક્રિય કરો (પૃષ્ઠ વાંચતી વખતે મુદ્દાનું સંક્ષિપ્ત પૂર્વાવલોકન મેળવો)",
+	"popups-prefs-disable-nav-gadgets-info": "You have to [[$1|disable the Navigation popups gadget]] in your Gadgets preferences to enable page previews.",
+	"popups-prefs-conflicting-gadgets-info": "અમુક યંત્રો/સાધનો અને અન્ય ગોઠવણીઓ આ સુવિધાના સંચાલનમાં અવરોધ પેદા કરી શકે છે. જો તમને કોઈ ક્ષતિ આવતી હોય તો તમારા સક્રિય કરેલા યંત્રો/સાધનો અને યુઝર સ્ક્રિપ્ટ ચકાસી જુઓ."
+}

@@ -1,0 +1,34 @@
+{
+	"@metadata": {
+		"authors": [
+			"Tacsipacsi"
+		]
+	},
+	"searchtranslations": "Fordítások keresése",
+	"tux-sst-edit": "Fordítás szerkesztése",
+	"tux-sst-view-foreign": "Megtekintés itt: $1",
+	"tux-sst-search": "Keresés",
+	"tux-sst-search-ph": "Fordítások keresése",
+	"tux-sst-search-info": "Használd a <code>language:</code> és <code>group:</code> operátorokat a keresési kritériumok további szűkítéséhez",
+	"tux-sst-count": "$1 találat",
+	"tux-sst-facet-language": "Nyelvek",
+	"tux-sst-facet-group": "Üzenetcsoportok",
+	"tux-sst-nosolr-title": "A kereső nem érhető el",
+	"tux-sst-nosolr-body": "Ez a wiki nem rendelkezik fordításkereső szolgáltatással.",
+	"tux-sst-solr-offline-title": "A kereső nem érhető el",
+	"tux-sst-solr-offline-body": "A keresőszolgáltatás ideiglenesen nem elérhető.",
+	"tux-sst-next": "Következő ›",
+	"tux-sst-prev": "‹ Előző",
+	"tux-sst-default": "Fordítások",
+	"tux-sst-translated": "Fordítások $1 nyelvről",
+	"tux-sst-untranslated": "Nincs fordítás $1 nyelvről",
+	"tux-sst-outdated": "Elavult fordítások $1 nyelvről",
+	"tux-sst-ellipsis-untranslated": "Nincs fordítás",
+	"tux-sst-ellipsis-outdated": "Elavult fordítások",
+	"tux-sst-link-all-match": "Az összes keresőszó megkövetelése.",
+	"tux-sst-match-message": "Minden fordítás látható, ami legalább egy keresett szót tartalmaz. $1",
+	"tux-sst-case-sensitive": "Kisbetű/nagybetű-érzékeny",
+	"tux-sst-error-offset": "Nem lehet több keresési találatot megjeleníteni. Kérjük, szűkítsd a keresésedet.",
+	"tux-sst-error-language": "Ez a nyelv nem használható ezzel a kereséstípussal.",
+	"tux-sst-error-unsupported-language": "A(z) <code>$1</code> nyelven történő keresés nem támogatott."
+}

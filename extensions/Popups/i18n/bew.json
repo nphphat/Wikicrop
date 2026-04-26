@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bangrapip"
+		]
+	},
+	"popups-desc": "Mampangin sembulan terawangan kapan pemaké nowèl sènggètan",
+	"popups-settings-title": "Terawangan",
+	"popups-settings-option-page": "Terawangan halaman",
+	"popups-settings-option-page-description": "Dapetin terawangan lekas deri topik pas ngebaca halaman.",
+	"popups-settings-option-reference": "Terawangan ruju'an",
+	"popups-settings-option-reference-description": "Dapetin terawangan lekas deri ruju'an pas ngebaca halaman.",
+	"popups-settings-save": "Simpen",
+	"popups-settings-help-ok": "Kelar",
+	"popups-settings-cancel": "Urungin",
+	"popups-settings-help": "Lu bisa nyalain terawangan lagi maké sènggètan di cèkèr halaman.",
+	"popups-settings-enable": "Permak penyetèlan terawangan",
+	"popups-settings-icon-gear-title": "Robah penyetèlan terawangan halaman",
+	"popups-preview-no-preview": "Ada mas'alah pas mampangin ni terawangan",
+	"popups-preview-footer-read": "Pegi ke ni halaman",
+	"popups-preview-disambiguation": "Ni judul juntrungan ama lebi deri atu halaman",
+	"popups-preview-disambiguation-link": "Deleng halaman semacem",
+	"prefs-reading": "Pengaturan baca",
+	"popups-prefs-optin": "Nyalain terawangan halaman (dapetin terawangan lekas deri topik pas ngebaca halaman)"
+}

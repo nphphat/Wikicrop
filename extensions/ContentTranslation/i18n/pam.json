@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Leeheonjin"
+		]
+	},
+	"cx": "Maglikas ning bulung",
+	"cx-header-all-translations": "Deng eganaganang salin-amanu",
+	"cx-source-view-page": "lawen ya ing bulung",
+	"cx-translation-add-translation": "Magdagdag salin-amanu",
+	"cx-tools-link-title": "Suglung",
+	"cx-tools-link-add": "Magdagdag suglung",
+	"cx-tools-mt-provider-title": "Ibat $1",
+	"cx-warning-unsaved-translation": "Atin kang e makatalang salin-amanu.",
+	"cx-create-new-translation": "Mangumpisa ning bayung salin-amanu",
+	"cx-contributions-new-article": "Bayung bulung",
+	"cx-contributions-translation": "Salin-amanu",
+	"cx-contributions-upload": "Lulan media",
+	"cx-draft-cancel-button-label": "Kanselan",
+	"cx-campaign-no-thanks": "Ali, salamat",
+	"cx-campaign-contributionsmenu-mytranslations": "Deng salin-amanu",
+	"cx-campaign-contributionsmenu-myuploads": "Lulan media"
+}

@@ -1,0 +1,122 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins.less';
+
+.ext-translate-container {
+	.tux-messagelist {
+		.tux-message-pagemode {
+			min-height: 50px;
+			margin: 0 auto;
+			vertical-align: middle;
+
+			.tux-message-item-compact {
+				padding: 35px 0;
+				line-height: 50px;
+				overflow: hidden;
+				margin-right: auto;
+				margin-left: auto;
+				vertical-align: middle;
+				border-bottom: @border-width-base @border-style-base @border-color-muted;
+				border-left: @border-subtle;
+				border-right: @border-subtle;
+				background: @background-color-base;
+				max-width: 900px;
+
+				&:hover {
+					background: @background-color-interactive-subtle;
+				}
+			}
+
+			&:first-child .tux-message-item-compact {
+				margin-top: 10px;
+				padding-top: 60px;
+				border-top: @border-subtle;
+			}
+
+			&:last-child .tux-message-item-compact {
+				margin-bottom: 10px;
+				padding-bottom: 60px;
+				border-bottom: @border-subtle;
+			}
+		}
+	}
+}
+
+.tux-pagemode-source,
+.tux-pagemode-translation {
+	word-wrap: break-word;
+}
+
+.tux-message-pagemode {
+	&.open {
+		.tux-pagemode-status,
+		.tux-pagemode-source,
+		.tux-pagemode-translation,
+		.tux-pagemode-action-block {
+			display: none;
+		}
+	}
+
+	&:hover .tux-pagemode-edit {
+		visibility: visible;
+	}
+}
+
+.tux-messagelist .tux-message-pagemode {
+	.tux-pagemode-source {
+		color: @color-subtle;
+		font-size: 16px;
+		line-height: 1.5em;
+		padding-right: 25px;
+		padding-left: 25px;
+	}
+
+	.tux-pagemode-translation {
+		color: @color-base;
+		font-size: 16px;
+		line-height: 1.5em;
+		padding-left: 20px;
+	}
+}
+
+.tux-pagemode-action-block {
+	top: -5px;
+	right: -5px;
+}
+
+.tux-pagemode-status {
+	top: -10px;
+	height: 40px;
+
+	&.fuzzy {
+		background: left center no-repeat;
+		/* @embed */
+		background-image: url( ../images/outdated-ltr.svg );
+	}
+
+	&.untranslated {
+		background: left center no-repeat;
+		/* @embed */
+		background-image: url( ../images/translate-ltr.svg );
+	}
+}
+
+.tux-pagemode-action {
+	background: right top no-repeat;
+	/* @embed */
+	background-image: url( ../images/check-sprite-ltr.svg );
+	height: 31px;
+	cursor: @cursor-base--hover;
+
+	&:hover {
+		background-position: right -31px;
+	}
+}
+
+.tux-pagemode-edit {
+	.cdx-mixin-css-icon( @cdx-icon-edit, @color-placeholder );
+	height: 40px;
+	float: right;
+	margin-right: @spacing-25;
+	cursor: @cursor-base--hover;
+	visibility: hidden;
+}

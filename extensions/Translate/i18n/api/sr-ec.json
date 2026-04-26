@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aca",
+			"Acamicamacaraca",
+			"BadDog",
+			"Milicevic01",
+			"Obsuser"
+		]
+	},
+	"apihelp-aggregategroups-param-group": "ID групе порука. Видети <kbd>[[Special:ApiHelp/query+messagegroups|action=query&meta=messagegroups]]</kbd>.",
+	"apihelp-aggregategroups-param-groupname": "Име збирне групе порука",
+	"apihelp-aggregategroups-param-groupdescription": "Опис збирне групе порука",
+	"apihelp-aggregategroups-example-1": "Придруживање групи",
+	"apihelp-groupreview-param-group": "Група порука. Видети <kbd>[[Special:ApiHelp/query+messagegroups|action=query&meta=messagegroups]]</kbd>.",
+	"apihelp-groupreview-param-language": "Језички код.",
+	"apihelp-query+languagestats-summary": "Статистика траженог језика",
+	"apihelp-query+languagestats-param-language": "Језички код.",
+	"apihelp-query+messagecollection-param-group": "Група порука. Видети <kbd>[[Special:ApiHelp/query+messagegroups|action=query&meta=messagegroups]]</kbd>.",
+	"apihelp-query+messagecollection-param-language": "Језички код.",
+	"apihelp-query+messagecollection-example-1": "Списак подржаних језика",
+	"apihelp-managemessagegroups-param-groupId": "ID групе. Видети <kbd>[[Special:ApiHelp/query+messagegroups|action=query&meta=messagegroups]]</kbd>.",
+	"apihelp-translationstash-param-subaction": "Радња",
+	"apierror-translate-smg-nochanges": "Нема измена за обраду.",
+	"apierror-translate-unknownmessage": "Непозната порука",
+	"apierror-translate-invalid-changeset-name": "Дато је неважеће име датотеке скупа измена — $1",
+	"apierror-translate-invalid-operation": "Неважећа вредност: $1. Важеће вредности: $2.",
+	"apiwarn-translate-language-disabled-source": "Изворни језик ове групе је $1. Изаберите други за превођење.",
+	"apihelp-translationentitysearch-param-limit": "Максимални број резултата претраге"
+}

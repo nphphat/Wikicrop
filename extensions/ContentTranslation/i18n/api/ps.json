@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ahmed-Najib-Biabani-Ibrahimkhel",
+			"شاه زمان پټان"
+		]
+	},
+	"apihelp-cxpublish-param-html": "د خوندي کولو مېنځپانگه.",
+	"apihelp-cxpublish-param-from": "د سرچينې د ژبې کوډ.",
+	"apihelp-cxpublish-param-to": "د موخې د ژبې کوډ.",
+	"apihelp-cxpublish-param-sourcetitle": "د سرچينې مخ سرليک.",
+	"apihelp-query+contenttranslation-param-translationid": "د ژباړې پېژند.",
+	"apihelp-query+contenttranslation-param-from": "د سرچينې د ژبې کوډ.",
+	"apihelp-query+contenttranslation-param-to": "د موخې د ژبې کوډ.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "د سرچينې مخ سرليک.",
+	"apihelp-query+contenttranslation-example-2": "د پېژند له مخې د ژباړې گارليکونه ترلاسه کول.",
+	"apihelp-query+contenttranslationsuggestions-param-from": "د سرچينې د ژبې کوډ.",
+	"apihelp-query+contenttranslationsuggestions-param-to": "د موخې د ژبې کوډ.",
+	"apihelp-query+cxpublishedtranslations-param-from": "د سرچينې د ژبې کوډ.",
+	"apihelp-query+cxpublishedtranslations-param-to": "د موخې د ژبې کوډ.",
+	"apihelp-query+cxpublishedtranslations-example-1": "ټولې خپرې شوې ژباړې راغونډول",
+	"apihelp-query+cxpublishedtranslations-example-2": "له انگرېزي څخه ژباړل شوې، ټولې ژباړې راغونډول",
+	"apihelp-query+cxpublishedtranslations-example-3": "له انگرېزي څخه هسپاني ته ژباړل شوې، ټولې ژباړې راغونډول",
+	"apihelp-cxdelete-param-from": "د سرچينې د ژبې کوډ",
+	"apihelp-cxdelete-param-to": "د موخې د ژبې کوډ",
+	"apihelp-cxdelete-param-sourcetitle": "د سرچينې مخ سرليک",
+	"apihelp-cxsave-param-sourcerevision": "د سرچينې مخ مخکتنه.",
+	"apihelp-cxsave-param-to": "د موخې د ژبې کوډ.",
+	"apierror-cx-publish-usergroup-required": "تاسو د کارن ډلې اړين پرېښولي نه لرئ چې ار نوم‌‌تشيال ته ژباړې خپرې کړئ."
+}

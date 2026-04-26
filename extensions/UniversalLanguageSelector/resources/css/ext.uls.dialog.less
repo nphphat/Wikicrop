@@ -1,0 +1,39 @@
+@import 'mediawiki.skin.variables.less';
+@uls-dialog-width: 480px;
+
+.uls-dialog {
+	position: fixed;
+	z-index: @z-index-overlay;
+	display: none;
+	background-color: @background-color-base;
+	border: @border-subtle;
+	box-shadow: @box-shadow-drop-xx-large;
+	background-clip: padding-box;
+	width: @uls-dialog-width;
+	top: 30%;
+	left: 50%;
+	margin-left: -( @uls-dialog-width / 2 );
+	margin-top: -40px;
+	padding: @spacing-100;
+
+	@media screen and ( max-width: @max-width-breakpoint-mobile ) {
+		width: @size-full;
+		left: 0;
+		margin-left: @spacing-0;
+		box-sizing: border-box;
+	}
+}
+
+.uls-overlay {
+	height: @size-viewport-height-full;
+	width: @size-viewport-width-full;
+	background: @background-color-backdrop-dark;
+	display: none;
+	z-index: @z-index-overlay-backdrop;
+	position: fixed;
+	top: 0;
+}
+
+.uls-no-overflow {
+	overflow: hidden;
+}

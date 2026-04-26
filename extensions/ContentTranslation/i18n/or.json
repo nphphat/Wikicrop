@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hellohappy",
+			"MKar",
+			"Psubhashish",
+			"ଆଶୁତୋଷ କର"
+		]
+	},
+	"cx": "ପୃଷ୍ଠାଟି ଅନୁବାଦ କରନ୍ତୁ",
+	"cx-javascript": "ଏହି ଟୁଲଟି ଜାଭାସ୍କ୍ରିପ୍ଟ ବିନା କାମ କରିବ ନାହିଁ",
+	"cx-specialpage-enable-betafeature": "ଆପଣଙ୍କ ଭାଷାରେ ସହଜରେ ଅନୁବାଦ କରିବା ପାଇଁ [[mw:Special:MyLanguage/Content_translation|କଣ୍ଟେଣ୍ଟ ଟ୍ରାନ୍ସଲେସନ]] ଏକ ଟୁଲ । [$1 ଏହାକୁ ଏବେ ପରଖନ୍ତୁ!]",
+	"cx-error-server-connection": "ଅସୁବିଧା : ସର୍ଭର ସହ ସଂଯୋଗ କରାଯାଇପାରିଲା ନାହିଁ ।",
+	"cx-desc": "କଣ୍ଟେଣ୍ଟ ଥିବା ପୃଷ୍ଠାଗୁଡ଼ିକୁ ସହଜରେ [[Special:ContentTranslation|ଅନୁବାଦ]] କରିବା ପଥ ସୁଗମ କରିଦିଏ",
+	"cx-header-translation-center": "ଅନୁବାଦ କେନ୍ଦ୍ର",
+	"cx-header-all-translations": "ସବୁ ଅନୁବାଦ",
+	"cx-source-view-page": "ପୃଷ୍ଠା ଦେଖନ୍ତୁ",
+	"cx-publish-page-success": "$1 ନାମରେ ପୃଷ୍ଠାଟି ପ୍ରକାଶିତ ହେଲା",
+	"cx-publish-button": "ଅନୁବାଦ ପ୍ରକାଶ କରନ୍ତୁ",
+	"cx-publish-button-publishing": "ପ୍ରକାଶିତ ହେଉଛି...",
+	"cx-lost-session-draft": "ଆପଣଙ୍କ ଅବଧି ସରିଯାଇଛି । ଆପଣ ଆଉ ଏକ ଉଇଣ୍ଡୋରେ ଆଉଥରେ ଲଗଇନ ନକଲାଯାଏ ସମ୍ପାଦନା ସାଇତାଯାଇପାରିବ ନାହିଁ ।",
+	"cx-translation-add-translation": "ଅନୁବାଦ ଯୋଗକରନ୍ତୁ",
+	"cx-source-loading": "$1 ଖୋଲୁଛି",
+	"cx-campaign-newbytranslation-search": "ଅନୁବାଦ କରିବାପାଇଁ ଅନ୍ୟ ଏକ ପୃଷ୍ଠା ବାଛନ୍ତୁ",
+	"cx-tools-link-title": "ଲିଙ୍କ",
+	"cx-tools-link-add": "ଲିଙ୍କ ଯୋଡ଼ନ୍ତୁ",
+	"cx-publish-captcha-title": "ସୁରକ୍ଷା ପ୍ରଶ୍ନ",
+	"cx-translation-filter-published-translations": "ପ୍ରକାଶିତ ଅନୁବାଦନଗୁଡିକ",
+	"cx-translation-filter-draft-translations": "କାମଚାଲିଛି",
+	"cx-create-new-translation": "ନୂଆ ଅନୁବାଦ କରନ୍ତୁ",
+	"cx-save-draft-saving": "ସାଇତା ଯାଉଛି...",
+	"cx-contributions-new-contributions": "ନୂଆ ଅବଦାନ",
+	"cx-contributions-new-article": "ନୂଆ ପୃଷ୍ଠା",
+	"cx-contributions-translation": "ଅନୁବାଦ",
+	"cx-contributions-translation-tooltip": "ରହିଥିବା ପୃଷ୍ଠାଗୁଡିକୁ ଅନୁବାଦ କରନ୍ତୁ",
+	"cx-publishing-with-issues-dialog-title": "ଆଗରୁ ଥିବା ଅସୁବିଧା ସହ ପ୍ରକାଶ କରିବେ?",
+	"cx-publishing-with-issues-dialog-message": "ଆପଣଙ୍କ ଅନୁବାଦରେ ଏବେ ବି ସମ୍ଭାବ୍ଯ ସମସ୍ଯା ରହିଛି। ଦୟାକରି ପ୍ରକାଶନ ଆଗରୁ ପ୍ରସଙ୍ଗସବୁକୁ ପରଖିବା ବାବଦରେ ବିଚାର କରନ୍ତୁ। \n\nଆପଣଙ୍କ ଯୋଗଦାନର ସମୀକ୍ଷକ ଉଇକିଆଳିମାନେ ଏହି ଉନ୍ନତି ପ୍ରଶଂସାକରିବେ।",
+	"cx-feedback-link": "ମତାମତ ଦିଅନ୍ତୁ",
+	"cx-draft-cancel-button-label": "ନାକଚ",
+	"cx-campaign-no-thanks": "ଥାଉ ଲୋଡ଼ା ନାହିଁ",
+	"cx-campaign-contributionsmenu-mytranslations": "ଅନୁବାଦସମୂହ",
+	"sx-confirm-back-navigation-dialog-continue-button-label": "ସମ୍ପାଦନା ଚାଲୁରଖନ୍ତୁ"
+}

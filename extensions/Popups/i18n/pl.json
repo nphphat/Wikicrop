@@ -1,0 +1,37 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chrumps",
+			"Matma Rex",
+			"Peter Bowman",
+			"Rail",
+			"Railfail536",
+			"Rezonansowy",
+			"SemanticPioneer",
+			"Ty221",
+			"WTM",
+			"Woytecr"
+		]
+	},
+	"popups-message": "Podgląd",
+	"popups-desc": "Wyświetla wyskakujące okna podglądu po umieszczeniu wskaźnika myszy na odnośniku",
+	"popups-settings-title": "Podgląd",
+	"popups-settings-option-page": "Podgląd stron",
+	"popups-settings-option-page-description": "Uzyskaj szybkie podglądy tematu podczas czytania strony.",
+	"popups-settings-option-reference": "Podgląd przypisów",
+	"popups-settings-option-reference-description": "Uzyskaj szybkie podglądy przypisów podczas czytania strony.",
+	"popups-settings-save": "Zapisz",
+	"popups-settings-help-ok": "Gotowe",
+	"popups-settings-cancel": "Anuluj",
+	"popups-settings-help": "Możesz ponownie włączyć podgląd za pomocą linku znajdującego się w stopce strony.",
+	"popups-settings-enable": "Ustawienia podglądu",
+	"popups-settings-icon-gear-title": "Zmień ustawienia podglądu stron",
+	"popups-preview-no-preview": "Wystąpił problem z wyświetlaniem podglądu strony",
+	"popups-preview-footer-read": "Przejdź do tej strony",
+	"popups-preview-disambiguation": "Ten tytuł odnosi się do więcej niż jednej strony",
+	"popups-preview-disambiguation-link": "Pokaż podobne strony",
+	"prefs-reading": "Preferencje czytania",
+	"popups-prefs-optin": "Włącz podgląd stron (szybki podgląd tematu podczas czytania strony)",
+	"popups-prefs-disable-nav-gadgets-info": "Musisz [[$1|wyłączyć gadżet „NavigationPopus”]] w preferencjach gadżetów, aby włączyć podglądy.",
+	"popups-prefs-conflicting-gadgets-info": "Niektóre gadżety i inne ustawienia mogą wpływać na wydajność tej funkcji. Jeśli wystąpią problemy, przejrzyj swoje gadżety i skrypty, w tym globalne."
+}

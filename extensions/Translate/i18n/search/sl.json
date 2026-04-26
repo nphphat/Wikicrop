@@ -1,0 +1,34 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar",
+			"Janezdrilc"
+		]
+	},
+	"searchtranslations": "Išči prevode",
+	"tux-sst-edit": "Uredi prevod",
+	"tux-sst-view-foreign": "Ogled v: $1",
+	"tux-sst-search": "Išči",
+	"tux-sst-search-ph": "Išči prevode",
+	"tux-sst-search-info": "Za dodatno omejitev iskalnih kriterijev uporabite operator <code>language:</code> ali <code>group:</code>.",
+	"tux-sst-count": "{{PLURAL:$1|En najdeni zadetek|$1 najdena zadetka|$1 najdeni zadetki|$1 najdenih zadetkov}}",
+	"tux-sst-facet-language": "Jeziki",
+	"tux-sst-facet-group": "Skupine sporočil",
+	"tux-sst-nosolr-title": "Iskanje ni na voljo",
+	"tux-sst-nosolr-body": "Ta viki ne omogoča iskanja prevodov.",
+	"tux-sst-solr-offline-title": "Iskanje ni na voljo",
+	"tux-sst-solr-offline-body": "Iskanje trenutno ni na voljo.",
+	"tux-sst-next": "Naslednja ›",
+	"tux-sst-prev": "‹ Prejšnja",
+	"tux-sst-default": "Prevodi",
+	"tux-sst-translated": "Prevodi iz jezika: $1",
+	"tux-sst-untranslated": "Ni prevodov iz jezika: $1",
+	"tux-sst-outdated": "Zastareli prevodi iz jezika: $1",
+	"tux-sst-ellipsis-untranslated": "Brez prevoda",
+	"tux-sst-ellipsis-outdated": "Zastareli prevodi",
+	"tux-sst-link-all-match": "Zahtevane naj bodo vse iskane besede.",
+	"tux-sst-match-message": "Prikazani so prevodi, ki se ujemajo s katero koli od iskanih besed. $1",
+	"tux-sst-case-sensitive": "Razlikuj med velikimi in malimi črkami",
+	"tux-sst-error-offset": "Nadaljnjih iskalnih zadetkov ni mogoče prikazati. Zožite iskanje.",
+	"tux-sst-error-language": "S to vrsto iskanja ni mogoče uporabiti tega jezika."
+}

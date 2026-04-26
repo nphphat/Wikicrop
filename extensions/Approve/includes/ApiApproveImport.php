@@ -8,7 +8,7 @@ use MediaWiki\Api\ApiBase;
 class ApiApproveImport extends ApiBase {
 
     public function execute() {
-        // 1. Kiểm tra quyền Admin
+        // Kiểm tra quyền Admin
         if ( !$this->getUser()->isAllowed( 'approverevisions' ) ) {
             $this->dieWithError( [ 'apierror-permissiondenied' ] );
         }

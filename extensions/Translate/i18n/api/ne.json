@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"NehalDaveND",
+			"Nirjal stha",
+			"पर्वत सुबेदी"
+		]
+	},
+	"apihelp-groupreview-param-group": "सन्देश समूह",
+	"apihelp-groupreview-param-language": "भाषाकोड",
+	"apihelp-query+languagestats-param-language": "भाषाकोड",
+	"apihelp-query+messagecollection-param-group": "सन्देश समूह",
+	"apihelp-query+messagecollection-param-language": "भाषाकोड",
+	"apihelp-translatesandbox-param-do": "के गर्न",
+	"apihelp-translationstash-param-subaction": "क्रिया",
+	"apihelp-ttmserver-param-targetlanguage": "सुझावको भाषा कोड ।",
+	"apierror-translate-language-disabled": "$1 मा अनुवाद निष्क्रिय गरिएको छ।"
+}

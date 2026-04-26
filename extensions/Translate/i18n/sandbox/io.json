@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joao Xavier"
+		]
+	},
+	"tsb-request-count": "$1 {{PLURAL:$1|demando|demandi}}",
+	"tsb-accept-button-label": "Aceptez",
+	"tsb-didnt-make-any-translations": "Ca uzero tradukis nulo.",
+	"translationstash": "Bonveno"
+}

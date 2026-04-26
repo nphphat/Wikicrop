@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiMANNia"
+		]
+	},
+	"donatebutton-msg": "DonateButton",
+	"donatebutton-desc": "{{desc|name=DonateButton|url=https://www.mediawiki.org/wiki/Extension:DonateButton}}",
+	"sitesupport": "Translation of the text for the donation link.",
+	"sitesupport-url": "This entry is used by the skin {{desc|name=Minerva|url=https://www.mediawiki.org/wiki/Skin:Minerva_Neue}}. You may customize it."
+}

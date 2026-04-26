@@ -13,7 +13,6 @@ class ApiPlantDBHooks {
      * Hook: LoadExtensionSchemaUpdates
      */
     public static function onSchemaUpdate( DatabaseUpdater $updater ) {
-        // Lưu ý: Đảm bảo đường dẫn file SQL đúng
         $updater->addExtensionTable( 'plantdb_map', __DIR__ . '/../sql/create_plantdb_map.sql' );
     }
 
@@ -40,7 +39,7 @@ class ApiPlantDBHooks {
         
         $row = $dbr->selectRow(
             'plantdb_map',
-            ['pm_plantdb_id'], // Tên cột bạn đã đặt trong SQL
+            ['pm_plantdb_id'],
             ['pm_page_id' => $pageId],
             __METHOD__
         );
@@ -49,8 +48,9 @@ class ApiPlantDBHooks {
     }
 
     private static function fetchFromApi( $plantId ) {
-        $apiUrl = "https://plantdb.lab.io.vn/api/species/" . $plantId; 
-        // $apiUrl = "http://localhost/wikicrop/mock_plant.json";
+        $config = MediaWikiServices::getInstance()->getMainConfig();
+        $baseUrl = $config->get( 'ApiPlantDBUrl' );
+        $apiUrl = $baseUrl . "/species/" . $plantId; 
 
         $opts = [
             "http" => [

@@ -1,0 +1,32 @@
+{
+	"name": "ContentTranslation",
+	"private": true,
+	"scripts": {
+		"lint": "npm -s run lint:i18n && npm -s run lint:js && npm -s run lint:css",
+		"lint:js": "eslint --cache .",
+		"lint:css": "stylelint --cache \"**/*.less\"",
+		"lint:i18n": "banana-checker --requireLowerCase=0 i18n/",
+		"test:cx3": "cd app && npm run test",
+		"test:cx2": "npm -s run lint",
+		"precommit": "npm run test:cx2 && git diff --name-only --staged --exit-code app || npm run test:cx3",
+		"test": "npm run test:cx2 && npm run test:cx3",
+		"wdio": "wdio run tests/selenium/wdio.conf.js"
+	},
+	"pre-commit": "precommit",
+	"devDependencies": {
+		"@faker-js/faker": "^8.3.1",
+		"@testing-library/webdriverio": "3.2.1",
+		"@wdio/cli": "7.40.0",
+		"@wdio/junit-reporter": "7.40.0",
+		"@wdio/local-runner": "7.40.0",
+		"@wdio/mocha-framework": "7.40.0",
+		"@wdio/spec-reporter": "7.40.0",
+		"dotenv": "^16.3.1",
+		"eslint-config-wikimedia": "0.30.0",
+		"grunt-banana-checker": "0.13.0",
+		"pre-commit": "^1.2.2",
+		"stylelint-config-wikimedia": "0.18.0",
+		"wdio-intercept-service": "^4.4.0",
+		"wdio-mediawiki": "2.7.1"
+	}
+}

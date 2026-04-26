@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"PiefPafPier",
+			"Robin van der Vliet",
+			"Robin0van0der0vliet"
+		]
+	},
+	"popups-message": "Proefbylden",
+	"popups-desc": "Lit proefbyldfinsterkes opdûke at de lêzer oer ferwizings hinne mûzet",
+	"popups-settings-title": "Proefbylden",
+	"popups-settings-option-page": "Proefbylden fan siden",
+	"popups-settings-option-page-description": "Jout flugge foarfertoanings fan ûnderwerpen ûnder it lêzen.",
+	"popups-settings-option-reference": "Proefbylden fan referinsjes",
+	"popups-settings-option-reference-description": "Jout flugge foarfertoanings fan referinsjes ûnder it lêzen.",
+	"popups-settings-save": "Bewarje",
+	"popups-settings-help-ok": "Klear",
+	"popups-settings-cancel": "Annulearje",
+	"popups-settings-help": "Jo kinne proefbylden wer ynskeakelje mei de ferwizing yn de fuottekst fan 'e side.",
+	"popups-settings-enable": "Proefbyldynstellings bewurkje",
+	"popups-settings-icon-gear-title": "Ynstellings sideproefbyld feroarje",
+	"popups-preview-no-preview": "Der wie in probleem mei it werjaan fan dit proefbyld",
+	"popups-preview-footer-read": "Nei dizze side gean",
+	"popups-preview-disambiguation": "Dizze titel is besibbe oan ferskate siden",
+	"popups-preview-disambiguation-link": "Besibbe siden besjen",
+	"prefs-reading": "Lêsfoarkarren",
+	"popups-prefs-optin": "Proefbylden fan siden ynskeakelje (flugge foarfertoanings fan ûnderwerpen ûnder it lêzen)",
+	"popups-prefs-disable-nav-gadgets-info": "Jo moatte it [[$1|'lytsark' Navigation popups útskeakelje]] yn jo Lytsark-foarkarren, om sideproefbylden ynskeakelje te kinnen.",
+	"popups-prefs-conflicting-gadgets-info": "Beskaat 'lytsark' en oare oanpassings kinne de prestaasjes fan dizze funksje beynfloedzje. At jo problemen ûnderfine, besjoch dan jo lytsark- en meidoggerskripts, ek dy't globaal binne."
+}

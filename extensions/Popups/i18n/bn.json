@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aftab1995",
+			"Aftabuzzaman",
+			"Greatder",
+			"Tahmid",
+			"Yahya",
+			"আফতাবুজ্জামান"
+		]
+	},
+	"popups-message": "প্রাকদর্শন",
+	"popups-desc": "যখন একটি সংযোগের উপর মাউস নেয়া হয় তখন পাতার বিষয়বস্তুর প্রদর্শন করে",
+	"popups-settings-title": "প্রাকদর্শন",
+	"popups-settings-option-page": "পাতার প্রাকদর্শন",
+	"popups-settings-option-page-description": "একটি নিবন্ধ পড়ার সময় কোনও প্রসঙ্গের দ্রুত প্রাকদর্শন দেখুন।",
+	"popups-settings-option-reference": "তথ্যসূত্রের প্রাকদর্শন",
+	"popups-settings-option-reference-description": "একটি পাতা পড়ার সময় একটি তথ্যসূত্রের দ্রুত প্রাকদর্শন দেখুন।",
+	"popups-settings-save": "সংরক্ষণ",
+	"popups-settings-help-ok": "সম্পন্ন",
+	"popups-settings-cancel": "বাতিল",
+	"popups-settings-help": "আপনি এই পৃষ্ঠার পাদচরণের একটি লিঙ্ক ব্যবহার করে প্রাকদর্শন পুনঃসক্রিয় করতে পারেন।",
+	"popups-settings-enable": "প্রাকদর্শন সেটিং সম্পাদনা করুন",
+	"popups-settings-icon-gear-title": "পাতা প্রাকদর্শন সেটিং পরিবর্তন করুন",
+	"popups-preview-no-preview": "এই প্রাকদর্শন প্রদর্শনের সময় একটি সমস্যা হয়েছে",
+	"popups-preview-footer-read": "এই পাতায় যান",
+	"popups-preview-disambiguation": "এই শিরোনামটি একের অধিক পাতাকে বুঝাচ্ছে",
+	"popups-preview-disambiguation-link": "অনুরূপ পাতাগুলি দেখুন",
+	"prefs-reading": "পড়ার পছন্দ",
+	"popups-prefs-optin": "পাতা প্রাকদর্শন সক্রিয় করুন (একটি নিবন্ধ পড়ার সময় একটি প্রসঙ্গের দ্রুত প্রাকদর্শন দেখুন)",
+	"popups-prefs-disable-nav-gadgets-info": "পাতা প্রাকদর্শন সক্রিয় করতে হলে, আপনাকে আপনার গ্যাজেট পছন্দসমূহ থেকে [[$1|ন্যাভিগেশন পপআপ গ্যাজেটটি নিষ্ক্রিয়]] করতে হবে।",
+	"popups-prefs-conflicting-gadgets-info": "কিছু গ্যাজেট এবং অন্যান্য স্বনির্ধারন এই বৈশিষ্ট্যের কর্মক্ষমতাকে প্রভাবিত করতে পারে। আপনি যদি সমস্যার সম্মুখীন হলে তাহলে দয়া করে আপনার আপনার গ্যাজেট এবং ব্যবহারকারী স্ক্রিপ্ট (বৈশ্বিকটি সহ) পর্যালোচনা করুন।"
+}

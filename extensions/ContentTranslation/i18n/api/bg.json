@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"StanProg",
+			"Vodnokon4e"
+		]
+	},
+	"apihelp-cxpublish-param-from": "Код на изходния език.",
+	"apihelp-cxpublish-param-to": "Код на целевия език.",
+	"apihelp-cxpublish-param-sourcetitle": "Заглавие на изходната страница.",
+	"apihelp-query+contenttranslation-param-from": "Код на изходния език.",
+	"apihelp-query+contenttranslation-param-to": "Код на целевия език.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "Заглавие на изходната страница.",
+	"apihelp-query+contenttranslation-param-type": "Състояние на превода.",
+	"apihelp-query+contenttranslationsuggestions-param-from": "Код на изходния език.",
+	"apihelp-query+contenttranslationsuggestions-param-to": "Код на целевия език.",
+	"apihelp-query+cxpublishedtranslations-param-from": "Код на изходния език.",
+	"apihelp-query+cxpublishedtranslations-param-to": "Код на целевия език.",
+	"apihelp-cxdelete-param-from": "Код на изходния език.",
+	"apihelp-cxdelete-param-to": "Код на целевия език.",
+	"apihelp-cxdelete-param-sourcetitle": "Заглавие на изходната страница.",
+	"apihelp-cxsave-param-from": "Код на изходния език.",
+	"apihelp-cxsave-param-to": "Код на целевия език.",
+	"apierror-cx-docserverexception": "Грешка при преобразуването на HTML в уикитекст: $1",
+	"apierror-cx-invalidlanguage": "Невалиден език.",
+	"apierror-cx-jwtmissing": "JWT не е инсталиран.",
+	"apierror-cx-translationnotfound": "Преводът не е открит.",
+	"apihelp-cxpublishsection-param-sourcelanguage": "Код на изходния език.",
+	"apihelp-cxpublishsection-param-targetlanguage": "Код на целевия език.",
+	"apihelp-cxpublishsection-param-sourcetitle": "Заглавието на изходната страница.",
+	"apihelp-cxpublishsection-param-sourcesectiontitle": "Заглавието на изходния раздел.",
+	"apihelp-cxpublishsection-param-targetsectiontitle": "Заглавието на целевия раздел."
+}

@@ -1,0 +1,66 @@
+@import 'mediawiki.skin.variables.less';
+@import '../../ui/styles/mw.cx.mixins.less';
+
+.cx-card-instructions {
+	padding: 0;
+
+	.cx-widget-translationtool-container {
+		padding: 0;
+	}
+
+	.cx-widget-translationtool-header {
+		display: none;
+	}
+}
+
+.card-instructions-section {
+	.mw-ui-item;
+	background-color: @background-color-base;
+	overflow: hidden;
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+	border-bottom: @border-subtle;
+	padding: 16px 26px;
+	.break-overflowing-word;
+}
+
+.card-instructions-guidelines {
+	.mw-ui-item;
+	color: @color-progressive;
+	padding: 16px 26px;
+	font-size: 0.875em;
+	text-align: center;
+}
+
+.card-instructions-text {
+	.mw-ui-seven-eighths;
+}
+
+.card-instructions-heading-one,
+.card-instructions-heading-two,
+.card-instructions-heading-three {
+	.mw-ui-one-whole;
+	font-size: 1em;
+}
+
+.card-instructions-description-one,
+.card-instructions-description-two,
+.card-instructions-description-three {
+	.mw-ui-one-whole;
+	color: @color-subtle;
+	padding-top: 10px;
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+.card-instructions-count-one,
+.card-instructions-count-two,
+.card-instructions-count-three {
+	.mw-ui-one-eighth;
+	background-color: @background-color-base;
+	color: @color-progressive;
+	height: 10%;
+	font-size: 2em;
+	text-align: left;
+}

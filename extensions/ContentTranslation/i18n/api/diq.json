@@ -1,0 +1,34 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gırd",
+			"Kumkumuk",
+			"Mirzali"
+		]
+	},
+	"apihelp-cxpublish-param-title": "Sernamey timar kerdışa peler",
+	"apihelp-cxpublish-param-html": "Qeyd kerden Zerrek",
+	"apihelp-cxpublish-param-from": "Çıme qodê zıwani",
+	"apihelp-cxpublish-param-to": "Hedef Çımey zıwani",
+	"apihelp-cxpublish-param-sourcetitle": "Sernameu pelada çımi",
+	"apihelp-cxpublish-param-categories": "Kategoriya ke debiy çapkerdena pela",
+	"apihelp-query+contenttranslation-param-translationid": "Kamiya çarnayışi",
+	"apihelp-query+contenttranslation-param-from": "Çıme qodê zıwani.",
+	"apihelp-query+contenttranslation-param-to": "Hedef Çımey zıwani",
+	"apihelp-query+contenttranslation-param-sourcetitle": "Sernamey pelada çımi",
+	"apihelp-query+contenttranslation-param-type": "Dewleta açarnê",
+	"apihelp-query+contenttranslationsuggestions-param-from": "Çıme qodê zıwani",
+	"apihelp-query+contenttranslationsuggestions-param-to": "Hedef Çımey zıwani",
+	"apihelp-query+cxpublishedtranslations-param-from": "Çıme qodê zıwani",
+	"apihelp-query+cxpublishedtranslations-param-to": "Hedef Çımey zıwani",
+	"apihelp-query+cxpublishedtranslations-example-1": "Pêro tadayışanê (çarnayışanê) çabiyaeyan biyare",
+	"apihelp-query+cxpublishedtranslations-example-2": "İngılızki beşr bıyaye açarnayışa pêrona bıya",
+	"apihelp-query+cxpublishedtranslations-example-3": "İngılızki ra İspanyolki neşr bıyaye açarnayışa pêrona bıya",
+	"apihelp-cxdelete-param-from": "Çıme qodê zıwani",
+	"apihelp-cxdelete-param-to": "Hedef Çımey zıwani",
+	"apihelp-cxdelete-param-sourcetitle": "Sernamey pelada çımi",
+	"apihelp-cxsave-param-sourcerevision": "Revizyona pera çımi.",
+	"apihelp-cxsave-param-from": "Çıme qodê zıwani",
+	"apihelp-cxsave-param-to": "Hedef Çımey zıwani",
+	"apihelp-cxsave-param-sourcetitle": "Sernamey pelada çımi"
+}

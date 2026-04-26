@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"Banjo",
+			"Elisardojm",
+			"Toliño"
+		]
+	},
+	"popups-message": "Previsualizacións",
+	"popups-desc": "Amosa ventás emerxentes coa vista previa ao pasar o cursor por riba dunha ligazón",
+	"popups-settings-title": "Vistas previas",
+	"popups-settings-option-page": "Vistas previas de páxina",
+	"popups-settings-option-page-description": "Obter vistas previas rápidas dun tema mentres estás a ler unha páxina.",
+	"popups-settings-option-reference": "Vistas previas de referencias",
+	"popups-settings-option-reference-description": "Obter vistas previas rápidas dunha referencia mentres estás a ler unha páxina.",
+	"popups-settings-save": "Gardar",
+	"popups-settings-help-ok": "Feito",
+	"popups-settings-cancel": "Cancelar",
+	"popups-settings-help": "Podes volver habilitar as vistas previas empregando a ligazón do pé da páxina.",
+	"popups-settings-enable": "Editar os axustes de vista previa",
+	"popups-settings-icon-gear-title": "Modificar os axustes de vista previa",
+	"popups-preview-no-preview": "Houbo un problema ó amosar esta vista previa",
+	"popups-preview-footer-read": "Ir a esta páxina",
+	"popups-preview-disambiguation": "Este título está relacionado con máis dunha páxina",
+	"popups-preview-disambiguation-link": "Ver páxinas semellantes",
+	"prefs-reading": "Preferencias de lectura",
+	"popups-prefs-optin": "Activar as vistas previas das páxinas (obter vistas previas rápidas dun tema mentres estás a ler unha páxina)",
+	"popups-prefs-disable-nav-gadgets-info": "Tes que [[$1|desactivar o trebello das ventás emerxentes de navegación]] na lapela de trebellos para activar as vistas previas das páxinas.",
+	"popups-prefs-conflicting-gadgets-info": "Certos trebellos e outras personalizacións poden afectar ó rendemento desta funcionalidade. Se atopas algún problema, revisa os teus trebellos e secuencias de ordes de usuario, incluíndo os globais."
+}

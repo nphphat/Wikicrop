@@ -1,0 +1,65 @@
+@import '../../../ui/styles/mw.cx.mixins.less';
+
+.ve-cx-toolbar-mt {
+	.ve-ui-toolbar-group-cx-mt {
+		display: block;
+	}
+
+	.ve-cx-toolbar-mt-title {
+		display: block;
+		border-bottom: @border-width-base @border-style-base #eaecf0;
+		color: #72777d;
+		padding: 4px 10px;
+	}
+
+	.ve-cx-toolbar-mt-noservices {
+		display: block;
+		border-bottom: @border-width-base @border-style-base #eaecf0;
+		color: @color-subtle;
+		background-color: #f8f9fa;
+		padding: 10px;
+	}
+
+	&-preferred-tool {
+		&-title {
+			display: table-cell;
+			max-width: 1px;
+			width: 100%;
+
+			.text-ellipsis;
+		}
+
+		&-indicator {
+			color: @color-subtle;
+			display: table-cell;
+			padding-left: 0.8em;
+
+			.oo-ui-tool-active.oo-ui-widget-enabled & {
+				color: inherit;
+			}
+		}
+	}
+
+	> .oo-ui-toolbar-popups {
+		width: 100%;
+
+		> .oo-ui-popupToolGroup-tools.oo-ui-popupToolGroup-active-tools {
+			width: 100%;
+		}
+	}
+
+	&.ve-cx-toolbar-mt--highlight .oo-ui-toolbar-bar {
+		animation: cx-flash-highlight 1s;
+	}
+}
+
+.cx-flash-highlight() {
+	50% {
+		background-color: #eaf3ff;
+		color: @color-progressive;
+	}
+}
+
+@keyframes cx-flash-highlight {
+	.cx-flash-highlight;
+}

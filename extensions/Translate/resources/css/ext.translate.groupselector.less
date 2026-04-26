@@ -1,0 +1,161 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins.less';
+
+/**
+ * Group selector
+ */
+.tux-groupselector {
+	position: absolute;
+	top: 14px;
+	right: 0;
+	z-index: 900;
+	margin-top: 13px;
+	width: 600px;
+	padding: 0;
+	border: @border-base;
+	background-color: @background-color-neutral;
+	color: @color-base;
+	border-radius: 5px;
+	box-shadow: @box-shadow-drop-xx-large;
+	display: flex;
+	flex-direction: column;
+
+	&.hide {
+		display: none;
+	}
+}
+
+/* The triangle shaped callout */
+.tux-groupselector::before {
+	border-bottom: 7px solid @border-color-base;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	content: '';
+	display: inline-block;
+	left: 99px;
+	position: absolute;
+	top: -7px;
+}
+
+.tux-groupselector::after {
+	border-bottom: 6px solid @background-color-neutral;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	content: '';
+	display: inline-block;
+	left: 100px;
+	position: absolute;
+	top: -6px;
+}
+
+/* Remove the triangle shaped callout */
+.tux-groupselector.removecallout::before,
+.tux-groupselector.removecallout::after {
+	content: none;
+}
+
+.tux-groupselector__filter {
+	padding-top: 10px;
+}
+
+.tux-groupselector__filter__search__input {
+	font-size: 14px;
+	width: 100%;
+	height: 28px;
+	border: @border-subtle;
+	padding: 2px;
+	margin: 0;
+}
+
+.tux-groupselector__filter__search__icon {
+	.cdx-mixin-css-icon( @cdx-icon-search, @color-subtle, @size-150, @param-background-position: right center );
+	height: 28px;
+}
+
+/*
+ * Group tab
+ */
+.tux-grouptab {
+	color: @color-base;
+	line-height: 30px;
+	height: 30px;
+	cursor: @cursor-base--hover;
+	padding: 2px 5px;
+	margin: 0 4px;
+	display: inline-block;
+}
+
+.tux-grouptab--selected {
+	border-bottom: 2px solid @border-color-progressive;
+}
+
+/*
+ * Group list
+ */
+.tux-grouplist {
+	flex: 1;
+	max-height: 400px;
+	overflow: hidden auto;
+	background-color: @background-color-base;
+	min-height: 200px;
+	border-radius: 0 0 5px 5px;
+}
+
+.tux-groupselector__footer {
+	padding: 12px 15px;
+
+	&.hide {
+		display: none;
+	}
+}
+
+.tux-groupselector__footer a::before {
+	content: '';
+	.cdx-mixin-css-icon( @cdx-icon-settings, currentColor );
+	margin-right: @spacing-25;
+}
+
+.tux-grouplist__item {
+	position: relative;
+	border-bottom: 1px solid @border-color-muted;
+	height: 50px;
+	cursor: @cursor-base--hover;
+
+	&:hover {
+		background-color: @background-color-neutral-subtle;
+	}
+}
+
+.grid .tux-grouplist__item__label {
+	padding-bottom: 0; /* grid override */
+	padding-left: 15px; /* grid override */
+	line-height: 32px;
+	cursor: @cursor-base--hover;
+	white-space: nowrap;
+}
+
+.tux-grouplist__item__label .tux-statsbar {
+	position: absolute;
+	bottom: 0;
+	width: 150px;
+}
+
+.tux-grouplist__item__icon {
+	background-image: url( ../images/project.svg );
+	background-repeat: no-repeat;
+	background-position: right center;
+	/* Keep this in sync with js! */
+	background-size: 32px;
+	height: 50px;
+}
+
+.grid .row .tux-grouplist__item__subgroups {
+	color: @color-disabled;
+	position: absolute; /* grid override */
+	padding: 0 15px 2px 0; /* grid override */
+	line-height: 1.25em;
+	bottom: 0;
+	right: 0;
+	text-align: right;
+	font-size: 10pt;
+}

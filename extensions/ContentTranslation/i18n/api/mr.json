@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"V.narsikar"
+		]
+	},
+	"apihelp-cxpublish-param-title": "ज्या पानावर प्रक्रिया करावयाची आहे त्या पानाचे शिर्षक.",
+	"apihelp-cxpublish-param-html": "जतन करावयाचा आशय",
+	"apihelp-cxpublish-param-from": "स्रोत भाषा संकेत.",
+	"apihelp-cxpublish-param-to": "लक्ष्य भाषा संकेत.",
+	"apihelp-cxpublish-param-sourcetitle": "स्रोत पानाचे शिर्षक.",
+	"apihelp-cxpublish-param-categories": "प्रकाशित पाने कोणकोणत्या वर्गात टाकावयास हवी.",
+	"apihelp-query+contenttranslation-param-translationid": "भाषांतर ओळखण",
+	"apihelp-query+contenttranslation-param-from": "स्रोत भाषेचा संकेत",
+	"apihelp-query+contenttranslation-param-to": "लक्ष्य भाषेचा संकेत.",
+	"apihelp-query+contenttranslation-param-sourcetitle": "स्रोत पानाचे शिर्षक.",
+	"apihelp-query+contenttranslation-param-limit": "किती भाषांतरे पुरवावयाची त्याचा आकडा.",
+	"apihelp-query+contenttranslation-param-type": "भाषांतराची स्थिती",
+	"apihelp-query+contenttranslation-example-1": "सध्याच्या सदस्याने सुरु केलेली भाषांतरे आणा.",
+	"apihelp-query+contenttranslationcorpora-param-translationid": "भाषांतराची ओळखण",
+	"apihelp-cxsave-param-sourcerevision": "स्रोत पानाची आवृत्ती"
+}

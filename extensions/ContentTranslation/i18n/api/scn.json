@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajeje Brazorf"
+		]
+	},
+	"apierror-cx-invalidlanguage": "Lingua nun vàlidda",
+	"apierror-cx-missingdraft": "L'abbozzu nun esisti."
+}

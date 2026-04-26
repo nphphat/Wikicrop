@@ -1,0 +1,25 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mw.cx.highlight.less';
+
+.cx-column--translation {
+	// Layer inspectors above right column
+	z-index: 1;
+
+	.cx-column-target-title {
+		padding: 0;
+		padding-top: 0.5em;
+
+		& > textarea {
+			padding: 0;
+			line-height: 1.4em;
+			text-align: left;
+			font-weight: normal;
+			margin: 0;
+			border: 0;
+			border-bottom: @border-base;
+			overflow: hidden;
+			padding-bottom: 0.17em;
+			height: 1.5em;
+		}
+	}
+}

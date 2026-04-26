@@ -1,0 +1,88 @@
+{
+	"name": "OpenID Connect",
+	"version": "8.3.0",
+	"author": [
+		"[https://www.mediawiki.org/wiki/User:Cindy.cicalese Cindy Cicalese]"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:OpenID_Connect",
+	"descriptionmsg": "openidconnect-desc",
+	"type": "other",
+	"license-name": "MIT",
+	"requires": {
+		"MediaWiki": ">= 1.39.0",
+		"extensions": {
+			"PluggableAuth": ">= 7.4.0"
+		}
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\OpenIDConnect\\": "includes/"
+	},
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
+	"MessagesDirs": {
+		"OpenIDConnect": [
+			"i18n"
+		]
+	},
+	"HookHandlers": {
+		"schema": {
+			"class": "MediaWiki\\Extension\\OpenIDConnect\\SchemaHooks"
+		}
+	},
+	"Hooks": {
+		"LoadExtensionSchemaUpdates": "schema"
+	},
+	"config": {
+		"OpenIDConnect_MigrateUsersByEmail": {
+			"value": false
+		},
+		"OpenIDConnect_MigrateUsersByUserName": {
+			"value": false
+		},
+		"OpenIDConnect_SingleLogout": {
+			"value": false
+		},
+		"OpenIDConnect_ForceReauth": {
+			"value": false
+		},
+		"OpenIDConnect_UseRealNameAsUserName": {
+			"value": false
+		},
+		"OpenIDConnect_UseEmailNameAsUserName": {
+			"value": false
+		},
+		"OpenIDConnect_UseRandomUsernames": {
+			"value": false
+		},
+		"OpenIDConnect_EmailProcessor": {
+			"value": null
+		},
+		"OpenIDConnect_RealNameProcessor": {
+			"value": null
+		},
+		"OpenIDConnect_PreferredUsernameProcessor": {
+			"value": null
+		}
+	},
+	"attributes": {
+		"PluggableAuth": {
+			"OpenIDConnect": {
+				"class": "MediaWiki\\Extension\\OpenIDConnect\\OpenIDConnect",
+				"services": [
+					"MainConfig",
+					"AuthManager",
+					"OpenIDConnectClient",
+					"UserIdentityLookup",
+					"UserNameUtils",
+					"OpenIDConnectStore",
+					"TitleFactory",
+					"GlobalIdGenerator",
+					"UserFactory"
+				]
+			}
+		}
+	},
+	"load_composer_autoloader": true,
+	"manifest_version": 2
+}

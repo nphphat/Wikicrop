@@ -1,0 +1,29 @@
+{
+	"opts": {
+		"destination": "docs/js",
+		"package": "package.json",
+		"pedantic": false,
+		"readme": "README.md",
+		"recurse": true,
+		"template": "node_modules/jsdoc-wmf-theme"
+	},
+	"plugins": [
+		"node_modules/jsdoc-wmf-theme/plugins/default"
+	],
+	"source": {
+		"include": [ "src" ]
+	},
+	"templates": {
+		"cleverLinks": true,
+		"default": {
+			"useLongnameInNav": true
+		},
+		"wmf": {
+			"repository": "https://gerrit.wikimedia.org/g/mediawiki/extensions/Popups/",
+			"prefixMap": {
+				"mw.": "https://doc.wikimedia.org/mediawiki-core/master/js/{type}.html"
+			},
+			"linkMap": {}
+		}
+	}
+}

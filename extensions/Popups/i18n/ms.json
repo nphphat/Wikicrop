@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hakimi97",
+			"Tofeiku"
+		]
+	},
+	"prefs-reading": "Keutamaan pembacaan",
+	"popups-prefs-optin": "Dayakan pralihat laman (dapat pralihat pantas berkaitan sesebuah topik apabila sedang membaca suatu laman)",
+	"popups-prefs-conflicting-gadgets-info": "Sesetengah gajet tertentu dan beberapa penyesuaian lain mungkin menjejaskan kelakuan ciri ini. Jika anda mengalami masalah sila semak alat dan skrip pengguna anda, termasuklah yang global."
+}

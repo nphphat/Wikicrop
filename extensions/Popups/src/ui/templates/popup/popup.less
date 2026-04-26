@@ -1,0 +1,493 @@
+@import 'mediawiki.skin.variables.less';
+@import '../../variables.less';
+@import '../../mixins.less';
+
+// Code adapted from Yair Rand's NavPopupsRestyled.js
+// https://en.wikipedia.org/wiki/User:Yair_rand/NavPopupsRestyled.js
+//
+// 'Tall' terminology, although applied to the popup, refers only to the
+// thumbnail and not the popup itself:
+//   Class     Thumbnail  Popup
+//   Tall      Portrait   Landscape
+//   Not tall  Landscape  Portrait
+//   Not tall  Missing    Landscape
+
+@borderColorPopup: @background-color-neutral;
+// The subtracting-triangles method results in a line that
+// is ~0.7px wide, so make it slightly darker to compensate.
+@borderColorPopupPointerNoImage: rgba( 0, 0, 0, 0.07 );
+@previewFooterCogIconInteractionAreaSize: 34px;
+@previewFooterHeight: @popupPadding + @previewFooterCogIconInteractionAreaSize;
+@previewBoxShadow: 0 30px 90px -20px rgba( 0, 0, 0, 0.3 ), 0 0 0 1px @borderColorPopup;
+
+// Same as the --pointer-height in popup.less
+@previewPointerHeight: 8px;
+
+.mwe-popups {
+	background: @background-color-base;
+	position: absolute;
+	z-index: @zIndexPopup;
+	box-shadow: @previewBoxShadow;
+	padding: 0;
+	display: none;
+	font-size: @font-size-small;
+	line-height: @lineHeight;
+	min-width: 300px;
+	border-radius: @border-radius-base;
+
+	.mwe-popups-container {
+		color: @color-base;
+		text-decoration: none;
+
+		footer {
+			// T277364: The top padding doesn't have a visible effect anyway; this reduces the risk
+			// of the footer covering content
+			padding: 0 @popupPadding @popupPadding;
+			margin: 0;
+			position: absolute;
+			bottom: 0;
+			pointer-events: none; // Allows clicking 'through' the element
+
+			a {
+				pointer-events: auto;
+			}
+		}
+	}
+
+	/* stylelint-disable declaration-no-important */
+	.mwe-popups-settings-button {
+		float: right; // positions icon near bottom right corner
+		pointer-events: auto; // Overrides pointer-events: none on footer to ensure the button is interactive
+		/* The !importants are needed to override 'responsive' button styles on smaller viewports defined in Vector's Button.less */
+		min-width: 32px !important;
+		min-height: 32px !important;
+	}
+	/* stylelint-enable declaration-no-important */
+
+	.mwe-popups-extract {
+		// T156800, T139297: 'Pad' the extract horizontally using a margin so the
+		// SVG element is forced not to occlude the truncating pseudo-element and
+		// the settings cog in IE9-11.
+		margin: @popupPadding;
+		display: block;
+		color: @color-base;
+		text-decoration: none;
+		position: relative;
+		padding-bottom: 4px; // T330570
+
+		&:hover {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		&::after {
+			content: ' ';
+			position: absolute;
+			bottom: 0;
+			width: 25%;
+			height: @lineHeight;
+			background-color: transparent;
+			pointer-events: none; // Allows clicking 'through' the element
+		}
+
+		&[ dir='ltr' ]::after {
+			/* @noflip */
+			right: 0;
+			/* @noflip */
+			background-image: linear-gradient( to right, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+		}
+
+		&[ dir='rtl' ]::after {
+			/* @noflip */
+			left: 0;
+			/* @noflip */
+			background-image: linear-gradient( to left, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+		}
+
+		// Make the text fit in exactly as many lines as we want.
+		p {
+			margin: 0;
+		}
+
+		ul,
+		ol,
+		li,
+		dl,
+		dd,
+		dt {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		blockquote {
+			// Adjust default spacing to ensure it lines up with the rest of the text
+			// and the fade indicator
+			margin: 0;
+			padding: 0 20px;
+		}
+	}
+
+	svg {
+		overflow: hidden;
+	}
+
+	&.mwe-popups-is-tall {
+		width: 450px;
+
+		> div > a > svg {
+			vertical-align: middle;
+		}
+
+		.mwe-popups-extract {
+			width: @popupTallWidth;
+			height: ( 9 * @lineHeight ) - 4px;
+			overflow: hidden;
+			float: left;
+		}
+
+		footer {
+			left: 0;
+			right: @popupLandscapeThumbnailWidth;
+		}
+	}
+
+	&.mwe-popups-is-not-tall {
+		width: @popupWidth;
+
+		.mwe-popups-extract {
+			// On short summaries, we want to avoid an overlap with the gradient.
+			min-height: @previewFooterHeight;
+			max-height: 202px - @previewFooterHeight - @popupPadding;
+			overflow: hidden;
+			margin-bottom: @previewFooterHeight;
+		}
+
+		footer {
+			left: 0;
+			right: 0;
+		}
+	}
+
+	/* Triangles/Pointers */
+	&.mwe-popups-no-image-pointer {
+		&::before {
+			.mwe-popups-border-pointer-top( 8px, 10px, @borderColorPopupPointerNoImage, 0 );
+		}
+
+		&::after {
+			.mwe-popups-border-pointer-top( 7px, 7px, @background-color-base, 4px );
+		}
+	}
+
+	&.flipped-x.mwe-popups-no-image-pointer {
+		&::before {
+			left: auto;
+			right: 10px;
+		}
+
+		&::after {
+			left: auto;
+			right: 7px;
+		}
+	}
+
+	&.mwe-popups-image-pointer {
+		&::before {
+			.mwe-popups-border-pointer-top( 9px, 9px, @border-color-base, 0 );
+			z-index: @zIndexBackground;
+		}
+
+		&::after {
+			.mwe-popups-border-pointer-top( 8px, 6px, @background-color-base, 4px );
+			z-index: @zIndexForeground;
+		}
+
+		&.flipped-x {
+			&::before {
+				.mwe-popups-border-pointer-top( 9px, 293px, @border-color-base, 0 );
+			}
+
+			&::after {
+				.mwe-popups-border-pointer-top( 8px, 290px, @background-color-base, 4px );
+			}
+		}
+
+		> div > a > svg {
+			margin-top: -8px;
+			position: absolute;
+			z-index: @zIndexThumbnailMask;
+			left: 0;
+		}
+	}
+
+	&.flipped-x.mwe-popups-is-tall {
+		min-height: 242px;
+
+		&::before {
+			.mwe-popups-border-pointer-top( 9px, 420px, @border-color-base, 0 );
+			z-index: @zIndexBackground;
+		}
+
+		> div > a > svg {
+			margin: 0;
+			margin-top: -8px;
+			margin-bottom: -7px;
+			position: absolute;
+			z-index: @zIndexThumbnailMask;
+			right: 0;
+		}
+	}
+
+	&.flipped-x-y {
+		&::before {
+			.mwe-popups-border-pointer-bottom( 9px, 293px, @border-color-base, 0 );
+			z-index: @zIndexBackground;
+		}
+
+		&::after {
+			.mwe-popups-border-pointer-bottom( 8px, 290px, @background-color-base, 4px );
+			z-index: @zIndexForeground;
+		}
+
+		&.mwe-popups-is-tall {
+			min-height: 242px;
+
+			&::before {
+				.mwe-popups-border-pointer-bottom( 9px, 420px, @border-color-base, 0 );
+			}
+
+			&::after {
+				.mwe-popups-border-pointer-bottom( 8px, 417px, @background-color-base, 4px );
+			}
+
+			> div > a > svg {
+				margin: 0;
+				margin-bottom: -9px;
+				position: absolute;
+				z-index: @zIndexThumbnailMask;
+				right: 0;
+			}
+		}
+	}
+
+	&.flipped-y {
+		&::before {
+			.mwe-popups-border-pointer-bottom( 8px, 10px, @border-color-base, 0 );
+		}
+
+		&::after {
+			.mwe-popups-border-pointer-bottom( 7px, 7px, @background-color-base, 4px );
+		}
+	}
+}
+
+// Position the SVG border
+.mwe-popups-is-tall {
+	polyline {
+		transform: translate( 0, 0 );
+	}
+
+	&.flipped-x-y {
+		polyline {
+			transform: translate( 0, -8px );
+		}
+	}
+
+	&.flipped-x {
+		polyline {
+			transform: translate( 0, 8px );
+		}
+	}
+}
+
+.rtl .mwe-popups-is-tall {
+	polyline {
+		transform: translate( -100%, 0 );
+	}
+
+	&.flipped-x-y {
+		polyline {
+			transform: translate( -100%, -8px );
+		}
+	}
+
+	&.flipped-x {
+		polyline {
+			transform: translate( -100%, 8px );
+		}
+	}
+}
+
+@supports ( clip-path: polygon( 1px 1px ) ) {
+	.mwe-popups {
+		.mwe-popups-thumbnail {
+			// Remove whitespace below image.
+			display: block;
+			object-fit: cover;
+			outline: 1px solid rgba( 0, 0, 0, 0.1 );
+		}
+
+		// Add bottom padding the same size as the pokey height to account for clip-path.
+		&.flipped-y,
+		&.flipped-x-y {
+			.mwe-popups-container {
+				--y1: 100%;
+				--y2: ~'calc(100% - var(--pointer-height))';
+				--y3: ~'calc(100% - var(--pointer-height) - var(--pseudo-radius))';
+				--y4: ~'var(--pseudo-radius)';
+				--y5: 0;
+				margin-bottom: calc( var( --pointer-height ) * -1 );
+				padding-bottom: var( --pointer-height );
+			}
+		}
+
+		// Add top padding the same size as the pokey height to account for clip-path.
+		&:not( .flipped-y ):not( .flipped-x-y ) {
+			.mwe-popups-container {
+				margin-top: calc( var( --pointer-height ) * -1 );
+				padding-top: var( --pointer-height );
+			}
+		}
+
+		// We apply a negative top margin to the image by default. This style handles the following cases:
+		// - when the pokey is on the top, this style accounts for the top padding on .mwe-popups-container
+		// - when the pokey is on the bottom and the popup is not tall, this style is still needed to ensure
+		//	the overall height of the popup is still the same.
+		.mwe-popups-discreet {
+			margin-top: calc( var( --pointer-height ) * -1 );
+		}
+
+		// We apply a negative bottom margin to the image when the pokey is on the bottom and the pop is tall
+		&.mwe-popups-is-tall.flipped-y,
+		&.mwe-popups-is-tall.flipped-x-y {
+			.mwe-popups-discreet {
+				margin-top: 0;
+				margin-bottom: calc( var( --pointer-height ) * -1 );
+			}
+		}
+
+		.mwe-popups-container {
+			--x1: 0;
+			--x2: var( --pseudo-radius );
+			--x3: ~'calc( var(--pointer-offset) - ( var( --pointer-width ) / 2 ) )';
+			--x4: var( --pointer-offset );
+			--x5: ~'calc( var(--pointer-offset) + ( var( --pointer-width ) / 2 ) )';
+			--x6: ~'calc( 100% - var( --pseudo-radius ) )';
+			--x7: 100%;
+			--y1: 0;
+			--y2: var( --pointer-height );
+			--y3: ~'calc(var(--pointer-height) + var(--pseudo-radius))';
+			--y4: ~'calc(100% - var(--pseudo-radius))';
+			--y5: 100%;
+			padding-top: 0;
+			display: flex;
+			background: @background-color-base;
+			--pseudo-radius: 2px;
+			--pointer-height: 8px;
+			--pointer-width: 16px;
+			--pointer-offset: 26px;
+
+			// Using straight-lines instead of rounded corners,
+			// until shape() syntax (https://github.com/w3c/csswg-drafts/pull/5711) is resolved
+			//
+			clip-path: ~'polygon( var( --x2 ) var( --y2 ), var( --x3) var(--y2), var(--x4) var(--y1), var(--x5) var(--y2), var(--x6) var(--y2), var(--x7) var(--y3), var(--x7) var(--y4), var(--x6) var(--y5), var(--x2) var(--y5), var(--x1) var(--y4), var(--x1) var(--y3) )';
+		}
+
+		&.mwe-popups-is-tall {
+			.mwe-popups-discreet {
+				.mwe-popups-thumbnail {
+					width: @popupLandscapeThumbnailWidth;
+					box-sizing: border-box;
+					height: 250px;
+				}
+				order: 1;
+			}
+			flex-direction: row;
+		}
+
+		&.mwe-popups-is-not-tall {
+			.mwe-popups-thumbnail {
+				width: @popupWidth;
+				// should never exceed this value per https://phabricator.wikimedia.org/T255549#7296087
+				height: @popupPortraitThumbnailHeight;
+			}
+
+			.mwe-popups-container {
+				flex-direction: column;
+			}
+		}
+
+		&::before {
+			display: none;
+		}
+
+		&::after {
+			display: none;
+		}
+	}
+
+	body {
+		&.ltr .mwe-popups.flipped-x,
+		&.ltr .mwe-popups.flipped-x-y,
+		&.rtl .mwe-popups:not( .flipped-x ):not( .flipped-x-y ) {
+			.mwe-popups-container {
+				--x3: ~'calc(100% - var(--pointer-offset) - (var(--pointer-width) / 2))';
+				--x4: ~'calc(100% - var(--pointer-offset))';
+				--x5: ~'calc(100% - var(--pointer-offset) + (var(--pointer-width) / 2))';
+			}
+		}
+	}
+}
+
+// Apply night mode styles that can't be handled with CSS variables, i.e. anything with rgba()
+@media screen {
+	html.skin-theme-clientpref-night {
+		.mwe-popups.mwe-popups-no-image-pointer::before {
+			.mwe-popups-border-pointer-top( 8px, 10px, rgba( 255, 255, 255, 0.07 ), 0 );
+		}
+
+		.mwe-popups-extract[ dir='ltr' ]::after {
+			/* @noflip */
+			background-image: linear-gradient( to right, transparent, @background-color-base 50% );
+		}
+
+		.mwe-popups-extract[ dir='rtl' ]::after {
+			/* @noflip */
+			background-image: linear-gradient( to left, transparent, @background-color-base 50% );
+		}
+
+		@supports ( clip-path: polygon( 1px 1px ) ) {
+			.mwe-popups {
+				.mwe-popups-thumbnail {
+					background-color: #c8ccd1;
+				}
+			}
+		}
+	}
+}
+
+@media screen and ( prefers-color-scheme: dark ) {
+	html.skin-theme-clientpref-os {
+		.mwe-popups.mwe-popups-no-image-pointer::before {
+			.mwe-popups-border-pointer-top( 8px, 10px, rgba( 255, 255, 255, 0.07 ), 0 );
+		}
+
+		.mwe-popups-extract[ dir='ltr' ]::after {
+			/* @noflip */
+			background-image: linear-gradient( to right, transparent, @background-color-base 50% );
+		}
+
+		.mwe-popups-extract[ dir='rtl' ]::after {
+			/* @noflip */
+			background-image: linear-gradient( to left, transparent, @background-color-base 50% );
+		}
+
+		@supports ( clip-path: polygon( 1px 1px ) ) {
+			.mwe-popups {
+				.mwe-popups-thumbnail {
+					background-color: #c8ccd1;
+				}
+			}
+		}
+	}
+}

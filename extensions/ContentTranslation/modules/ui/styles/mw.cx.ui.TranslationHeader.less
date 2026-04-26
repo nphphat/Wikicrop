@@ -1,0 +1,83 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins';
+@import 'mw.cx.variables.less';
+@import 'mw.cx.mixins.less';
+
+.cx-translation-view-header {
+	padding: 0;
+	min-height: 3em;
+	background-color: #fff;
+	border-bottom: @border-width-base @border-style-base #eaecf0;
+	border-radius: @border-radius-base @border-radius-base 0 0;
+	z-index: 2;
+
+	&.cx-has-error {
+		.cx-header-draft-status {
+			color: @color-error;
+		}
+
+		.cx-header-draft-status::before {
+			content: '';
+			.cdx-mixin-css-icon( @cdx-icon-error, @color-error );
+			padding-inline-end: @spacing-50;
+		}
+	}
+
+	// Adding additional class only to beat OOUI specificity
+	&.oo-ui-panelLayout {
+		display: flex;
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		/* Force the browser to use hardware acceleration to access
+		 the device’s GPU so that sticky transitions are smooth and avoid flickering */
+		transform: translateZ( 0 );
+	}
+
+	.cx-header__publish-button {
+		font-weight: bold;
+		border-radius: 0 @border-radius-base 0 0;
+		/* Change padding to improve button alignment */
+		&.oo-ui-tool-link {
+			padding: 13px 12px 12px 12px;
+		}
+	}
+
+	.cx-header__translation-center {
+		min-height: 3em;
+		margin: 0 !important; /* stylelint-disable-line declaration-no-important */
+		padding: 0;
+
+		.oo-ui-buttonElement-button {
+			border: 0;
+			border-right: @border-width-base @border-style-base #eaecf0;
+			border-radius: 0; // Override monobook button border radius
+			padding: 0 1em 0 0;
+			line-height: 3;
+
+			.oo-ui-labelElement-label {
+				color: @color-subtle;
+			}
+		}
+	}
+
+	.cx-header-draft-status {
+		flex-grow: 1;
+		color: @color-subtle;
+		padding: 0;
+		line-height: 3;
+		text-align: center;
+	}
+}
+
+/* HACK: Webkit browsers need weird hacks to make 'position: sticky' usable and not have annoying UX.
+One was flickering (solved above with translateZ(0)) and other is 1px displacement from top,
+even though property is set to 'top: 0'.
+@supports annotation needs to be at the top level, and we check for 'position: sticky' support,
+not to affect other browsers that use 'position: fixed' fallback.
+'-webkit-appearance: none' is the trick to target only webkit based browsers */
+@supports ( ( position: sticky ) or ( position: -webkit-sticky ) ) and ( -webkit-appearance: none ) {
+	.cx-translation-view-header.oo-ui-panelLayout {
+		top: -1px;
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Pare Mo"
+		]
+	},
+	"cx-tools-mt-provider-title": "Gamiton ang $1",
+	"cx-captcha-dialog-cancel": "Kanselaron",
+	"cx-contributions-new-article": "Bag·ong panid",
+	"cx-draft-cancel-button-label": "Kanselaron",
+	"cx-no-source-categories": "Walay kategoriya",
+	"cx-tools-linter-issues": "Mga isyu",
+	"cx-publish-destination-namespace-main": "Bag·ong panid"
+}

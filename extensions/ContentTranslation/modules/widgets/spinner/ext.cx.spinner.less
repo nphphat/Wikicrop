@@ -1,0 +1,44 @@
+@import 'mediawiki.skin.variables.less';
+@width-bounce-dot: 1em; // Equals ~`16px` at `16px` base font size on `cx-dashboard`.
+
+.cx-spinner {
+	margin: 10px auto 0;
+	width: @width-bounce-dot * 4; // Equals to width and margins.
+	white-space: nowrap;
+
+	.cx-bounce,
+	&::before,
+	&::after {
+		content: '';
+		background-color: @background-color-progressive;
+		display: inline-block;
+		width: @width-bounce-dot;
+		height: @width-bounce-dot;
+		border-radius: @border-radius-circle;
+		animation: bounce-delay 1600ms infinite ease-in-out both;
+		animation-delay: -160ms;
+	}
+
+	&::before {
+		margin-right: (@width-bounce-dot / 4);
+		animation-delay: -330ms;
+	}
+
+	&::after {
+		margin-left: (@width-bounce-dot / 4);
+		animation-delay: 0ms;
+	}
+}
+
+@keyframes bounce-delay {
+	0%,
+	100%,
+	80% {
+		transform: scale( 0.625 );
+	}
+
+	20% {
+		opacity: 0.87;
+		transform: scale( 1 );
+	}
+}

@@ -1,0 +1,73 @@
+@import 'mediawiki.skin.variables.less';
+
+@padding: 3em;
+@left: 1em;
+
+.cx-ui-translationIssue.oo-ui-tabPanelLayout {
+	padding: 0 0 0 @padding;
+
+	> .cx-ui-translationIssue-icon {
+		position: absolute;
+		left: @left;
+		top: 0.2em;
+	}
+
+	> .cx-ui-translationIssue-title,
+	> .cx-ui-translationIssue-message {
+		padding: 0 1.5em 0 0;
+		line-height: 1.5;
+	}
+
+	> .cx-ui-translationIssue-title {
+		color: @color-base;
+		margin: 0 0 0.5em;
+	}
+
+	> .cx-ui-translationIssue-message {
+		// TODO: Use @color-subtle. `#404244` is only meant to be used for component hover state
+		// and should not be used here.
+		color: #404244;
+		margin: 0;
+		white-space: pre-wrap;
+	}
+
+	> .cx-ui-translationIssue-help {
+		margin-top: 1em;
+
+		&:not( :last-child ) {
+			margin-bottom: 1.5em;
+		}
+	}
+
+	> .cx-ui-translationIssue-foot:not( :empty ) {
+		margin-left: -@padding;
+		border-top: @border-width-base @border-style-base #eaecf0;
+		padding: 0.5em @left;
+
+		&.cx-ui-translationIssue-foot-additional {
+			padding: 0.5em 0;
+		}
+	}
+
+	> .cx-ui-translationIssue-foot-additional > .oo-ui-buttonWidget {
+		display: block;
+		margin: 0;
+		border-bottom: @border-width-base @border-style-base #eaecf0;
+		padding: 0.5em 1em;
+
+		&:first-child {
+			padding-top: 0;
+			padding-bottom: 0.5em;
+		}
+
+		&:last-child {
+			border-bottom: 0;
+			padding-top: 0.5em;
+			padding-bottom: 0;
+		}
+	}
+
+	.cx-ui-translationIssue-message + .cx-ui-translationIssue-foot {
+		margin-top: 1.5em;
+	}
+}

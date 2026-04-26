@@ -1,0 +1,36 @@
+@import 'mediawiki.skin.variables.less';
+
+.oo-ui-messageWidget.cx-message-widget {
+	position: relative;
+	padding: 5px 10px;
+
+	&.oo-ui-iconElement > .oo-ui-iconElement-icon {
+		float: left;
+		background-position: 0 9px;
+	}
+
+	.oo-ui-messageWidget-close {
+		top: 2px;
+		right: 0;
+	}
+
+	// TODO: Upstream should use a child selector
+	* .oo-ui-labelElement-label {
+		margin: 0;
+	}
+
+	.cx-message-widget-message {
+		font-size: large;
+		line-height: 30px;
+	}
+
+	.cx-message-widget-details {
+		font-size: normal;
+		color: @color-subtle;
+		padding-left: 10px;
+	}
+
+	.cx-message-widget-buttons {
+		padding-left: 2em;
+	}
+}

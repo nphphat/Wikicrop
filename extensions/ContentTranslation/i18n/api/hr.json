@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"MaGa",
+			"Srdjan m",
+			"Srđan"
+		]
+	},
+	"apihelp-cxpublish-param-title": "Naslov stranice na kojoj će se raditi.",
+	"apihelp-cxpublish-param-html": "Sadržaj za spremanje.",
+	"apihelp-cxpublish-param-from": "Kôd izvornog jezika",
+	"apihelp-cxpublish-param-to": "Kôd ciljnog jezika",
+	"apihelp-cxpublish-param-sourcetitle": "Naziv izvorne stranice.",
+	"apihelp-cxpublish-param-categories": "Kategorije za postaviti u objavljenu stranicu.",
+	"apihelp-cxpublish-param-wpCaptchaId": "Captcha ID (kada spremate s captcha odgovorom).",
+	"apihelp-cxpublish-param-wpCaptchaWord": "Odgovor na captchu (kada spremate s captcha odgovorom).",
+	"apihelp-query+contenttranslation-param-translationid": "ID prijevoda.",
+	"apihelp-query+contenttranslation-example-1": "Preuzmi prijevode koje je počeo trenutni korisnik.",
+	"apihelp-query+contenttranslation-example-2": "Preuzmi nacrte po ID-u.",
+	"apihelp-query+contenttranslation-example-3": "Pronađi prijevod za dati naslov između datog para jezika",
+	"apihelp-query+cxpublishedtranslations-param-from": "Kôd izvornog jezika.",
+	"apihelp-query+cxpublishedtranslations-param-to": "Kôd ciljnog jezika.",
+	"apihelp-query+cxpublishedtranslations-example-1": "Uzmi sve objavljene prijevode",
+	"apihelp-query+cxpublishedtranslations-example-2": "Uzmi sve objavljene prijevode, prevedene s engleskog",
+	"apihelp-query+cxpublishedtranslations-example-3": "Uzmi sve objavljene prijevode, prevedene s engleskog na španjolski",
+	"apihelp-cxtoken-example-1": "Preuzmi token za autentičnost za cxserver",
+	"apihelp-cxdelete-param-from": "Kôd izvornog jezika.",
+	"apihelp-cxdelete-param-to": "Kôd ciljnog jezika.",
+	"apihelp-cxdelete-param-sourcetitle": "Naslov izvorne stranice.",
+	"apihelp-cxdelete-example-1": "Izbriši nacrtni prijevod napravljen pomoću proširenja za prijevod sadržaja.",
+	"apihelp-cxsave-param-sourcerevision": "Izmjena izvorne stranice.",
+	"apihelp-cxsave-param-progress": "Informacije o završetku prijevoda (napredak). JSON sa ključevima <code>any</code>, <code>human</code>, <code>mt</code> i <code>mtSectionsCount</code>. Vrijednosti ključeva su u postotcima."
+}

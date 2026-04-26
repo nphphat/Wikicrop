@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Muhammad Shuaib",
+			"Obaid Raza",
+			"امین اکبر",
+			"عرفان ارشد"
+		]
+	},
+	"apihelp-cxpublish-param-from": "ماخذ زبان کا کوڈ",
+	"apihelp-cxpublish-param-to": "ہدف زبان کا کوڈ",
+	"apihelp-cxpublish-param-sourcetitle": "ماخذ صفحہ کا عنوان",
+	"apihelp-query+cxpublishedtranslations-param-from": "ماخذ زبان کا کوڈ",
+	"apihelp-query+cxpublishedtranslations-param-to": "ہدف زبان کا کوڈ",
+	"apihelp-query+cxpublishedtranslations-example-1": "تمام شائع شدہ تراجم حاصل کریں",
+	"apihelp-query+cxpublishedtranslations-example-2": "انگریزی سے ترجمہ شدہ تمام تراجم حاصل کریں",
+	"apihelp-cxtoken-summary": "cxserver سے تصدیق پانے کے لیے JWT کے ٹوکن حاصل کرتا ہے۔",
+	"apihelp-cxdelete-summary": "ترجمۂ مواد کی توسیع کی مدد سے لکھے جانے والے تراجم کے مسودہ کو حذف کرتا ہے۔",
+	"apihelp-cxdelete-param-from": "ماخذ زبان کا کوڈ",
+	"apihelp-cxdelete-param-to": "ہدف زبان کا کوڈ",
+	"apihelp-cxdelete-param-sourcetitle": "ماخذ صفحہ کا عنوان",
+	"apihelp-cxsave-param-sourcerevision": "ماخذ صفحہ کی نظر ثانی",
+	"apihelp-query+langlinkscount-summary": "دوسری زبانوں کے ورژنز کے اعداد حاصل کریں۔",
+	"apihelp-sxdelete-summary": "ڈیٹابیس سے قطعہ کے ترجمہ کے مسودہ کو اور اس کے متوازی مجموعہ کو حذف کرتا ہے۔"
+}

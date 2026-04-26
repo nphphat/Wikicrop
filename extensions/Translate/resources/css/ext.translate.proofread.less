@@ -1,0 +1,186 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins.less';
+
+.ext-translate-container {
+	.tux-messagelist {
+		.tux-message-proofread {
+			min-height: 50px;
+			margin: 0 auto;
+			vertical-align: middle;
+
+			.tux-message-item-compact {
+				padding: 30px 0;
+				overflow: hidden;
+				margin-right: auto;
+				margin-left: auto;
+				vertical-align: middle;
+				border-bottom: @border-width-base @border-style-base @border-color-muted;
+				border-left: @border-subtle;
+				border-right: @border-subtle;
+				background: @background-color-base;
+				max-width: 900px;
+
+				&:hover {
+					background: @background-color-interactive-subtle;
+				}
+			}
+
+			&:first-child .tux-message-item-compact {
+				margin-top: 10px;
+				padding-top: 60px;
+				border-top: @border-subtle;
+			}
+
+			&:last-child .tux-message-item-compact {
+				margin-bottom: 10px;
+				padding-bottom: 60px;
+				border-bottom: @border-subtle;
+			}
+
+			&.own-translation,
+			&.own-translation:hover {
+				background: @background-color-interactive-subtle;
+			}
+		}
+	}
+}
+
+.tux-proofread-source,
+.tux-proofread-translation {
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+.tux-message-proofread.open {
+	.tux-proofread-status,
+	.tux-proofread-source,
+	.tux-proofread-translation,
+	.tux-proofread-action-block {
+		display: none;
+	}
+}
+
+.tux-messagelist {
+	.tux-message-proofread {
+		.tux-proofread-source {
+			color: @color-subtle;
+			font-size: 16px;
+			line-height: 1.5em;
+			padding-right: 25px;
+			padding-left: 25px;
+		}
+
+		.tux-proofread-translation {
+			color: @color-base;
+			font-size: 16px;
+			line-height: 1.5em;
+			padding-left: 20px;
+		}
+	}
+
+	&.tux-hide-own .tux-message-proofread.own-translation {
+		display: none;
+	}
+}
+
+.tux-proofread-action-block {
+	top: -5px;
+	right: -5px;
+}
+
+.translated-by-self {
+	.cdx-mixin-css-icon( @cdx-icon-user-avatar, @color-placeholder );
+	float: right;
+	clear: both;
+	margin-right: @spacing-25;
+}
+
+.tux-proofread-status {
+	top: -10px;
+
+	&.fuzzy {
+		background: left center no-repeat;
+		/* @embed */
+		background-image: url( ../images/outdated-ltr.svg );
+		height: 40px;
+	}
+
+	&.untranslated {
+		background: left center no-repeat;
+		/* @embed */
+		background-image: url( ../images/translate-ltr.svg );
+		height: 40px;
+	}
+}
+
+.tux-proofread-action {
+	background-position: right top;
+	background-repeat: no-repeat;
+	background-image: /* @embed */ url( ../images/check-sprite-ltr.svg );
+	/* There is 1px white row between each icon */
+	height: 30px;
+	cursor: @cursor-base--hover;
+
+	&:hover {
+		background-position: right -31px;
+	}
+
+	&.accepted {
+		cursor: @cursor-base;
+		background-position: right -62px;
+	}
+}
+
+.proofread-by-others .tux-proofread-action {
+	background-position: right -124px;
+
+	&:hover {
+		background-position: right -155px;
+	}
+
+	&.accepted {
+		cursor: @cursor-base;
+		background-position: right -186px;
+	}
+}
+
+.tux-proofread-edit {
+	color: @color-placeholder;
+	float: right;
+	margin-top: @spacing-50;
+	margin-right: @spacing-25;
+	height: 50px;
+	cursor: @cursor-base--hover;
+	visibility: hidden;
+	text-align: right;
+
+	&::before {
+		content: '';
+		.cdx-mixin-css-icon( @cdx-icon-edit, currentColor, @size-icon-small );
+		float: right;
+		display: block;
+	}
+
+	.tux-message-proofread:hover & {
+		visibility: visible;
+	}
+
+	&-label {
+		display: block;
+		font-size: 13px;
+		padding-right: 2px;
+	}
+}
+
+.tux-proofread-count {
+	color: @color-subtle;
+	font-size: 15px;
+	padding-right: 5px;
+	text-align: right;
+
+	&::before {
+		content: '';
+		.cdx-mixin-css-icon( @cdx-icon-check, currentColor, @size-icon-x-small, @param-vertical-align: middle );
+		margin-right: @spacing-25;
+	}
+}

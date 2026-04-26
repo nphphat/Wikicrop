@@ -1,0 +1,11 @@
+{
+	"root": true,
+	"extends": [
+		"../../src/.eslintrcshared",
+		"wikimedia/qunit"
+	],
+	"rules": {
+		"no-jquery/no-class-state": "off",
+		"es-x/no-hashbang": "warn"
+	}
+}

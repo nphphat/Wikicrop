@@ -1,0 +1,37 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins';
+// All but `font-size` are MediaWiki skin variable values and overwrite jquery.uls library.
+
+// We need higher specificity due to loading order of LESS files and jquery.uls.
+.skin-vector {
+	.uls-menu {
+		border-color: @border-color-subtle;
+		box-shadow: @box-shadow-drop-medium;
+		// Not inherited from `.mw-body-content`, as we insert at `body`.
+		font-size: 0.875em;
+		// T295794 Account for Vector sticky header.
+		z-index: @z-index-dropdown;
+	}
+
+	.uls-search {
+		border-bottom-color: @border-color-subtle;
+	}
+
+	.uls-search-label {
+		opacity: @opacity-icon-placeholder;
+		transition: opacity @transition-duration-medium;
+	}
+
+	.uls-search-wrapper:hover .uls-search-label {
+		opacity: @opacity-icon-base;
+	}
+
+	.uls-languagefilter,
+	.uls-lcd-region-title {
+		color: @color-subtle;
+	}
+
+	.uls-filtersuggestion {
+		color: @color-placeholder;
+	}
+}

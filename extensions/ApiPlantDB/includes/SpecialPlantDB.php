@@ -9,7 +9,7 @@ use MediaWiki\Extension\ApiPlantDB\PlantDBData;
 class SpecialPlantDB extends SpecialPage {
 
     public function __construct() {
-        parent::__construct( 'PlantDB', 'editer' ); // Yêu cầu quyền edit để truy cập
+        parent::__construct( 'PlantDB', 'editer' );
     }
 
     public function execute( $par ) {
@@ -39,7 +39,6 @@ class SpecialPlantDB extends SpecialPage {
             $wikiUrl = $request->getVal( 'wiki_url' );
             $plantDbUrl = $request->getVal( 'plantdb_url' );
 
-            // 1. Lấy Wiki Page ID từ URL hoặc Title text
             $title = \Title::newFromText( $wikiUrl );
             if ( !$title || !$title->exists() ) {
                 $output->addHTML( '<div class="apiplantdb-alert apiplantdb-alert-error">' . $this->msg( 'plantdb-error-wiki-not-found', htmlspecialchars( $wikiUrl ) )->text() . '</div>' );
@@ -47,7 +46,6 @@ class SpecialPlantDB extends SpecialPage {
             }
             $articleId = $title->getArticleID();
 
-            // 2. Lấy PlantDB ID từ URL
             $plantDbId = '';
             if ( preg_match( '/\/plant\/(\d+)/', $plantDbUrl, $matches ) ) {
                 $plantDbId = $matches[1];
@@ -66,7 +64,6 @@ class SpecialPlantDB extends SpecialPage {
                 return;
             }
 
-            // 3. Lưu vào DB
             try {
                 $dbw->replace(
                     'plantdb_map',

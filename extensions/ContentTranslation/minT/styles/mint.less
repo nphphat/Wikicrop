@@ -1,0 +1,89 @@
+@import 'mediawiki.skin.variables.less';
+
+/* stylelint-disable-next-line selector-class-pattern */
+.ns-special {
+	/* stylelint-disable-next-line selector-class-pattern */
+	.pre-content.heading-holder {
+		padding-top: @spacing-0;
+	}
+
+	/* stylelint-disable-next-line selector-class-pattern */
+	.firstHeading.mw-first-heading {
+		display: none;
+	}
+}
+
+.mint-home-header {
+	margin-bottom: @spacing-300;
+
+	&-icon--robot {
+		.cdx-mixin-css-icon( @cdx-icon-robot );
+		margin-right: @spacing-50;
+	}
+
+	&-title {
+		font-weight: @font-weight-bold;
+	}
+}
+
+.mint-home-input-icon--search {
+	.cdx-mixin-css-icon( @cdx-icon-search );
+}
+
+.mint-home-language-selector-container {
+	margin-top: @spacing-200;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.mint-home-language-selector-container-icon--arrow-next {
+		.cdx-mixin-css-icon( @cdx-icon-arrow-next );
+		margin: @spacing-0 @spacing-100;
+	}
+}
+
+.mint-home-info-panel {
+	background-color: @background-color-interactive-subtle;
+	border: @border-subtle;
+	margin-top: @spacing-400;
+	padding: @spacing-100;
+
+	p {
+		margin: @spacing-0;
+		padding: @spacing-0;
+	}
+
+	&__random-button-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: @spacing-150;
+
+		.mint-home-info-panel-icon--dice {
+			.cdx-mixin-css-icon( @cdx-icon-die );
+		}
+	}
+}
+
+.mint-vue-placeholder {
+	display: none;
+	background-color: @background-color-base;
+	min-height: @spacing-full;
+	width: @spacing-full;
+	margin: @spacing-0 -@spacing-100;
+	padding: @spacing-100;
+	z-index: @z-index-top;
+}
+
+.mint-home-experimental-note {
+	display: flex;
+	align-items: flex-start;
+	color: @color-subtle;
+	font-size: @font-size-small;
+	margin-top: @spacing-200;
+
+	&-icon--lab {
+		margin-right: @spacing-50;
+		.cdx-mixin-css-icon( @cdx-icon-lab-flask );
+	}
+}

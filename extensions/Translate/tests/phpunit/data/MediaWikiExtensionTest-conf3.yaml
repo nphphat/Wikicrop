@@ -1,0 +1,25 @@
+BASIC:
+  class: MediaWikiExtensionMessageGroup
+  id: ext-examplejsonextension
+  namespace: 8
+  label: Example JsonExtension
+  descriptionmsg: examplejsonextension-desc
+
+FILES:
+  format: Json
+  sourcePattern: "%GROUPROOT%/mediawiki-extensions/extensions/ExampleJsonExtension/i18n/%CODE%.json"
+
+VALIDATORS:
+  - id: BraceBalance
+  - id: MediaWikiLink
+  - id: MediaWikiPageName
+  - id: MediaWikiParameter
+  - id: MediaWikiPlural
+
+INSERTABLES:
+  - class: "MediaWiki\\Extension\\Translate\\TranslatorInterface\\Insertable\\MediaWikiInsertablesSuggester"
+
+TAGS:
+  optional:
+    - "*-extensionname"
+    - skinname-*

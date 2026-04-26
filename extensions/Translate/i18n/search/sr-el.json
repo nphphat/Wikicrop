@@ -1,0 +1,32 @@
+{
+	"@metadata": {
+		"authors": [
+			"Obsuser"
+		]
+	},
+	"searchtranslations": "Pretraga prevoda",
+	"tux-sst-edit": "Izmeni prevod",
+	"tux-sst-view-foreign": "Prikaži na $1",
+	"tux-sst-search": "Pretraži",
+	"tux-sst-search-ph": "Pretražite prevode",
+	"tux-sst-count": "{{PLURAL:$1|Pronađen je jedan rezultat|Pronađena su $1 rezultata|Pronađeno je $1 rezultata|0=Rezultati nisu pronađeni}}",
+	"tux-sst-facet-language": "Jezici",
+	"tux-sst-facet-group": "Grupe poruka",
+	"tux-sst-nosolr-title": "Pretraga nije dostupna",
+	"tux-sst-nosolr-body": "Ovaj viki nema uslugu za pretragu prevoda.",
+	"tux-sst-solr-offline-title": "Pretraga nije dostupna",
+	"tux-sst-solr-offline-body": "Usluga za pretragu je privremeno nedostupna.",
+	"tux-sst-next": "Sledeće ›",
+	"tux-sst-prev": "‹ Prethodno",
+	"tux-sst-default": "Prevodi",
+	"tux-sst-translated": "Prevodi sa $1",
+	"tux-sst-untranslated": "Nema prevoda sa $1",
+	"tux-sst-outdated": "Zastareli prevodi sa $1",
+	"tux-sst-ellipsis-untranslated": "Nema prevoda",
+	"tux-sst-ellipsis-outdated": "Zastareli prevodi",
+	"tux-sst-link-all-match": "Ograniči na sve reči iz pretrage.",
+	"tux-sst-match-message": "Prikazani su prevodi koji odgovaraju bilo kojoj reči iz pretrage. $1",
+	"tux-sst-case-sensitive": "Razlikuj velika i mala slova",
+	"tux-sst-error-offset": "Nije moguće prikazati više rezultata pretrage. Suzite pretragu.",
+	"tux-sst-error-language": "Nije moguće koristiti ovaj jezik sa ovim tipom pretrage."
+}

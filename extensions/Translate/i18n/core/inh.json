@@ -1,0 +1,41 @@
+{
+	"@metadata": {
+		"authors": [
+			"Adam-Yourist",
+			"ElizaMag",
+			"Умар"
+		]
+	},
+	"translate": "Таржам",
+	"translate-taction-translate": "Таржам",
+	"translate-page-group": "Тоаба",
+	"translate-page-language": "Мотт",
+	"translate-rcfilters-translations": "Таржамаш",
+	"translate-rcfilters-translations-only-label": "Таржам даьча оагӀоний цӀерий мотт я",
+	"translate-rcfilters-translations-filter-label": "Таржам даьча оагӀоний цӀерий моттигашка яц",
+	"translations": "Деррига таржамаш",
+	"translate-language": "Мотт",
+	"translate-ls-column-group": "Хоамий тоаба",
+	"translate-mgs-group": "Хоамий тоаба:",
+	"translate-mgs-column-language": "Мотт",
+	"translate-smg-group-message-tag-rename": "ЦӀи хувца",
+	"translate-manage-action-rename": "ЦӀи хувца",
+	"translate-documentation-language": "Хоам бара документаци",
+	"translate-searchprofile": "Таржамаш",
+	"translate-msggroupselector-projects": "Хоамий тоаба",
+	"translate-msggroupselector-search-all": "Деррига",
+	"tux-languageselector": "Таржам де укх меттала",
+	"tux-tab-all": "Массадараш",
+	"tux-tab-untranslated": "Таржам ца даьраш",
+	"tux-tab-outdated": "Тишденнараш",
+	"tux-tab-translated": "Таржам даьраш",
+	"tux-status-translated": "Таржам даьд",
+	"tux-editor-placeholder-language": "Хьа таржам $1 меттала",
+	"tux-editor-editsummary-placeholder": "Хьай хувцамах лаьца язде (безам бале)",
+	"tux-editor-save-button-label": "ДӀаязде таржам",
+	"tux-editor-need-more-help": "ГӀо эший?",
+	"tux-proofread-translated-by-self": "Ӏа таржам даьд",
+	"tux-empty-list-translated-action": "Таржам де",
+	"tux-editor-message-tools-translations": "Деррига таржамаш",
+	"tpt-cleanchanges-language": "Мотт:"
+}

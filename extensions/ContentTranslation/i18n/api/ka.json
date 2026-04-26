@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"David1010",
+			"Otogi"
+		]
+	},
+	"apihelp-cxpublish-param-title": "გვერდის სათაური, რომელზედაც განხორციელებული იქნება მოქმედება.",
+	"apihelp-cxpublish-param-html": "შიგთავსი შენახვისათვის",
+	"apihelp-cxpublish-param-from": "წყაროს ენის კოდი.",
+	"apihelp-cxpublish-param-to": "სამიზნე ენის კოდი.",
+	"apihelp-cxpublish-param-sourcetitle": "წყაროს გვერდის სათაური.",
+	"apihelp-cxpublish-param-categories": "კატეგორიები, რომლებშიც დამატებული იქნება გამოქვეყნებული გვერდი.",
+	"apihelp-cxpublish-param-wpCaptchaId": "ID Captcha (Captcha-ის შენახვამდე)",
+	"apihelp-cxpublish-param-wpCaptchaWord": "პასუხი captcha-ზე (captcha-ს ჩვენების შენახვამდე).",
+	"apihelp-query+contenttranslation-param-translationid": "თარგმანის ID.",
+	"apihelp-query+contenttranslation-example-1": "მიმდინარე მომხმარებლის მიერ დაწყებული თარგმნის მიღება",
+	"apihelp-query+contenttranslation-example-2": "თარგმნის მონახაზის მიღება ID-ით",
+	"apihelp-query+contenttranslation-example-3": "ნებისმიერი თარგმნის პოვნა მიმდინარე სახელწოდებისათვის მიმდინარე ენის წყვილთა შორის",
+	"apihelp-query+cxpublishedtranslations-param-from": "წყაროს ენის კოდი.",
+	"apihelp-query+cxpublishedtranslations-param-to": "სამიზნე ენის კოდი.",
+	"apihelp-query+cxpublishedtranslations-example-1": "ყველა გამოქვეყნებული თარგმანის ამოკრება",
+	"apihelp-query+cxpublishedtranslations-example-2": "ინგლისურიდან თარგმნილი ყველა გამოქვეყნებული თარგმანის ამოკრება",
+	"apihelp-query+cxpublishedtranslations-example-3": "ინგლისურიდან ესპანურზე თარგმნილი ყველა გამოქვეყნებული თარგმანის ამოკრება",
+	"apihelp-cxdelete-param-from": "წყაროს ენის კოდი.",
+	"apihelp-cxdelete-param-to": "სამიზნე ენის კოდი.",
+	"apihelp-cxdelete-param-sourcetitle": "წყაროს გვერდის სათაური.",
+	"apihelp-cxdelete-example-1": "მონახაზის წაშლა, დაკავშირებული მოცემული ენის წყვილთან და სახელწოდებასთან",
+	"apihelp-cxsave-param-sourcerevision": "წყაროს გვერდის ვერსია."
+}

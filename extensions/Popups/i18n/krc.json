@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ernác",
+			"Iltever",
+			"Къарачайлы"
+		]
+	},
+	"popups-message": "Ачылыучу терезеле",
+	"popups-desc": "Хайырланыучу джибериуню юсюне келсе, ал къарауну терезеси ачылыр",
+	"popups-settings-title": "Ал къарау",
+	"popups-settings-option-page": "Тюз",
+	"popups-settings-option-page-description": "Бетде биринчи айтым бла суратны кёргюзтеди.\nБу, окъуучулагъа рекомендация этиледи.",
+	"popups-settings-save": "Сакъландыр",
+	"popups-settings-help-ok": "Тындырылды",
+	"popups-settings-cancel": "Ызына ал",
+	"popups-settings-help": "Бетни тюбюндеги тиек бла алдан къарау (превью) амалны джандырыргъа боллукъсуз.",
+	"popups-settings-enable": "Ал къарай джарашдырыуланы тюзет"
+}

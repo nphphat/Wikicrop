@@ -1,0 +1,77 @@
+@import 'mediawiki.skin.variables.less';
+@import './menu.less';
+
+body.skin-contenttranslation {
+	height: @size-full;
+	font-family: @font-family-base;
+	margin: @spacing-0 auto;
+	background-color: @background-color-neutral;
+}
+
+// Default style from boilerplate style of ResourceLoaderSkinModule does not follow
+// Design style guide https://design.wikimedia.org/style-guide/components/links.html
+a {
+	text-decoration: none;
+	color: @color-link;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+
+	&.new {
+		color: @color-link-red;
+	}
+}
+
+// Small screens - menu adjustment
+@media ( max-width: @max-width-breakpoint-mobile ) {
+	body.skin-contenttranslation {
+		padding: 4px;
+	}
+}
+
+.printfooter {
+	display: none;
+}
+
+.mw-page-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.mw-header-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0;
+
+	.mw-navigation {
+		display: flex;
+		flex-grow: 1;
+		align-items: center;
+		justify-content: flex-end;
+	}
+}
+
+.mw-logo-page-title {
+	margin-left: 8px;
+	line-height: 1;
+	font-size: 20px;
+	color: @color-subtle;
+}
+
+// Show logo in small screens and wordmark in bigger screens
+.mw-logo-icon {
+	display: none;
+}
+
+@media ( max-width: @max-width-breakpoint-mobile ) {
+	.mw-logo-wordmark {
+		display: none;
+	}
+
+	.mw-logo-icon {
+		display: inline-flex;
+	}
+}

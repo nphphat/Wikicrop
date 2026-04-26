@@ -1,8 +1,7 @@
 {
 	"name": "WikiChatbot",
-	"version": "1.0",
-	"author": "Ban",
-	"url": "https://localhost",
+	"version": "1.0.0",
+	"author": "Đạt",
 	"description": "Chatbot trợ lý cây trồng",
 	"type": "other",
 	"manifest_version": 2,
@@ -13,7 +12,7 @@
         },
         "WikiChatbotApiUrl": {
             "value": "http://localhost:8000/ask",
-            "description": "URL API của Chatbot Server"
+            "description": "URL API của Chatbot Server. Mặc định là http://localhost:8000/ask. Có thể cấu hình trong LocalSettings.php bằng biến $wgWikiChatbotApiUrl."
         }
     },
 	"ResourceModules": {

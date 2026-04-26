@@ -1,0 +1,163 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mediawiki.mixins.less';
+
+.mw-translate-smg-change {
+	padding-bottom: 1em;
+	margin-bottom: 2em;
+	position: relative;
+
+	label {
+		padding: 0;
+		margin: 0;
+		margin-right: 1.1em;
+		font-size: 0.95em;
+	}
+
+	.diff-title td {
+		padding: 0.75em 0.5em;
+	}
+
+	&.smg-change-addition td.diff-ntitle,
+	&.smg-change-rename td.diff-ntitle {
+		padding-right: 32px;
+	}
+
+	input[ type='radio' ] {
+		margin: 0 2px;
+		margin-top: -1px;
+		vertical-align: middle;
+	}
+
+	.smg-rename-actions {
+		background-color: @background-color-transparent;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+		position: absolute;
+		top: 5px;
+		right: 0;
+
+		// In order to make the background styling for the loader work correctly
+		&:not( .tux-loading-indicator ) {
+			.cdx-mixin-css-icon( @cdx-icon-ellipsis );
+		}
+
+		&.tux-loading-indicator {
+			width: @size-icon-medium;
+			height: @size-icon-medium;
+		}
+	}
+
+	.smg-change-import-options {
+		padding: 0.75em 0.5em 0 0.5em;
+	}
+
+	.diff-lineno {
+		display: none;
+	}
+
+	.mw-translate-smg-notice-important {
+		background: @background-color-error-subtle;
+		border: @border-width-base @border-style-base @border-color-error;
+	}
+}
+
+.oo-ui-buttonElement.mw-translate-smg-submit {
+	display: block;
+
+	button {
+		font-size: 3em;
+		margin: auto;
+		width: 80%;
+		display: block;
+		word-wrap: break-word;
+		white-space: pre-wrap;
+	}
+}
+
+.mw-translate-smg-header td {
+	font-size: 200%;
+	font-weight: bold;
+}
+
+.mw-translate-hide {
+	display: none;
+}
+
+.mw-message-box-warning.mw-translate-smg-submitted {
+	margin-top: 2.5em;
+}
+
+/**************************
+ * Rename dropdown styles
+ **************************/
+.smg-rename-dropdown-menu {
+	list-style: none;
+	position: absolute;
+	margin: 0;
+	border: @border-subtle;
+	background: @background-color-base;
+	box-shadow: @box-shadow-drop-medium;
+	border-radius: 3px;
+	display: none;
+
+	&.show {
+		display: block;
+	}
+
+	button {
+		display: block;
+		background: none;
+		border: 0;
+		padding: 8px 10px;
+		width: 100%;
+		text-align: left;
+		white-space: nowrap;
+		color: @color-base;
+		font-size: 14px;
+		font-weight: normal;
+
+		&:hover {
+			cursor: pointer;
+			background-color: @background-color-interactive-subtle--hover;
+			color: @color-base;
+		}
+	}
+}
+
+.smg-group-sync-cache-info {
+	padding: 0.5em 1em;
+	background: @background-color-neutral;
+	border-radius: 3px;
+	margin-bottom: 1em;
+
+	&__help {
+		position: absolute;
+		right: 1em;
+	}
+
+	&__group-errors {
+		margin-bottom: 0.5em;
+		background-color: @background-color-neutral;
+		padding: 0.5em 1em;
+		border-radius: 3px;
+	}
+
+	&__message-error dt {
+		float: left;
+		text-align: right;
+		margin-right: 5px;
+	}
+
+	&__sync-actions .loading {
+		pointer-events: none;
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+.client-nojs .smg-group-sync-cache-info__resolve-action {
+	pointer-events: none;
+	text-decoration: line-through;
+	color: inherit;
+}

@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Artsiom91",
+			"Chadyka",
+			"Maksim L.",
+			"No Sleep till Krupki",
+			"Plaga med",
+			"ZlyiLev"
+		]
+	},
+	"popups-message": "Папярэдні прагляд",
+	"popups-desc": "Паказвае ўсплывальны перадпрагляд старонкі, калі ўдзельнік наводзіць курсор на спасылку",
+	"popups-settings-title": "Перадпаказы",
+	"popups-settings-option-page": "Перадпрагляд старонкі",
+	"popups-settings-option-page-description": "Атрымаць хуткі папярэдні прагляд тэмы пры чытанні старонкі",
+	"popups-settings-option-reference": "Перадпрагляд зносак",
+	"popups-settings-option-reference-description": "Атрымлівайце хуткія перадпрагляды зноскі падчас чытання старонкі.",
+	"popups-settings-save": "Запісаць",
+	"popups-settings-help-ok": "Гатова",
+	"popups-settings-cancel": "Закрыць",
+	"popups-settings-help": "Вы можаце зноў уключыць перадпрагляд, выкарыстоўваючы спасылку ў ніжнім калонтытуле старонкі.",
+	"popups-settings-enable": "Змяніць налады перадпрагляду",
+	"popups-settings-icon-gear-title": "Змяніць налады перадпрагляду старонак",
+	"popups-preview-no-preview": "Узнікла праблема з адлюстраваннем гэтага перадпрагляду",
+	"popups-preview-footer-read": "Перайсці на гэтую старонку",
+	"popups-preview-disambiguation": "Найменне звязана з некалькімі старонкамі",
+	"popups-preview-disambiguation-link": "Паглядзець падобныя старонкі",
+	"prefs-reading": "Параметры чытання",
+	"popups-prefs-optin": "Уключыць перадпрагляд старонак (атрымаць хуткі перадпрагляд тэмы пры чытанні старонкі)",
+	"popups-prefs-disable-nav-gadgets-info": "Вы павінны адключыць [[$1|гаджэт Навігацыйных акенцаў]] ў наладах Гаджэтаў, каб уключыць перадпрагляд старонак.",
+	"popups-prefs-conflicting-gadgets-info": "Некаторыя гаджэты і іншыя налады могуць уплываць на прадукцыйнасць гэтай функцыі. Калі Вы маеце праблемы, калі ласка, пераглядзіце свае гаджэты і карыстальніцкія скрыпты, у тым ліку глабальныя."
+}

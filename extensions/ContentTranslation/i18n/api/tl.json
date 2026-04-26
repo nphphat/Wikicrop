@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jewel457",
+			"Leeheonjin",
+			"Sky Harbor"
+		]
+	},
+	"apihelp-cxpublish-param-title": "Ang pamagat ng pahina na gagawan ng mga gawain.",
+	"apihelp-cxpublish-param-html": "Ang nilalamang itatala.",
+	"apihelp-cxpublish-param-from": "Ang kodigo ng wikang pinagmulan.",
+	"apihelp-cxpublish-param-to": "Ang kodigo ng wikang patutunguhan",
+	"apihelp-cxpublish-param-sourcetitle": "Ang pamagat ng pahinang pinagmulan.",
+	"apihelp-cxpublish-param-categories": "Ang mga kategoryang idadagdag sa nailimbag na pahina.",
+	"apihelp-cxpublish-param-wpCaptchaId": "Pagkakakilanlang Captcha (kapag nagtatala gamit ang tugon sa captcha)",
+	"apihelp-cxpublish-param-wpCaptchaWord": "Sagot sa captcha (kapag nagtatala gamit ang tugon sa captcha)",
+	"apihelp-query+contenttranslation-param-translationid": "ID ng pagsasalin.",
+	"apihelp-query+contenttranslation-example-1": "Kunin ang mga pagsasaling nasimulan ng pangkasalukuyang gumagamit.",
+	"apihelp-query+contenttranslation-example-2": "Kumuha ng mga burador na salinwika ni ID.",
+	"apihelp-query+contenttranslation-example-3": "Hanapin ang alinmang salin para sa naturang pamagat mula sa ibinigay na pares ng wika",
+	"apihelp-query+cxpublishedtranslations-param-from": "Kodigo ng wikang pinagmulan.",
+	"apihelp-query+cxpublishedtranslations-param-to": "Kodigo ng wikang patutunguhan.",
+	"apihelp-query+cxpublishedtranslations-example-1": "Kunin lahat ng mga saling nailathala",
+	"apihelp-query+cxpublishedtranslations-example-2": "Kunin lahat ng mga saling nailathala, na isinalin mula Ingles",
+	"apihelp-query+cxpublishedtranslations-example-3": "Kunin lahat ng mga saling nailathala, na isinalin mula Ingles patugong Espanyol",
+	"apihelp-cxdelete-param-from": "Kodigo ng wikang pinagmulan.",
+	"apihelp-cxdelete-param-to": "Kodigo ng wikang patutunguhan.",
+	"apihelp-cxdelete-param-sourcetitle": "Ang pamagat ng pahinang pinagmulan.",
+	"apihelp-cxdelete-example-1": "Burahin ang isang burador na may kinalaman sa ibinigay na tambalang wika at pamagat.",
+	"apihelp-cxsave-param-sourcerevision": "Ang pagbabago sa pahinang pinagmulan."
+}

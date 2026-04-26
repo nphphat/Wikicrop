@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bencemac",
+			"Csega",
+			"Dorgan",
+			"Hanna Tardos",
+			"Tacsipacsi",
+			"Teemeah",
+			"Tgr"
+		]
+	},
+	"popups-message": "Előnézetek",
+	"popups-desc": "Amikor a felhasználó egy hivatkozás fölé viszi az egérmutatót, megjelenik az előnézete egy buborékban",
+	"popups-settings-title": "Előnézetek",
+	"popups-settings-option-page": "Engedélyezés",
+	"popups-settings-option-page-description": "Gyors előnézetek megjelenítése, miközben olvasod az oldalt.",
+	"popups-settings-option-reference": "Forráshivatkozás-előnézetek",
+	"popups-settings-save": "Mentés",
+	"popups-settings-help-ok": "Kész",
+	"popups-settings-cancel": "Mégse",
+	"popups-settings-help": "Az előnézetet a lap alján található link segítségével kapcsolhatod vissza.",
+	"popups-settings-enable": "Előnézet-beállítások szerkesztése",
+	"popups-settings-icon-gear-title": "Lapelőnézet-beállítások módosítása",
+	"popups-preview-no-preview": "Hiba történt az előnézet megjelenítésekor",
+	"popups-preview-footer-read": "Ugrás erre a lapra",
+	"popups-preview-disambiguation": "Ez a cím több mint egy lapra utal",
+	"popups-preview-disambiguation-link": "Hasonló lapok megtekintése",
+	"prefs-reading": "Olvasási preferenciák",
+	"popups-prefs-optin": "Lapelőnézet engedélyezése (gyors összefoglalók megtekintése egyes témákról az oldal olvasása közben)",
+	"popups-prefs-disable-nav-gadgets-info": "Le kell tiltanod a [[$1|Látszer segédeszközt]] a segédeszköz-beállításaidban a lapelőnézetek engedélyezéséhez.",
+	"popups-prefs-conflicting-gadgets-info": "Bizonyos segédeszközök és egyéb testreszabások befolyásolhatják ennek a funkciónak a teljesítményét. Ha problémákat tapasztalsz, nézd át a segédeszközeidet és felhasználói parancsfájljaidat, beleértve a globálisakat is."
+}

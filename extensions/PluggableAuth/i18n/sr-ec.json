@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"BadDog",
+			"Milicevic01"
+		]
+	},
+	"pluggableauth-fatal-error": "Дошло је до грешке при аутентификацији. Молимо пробајте поново или контактирајте систем администратора.",
+	"pluggableauthlogout": "Одјава"
+}

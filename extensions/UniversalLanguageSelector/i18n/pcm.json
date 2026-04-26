@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Samatics"
+		]
+	},
+	"uls-plang-title-languages": "Langwej-dem",
+	"ext-uls-compact-link-count": "{{PLURAL:$1|one stil dey|$1 stil dey}}"
+}

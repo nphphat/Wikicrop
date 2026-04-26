@@ -1,0 +1,103 @@
+@import 'mediawiki.skin.variables.less';
+@import 'mw.cx.variables.less';
+@import 'mw.cx.mixins.less';
+
+.cx-translation-view {
+	.mw-ui-grid;
+	background-color: #eaecf0;
+	// Override overflow property specified in mw-ui-grid to default value, because
+	// non-visible value set on overflow property prevents position: sticky from working
+	overflow: visible;
+
+	.cx-translation-view-container {
+		.mw-ui-two-thirds;
+		background-color: #fff;
+		box-shadow: 0 1px 1px rgba( 0, 0, 0, 0.15 );
+		border-radius: @border-radius-base;
+		padding: 0;
+		z-index: 1;
+
+		@media only screen and ( min-width: @min-width-breakpoint-desktop ) {
+			width: calc( 100% ~'-' @max-tools-column-width );
+		}
+	}
+
+	.cx-widget__columns.oo-ui-horizontalLayout,
+	.cx-content-container.oo-ui-horizontalLayout {
+		display: block;
+
+		> .oo-ui-layout {
+			margin-right: 0;
+		}
+	}
+}
+
+.cx-column--source,
+.cx-column--translation {
+	.mw-ui-one-half;
+	.mw-ui-one-half(@palm);
+	.mw-ui-gutter(3%);
+	min-height: 100vh;
+
+	.cx-column__content {
+		// Make sure that the captions are aligned according to the column's language
+		// rather than the wiki's content language
+		&[ dir='rtl' ] figcaption {
+			/* @noflip */
+			text-align: right;
+		}
+
+		&[ dir='ltr' ] figcaption {
+			/* @noflip */
+			text-align: left;
+		}
+
+		section[ rel='cx:Section' ] {
+			& > p,
+			& > table,
+			& > figure,
+			& > pre,
+			& > div {
+				margin: 0.5em 0;
+			}
+
+			& > ul,
+			& > ol {
+				margin-top: 0.5em;
+				margin-bottom: 0.5em;
+			}
+		}
+	}
+
+	.ve-ui-debugBar {
+		box-shadow: none;
+		padding: 1em 0;
+		font-size: 0.875em;
+	}
+}
+
+.cx-suggestion {
+	.mw-ui-one-half(@palm);
+	background-color: #fff;
+	border: @border-subtle;
+	padding: 10px;
+	margin: 2px 0;
+}
+
+.ve-ui-toolbar-group-publishDestination {
+	> .oo-ui-popupToolGroup-handle {
+		min-height: 3.125em;
+		min-width: auto !important; /* stylelint-disable-line declaration-no-important */
+		padding-left: 0.9375em !important; /* stylelint-disable-line declaration-no-important */
+
+		> .oo-ui-labelElement-label {
+			display: none;
+		}
+	}
+}
+
+.cx-content-container.oo-ui-widget-disabled {
+	.ve-ui-cxSurface.oo-ui-widget-disabled {
+		opacity: 0.6;
+	}
+}

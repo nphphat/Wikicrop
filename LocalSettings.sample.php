@@ -281,6 +281,21 @@ $wgRawHtml = true;
 $wgVectorShowSkinPreferences = true; // Hiện tùy chọn skin trong giao diện người dùng
 $wgVectorUseSidebarSearch = true;    // Sử dụng thanh tìm kiếm ở thanh bên
 $wgVectorUsePageTabsForNamespaces = true; // Dùng tab để phân biệt namespace
+// ========== CẤU HÌNH SERVER & DỊCH VỤ (CHỈNH TẠI ĐÂY) ==========
+// Có thể thay đổi localhost thành IP hoặc tên miền khi deploy (ví dụ: '192.168.1.10' hoặc 'wikicrop.vn')
+$wgAppLocalHost = 'localhost'; 
+
+// 1. Cấu hình Chatbot Server
+$wgChatbotServerUrl = "http://$wgAppLocalHost:8000";
+$wgWikiChatbotApiUrl = "$wgChatbotServerUrl/ask";
+$wgApproveChatbotIngestUrl = "$wgChatbotServerUrl/ingest";
+
+// 2. Cấu hình Keycloak Server
+$wgKeycloakServerUrl = "http://$wgAppLocalHost:8090";
+
+// 3. Cấu hình JupyterHub (nếu cần)
+$wgJupyterHubUrl = "http://$wgAppLocalHost:9090/hub";
+// ==============================================================
 
 
 ### Nguyen Huu Dat, TTTT HK3 2024-2025
@@ -299,7 +314,7 @@ wfLoadExtension( 'OpenIDConnect' );
 $wgPluggableAuth_Config['Keycloak Login'] = [
     'plugin' => 'OpenIDConnect',
     'data' => [
-        'providerURL' => 'http://localhost:8090/realms/my_realm',
+        'providerURL' => "$wgKeycloakServerUrl/realms/my_realm",
         'clientID' => 'my_client',
         'clientsecret' => 'YOUR_KEYCLOAK_CLIENT_SECRET',
     ],
@@ -312,6 +327,7 @@ $wgPluggableAuth_Config['Keycloak Login'] = [
         ]
     ]
 ];
+
 
 unset( $wgFooterIcons['poweredby'] );
 
@@ -329,9 +345,8 @@ $wgGroupPermissions['sysop']['approverevisions'] = true;
 
 
 wfLoadExtension( 'ApiPlantDB' );
-wfLoadExtension( 'MicrosoftClarity' );
-
-$wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
+// wfLoadExtension( 'MicrosoftClarity' );
+// $wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
 
 // $wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skinTemplate, &$links ) {
 //     $user = $skinTemplate->getUser();
@@ -340,7 +355,7 @@ $wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
 //     }
 //     $links['user-menu']['jupyterhub'] = [
 //         'text' => 'Jupyter Hub',
-//         'href' => 'http://localhost:9090/hub'
+//         'href' => $wgJupyterHubUrl
 //     ];
 
 //     return true;

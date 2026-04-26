@@ -1,0 +1,67 @@
+/**
+ * Contains CSS for the error messages and loaders displayed.
+ * when loading the translation stats graph.
+ * @license GPL-2.0-or-later
+ */
+@import 'mediawiki.skin.variables.less';
+
+.mw-translate-translationstats-container {
+	position: relative;
+	display: inline-block;
+	margin-right: 40px;
+	margin-top: 1em;
+	vertical-align: top;
+
+	.mw-translationstats-graph-container {
+		margin: auto;
+	}
+
+	.mw-translate-error-container {
+		width: 100%;
+		top: 1em;
+		position: absolute;
+		background-color: @background-color-error-subtle;
+		color: @color-error;
+		padding: 0.6em 1em;
+		text-align: center;
+		display: none;
+	}
+
+	&:not( .mw-translate-loading ) .tux-loading-indicator {
+		display: none;
+	}
+
+	&.mw-translate-has-error .mw-translate-error-container {
+		display: block;
+	}
+}
+
+.mw-translate-translationstats-table {
+	border: 0;
+	clip: rect( 1px, 1px, 1px, 1px );
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+
+	tbody td:not( :first-child ) {
+		text-align: right;
+	}
+
+	&:focus,
+	&:active {
+		clip: auto;
+		height: auto;
+		margin: 0;
+		overflow: visible;
+		position: static;
+		width: auto;
+	}
+}
+
+// Used on Special:TranslationStats
+.mw-translate-translationstats-hide {
+	display: none;
+}

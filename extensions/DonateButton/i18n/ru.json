@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiMANNia"
+		]
+	},
+	"donatebutton-msg": "Кнопка “пожертвования”",
+	"donatebutton-desc": "Добавляет кнопку “Пожертвовать” на [https://www.mediawiki.org/wiki/Sidebar/ru боковой панели].",
+	"donatebutton": "Мы просим о",
+	"sitesupport": "Пожертвованиях",
+	"lang": "ru"
+}
