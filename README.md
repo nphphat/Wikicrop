@@ -29,11 +29,14 @@ copy LocalSettings.sample.php LocalSettings.php
 
 Sau đó, mở file LocalSettings.php bằng VS Code hoặc Notepad và sửa các dòng sau:
 - `YOUR_CLARITY_ID` nếu dùng Clarity
-- `YOUR_KEYCLOAK_CLIENT_SECRET` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
-- `YOUR_GOOGLE_APP_PASSWORD` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
+- `YOUR_CLARITY_SECRET` nếu dùng Clarity
+- `YOUR_CLIENT_ID` nếu dùng Keycloak, tạo client mới trong keycloak sẽ có client id
+- `YOUR_KEYCLOAK_CLIENT_SECRET` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf, client mới sẽ có client secret
+- `YOUR_GOOGLE_APP_PASSWORD` Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf.
 
 ### Bước 4: Khởi tạo Cơ sở dữ liệu (Database)
 > Xem chi tiết trong file: Cai dat MediaWiki va tich hop Keycloak (1).pdf
+Lưu ý: Tạo db là mediawiki_new1, user là root, password là rỗng (Không có password) để khớp với LocalSettings.php
 ### Bước 5: Kiểm tra
 > Mở trình duyệt và truy cập: http://localhost/wikicrop/index.php/Main_Page
 
