@@ -19,7 +19,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename = "WIKICROP";
+$wgSitename = "Wikicrop";
 
 ## The URL base path to the directory containing the wiki;
 ## defaults for all runtime URL paths are based off of this.
@@ -65,9 +65,8 @@ $wgEmailAuthentication = true;
 
 ## Database settings
 $wgDBtype = "mysql";
-// $wgDBserver = "localhost";
-$wgDBserver = "127.0.0.1:3306"; // Can de update db cho OpenIDConnect
-$wgDBname = "wiki_local";
+$wgDBserver = "localhost";
+$wgDBname = "mediawiki_new1";
 $wgDBuser = "root";
 $wgDBpassword = "";
 
@@ -119,14 +118,14 @@ $wgLocaltimezone = "Europe/Berlin";
 ## be publicly accessible from the web.
 #$wgCacheDirectory = "$IP/cache";
 
-$wgSecretKey = "STRING_RANDOM_64_CHARACTERS";
+$wgSecretKey = "f87644f0b1ebbd45885b2ef166fbed53253d0260418fa9257917c05cda619e30";
 
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
 
 # Site upgrade key. Must be set to a string (default provided) to turn on the
 # web installer while LocalSettings.php is in place
-$wgUpgradeKey = "STRING_RANDOM";
+$wgUpgradeKey = "a2118201b0d28666";
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
@@ -314,9 +313,9 @@ wfLoadExtension( 'OpenIDConnect' );
 $wgPluggableAuth_Config['Keycloak Login'] = [
     'plugin' => 'OpenIDConnect',
     'data' => [
-        'providerURL' => "$wgKeycloakServerUrl/realms/my_realm",
-        'clientID' => 'my_client',
-        'clientsecret' => 'YOUR_KEYCLOAK_CLIENT_SECRET',
+        'providerURL' => "$wgKeycloakServerUrl/realms/my_realm", // Thay thế 'my_realm' bằng tên realm của bạn
+        'clientID' => 'YOUR_CLIENT_ID', // Thay thế bằng client ID của bạn
+        'clientsecret' => 'YOUR_KEYCLOAK_CLIENT_SECRET', // Thay thế bằng client secret của bạn
     ],
     'groupsyncs' => [
         'sync_from_keycloak' => [ 
@@ -347,19 +346,6 @@ $wgGroupPermissions['sysop']['approverevisions'] = true;
 wfLoadExtension( 'ApiPlantDB' );
 // wfLoadExtension( 'MicrosoftClarity' );
 // $wgMicrosoftClarityID = 'YOUR_CLARITY_ID'; // Thay thế bằng Clarity ID
-
-// $wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skinTemplate, &$links ) {
-//     $user = $skinTemplate->getUser();
-//     if ( !$user->isRegistered() ) {
-//         return true;
-//     }
-//     $links['user-menu']['jupyterhub'] = [
-//         'text' => 'Jupyter Hub',
-//         'href' => $wgJupyterHubUrl
-//     ];
-
-//     return true;
-// };
 
 wfLoadExtension( 'NongNghiep40' );
 wfLoadExtension( 'QuanLyNongNghiep40' );
