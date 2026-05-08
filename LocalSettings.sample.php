@@ -350,3 +350,5 @@ wfLoadExtension( 'ApiPlantDB' );
 wfLoadExtension( 'NongNghiep40' );
 wfLoadExtension( 'QuanLyNongNghiep40' );
 $wgQuanLyNongNghiep40GeminiKey = 'GEMINI_API_KEY'; // Thay thế bằng Gemini Key của bạn
+
+wfLoadExtension( 'ReplaceText' );
