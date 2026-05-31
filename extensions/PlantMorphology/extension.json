@@ -1,0 +1,25 @@
+{
+    "name": "PlantMorphology",
+    "type": "parserhook",
+    "version": "1.0.0",
+    "author": "Danh",
+    "description": "Hiển thị thông tin hình thái thực vật từ EforaVN",
+    "requires": {
+        "MediaWiki": ">= 1.35.0"
+    },
+    "AutoloadNamespaces": {
+        "MediaWiki\\Extension\\PlantMorphology\\": "src/"
+    },
+    "HookHandlers": {
+        "plant-morphology": {
+            "class": "MediaWiki\\Extension\\PlantMorphology\\Hook"
+        }
+    },
+    "Hooks": {
+        "ParserFirstCallInit": "plant-morphology"
+    },
+    "ExtensionMessagesFiles": {
+        "PlantMorphologyMagic": "PlantMorphology.i18n.magic.php"
+    },
+    "manifest_version": 2
+}
