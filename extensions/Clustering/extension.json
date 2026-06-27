@@ -1,0 +1,43 @@
+{
+    "name": "Clustering",
+    "version": "1.0.0",
+    "author": [
+        "Ma Quoc Dat"
+    ],
+    "descriptionmsg": "clustering-desc",
+    "type": "specialpage",
+    "requires": {
+        "MediaWiki": ">= 1.35.0"
+    },
+    "MessagesDirs": {
+        "Clustering": [
+            "i18n"
+        ]
+    },
+    "AutoloadClasses": {
+        "SpecialClustering": "includes/SpecialClustering.php",
+        "MediaWiki\\Extension\\Clustering\\Hooks": "includes/Hooks.php"
+    },
+    "Hooks": {
+        "SidebarBeforeOutput": "MediaWiki\\Extension\\Clustering\\Hooks::onSidebarBeforeOutput"
+    },
+    "SpecialPages": {
+        "Clustering": "SpecialClustering"
+    },
+    "ResourceModules": {
+        "ext.clustering": {
+            "scripts": "modules/ext.clustering.js",
+            "styles": "modules/ext.clustering.css",
+            "dependencies": [
+                "jquery"
+            ],
+            "localBasePath": "",
+            "remoteExtPath": "Clustering",
+            "targets": [
+                "desktop",
+                "mobile"
+            ]
+        }
+    },
+    "manifest_version": 2
+}
