@@ -1,0 +1,637 @@
+.seedanalysis {
+    max-width: 1180px;
+    margin: 0 auto;
+    overflow-wrap: anywhere;
+}
+
+.seedanalysis,
+.seedanalysis * {
+    box-sizing: border-box;
+}
+
+.seedanalysis-toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.seedanalysis-toolbar h2 {
+    margin: 0 0 6px;
+    font-size: 24px;
+}
+
+.seedanalysis-toolbar p {
+    margin: 0;
+    color: #54595d;
+}
+
+.seedanalysis-app-link,
+.seedanalysis-primary,
+.seedanalysis-secondary,
+.seedanalysis-tabs button,
+.seedanalysis-chart-controls button,
+.seedanalysis-suspect-actions button {
+    border: 1px solid #36c;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: 40px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.seedanalysis-app-link,
+.seedanalysis-app-link:link,
+.seedanalysis-app-link:visited,
+.seedanalysis-primary {
+    background: #36c;
+    color: #fff !important;
+    padding: 9px 14px;
+}
+
+.seedanalysis-app-link:hover,
+.seedanalysis-app-link:focus,
+.seedanalysis-app-link:active,
+.seedanalysis-primary:hover {
+    background: #2a4b8d;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.seedanalysis-primary:disabled {
+    background: #a2a9b1;
+    border-color: #a2a9b1;
+    cursor: wait;
+}
+
+.seedanalysis-form {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    background: #f8f9fa;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+}
+
+.seedanalysis-file span,
+.seedanalysis-calibration span {
+    display: block;
+    margin-bottom: 5px;
+    color: #202122;
+    font-weight: 600;
+}
+
+.seedanalysis-file input,
+.seedanalysis-calibration input {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 40px;
+}
+
+.seedanalysis-calibration {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.seedanalysis-calibration input {
+    padding: 8px 10px;
+    border: 1px solid #a2a9b1;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.seedanalysis-file input {
+    padding: 8px;
+    border: 1px solid #a2a9b1;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.seedanalysis-input-preview {
+    display: grid;
+    gap: 10px;
+}
+
+.seedanalysis-input-preview[hidden] {
+    display: none;
+}
+
+.seedanalysis-input-preview-head {
+    display: grid;
+    gap: 3px;
+}
+
+.seedanalysis-input-preview-head strong {
+    color: #202122;
+}
+
+.seedanalysis-input-preview-head span,
+.seedanalysis-reference-tools span {
+    min-width: 0;
+    color: #54595d;
+    font-size: 13px;
+}
+
+.seedanalysis-calibration-stage {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    max-height: 420px;
+    background: #fff;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+    overflow: auto;
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.seedanalysis-calibration-frame {
+    position: relative;
+    display: inline-flex;
+    max-width: 100%;
+    max-height: 420px;
+}
+
+.seedanalysis-calibration-frame img {
+    display: block;
+    max-width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    user-select: none;
+}
+
+.seedanalysis-calibration-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.seedanalysis-calibration-overlay.is-visible {
+    display: block;
+}
+
+.seedanalysis-calibration-overlay line {
+    stroke: #36c;
+    stroke-width: 0.8;
+    vector-effect: non-scaling-stroke;
+}
+
+.seedanalysis-calibration-overlay circle {
+    fill: #36c;
+    stroke: #fff;
+    stroke-width: 0.5;
+    vector-effect: non-scaling-stroke;
+}
+
+.seedanalysis-reference-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.seedanalysis-status {
+    min-height: 22px;
+    margin: 8px 0 16px;
+    color: #54595d;
+}
+
+.seedanalysis-status.is-error {
+    color: #b32424;
+}
+
+.seedanalysis-status.is-success {
+    color: #14866d;
+}
+
+.seedanalysis-status.is-loading {
+    color: #36c;
+}
+
+.seedanalysis-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.seedanalysis-overview,
+.seedanalysis-statistics {
+    margin-bottom: 20px;
+}
+
+.seedanalysis-overview h3,
+.seedanalysis-statistics h3 {
+    margin: 0 0 4px;
+    font-size: 20px;
+}
+
+.seedanalysis-section-help {
+    margin: 0 0 12px;
+    color: #54595d;
+}
+
+.seedanalysis-card {
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+}
+
+.seedanalysis-card span {
+    display: block;
+    margin-bottom: 4px;
+    color: #54595d;
+    font-size: 13px;
+}
+
+.seedanalysis-card strong {
+    color: #202122;
+    font-size: 18px;
+}
+
+.seedanalysis-qc-summary {
+    margin: 0 0 20px;
+    padding: 10px 12px;
+    border: 1px solid #a2d8c8;
+    border-radius: 6px;
+    background: #f0fff8;
+    color: #14532d;
+}
+
+.seedanalysis-qc-summary.is-warning {
+    border-color: #f2c078;
+    background: #fff8e7;
+    color: #7c2d12;
+}
+
+.seedanalysis-suspect-editor {
+    margin: 0 0 20px;
+}
+
+.seedanalysis-suspect-editor h3 {
+    margin: 0 0 4px;
+    font-size: 20px;
+}
+
+.seedanalysis-suspect-list {
+    overflow: hidden;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.seedanalysis-suspect-row {
+    display: grid;
+    grid-template-columns: 80px minmax(120px, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eaecf0;
+}
+
+.seedanalysis-suspect-row:last-child {
+    border-bottom: 0;
+}
+
+.seedanalysis-suspect-row > strong {
+    color: #b32424;
+}
+
+.seedanalysis-suspect-row > span {
+    min-width: 0;
+    color: #54595d;
+}
+
+.seedanalysis-suspect-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.seedanalysis-suspect-actions button {
+    padding: 6px 10px;
+    background: #fff;
+}
+
+.seedanalysis-suspect-actions .seedanalysis-confirm {
+    border-color: #14866d;
+    color: #116149;
+}
+
+.seedanalysis-suspect-actions .seedanalysis-confirm:hover {
+    background: #f0fff8;
+}
+
+.seedanalysis-suspect-actions .seedanalysis-delete {
+    border-color: #d73333;
+    color: #b32424;
+}
+
+.seedanalysis-suspect-actions .seedanalysis-delete:hover {
+    background: #fff1f1;
+}
+
+.seedanalysis-chart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.seedanalysis-chart-controls button {
+    padding: 7px 12px;
+    background: #fff;
+    color: #36c;
+}
+
+.seedanalysis-chart-controls button.is-active {
+    background: #36c;
+    color: #fff;
+}
+
+.seedanalysis-chart-panels {
+    display: grid;
+    gap: 14px;
+}
+
+.seedanalysis-metric-panel {
+    padding: 14px;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.seedanalysis-metric-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.seedanalysis-metric-heading h4 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.seedanalysis-metric-heading span {
+    min-width: 0;
+    color: #54595d;
+    font-size: 13px;
+    text-align: right;
+}
+
+.seedanalysis-stat-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.seedanalysis-stat-tile {
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid #eaecf0;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.seedanalysis-stat-tile span,
+.seedanalysis-stat-tile small {
+    display: block;
+    color: #54595d;
+}
+
+.seedanalysis-stat-tile strong {
+    display: block;
+    margin: 3px 0;
+    color: #202122;
+    font-size: 18px;
+}
+
+.seedanalysis-size-groups,
+.seedanalysis-chart-block {
+    margin-top: 14px;
+}
+
+.seedanalysis-size-groups h5,
+.seedanalysis-chart-block h5 {
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+
+.seedanalysis-segment-bar {
+    display: flex;
+    width: 100%;
+    height: 14px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #eaecf0;
+}
+
+.seedanalysis-segment-bar span {
+    min-width: 0;
+}
+
+.seedanalysis-size-group-rows {
+    display: grid;
+    gap: 7px;
+    margin-top: 9px;
+}
+
+.seedanalysis-size-group-row {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+}
+
+.seedanalysis-size-group-row span {
+    min-width: 0;
+}
+
+.seedanalysis-size-group-row i {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.seedanalysis-chart-block p {
+    margin: -4px 0 8px;
+    color: #54595d;
+    font-size: 13px;
+}
+
+.seedanalysis-histogram {
+    display: grid;
+    align-items: end;
+    gap: 8px;
+    min-height: 170px;
+    padding: 12px 8px 0;
+    border: 1px solid #eaecf0;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.seedanalysis-histogram-bin {
+    display: flex;
+    min-width: 0;
+    height: 158px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.seedanalysis-histogram-bin strong {
+    font-size: 12px;
+}
+
+.seedanalysis-histogram-bar {
+    display: block;
+    width: min(38px, 100%);
+    min-height: 6px;
+    border-radius: 4px 4px 0 0;
+}
+
+.seedanalysis-histogram-bin small {
+    width: 100%;
+    overflow: hidden;
+    color: #54595d;
+    font-size: 10px;
+    text-align: center;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+
+.seedanalysis-preview {
+    margin-bottom: 16px;
+}
+
+.seedanalysis-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.seedanalysis-tabs button {
+    background: #fff;
+    color: #36c;
+    padding: 7px 11px;
+}
+
+.seedanalysis-tabs button.is-active {
+    background: #36c;
+    color: #fff;
+}
+
+.seedanalysis-image-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    background: #f8f9fa;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+    overflow: auto;
+}
+
+.seedanalysis-image-wrap img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.seedanalysis-actions {
+    margin: 0 0 16px;
+}
+
+.seedanalysis-secondary {
+    background: #fff;
+    color: #36c;
+    padding: 7px 11px;
+}
+
+.seedanalysis-secondary:hover {
+    background: #f1f4fd;
+}
+
+@media (max-width: 900px) {
+    .seedanalysis-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .seedanalysis-toolbar {
+        display: block;
+    }
+
+    .seedanalysis-app-link {
+        display: inline-block;
+        margin-top: 12px;
+    }
+
+    .seedanalysis-calibration {
+        grid-template-columns: 1fr;
+    }
+
+    .seedanalysis-reference-tools {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .seedanalysis-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .seedanalysis-stat-tiles {
+        grid-template-columns: 1fr;
+    }
+
+    .seedanalysis-metric-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .seedanalysis-metric-heading span {
+        text-align: left;
+    }
+
+    .seedanalysis-chart-controls button {
+        flex: 1 1 calc(50% - 8px);
+    }
+
+    .seedanalysis-histogram {
+        gap: 4px;
+        padding-inline: 4px;
+    }
+
+    .seedanalysis-suspect-row {
+        grid-template-columns: 64px minmax(0, 1fr);
+    }
+
+    .seedanalysis-suspect-actions {
+        grid-column: 1 / -1;
+        justify-content: stretch;
+    }
+
+    .seedanalysis-suspect-actions button {
+        flex: 1 1 0;
+    }
+}
