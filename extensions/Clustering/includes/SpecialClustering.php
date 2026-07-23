@@ -1,22 +1,158 @@
 <?php
+namespace Clustering;
+
+use SpecialPage;
+use MediaWiki\MediaWikiServices;
+use Title;
+use User;
+use ContentHandler;
+use CommentStoreComment;
+use MediaWiki\Revision\SlotRecord;
+
+
 class SpecialClustering extends SpecialPage {
 
+    /*Tên tài khoản Bot hệ thống dùng để ghi kết quả ML vào bài viết thay cho người dùng đang duyệt web */
+    const BOT_USERNAME = 'WikiCropBot';
+    /**
+     * Lấy (hoặc tạo mới nếu chưa có) tài khoản Bot hệ thống nội bộ dùng riêng cho việc
+     * tự động ghi kết quả phân tích ML vào bài viết WikiCrop.
+     */
+
     public function __construct() {
+        // ✅ BẮT BUỘC CÓ: Gọi constructor lớp cha để đăng ký tên SpecialPage
         parent::__construct( 'Clustering' );
+    }
+    
+    private function getOrCreateBotUser() {
+        $bot = User::newFromName( self::BOT_USERNAME );
+        if ( !$bot ) {
+            throw new \Exception( 'Tên tài khoản Bot không hợp lệ.' );
+        }
+        if ( $bot->getId() === 0 ) {
+            // Tài khoản Bot chưa tồn tại trong CSDL -> tạo mới dưới dạng System User (không thể đăng nhập qua form thường)
+            $bot = User::newSystemUser( self::BOT_USERNAME, [ 'steal' => true ] );
+            if ( !$bot ) {
+                throw new \Exception( 'Không thể khởi tạo tài khoản Bot hệ thống.' );
+            }
+            
+            $userGroupManager = MediaWikiServices::getInstance()->getUserGroupManager();
+            $userGroupManager->addUserToGroup( $bot, 'sysop' );
+            $bot->saveSettings();
+        }
+        return $bot;
+    }
+
+    /* nội dung wikitext vào CUỐI bài viết đích, thực hiện phía SERVER bằng tài khoản Bot hệ thống */
+    private function appendToWikiPage( $pageTitle, $appendText, $summary ) {
+        $titleObj = Title::newFromText( $pageTitle );
+        if ( !$titleObj || !$titleObj->exists() ) {
+            throw new \Exception( 'Trang bài viết không tồn tại: ' . $pageTitle );
+        }
+
+        $services = MediaWikiServices::getInstance();
+        $wikiPage = $services->getWikiPageFactory()->newFromTitle( $titleObj );
+
+        $currentContent = $wikiPage->getContent();
+        $currentText = $currentContent ? $currentContent->getText() : '';
+        $newText = $currentText . $appendText;
+        $newContent = ContentHandler::makeContent( $newText, $titleObj );
+
+        $botUser = $this->getOrCreateBotUser();
+
+        $updater = $wikiPage->newPageUpdater( $botUser );
+        $updater->setContent( SlotRecord::MAIN, $newContent );
+        $comment = CommentStoreComment::newUnsavedComment( $summary );
+        $updater->saveRevision( $comment, EDIT_UPDATE );
+
+        if ( !$updater->wasSuccessful() ) {
+            throw new \Exception( 'Ghi bài viết thất bại: ' . $updater->getStatus()->getWikiText() );
+        }
     }
 
     public function execute( $subPage ) {
         $out = $this->getOutput();
-        $out->setPageTitle( '' ); 
+        $request = $this->getRequest();
+
+        if ( $request->getVal( 'clustering_action' ) === 'save_latest' && $request->wasPosted() ) {
+            $out->disable(); 
+
+            if ( ob_get_length() ) { ob_clean(); }
+
+            $request->response()->header( 'Content-Type: application/json' );
+
+            try {
+                $algorithm = $request->getVal( 'algorithm' );
+                $dataset = $request->getVal( 'dataset' );
+                $resultData = $request->getVal( 'result_data' );
+                $targetPage = $request->getVal( 'target_page' ); 
+                $appendWikitext = $request->getVal( 'append_wikitext' ); 
+
+                if ( $algorithm === null || $dataset === null || $resultData === null ) {
+                    throw new \Exception( 'Thiếu tham số bắt buộc (algorithm/dataset/result_data).' );
+                }
+
+                // Ghi nối nội dung vào bài viết bằng tài khoản Bot hệ thống phía SERVER
+                if ( $targetPage && $appendWikitext ) {
+                    $this->appendToWikiPage(
+                        $targetPage,
+                        $appendWikitext,
+                        'WikiCrop AI: cập nhật kết quả ' . ( $algorithm ? $algorithm : '' ) . ' (tự động qua Bot)'
+                    );
+                }
+
+                $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+                $cacheData = [
+                    'algorithm' => $algorithm,
+                    'dataset' => $dataset,
+                    'result_data' => $resultData, 
+                    'target_page' => $targetPage,
+                    'timestamp' => time()
+                ];
+
+    
+                $cache->set( 'wikicrop-clustering-latest', $cacheData, 86400 * 14 );
+
+                if ( $targetPage ) {
+                    $cache->set( 'wikicrop-clustering-latest-' . md5( $targetPage ), $cacheData, 86400 * 14 );
+                }
+
+                echo json_encode( [ 'status' => 'success', 'message' => 'Đã ghi kết quả vào bài viết và lưu trạng thái thành công!' ] );
+            } catch ( \Throwable $e ) { 
+                http_response_code( 200 ); 
+                echo json_encode( [ 'status' => 'error', 'message' => $e->getMessage() ] );
+            }
+            return;
+        }
+
+        $this->setHeaders();
+        $out->setHTMLTitle( 'Gom cụm và Phân lớp dữ liệu nông học - WikiCrop' );
         $out->addModules( 'ext.clustering' );
-        $out->addHTML( $this->buildForm() );
+
+        $loadLatest = $request->getVal( 'load_latest' );
+        $preloadedJson = 'null';
+        if ( $loadLatest ) {
+            $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+            $latest = $cache->get( 'wikicrop-clustering-latest' );
+            if ( $latest ) {
+                $preloadedJson = json_encode( $latest );
+            }
+        }
+
+        $out->addHTML( $this->buildForm( $preloadedJson ) );
     }
 
-    private function buildForm() {
+    private function buildForm( $preloadedJson ) {
         return <<<HTML
         <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        
         <style>
+            
+            #firstHeading, .firstHeading, .mw-first-heading, #siteSub, #contentSub, #contentSub2 {
+                display: none !important;
+            }
+
             .clustering-sidebar .menu-label {
                 font-size: 13px !important;
                 font-weight: 700 !important;
@@ -59,7 +195,9 @@ class SpecialClustering extends SpecialPage {
                 padding: 11px 18px 11px 56px !important; 
                 margin-top: 4px !important;
                 border-radius: 6px !important;
+                transition: all 0.2s ease-in-out !important;
                 list-style: none !important;
+                cursor: pointer;
             }
             .clustering-sidebar .btn-new-session {
                 padding: 13px 20px !important; 
@@ -112,7 +250,7 @@ class SpecialClustering extends SpecialPage {
                 font-weight: 600 !important;
                 border-radius: 8px !important;
             }
-            #view-preprocess .ml-results-panel {
+            .ml-results-panel {
                 display: flex !important;
                 flex-direction: column !important;
                 flex: 1 !important;
@@ -135,22 +273,26 @@ class SpecialClustering extends SpecialPage {
             }
         </style>
         
-        <div id="clustering-app">
+        <div id="clustering-app" data-preloaded="{$preloadedJson}">
             
             <aside class="clustering-sidebar">
                 <div class="clustering-logo">
-                    <span style="font-size: 24px;"></span> Clustering 
+                    <span style="font-size: 24px;">🌱</span> WikiCrop 
                 </div>
                 
-                <button class="btn-new-session">+ New Session</button>
+                <button class="btn-new-session"> New Session </button>
                 
                 <div class="menu-label">ML WORKFLOW</div>
                 <ul class="clustering-menu">
                     <li><div class="menu-item active" data-nav="dataloader"><div class="step-circle">1</div><span> Data Loader</span></div></li>
-                    <li><div class="menu-item" data-nav="preprocess"><div class="step-circle"> 2 </div><span> Preprocess</span></div></li>
+                    <li><div class="menu-item" data-nav="preprocess"><div class="step-circle">2</div><span> Preprocess</span></div></li>
                     <li>
                         <div class="menu-item"><div class="step-circle">3</div><span> ML Task</span><span class="menu-arrow">▼</span></div>
-                        <ul class="submenu"><li data-nav="clustering">Clustering (Gom cụm)</li></ul>
+                        <ul class="submenu">
+                            <li data-nav="clustering">Clustering (Gom cụm)</li>
+                            <li data-nav="classification">Classification (Phân lớp)</li>
+                            <li data-nav="regression">Regression (Hồi quy)</li>
+                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -163,7 +305,7 @@ class SpecialClustering extends SpecialPage {
                         <span id="current-step-title"> Data Loader</span>
                     </div>
                     <div class="topbar-right">
-                        <input type="file" id="fileInput" accept=".csv, .xlsx, .xls" style="display:none">
+                        <input type="file" id="fileInput" accept=".csv, .xlsx, .xls, .arff" style="display:none">
                         <div id="fileBadge" style="display: none; background: #e0e7ff; color: #4338ca; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #c7d2fe; align-items: center; gap: 6px;">
                             🗄️ <span id="fileName"></span>
                         </div>
@@ -181,7 +323,7 @@ class SpecialClustering extends SpecialPage {
                             <div id="empty-dataloader" style="width: 100%; max-width: 650px; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; border: 2px dashed #cbd5e1; background: #ffffff; border-radius: 12px; cursor: pointer;">
                                 <div style="color: #6366f1; margin-bottom: 24px;"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
                                 <h3 style="color: #1e293b; margin-bottom: 8px; font-size: 26px; font-weight: 700;">Upload Your Dataset</h3>
-                                <p style="color: #64748b; font-size: 13px; font-weight: 500; margin-bottom: 24px; text-align: center;">Hỗ trợ các định dạng tệp tin Excel (.xlsx, .xls) và CSV (.csv)</p>
+                                <p style="color: #64748b; font-size: 13px; font-weight: 500; margin-bottom: 24px; text-align: center;">Hỗ trợ các định dạng tệp tin Excel (.xlsx, .xls), CSV (.csv) và ARFF (.arff)</p>
                                 <button id="btnUploadCenter" style="background: #6366f1; color: white; border: none; padding: 14px 40px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;">Choose File</button>
                             </div>
                         </div>
@@ -198,7 +340,7 @@ class SpecialClustering extends SpecialPage {
                                     <div class="stat-card"><div class="stat-icon">🗄️</div><div><div class="stat-val" id="st-rows">0</div><div class="stat-label">Instances</div></div></div>
                                     <div class="stat-card"><div class="stat-icon" style="color:#3b82f6; background:#eff6ff;">🪟</div><div><div class="stat-val" id="st-cols">0</div><div class="stat-label">Attributes</div></div></div>
                                     <div class="stat-card"><div class="stat-icon" style="color:#059669; background:#ecfdf5;">🔢</div><div><div class="stat-val" id="st-num">0</div><div class="stat-label">Numeric</div></div></div>
-                                    <div class="stat-card"><div class="stat-icon" style="color:#c026d3; background:#fdf4ff;">🔤</div><div><div class="stat-val" id="st-cat">0</div><div class="stat-label">Categorical</div></div></div>
+                                    <div class="stat-card"><div class="stat-icon" style="color:#c026d3; background:#fdf4ff;">🪟</div><div><div class="stat-val" id="st-cat">0</div><div class="stat-label">Categorical</div></div></div>
                                 </div>
                                 <div class="overview-grid" style="grid-template-columns: repeat(3, 1fr);">
                                     <div class="stat-card"><div class="stat-icon" style="color:#d97706; background:#fffbeb;">⚠️</div><div><div class="stat-val" id="st-missing">0</div><div class="stat-label">Missing Values</div></div></div>
@@ -217,7 +359,7 @@ class SpecialClustering extends SpecialPage {
                                 </div>
                             </div>
                             <div id="tab-preview" class="tab-pane" style="display: none;">
-                                <div class="preview-card"><div style="overflow-x: auto;"><table class="clustering-table" id="preview-table"><thead><tr><th>Đang tải...</th></tr></thead><tbody></tbody></table></div></div>
+                                <div class="preview-card"><div style="overflow-x: auto;"><table class="clustering-table" id="preview-table"><thead><tr><th>ROW</th></tr></thead><tbody></tbody></table></div></div>
                             </div>
                             <div id="tab-visualization" class="tab-pane" style="display: none;">
                                 <div class="vis-grid" id="vis-container"></div>
@@ -226,7 +368,7 @@ class SpecialClustering extends SpecialPage {
                     </div> 
                     
                     <div id="view-preprocess" class="view-section">
-                        <div class="ml-task-header"><strong>Filter:</strong> Chọn bộ lọc để làm sạch và biến đổi dữ liệu trước khi chạy ML</div>
+                        <div class="ml-task-header"><strong>Filter:</strong> Chọn bộ lọc để làm sạch và biến đổi dữ liệu trước khi chạy ML Task</div>
                         <div class="ml-layout">
                             <div class="ml-config-panel" style="width: 350px; margin-top: 0; display: flex; flex-direction: column;">
                                 <div class="ml-config-content" style="flex: 1; text-align: left;">
@@ -248,7 +390,7 @@ class SpecialClustering extends SpecialPage {
                                     <div class="form-group" id="filter-col-group" style="display:none;">
                                         <select id="filter-col-select" class="form-control"></select>
                                     </div>
-                                    <button class="btn-run-green" id="btnApplyFilter">⚡ Apply Filter</button>
+                                    <button class="ml-btn" id="btnApplyFilter"> Apply Filter</button>
                                 </div>
                             </div>
                             <div class="ml-results-panel">
@@ -266,7 +408,7 @@ class SpecialClustering extends SpecialPage {
                     <div id="view-clustering" class="view-section">
                         <div class="ml-task-header">
                             <span id="btn-toggle-config" style="cursor:pointer; padding-right: 12px; font-weight: bold; font-size: 16px; color: #4f46e5;">❮</span>
-                            <strong>Algorithm:</strong> <span id="lbl-algo-header">K-Means</span> &nbsp;|&nbsp; <strong>Evaluation:</strong> Full training set
+                            <strong>Clustering Task:</strong> <span id="lbl-algo-header">K-Means</span> &nbsp;|&nbsp; <strong>Evaluation:</strong> <span id="lbl-cluster-eval-header">Full training set</span>
                         </div>
                         <div class="ml-layout">
                             <div class="ml-config-panel" style="width: 380px;">
@@ -276,14 +418,14 @@ class SpecialClustering extends SpecialPage {
                                 </div>
                                 
                                 <div class="ml-config-content active" id="panel-algo" style="text-align: left;">
-                                    <h3>Algorithm Configuration</h3>
+                                    <h3>Clustering Configuration</h3>
                                     
                                     <div class="form-group">
                                         <label>Algorithm</label>
                                         <select id="algorithm" class="form-control">
                                             <option value="kmeans" selected>K-Means</option>
                                             <option value="hierarchical">Hierarchical</option>
-                                            <option value="gmm">Expectation Maximization</option>
+                                            <option value="em">Expectation Maximization</option>
                                             <option value="clara">CLARA</option>
                                         </select>
                                         <div id="algo-desc" class="algo-desc-box">Cluster data using the k means algorithm.</div>
@@ -304,8 +446,8 @@ class SpecialClustering extends SpecialPage {
                                         </div>
 
                                         <div class="form-group" id="distanceContainer" style="margin:0; grid-column: span 2;">
-                                            <label>Distance function</label>
-                                            <select id="distancefunction" class="form-control">
+                                            <label>Distance Metric</label>
+                                            <select id="distanceMetric" class="form-control">
                                                 <option value="EUCLIDEAN" selected>Euclidean Distance</option>
                                                 <option value="MANHATTAN">Manhattan Distance</option>
                                                 <option value="CHEBYSHEV">Chebyshev Distance</option>
@@ -316,7 +458,7 @@ class SpecialClustering extends SpecialPage {
                                         <div class="form-group" id="hcLinkageContainer" style="display:none; margin:0; grid-column: span 2;">
                                             <label>Link Type</label>
                                             <select id="hcLinkageType" class="form-control">
-                                                <option value="AVERAGE" selected> Average Link </option>
+                                                <option value="AVERAGE" selected>Average Link</option>
                                                 <option value="SINGLE">Single Link</option>
                                                 <option value="COMPLETE">Complete Link</option>
                                             </select>
@@ -338,34 +480,39 @@ class SpecialClustering extends SpecialPage {
                                 </div>
 
                                 <div class="ml-config-content" id="panel-eval" style="display: none; text-align: left;">
-                                    <h3>Evaluation Configuration</h3>
+                                    <h3>Test Options</h3>
                                     <div class="form-group" style="margin-top: 16px;">
-                                        <label>Test Options </label>
-                                        <div style="margin-top: 12px;"><label style="font-size:13px; display:block; margin-bottom:12px;"><input type="radio" name="testopt" value="training" checked> Use training set</label></div>
-                                        <div><label style="font-size:13px; display:block;"><input type="radio" name="testopt" value="split"> Percentage split (80%)</label></div>
+                                        <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; flex-direction:column; gap:12px;">
+                                            
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="testopt" value="training" checked style="margin:0; cursor:pointer;">
+                                                <span>Full training set</span>
+                                            </label>
+
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="testopt" value="split" style="margin:0; cursor:pointer;">
+                                                <span>Percentage split:</span>
+                                                <input type="number" id="clusterSplitPercent" class="form-control" value="80" min="1" max="99" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
+                                                <span>% train,</span>
+                                                <input type="number" id="clusterTestPercent" class="form-control" value="20" disabled style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px; background:#f1f5f9; color:#64748b; border-color:#cbd5e1;">
+                                                <span>% test</span>
+                                            </label>
+
+                                        </div>
                                     </div>
                                 </div>
-
-                                <button class="btn-run-green" id="btnRun">🚀 Run Clustering</button>
+                                <button class="ml-btn" id="btnRun"> Run Clustering </button>
                             </div>
                             
                             <div class="ml-results-panel">
                                 <div id="empty-results" class="empty-state"><div class="empty-icon">📊</div><h3>No Results Yet</h3></div>
                                 <div id="resultSection" style="display:none;">
                                     
-                                    <!-- CẢI TIẾN TRẢI NGHIỆM: Đưa biểu đồ trực quan hóa (Canvas) lên trên cùng kết quả -->
-                                    <div class="result-card" id="visCard">
-                                        <div class="result-header"><h3 id="visCardTitle" style="color:var(--primary);">Cluster Visualization</h3></div>
-                                        <canvas id="scatterChart" width="800" height="350" style="width:100%; border:1px solid #e2e8f0; border-radius:6px;"></canvas>
-                                    </div>
-
-                                    <!-- Thống kê thông số học máy xếp ở giữa -->
                                     <div class="result-card" id="metricsCard" style="padding-bottom: 12px;">
                                         <div class="result-header">
                                             <h3 style="color:var(--primary);">Performance Metrics</h3>
                                             <div style="display:flex; gap:8px;">
-                                                <button id="btnExportCSV" style="background:#0891b2; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:bold;"> CSV</button>
-                                                <button id="btnExportARFF" style="background:#7c3aed; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:bold;"> ARFF</button>
+                                                <button id="btnExport" style="background:#16a34a; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:bold;"> Excel</button>
                                             </div>
                                         </div>
                                         <div class="overview-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:12px;">
@@ -375,7 +522,11 @@ class SpecialClustering extends SpecialPage {
                                         </div>
                                     </div>
 
-                                    <!-- Danh sách bảng phân nhóm xếp ở dưới cùng -->
+                                    <div class="result-card" id="visCard">
+                                        <div class="result-header"><h3 id="visCardTitle" style="color:var(--primary);">Cluster Visualization</h3></div>
+                                        <canvas id="scatterChart" width="800" height="350" style="width:100%; border:1px solid #e2e8f0; border-radius:6px;"></canvas>
+                                    </div>
+
                                     <div class="result-card" id="tableCard" style="padding:0;">
                                         <div style="padding:20px; border-bottom:1px solid var(--border);"><div id="clusterTabs" style="display:flex; gap:8px; flex-wrap:wrap;"></div></div>
                                         <div id="clusterContent" style="overflow-x:auto; padding:0 20px 20px 20px;"></div>
@@ -383,11 +534,322 @@ class SpecialClustering extends SpecialPage {
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                </main>
-            </div>
-    HTML;
+
+                    <div id="view-classification" class="view-section">
+                        <div class="ml-task-header">
+                            <span id="btn-toggle-class-config" style="cursor:pointer; padding-right: 12px; font-weight: bold; font-size: 16px; color: #4f46e5;">❮</span>
+                            <strong>Classification Task:</strong> <span id="lbl-class-algo-header"> KNN </span> &nbsp;|&nbsp; <strong>Evaluation:</strong> <span id="lbl-class-eval-header">Full training set</span>
+                        </div>
+                        <div class="ml-layout">
+                            <div class="ml-config-panel" style="width: 380px;">
+                                <div class="ml-config-tabs">
+                                    <div class="ml-config-tab active" data-panel="panel-class-algo">Algorithm</div>
+                                    <div class="ml-config-tab" data-panel="panel-class-eval">Evaluation</div>
+                                </div>
+                                
+                                <div class="ml-config-content active" id="panel-class-algo" style="text-align: left;">
+                                    <h3>Classifier Configuration</h3>
+                                    
+                                    <div class="form-group">
+                                        <label>Algorithm</label>
+                                        <select id="classAlgorithm" class="form-control">
+                                            <option value="knn" selected>KNN (K-Nearest Neighbors)</option>
+                                            <option value="decision_tree">J48 (C4.5 Decision Tree)</option>
+                                            <option value="naive_bayes">Naive Bayes</option>
+                                        </select>
+                                        <div id="class-algo-desc" class="algo-desc-box">KNN (K-Nearest Neighbors classifier).</div>
+                                    </div>
+                                    
+                                    <h4 style="margin: 24px 0 12px 0; font-size: 14px; color:var(--text-dark);">Hyperparameters</h4>
+                                    
+                                    <div class="hyperparams-grid" id="classParamGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                        
+                                        <div class="form-group" id="knnNeighborsContainer" style="margin:0;">
+                                            <label>KNN (K)</label>
+                                            <input type="number" id="knnNeighbors" class="form-control" value="1" min="1">
+                                        </div>
+
+                                        <div class="form-group" id="knnDistanceContainer" style="margin:0;">
+                                            <label>Distance Metric</label>
+                                            <select id="knnDistanceMetric" class="form-control">
+                                                <option value="EUCLIDEAN" selected>Euclidean</option>
+                                                <option value="MANHATTAN">Manhattan</option>
+                                                <option value="CHEBYSHEV">Chebyshev</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" id="knnWeightingContainer" style="margin:0; grid-column: span 2;">
+                                            <label>Distance Weighting</label>
+                                            <select id="knnDistanceWeighting" class="form-control">
+                                                <option value="NONE" selected>No distance weighting</option>
+                                                <option value="INVERSE">Weight by 1/distance</option>
+                                                <option value="SIMILARITY">Weight by 1-distance</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" id="treeConfidenceFactorContainer" style="display:none; margin:0;">
+                                            <label>Confidence Factor</label>
+                                            <input type="number" id="treeConfidenceFactor" class="form-control" value="0.25" min="0.001" max="0.5" step="0.01">
+                                        </div>
+
+                                        <div class="form-group" id="treeMinNumContainer" style="display:none; margin:0;">
+                                            <label>Min Instances per Leaf</label>
+                                            <input type="number" id="treeMinNum" class="form-control" value="2" min="1">
+                                        </div>
+
+                                        <div class="form-group" id="treeUnprunedContainer" style="display:none; margin:0; grid-column: span 2; display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox" id="treeUnpruned" style="width: 16px; height: 16px;">
+                                            <label for="treeUnpruned" style="margin:0; cursor:pointer;">Unpruned Tree</label>
+                                        </div>
+
+                                        <div class="form-group" id="nbKernelEstimatorContainer" style="display:none; margin:0; grid-column: span 2; display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox" id="nbKernelEstimator" style="width: 16px; height: 16px;">
+                                            <label for="nbKernelEstimator" style="margin:0; cursor:pointer;">Use Kernel Estimator</label>
+                                        </div>
+
+                                        <div class="form-group" id="nbSupervisedDiscretizationContainer" style="display:none; margin:0; grid-column: span 2; display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox" id="nbSupervisedDiscretization" style="width: 16px; height: 16px;">
+                                            <label for="nbSupervisedDiscretization" style="margin:0; cursor:pointer;">Use Supervised Discretization</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <label>Target Attribute (Class Label)</label>
+                                        <select id="targetLabelSelect" class="form-control">
+                                            <option value="">-- Hãy nạp dữ liệu trước --</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <label>Predictor Features</label>
+                                        <div style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; max-height: 120px; overflow-y: auto;" id="classFeaturesList">
+                                            <span style="color:#94a3b8; font-size:12px;">Vui lòng Load Data trước...</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ml-config-content" id="panel-class-eval" style="display: none; text-align: left;">
+                                    <h3>Test Options</h3>
+                                    <div class="form-group" style="margin-top: 16px;">
+                                        <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; flex-direction:column; gap:12px;">
+                                            
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="classTestopt" value="training" checked style="margin:0; cursor:pointer;">
+                                                <span>Full training set</span>
+                                            </label>
+
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="classTestopt" value="split" style="margin:0; cursor:pointer;">
+                                                <span>Percentage split:</span>
+                                                <input type="number" id="classSplitPercent" class="form-control" value="80" min="1" max="99" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
+                                                <span>% train,</span>
+                                                <input type="number" id="classTestPercent" class="form-control" value="20" disabled style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px; background:#f1f5f9; color:#64748b; border-color:#cbd5e1;">
+                                                <span>% test</span>
+                                            </label>
+
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="classTestopt" value="cv" style="margin:0; cursor:pointer;">
+                                                <span>Cross-validation</span>
+                                                <input type="number" id="classCvFolds" class="form-control" value="10" min="2" max="20" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
+                                                <span>Folds</span>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="ml-btn" id="btnRunClassification"> Run Classification </button>
+                            </div>
+                            
+                            <div class="ml-results-panel">
+                                <div id="class-empty-results" class="empty-state"><div class="empty-icon">📊</div><h3>No Results Yet</h3></div>
+                                <div id="classResultSection" style="display:none;">
+                                    
+                                    <div class="result-card" style="margin-bottom:20px;">
+                                        <div class="result-header">
+                                            <h3 style="color:var(--primary);">Performance Metrics</h3>
+                                            <div style="display:flex; gap:8px;">
+                                                <button id="btnExportClass" style="background:#16a34a; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:bold;"> Excel</button>
+                                            </div>
+                                        </div>
+                                        <table class="class-metrics-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Accuracy</th>
+                                                    <th>Precision</th>
+                                                    <th>Recall</th>
+                                                    <th>F-Measure</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="classAcc">0%</td>
+                                                    <td id="classPre">0%</td>
+                                                    <td id="classRec">0%</td>
+                                                    <td id="classF1">0%</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div class="result-card">
+                                        <div class="result-header">
+                                            <h3 style="color:var(--primary);">Classifier Errors</h3>
+                                        </div>
+                                        <canvas id="classScatterChart" width="800" height="350" style="width:100%; border:1px solid #e2e8f0; border-radius:6px;"></canvas>
+                                    </div>
+
+                                    <div class="result-card" id="decisionTreeCard" style="display:none;">
+                                        <div class="result-header">
+                                            <h3 style="color:var(--primary);">Cấu trúc Cây quyết định (Decision Tree)</h3>
+                                            <div style="display:flex; gap:8px; align-items:center;">
+                                                <span style="font-size:12px; color:#64748b;">Thu phóng:</span>
+                                                <button id="dtZoomOut" style="width:28px; height:28px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; cursor:pointer;">－</button>
+                                                <span id="dtZoomLabel" style="font-size:12px; color:#475569; min-width:40px; text-align:center;">100%</span>
+                                                <button id="dtZoomIn" style="width:28px; height:28px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; cursor:pointer;">＋</button>
+                                                <button id="dtDownload" style="margin-left:8px; background:#4f46e5; color:#fff; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">⬇️ Tải PNG</button>
+                                            </div>
+                                        </div>
+                                        <div style="font-size:12px; color:#64748b; padding:0 20px 10px;">
+                                            <span style="display:inline-flex; align-items:center; gap:4px; margin-right:16px;"><span style="width:12px;height:12px;background:#eef2ff;border:1.5px solid #6366f1;border-radius:3px;display:inline-block;"></span> Node điều kiện chia</span>
+                                            <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:12px;height:12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:3px;display:inline-block;"></span> Node lá (kết quả phân lớp)</span>
+                                        </div>
+                                        <div id="decisionTreeScrollWrap" style="width:100%; overflow:auto; border:1px solid #e2e8f0; border-radius:6px; background:#fafafa; max-height:600px;">
+                                            <canvas id="decisionTreeCanvas" style="display:block;"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <div class="result-card" style="padding:0;">
+                                        <div style="padding:20px; border-bottom:1px solid var(--border);">
+                                            <h3 style="color:var(--primary); font-size:16px;">Confusion Matrix</h3>
+                                        </div>
+                                        <div id="confusionMatrixWrap" style="overflow-x:auto; padding:20px; display:flex; justify-content:center;"></div>
+                                    </div>
+
+                                    <div class="result-card" style="padding:0;">
+                                        <div style="padding:20px; border-bottom:1px solid var(--border); font-weight:700; color:var(--text-dark);">Actual vs Predicted Instances Table</div>
+                                        <div id="classPredictionTableWrap" style="overflow-x:auto; padding:20px; max-height:400px; overflow-y:auto;"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view-regression" class="view-section">
+                        <div class="ml-task-header">
+                            <strong>Regression Task:</strong> <span id="lbl-reg-algo-header">Linear Regression</span> &nbsp;|&nbsp; <strong>Evaluation:</strong> <span id="lbl-reg-eval-header">Full training set</span>
+                        </div>
+                        <div class="ml-layout">
+                            <div class="ml-config-panel" style="width: 380px;">
+                                <div class="ml-config-tabs">
+                                    <div class="ml-config-tab active" data-panel="panel-reg-algo">Algorithm</div>
+                                    <div class="ml-config-tab" data-panel="panel-reg-eval">Evaluation</div>
+                                </div>
+                                <div class="ml-config-content active" id="panel-reg-algo" style="text-align: left;">
+                                    <h3>Regression Configuration</h3>
+                                    <div class="form-group">
+                                        <label>Algorithm</label>
+                                        <select id="regAlgorithm" class="form-control">
+                                            <option value="linear" selected>Linear Regression</option>
+                                            <option value="logistic">Logistic Regression</option>
+                                        </select>
+                                        <div id="reg-algo-desc" class="algo-desc-box">Linear Regression predicts a continuous numeric value.</div>
+                                    </div>
+
+                                    <h4 style="margin: 24px 0 12px 0; font-size: 14px; color:var(--text-dark);">Hyperparameters</h4>
+
+                                    <div id="lrRegParamsContainer" style="display:none;">
+                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:8px;">
+                                            <div class="form-group" style="margin:0;">
+                                                <label>Learning Rate</label>
+                                                <input type="number" id="regLrRate" class="form-control" value="0.1" min="0.001" max="1" step="0.01">
+                                            </div>
+                                            <div class="form-group" style="margin:0;">
+                                                <label>Epochs</label>
+                                                <input type="number" id="regLrEpochs" class="form-control" value="500" min="10" max="10000" step="10">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top:8px;">
+                                        <label>Target Attribute</label>
+                                        <select id="regTargetSelect" class="form-control"></select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label style="font-weight: 600; color: #1e293b; margin-bottom: 6px; display: block;">Attribute Index</label>
+                                        <input type="number" id="regAttrIndex" class="form-control" value="-1" style="border-radius: 8px;">
+                                        <span class="hint" style="font-size: 12px; color: #64748b; margin-top: 6px; display: block;">
+                                            Attribute index to use (-1 for auto-select best)
+                                        </span>
+                                    </div>
+                                    <div class="form-group" style="margin-top:8px;">
+                                        <label>Predictor Features (auto from index)</label>
+                                        <div style="border:1px solid #e2e8f0; border-radius:6px; padding:10px; max-height:120px; overflow-y:auto; background:#f8fafc;" id="regFeaturesList">
+                                            <span style="color:#94a3b8; font-size:12px;">Vui lòng Load Data trước...</span>
+                                        </div>
+                                        <div id="regAttrIndexSummary" style="font-size:11px; color:#64748b; margin-top:4px;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="ml-config-content" id="panel-reg-eval" style="display: none; text-align: left;">
+                                    <h3>Test Options</h3>
+                                    <div class="form-group" style="margin-top: 16px;">
+                                        <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; flex-direction:column; gap:12px;">
+                                            
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="regTestopt" value="training" checked style="margin:0; cursor:pointer;">
+                                                <span>Full training set</span>
+                                            </label>
+
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="regTestopt" value="split" style="margin:0; cursor:pointer;">
+                                                <span>Percentage split:</span>
+                                                <input type="number" id="regSplitPercent" class="form-control" value="80" min="1" max="99" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
+                                                <span>% train,</span>
+                                                <input type="number" id="regTestPercent" class="form-control" value="20" disabled style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px; background:#f1f5f9; color:#64748b; border-color:#cbd5e1;">
+                                                <span>% test</span>
+                                            </label>
+
+                                            <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
+                                                <input type="radio" name="regTestopt" value="cv" style="margin:0; cursor:pointer;">
+                                                <span>Cross-validation</span>
+                                                <input type="number" id="regCvFolds" class="form-control" value="10" min="2" max="20" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
+                                                <span>Folds</span>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="ml-btn" id="btnRunRegression">Run Regression</button>
+                            </div>
+                            <div class="ml-results-panel">
+                                <div id="reg-empty-results" class="empty-state"><div class="empty-icon">📈</div><h3>No Results Yet</h3></div>
+                                <div id="regResultSection" style="display:none;">
+                                    <div class="result-card" style="margin-bottom:20px;">
+                                        <div class="result-header">
+                                            <h3 style="color:var(--primary);">Performance Metrics</h3>
+                                        </div>
+                                        <div id="regMetrics"></div>
+                                    </div>
+                                    <div class="result-card">
+                                        <div class="result-header">
+                                            <h3 style="color:var(--primary);">Actual vs Predicted Plot</h3>
+                                        </div>
+                                        <canvas id="regScatterChart" width="800" height="350" style="width:100%; border:1px solid #e2e8f0; border-radius:6px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+HTML;
     }
+
     protected function getGroupName() { return 'wiki'; }
 }

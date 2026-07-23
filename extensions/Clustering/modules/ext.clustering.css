@@ -499,7 +499,7 @@
 #btnApplyFilter {
     margin-top: 16px;
     width: 100%;
-    background-color: var(--warning);
+    background-color: var(--primary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -509,7 +509,7 @@
 }
 
 #btnApplyFilter:hover {
-    background-color: var(--warning-hover);
+    background-color: var(--primary-hover);
 }
 
 /* =====================================================================
@@ -684,4 +684,158 @@
 
 .btn-alert-action:hover {
     opacity: 0.7;
+}
+
+.wikicrop-action-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.wikicrop-btn {
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, .2);
+    transition: all .2s ease;
+}
+
+.wikicrop-btn:hover {
+    background: #4338ca;
+}
+
+.wikicrop-btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.wikicrop-btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+.class-metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    background: #fff;
+    margin-bottom: 15px;
+}
+
+.class-metrics-table th {
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+}
+
+.class-metrics-table td {
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.class-metrics-table #classAcc {
+    color: #10b981;
+}
+
+.class-metrics-table #classPre {
+    color: #3b82f6;
+}
+
+.class-metrics-table #classRec {
+    color: #f59e0b;
+}
+
+.class-metrics-table #classF1 {
+    color: #ec4899;
+}
+
+/* Hệ thống nút bấm đồng bộ màu xanh dương chủ đạo của WikiCrop */
+.ml-btn {
+    display: flex;
+    /* Chuyển từ inline-flex sang flex để kiểm soát dòng */
+    width: 100%;
+    /* Ép nút kéo giãn 100% chiều rộng khung bảng điều khiển */
+    justify-content: center;
+    /* Căn giữ chữ và icon theo chiều ngang */
+    align-items: center;
+    /* Căn giữa chữ theo chiều dọc */
+    padding: 14px 24px;
+    /* Tăng độ cao padding lên 14px giống hệt nút cũ */
+    border-radius: 6px;
+    font-size: 15px;
+    /* Cỡ chữ 15px chuẩn dễ đọc */
+    font-weight: 700;
+    /* Chữ đậm chắc chắn giống thiết kế nguyên bản */
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.15);
+}
+
+.ml-btn:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 12px -1px rgba(79, 70, 229, 0.25);
+    transform: translateY(-1px);
+}
+
+.ml-btn:active {
+    transform: translateY(0);
+}
+
+/* =====================================================================
+   BẢNG MA TRẬN NHẦM LẪN (CONFUSION MATRIX TABLE)
+   ===================================================================== */
+.confusion-matrix-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 13px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.confusion-matrix-table th,
+.confusion-matrix-table td {
+    padding: 10px 18px;
+    text-align: center;
+    border: 1px solid var(--border);
+    min-width: 80px;
+}
+
+.confusion-matrix-table th {
+    background: #f8fafc;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Tùy chỉnh thanh cuộn hiện đại cho toàn ứng dụng */
+#clustering-app ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#clustering-app ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+#clustering-app ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+#clustering-app ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
