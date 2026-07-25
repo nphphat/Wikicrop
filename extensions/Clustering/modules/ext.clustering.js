@@ -88,7 +88,140 @@ function showAppMessage(title, text, type = 'info') {
     });
 }
 
+
+/* Chuyển đổi Cây quyết định J48 sang dạng danh sách cấp độ Wikitext (*, **, ***) */
+// function buildDecisionTreeWikitext(node, level) {
+//     if (!node) return "";
+//     var indent = "*".repeat(level || 1);
+//     if (node.isLeaf) {
+//         return indent + " '''Kết quả (Lá):''' " + node.label + " (Mẫu đúng: " + (node.size - node.errors) + "/" + node.size + ")\n";
+//     }
+//     var text = indent + " '''Xét thuộc tính " + node.feature + "''':\n";
+//     if (node.children) {
+//         Object.keys(node.children).forEach(function (key) {
+//             var branchLabel = (node.threshold !== null)
+//                 ? ((key === 'left') ? ("≤ " + Number(node.threshold).toFixed(3)) : ("> " + Number(node.threshold).toFixed(3)))
+//                 : key;
+//             var childIndent = "*".repeat((level || 1) + 1);
+//             text += childIndent + " Điều kiện [" + branchLabel + "]:\n";
+//             text += buildDecisionTreeWikitext(node.children[key], (level || 1) + 2);
+//         });
+//     }
+//     return text;
+// }
+
+/* Chuyển đổi Cây phân cấp Hierarchical Dendrogram sang dạng danh sách cấp độ Wikitext (*, **, ***) */
+// function buildHierarchicalWikitext(node, level) {
+//     if (!node) return "";
+//     var indent = "*".repeat(level || 1);
+//     if (!node.children) {
+//         var orig = parsedData.find(function(x) { return x._originalId === node.points[0]._originalId; });
+//         var label = (orig && orig.name) ? orig.name : ("Mẫu #" + node.id);
+//         return indent + " 🍃 " + label + "\n";
+//     }
+//     var text = indent + " 🌲 Nhóm gộp (Khoảng cách: " + Number(node.height).toFixed(4) + "):\n";
+//     text += buildHierarchicalWikitext(node.children[0], (level || 1) + 1);
+//     text += buildHierarchicalWikitext(node.children[1], (level || 1) + 1);
+//     return text;
+// }
+
+
 /* Sinh nội dung Wikitext định dạng bảng từ kết quả Clustering/Classification để nối vào cuối bài viết */
+// function buildResultWikitext() {
+//     var state = currentClusteringState;
+//     var now = new Date();
+//     var ts = now.toLocaleString('vi-VN');
+//     var algoNames = {
+//         kmeans: 'K-Means', hierarchical: 'Hierarchical Clustering',
+//         em: 'Expectation-Maximization (EM)', clara: 'CLARA',
+//         knn: 'KNN (K-Nearest Neighbors)', decision_tree: 'J48 (C4.5 Decision Tree)',
+//         naive_bayes: 'Naive Bayes', linear: 'Linear Regression', logistic: 'Logistic Regression'
+//     };
+//     var algoLabel = algoNames[state.algorithm] || state.algorithm;
+//     var wikitext = "\n\n== Kết quả phân tích Machine Learning (WikiCrop AI) ==\n";
+//     wikitext += "''Tự động cập nhật lúc " + ts + " — Tệp dữ liệu: " + (state.dataset || 'N/A') + "''\n\n";
+
+//     if (state.type === 'classification') {
+//         var r = state.resultData || {};
+//         wikitext += "=== Phân lớp (Classification): " + algoLabel + " ===\n";
+//         wikitext += "Nhãn mục tiêu (Target): '''" + (r.targetLabel || '--') + "'''\n\n";
+//         wikitext += '{| class="wikitable"\n|-\n! Chỉ số !! Giá trị\n';
+//         wikitext += "|-\n| Accuracy || " + r.accuracy + " %\n";
+//         wikitext += "|-\n| Precision || " + r.precision + " %\n";
+//         wikitext += "|-\n| Recall || " + r.recall + " %\n";
+//         wikitext += "|-\n| F-Measure || " + r.f1 + " %\n";
+//         wikitext += "|-\n| Số mẫu kiểm thử || " + r.instances + "\n";
+//         wikitext += "|}\n\n";
+
+//         if (r.uniqueClasses && r.confusionMatrix) {
+//             wikitext += "'''Ma trận nhầm lẫn (Confusion Matrix):'''\n";
+//             wikitext += '{| class="wikitable"\n|-\n! Thực tế \\ Dự đoán';
+//             r.uniqueClasses.forEach(function (c) { wikitext += ' !! ' + c; });
+//             wikitext += '\n';
+//             r.uniqueClasses.forEach(function (actC, i) {
+//                 wikitext += '|-\n| ' + actC;
+//                 r.uniqueClasses.forEach(function (predC, j) {
+//                     var cell = (r.confusionMatrix[i] && r.confusionMatrix[i][j] !== undefined) ? r.confusionMatrix[i][j] : 0;
+//                     wikitext += ' || ' + cell;
+//                 });
+//                 wikitext += '\n';
+//             });
+//             wikitext += '|}\n';
+//         }
+
+
+//         // 🟢 BỔ SUNG: Nối sơ đồ Cây quyết định vào bài viết
+//         if (state.algorithm === 'decision_tree' && r.treeStructure) {
+//             wikitext += "\n'''Sơ đồ phân nhánh Cây quyết định (Decision Tree Rules):'''\n";
+//             wikitext += buildDecisionTreeWikitext(r.treeStructure, 1) + "\n";
+//         }
+
+
+//     } else if (state.type === 'regression') {
+//         // BẢNG WIKITEXT CHO HỒI QUY
+//         var rReg = state.resultData || {};
+//         wikitext += "=== Hồi quy (Regression): " + algoLabel + " ===\n";
+//         wikitext += "Thuộc tính mục tiêu (Target): '''" + (rReg.targetAttr || '--') + "'''\n\n";
+//         wikitext += '{| class="wikitable"\n|-\n! Chỉ số !! Giá trị\n';
+//         if (rReg.mae !== undefined) wikitext += "|-\n| MAE || " + rReg.mae + "\n";
+//         if (rReg.rmse !== undefined) wikitext += "|-\n| RMSE || " + rReg.rmse + "\n";
+//         if (rReg.r2 !== undefined) wikitext += "|-\n| R² || " + rReg.r2 + "\n";
+//         if (rReg.rae !== undefined) wikitext += "|-\n| RAE || " + rReg.rae + " %\n";
+//         if (rReg.rrse !== undefined) wikitext += "|-\n| RRSE || " + rReg.rrse + " %\n";
+//         wikitext += "|-\n| Số mẫu kiểm thử || " + (rReg.instances || '--') + "\n";
+//         wikitext += "|}\n";
+//     } else if (state.algorithm === 'hierarchical') {
+//         var r3 = state.resultData || {};
+//         var linkageNames = { SINGLE: 'Single Link', COMPLETE: 'Complete Link', AVERAGE: 'Average Link (UPGMA)' };
+//         var linkageLabel = linkageNames[r3.linkage] || r3.linkage || '--';
+//         var rootHeight = (r3.tree && typeof r3.tree.height === 'number') ? r3.tree.height.toFixed(4) : '--';
+//         wikitext += "=== Gom cụm phân cấp (Hierarchical Clustering) ===\n";
+//         wikitext += '{| class="wikitable"\n|-\n! Chỉ số !! Giá trị\n';
+//         wikitext += "|-\n| Phương pháp liên kết (Linkage) || " + linkageLabel + "\n";
+//         wikitext += "|-\n| Số mẫu (Instances) || " + (r3.instances !== undefined ? r3.instances : '--') + "\n";
+//         wikitext += "|-\n| Khoảng cách gộp gốc (Root Merge Height) || " + rootHeight + "\n";
+//         wikitext += "|}\n\n";
+//         wikitext += "''Ghi chú: Kết quả đầy đủ dưới dạng sơ đồ cây (Dendrogram) được hiển thị trực tiếp trên giao diện WikiCrop, không thể biểu diễn trọn vẹn dạng bảng văn bản.''\n";
+
+
+//         // 🟢 BỔ SUNG: Nối sơ đồ Cây phân cấp vào bài viết
+//         if (r3.tree) {
+//             wikitext += "'''Sơ đồ cây gom cụm phân cấp (Dendrogram Hierarchy):'''\n";
+//             wikitext += buildHierarchicalWikitext(r3.tree, 1) + "\n";
+//         }
+
+//     } else {
+//         var r2 = state.resultData || {};
+//         wikitext += "=== Gom cụm (Clustering): " + algoLabel + " ===\n";
+//         wikitext += '{| class="wikitable"\n|-\n! Chỉ số !! Giá trị\n';
+//         wikitext += "|-\n| Số cụm (Clusters) || " + (r2.evalK !== undefined ? r2.evalK : '--') + "\n";
+//         wikitext += "|-\n| Số mẫu (Instances) || " + (r2.evalInstances !== undefined ? r2.evalInstances : '--') + "\n";
+//         wikitext += "|-\n| SSE || " + (r2.evalSSE !== undefined ? r2.evalSSE : '--') + "\n";
+//         wikitext += "|}\n";
+//     }
+//     return wikitext;
+// }
+
 function buildResultWikitext() {
     var state = currentClusteringState;
     var now = new Date();
@@ -100,7 +233,7 @@ function buildResultWikitext() {
         naive_bayes: 'Naive Bayes', linear: 'Linear Regression', logistic: 'Logistic Regression'
     };
     var algoLabel = algoNames[state.algorithm] || state.algorithm;
-    var wikitext = "\n\n== Kết quả phân tích Machine Learning (WikiCrop AI) ==\n";
+    var wikitext = "\n\n== Kết quả phân tích ML Task(Wikicrop)==\n";
     wikitext += "''Tự động cập nhật lúc " + ts + " — Tệp dữ liệu: " + (state.dataset || 'N/A') + "''\n\n";
 
     if (state.type === 'classification') {
@@ -130,8 +263,9 @@ function buildResultWikitext() {
             });
             wikitext += '|}\n';
         }
+        // 🟢 ĐÃ XÓA PHẦN TẠO DANH SÁCH THỤT LỀ CHỮ CHO CÂY QUYẾT ĐỊNH
+
     } else if (state.type === 'regression') {
-        // BẢNG WIKITEXT CHO HỒI QUY
         var rReg = state.resultData || {};
         wikitext += "=== Hồi quy (Regression): " + algoLabel + " ===\n";
         wikitext += "Thuộc tính mục tiêu (Target): '''" + (rReg.targetAttr || '--') + "'''\n\n";
@@ -145,7 +279,7 @@ function buildResultWikitext() {
         wikitext += "|}\n";
     } else if (state.algorithm === 'hierarchical') {
         var r3 = state.resultData || {};
-        var linkageNames = { SINGLE: 'Single Link', COMPLETE: 'Complete Link', AVERAGE: 'Average Link (UPGMA)' };
+        var linkageNames = { SINGLE: 'Single Link', COMPLETE: 'Complete Link', AVERAGE: 'Average Link' };
         var linkageLabel = linkageNames[r3.linkage] || r3.linkage || '--';
         var rootHeight = (r3.tree && typeof r3.tree.height === 'number') ? r3.tree.height.toFixed(4) : '--';
         wikitext += "=== Gom cụm phân cấp (Hierarchical Clustering) ===\n";
@@ -153,8 +287,9 @@ function buildResultWikitext() {
         wikitext += "|-\n| Phương pháp liên kết (Linkage) || " + linkageLabel + "\n";
         wikitext += "|-\n| Số mẫu (Instances) || " + (r3.instances !== undefined ? r3.instances : '--') + "\n";
         wikitext += "|-\n| Khoảng cách gộp gốc (Root Merge Height) || " + rootHeight + "\n";
-        wikitext += "|}\n\n";
-        wikitext += "''Ghi chú: Kết quả đầy đủ dưới dạng sơ đồ cây (Dendrogram) được hiển thị trực tiếp trên giao diện WikiCrop, không thể biểu diễn trọn vẹn dạng bảng văn bản.''\n";
+        wikitext += "|}\n";
+        // 🟢 ĐÃ XÓA PHẦN TẠO DANH SÁCH THỤT LỀ CHỮ CHO CÂY PHÂN CẤP
+
     } else {
         var r2 = state.resultData || {};
         wikitext += "=== Gom cụm (Clustering): " + algoLabel + " ===\n";
@@ -1397,6 +1532,436 @@ class DecisionTree {
         return ent;
     }
 
+    // buildTree(data, activeFeatures) {
+    //     if (!data || data.length === 0) {
+    //         return { isLeaf: true, label: 'Unknown', size: 0, errors: 0, counts: {} };
+    //     }
+
+    //     let counts = {};
+    //     data.forEach(d => { counts[d[this.target]] = (counts[d[this.target]] || 0) + 1; });
+
+    //     let maxCount = -1, majorityClass = null;
+    //     let uniqueClassesInData = Object.keys(counts).sort();
+
+    //     uniqueClassesInData.forEach(k => {
+    //         if (counts[k] > maxCount) {
+    //             maxCount = counts[k];
+    //             majorityClass = k;
+    //         }
+    //     });
+
+    //     if (uniqueClassesInData.length === 1 || data.length < 2 * this.minNum || activeFeatures.length === 0) {
+    //         return {
+    //             isLeaf: true,
+    //             label: majorityClass,
+    //             size: data.length,
+    //             errors: data.length - maxCount,
+    //             localData: data,
+    //             counts: counts
+    //         };
+    //     }
+
+    //     let candidateSplits = [];
+    //     let totalGain = 0;
+    //     let validSplitCount = 0;
+
+    //     activeFeatures.forEach(f => {
+    //         let isNumeric = isColumnNumeric(data, f);
+    //         if (isNumeric) {
+    //             let nonMissing = data.filter(d => typeof parseFloat(d[f]) === 'number' && !isNaN(parseFloat(d[f])) && d[f] !== undefined && d[f] !== null && d[f] !== '');
+    //             let missingRows = data.filter(d => !(d[f] !== undefined && d[f] !== null && d[f] !== '' && !isNaN(parseFloat(d[f]))));
+    //             let missingRatio = data.length > 0 ? nonMissing.length / data.length : 1;
+
+    //             // let numClasses = (this.classes && this.classes.length) ? this.classes.length : 2;
+    //             // let minSplit = 0.1 * nonMissing.length / numClasses;
+    //             // if (minSplit <= this.minNum) minSplit = this.minNum;
+    //             // else if (minSplit > 25) minSplit = 25;
+
+    //             // if (nonMissing.length < 2 * minSplit) return;
+
+    //             // 🟢 ĐÃ SỬA: Dùng đúng chuẩn minNum của Weka (mặc định = 2), không tự cộng dồn lên 25
+    //             let minSplit = this.minNum;
+
+    //             if (nonMissing.length < 2 * minSplit) return;
+
+    //             let sorted = [...nonMissing].sort((a, b) => parseFloat(a[f]) - parseFloat(b[f]));
+    //             let baseEntNonMissing = this.entropy(nonMissing);
+
+
+    //             // 🟢 1. Đếm số điểm cắt theo chuẩn C45Split Weka
+    //             let numCutPoints = 0;
+    //             for (let i = 0; i < sorted.length - 1; i++) {
+    //                 let v1 = parseFloat(sorted[i][f]);
+    //                 let v2 = parseFloat(sorted[i + 1][f]);
+    //                 if (v1 < v2 && sorted[i][this.target] !== sorted[i + 1][this.target]) {
+    //                     numCutPoints++;
+    //                 }
+    //             }
+
+    //             if (numCutPoints === 0) return;
+    //             let mdlPenalty = Math.log2(numCutPoints) / data.length;
+
+    //             let bestGain = -Infinity;
+    //             let bestThreshold = null;
+    //             let bestSplitInfo = 0;
+    //             let bestSplitsObj = null;
+
+    //             // let bestGain = -1;
+    //             // let bestThreshold = null;
+    //             // let bestSplitInfo = 0;
+    //             // let bestSplitsObj = null;
+
+    //             let leftCounts = {}, rightCounts = {};
+    //             nonMissing.forEach(d => { rightCounts[d[this.target]] = (rightCounts[d[this.target]] || 0) + 1; });
+
+    //             let leftSize = 0, rightSize = nonMissing.length;
+    //             // let evaluatedSplitCount = 0;
+
+    //             for (let i = 0; i < sorted.length - 1; i++) {
+    //                 let currentClass = sorted[i][this.target];
+    //                 leftCounts[currentClass] = (leftCounts[currentClass] || 0) + 1;
+    //                 rightCounts[currentClass] = (rightCounts[currentClass] || 0) - 1;
+    //                 leftSize++;
+    //                 rightSize--;
+
+    //                 let v1 = parseFloat(sorted[i][f]);
+    //                 let v2 = parseFloat(sorted[i + 1][f]);
+
+    //                 if (v1 + 1e-5 >= v2) continue;
+    //                 if (leftSize < minSplit || rightSize < minSplit) continue;
+
+    //                 // 🟢 FIX 2: CHUẨN C45Split.java WEKA — Chỉ tăng biến đếm điểm cắt khi NHÃN LỚP KHÁC NHAU
+    //                 if (sorted[i][this.target] !== sorted[i + 1][this.target]) {
+    //                     evaluatedSplitCount++;
+    //                 }
+
+    //                 // evaluatedSplitCount++;
+
+    //                 let thresholdMid = (v1 + v2) / 2;
+
+    //                 let leftEnt = 0;
+    //                 for (let c in leftCounts) {
+    //                     let p = leftCounts[c] / leftSize;
+    //                     if (p > 0) leftEnt -= p * Math.log2(p);
+    //                 }
+
+    //                 let rightEnt = 0;
+    //                 for (let c in rightCounts) {
+    //                     let p = rightCounts[c] / rightSize;
+    //                     if (p > 0) rightEnt -= p * Math.log2(p);
+    //                 }
+
+    //                 let subsetEnt = (leftSize / nonMissing.length) * leftEnt + (rightSize / nonMissing.length) * rightEnt;
+    //                 let gain = (baseEntNonMissing - subsetEnt) * missingRatio;
+
+    //                 if (gain > bestGain) {
+    //                     bestGain = gain;
+    //                     bestThreshold = thresholdMid;
+    //                     bestSplitInfo = - (leftSize / nonMissing.length) * Math.log2(leftSize / nonMissing.length) - (rightSize / nonMissing.length) * Math.log2(rightSize / nonMissing.length);
+
+    //                     let leftFinal = nonMissing.filter(d => parseFloat(d[f]) <= bestThreshold);
+    //                     let rightFinal = nonMissing.filter(d => parseFloat(d[f]) > bestThreshold);
+    //                     if (missingRows.length > 0) {
+    //                         if (leftFinal.length >= rightFinal.length) leftFinal = leftFinal.concat(missingRows);
+    //                         else rightFinal = rightFinal.concat(missingRows);
+    //                     }
+    //                     bestSplitsObj = { left: leftFinal, right: rightFinal };
+    //                 }
+    //             }
+
+    //             if (evaluatedSplitCount === 0) return;
+
+    //             bestGain = bestGain - (Math.log2(evaluatedSplitCount) / data.length);
+
+    //             if (bestGain > 0) {
+    //                 let bestGainRatio = bestSplitInfo > 0 ? bestGain / bestSplitInfo : 0;
+    //                 candidateSplits.push({ feature: f, gain: bestGain, gainRatio: bestGainRatio, threshold: bestThreshold, splits: bestSplitsObj });
+    //                 totalGain += bestGain;
+    //                 validSplitCount++;
+    //             }
+    //         } else {
+    //             let nonMissing = data.filter(d => d[f] !== undefined && d[f] !== null && d[f] !== '');
+    //             let missingRows = data.filter(d => !(d[f] !== undefined && d[f] !== null && d[f] !== ''));
+    //             let missingRatio = data.length > 0 ? nonMissing.length / data.length : 1;
+
+    //             let values = [...new Set(nonMissing.map(d => d[f]))];
+    //             if (values.length < 2) return;
+    //             let splits = values.map(v => nonMissing.filter(d => d[f] === v));
+    //             let validBranches = splits.filter(s => s.length >= this.minNum).length;
+    //             if (validBranches < 2) return;
+
+    //             let subsetEnt = splits.reduce((sum, s) => sum + (s.length / nonMissing.length) * this.entropy(s), 0);
+    //             let gain = (this.entropy(nonMissing) - subsetEnt) * missingRatio;
+    //             let splitInfo = splits.reduce((sum, s) => sum - (s.length / nonMissing.length) * Math.log2(s.length / nonMissing.length), 0);
+    //             let gainRatio = splitInfo > 0 ? gain / splitInfo : 0;
+    //             if (gainRatio > 0) {
+    //                 if (missingRows.length > 0) {
+    //                     let maxIdx = 0, maxSize = -1;
+    //                     splits.forEach((s, idx) => { if (s.length > maxSize) { maxSize = s.length; maxIdx = idx; } });
+    //                     splits[maxIdx] = splits[maxIdx].concat(missingRows);
+    //                 }
+    //                 let splitsObj = {};
+    //                 values.forEach((v, idx) => { splitsObj[v] = splits[idx]; });
+    //                 candidateSplits.push({ feature: f, gain: gain, gainRatio: gainRatio, threshold: null, splits: splitsObj });
+    //                 totalGain += gain;
+    //                 validSplitCount++;
+    //             }
+    //         }
+    //     });
+
+    //     if (validSplitCount === 0 || candidateSplits.length === 0) {
+    //         return { isLeaf: true, label: majorityClass, size: data.length, errors: data.length - maxCount, localData: data, counts: counts };
+    //     }
+
+    //     let avgGain = totalGain / validSplitCount;
+    //     let filteredSplits = candidateSplits.filter(s => s.gain >= avgGain - 1e-3);
+    //     if (filteredSplits.length === 0) filteredSplits = candidateSplits;
+
+    //     let bestSplit = filteredSplits[0];
+    //     for (let i = 1; i < filteredSplits.length; i++) {
+    //         if (filteredSplits[i].gainRatio > bestSplit.gainRatio) {
+    //             bestSplit = filteredSplits[i];
+    //         }
+    //     }
+
+    //     let finalThreshold = bestSplit.threshold;
+
+    //     // if (finalThreshold !== null) {
+    //     //     let maxActual = -Infinity;
+    //     //     data.forEach(row => {
+    //     //         let val = parseFloat(row[bestSplit.feature]);
+    //     //         if (!isNaN(val) && val <= bestSplit.threshold && val > maxActual) {
+    //     //             maxActual = val;
+    //     //         }
+    //     //     });
+    //     //     if (maxActual !== -Infinity) {
+    //     //         finalThreshold = maxActual;
+    //     //     }
+    //     // }
+
+    //     let node = {
+    //         isLeaf: false,
+    //         feature: bestSplit.feature,
+    //         threshold: finalThreshold,
+    //         majorityClass: majorityClass,
+    //         size: data.length,
+    //         errors: data.length - maxCount,
+    //         children: {},
+    //         localData: data,
+    //         counts: counts
+    //     };
+
+    //     let nextFeatures = activeFeatures.filter(f => f !== bestSplit.feature);
+    //     if (bestSplit.threshold !== null) {
+    //         let leftData = data.filter(d => parseFloat(d[bestSplit.feature]) <= finalThreshold);
+    //         let rightData = data.filter(d => parseFloat(d[bestSplit.feature]) > finalThreshold);
+    //         node.children['left'] = this.buildTree(leftData, activeFeatures);
+    //         node.children['right'] = this.buildTree(rightData, activeFeatures);
+    //     } else {
+    //         for (let v in bestSplit.splits) {
+    //             node.children[v] = this.buildTree(bestSplit.splits[v], nextFeatures);
+    //         }
+    //     }
+    //     return node;
+    // }
+
+
+    // buildTree(data, activeFeatures) {
+    //     if (!data || data.length === 0) {
+    //         return { isLeaf: true, label: 'Unknown', size: 0, errors: 0, counts: {} };
+    //     }
+
+    //     let counts = {};
+    //     data.forEach(d => { counts[d[this.target]] = (counts[d[this.target]] || 0) + 1; });
+
+    //     let maxCount = -1, majorityClass = null;
+    //     let uniqueClassesInData = Object.keys(counts).sort();
+
+    //     uniqueClassesInData.forEach(k => {
+    //         if (counts[k] > maxCount) {
+    //             maxCount = counts[k];
+    //             majorityClass = k;
+    //         }
+    //     });
+
+    //     if (uniqueClassesInData.length === 1 || data.length < 2 * this.minNum || activeFeatures.length === 0) {
+    //         return {
+    //             isLeaf: true,
+    //             label: majorityClass,
+    //             size: data.length,
+    //             errors: data.length - maxCount,
+    //             localData: data,
+    //             counts: counts
+    //         };
+    //     }
+
+    //     let candidateSplits = [];
+    //     let totalGain = 0;
+
+    //     activeFeatures.forEach(f => {
+    //         let isNumeric = isColumnNumeric(data, f);
+    //         if (isNumeric) {
+    //             let nonMissing = data.filter(d => typeof parseFloat(d[f]) === 'number' && !isNaN(parseFloat(d[f])) && d[f] !== undefined && d[f] !== null && d[f] !== '');
+    //             let missingRows = data.filter(d => !(d[f] !== undefined && d[f] !== null && d[f] !== '' && !isNaN(parseFloat(d[f]))));
+    //             let missingRatio = data.length > 0 ? nonMissing.length / data.length : 1;
+
+    //             let minSplit = this.minNum;
+    //             if (nonMissing.length < 2 * minSplit) return;
+
+    //             let sorted = [...nonMissing].sort((a, b) => parseFloat(a[f]) - parseFloat(b[f]));
+    //             let baseEntNonMissing = this.entropy(nonMissing);
+
+    //             // 🟢 1. Đếm số điểm cắt theo chuẩn C45Split Weka
+    //             let numCutPoints = 0;
+    //             for (let i = 0; i < sorted.length - 1; i++) {
+    //                 let v1 = parseFloat(sorted[i][f]);
+    //                 let v2 = parseFloat(sorted[i + 1][f]);
+    //                 if (v1 < v2 && sorted[i][this.target] !== sorted[i + 1][this.target]) {
+    //                     numCutPoints++;
+    //                 }
+    //             }
+
+    //             if (numCutPoints === 0) return;
+    //             let mdlPenalty = Math.log2(numCutPoints) / data.length;
+
+    //             let bestGain = -Infinity;
+    //             let bestThreshold = null;
+    //             let bestSplitInfo = 0;
+    //             let bestSplitsObj = null;
+
+    //             let leftCounts = {}, rightCounts = {};
+    //             nonMissing.forEach(d => { rightCounts[d[this.target]] = (rightCounts[d[this.target]] || 0) + 1; });
+
+    //             let leftSize = 0, rightSize = nonMissing.length;
+
+    //             for (let i = 0; i < sorted.length - 1; i++) {
+    //                 let currentClass = sorted[i][this.target];
+    //                 leftCounts[currentClass] = (leftCounts[currentClass] || 0) + 1;
+    //                 rightCounts[currentClass] = (rightCounts[currentClass] || 0) - 1;
+    //                 leftSize++;
+    //                 rightSize--;
+
+    //                 let v1 = parseFloat(sorted[i][f]);
+    //                 let v2 = parseFloat(sorted[i + 1][f]);
+
+    //                 if (v1 >= v2 || Math.abs(v2 - v1) < 1e-9) continue;
+    //                 if (leftSize < minSplit || rightSize < minSplit) continue;
+
+    //                 let thresholdMid = (v1 + v2) / 2;
+
+    //                 let leftEnt = 0;
+    //                 for (let c in leftCounts) {
+    //                     let p = leftCounts[c] / leftSize;
+    //                     if (p > 0) leftEnt -= p * Math.log2(p);
+    //                 }
+
+    //                 let rightEnt = 0;
+    //                 for (let c in rightCounts) {
+    //                     let p = rightCounts[c] / rightSize;
+    //                     if (p > 0) rightEnt -= p * Math.log2(p);
+    //                 }
+
+    //                 let subsetEnt = (leftSize / nonMissing.length) * leftEnt + (rightSize / nonMissing.length) * rightEnt;
+                    
+    //                 // 🟢 2. Trừ phạt MDL chuẩn Weka
+    //                 let gain = (baseEntNonMissing - subsetEnt) * missingRatio - mdlPenalty;
+
+    //                 if (gain > bestGain) {
+    //                     bestGain = gain;
+    //                     bestThreshold = thresholdMid;
+    //                     let pL = leftSize / nonMissing.length;
+    //                     let pR = rightSize / nonMissing.length;
+    //                     bestSplitInfo = - pL * Math.log2(pL) - pR * Math.log2(pR);
+
+    //                     let leftFinal = nonMissing.filter(d => parseFloat(d[f]) <= bestThreshold);
+    //                     let rightFinal = nonMissing.filter(d => parseFloat(d[f]) > bestThreshold);
+    //                     if (missingRows.length > 0) {
+    //                         if (leftFinal.length >= rightFinal.length) leftFinal = leftFinal.concat(missingRows);
+    //                         else rightFinal = rightFinal.concat(missingRows);
+    //                     }
+    //                     bestSplitsObj = { left: leftFinal, right: rightFinal };
+    //                 }
+    //             }
+
+    //             if (bestGain > 1e-3) {
+    //                 let bestGainRatio = bestSplitInfo > 0 ? bestGain / bestSplitInfo : 0;
+    //                 candidateSplits.push({ feature: f, gain: bestGain, gainRatio: bestGainRatio, threshold: bestThreshold, splits: bestSplitsObj });
+    //                 totalGain += bestGain;
+    //             }
+    //         } else {
+    //             let nonMissing = data.filter(d => d[f] !== undefined && d[f] !== null && d[f] !== '');
+    //             let missingRows = data.filter(d => !(d[f] !== undefined && d[f] !== null && d[f] !== ''));
+    //             let missingRatio = data.length > 0 ? nonMissing.length / data.length : 1;
+
+    //             let values = [...new Set(nonMissing.map(d => d[f]))];
+    //             if (values.length < 2) return;
+    //             let splits = values.map(v => nonMissing.filter(d => d[f] === v));
+    //             let validBranches = splits.filter(s => s.length >= this.minNum).length;
+    //             if (validBranches < 2) return;
+
+    //             let subsetEnt = splits.reduce((sum, s) => sum + (s.length / nonMissing.length) * this.entropy(s), 0);
+    //             let gain = (this.entropy(nonMissing) - subsetEnt) * missingRatio;
+    //             let splitInfo = splits.reduce((sum, s) => sum - (s.length / nonMissing.length) * Math.log2(s.length / nonMissing.length), 0);
+    //             let gainRatio = splitInfo > 0 ? gain / splitInfo : 0;
+    //             if (gainRatio > 0) {
+    //                 if (missingRows.length > 0) {
+    //                     let maxIdx = 0, maxSize = -1;
+    //                     splits.forEach((s, idx) => { if (s.length > maxSize) { maxSize = s.length; maxIdx = idx; } });
+    //                     splits[maxIdx] = splits[maxIdx].concat(missingRows);
+    //                 }
+    //                 let splitsObj = {};
+    //                 values.forEach((v, idx) => { splitsObj[v] = splits[idx]; });
+    //                 candidateSplits.push({ feature: f, gain: gain, gainRatio: gainRatio, threshold: null, splits: splitsObj });
+    //                 totalGain += gain;
+    //             }
+    //         }
+    //     });
+
+    //     if (candidateSplits.length === 0) {
+    //         return { isLeaf: true, label: majorityClass, size: data.length, errors: data.length - maxCount, localData: data, counts: counts };
+    //     }
+
+    //     // 🟢 3. CHUẨN WEKA: Chia cho activeFeatures.length (không chia cho validSplitCount)
+    //     let avgGain = totalGain / activeFeatures.length;
+    //     let filteredSplits = candidateSplits.filter(s => s.gain >= avgGain - 1e-3);
+    //     if (filteredSplits.length === 0) filteredSplits = candidateSplits;
+
+    //     let bestSplit = filteredSplits[0];
+    //     for (let i = 1; i < filteredSplits.length; i++) {
+    //         if (filteredSplits[i].gainRatio > bestSplit.gainRatio) {
+    //             bestSplit = filteredSplits[i];
+    //         }
+    //     }
+
+    //     let finalThreshold = bestSplit.threshold;
+
+    //     let node = {
+    //         isLeaf: false,
+    //         feature: bestSplit.feature,
+    //         threshold: finalThreshold,
+    //         majorityClass: majorityClass,
+    //         size: data.length,
+    //         errors: data.length - maxCount,
+    //         children: {},
+    //         localData: data,
+    //         counts: counts
+    //     };
+
+    //     let nextFeatures = activeFeatures.filter(f => f !== bestSplit.feature);
+    //     if (bestSplit.threshold !== null) {
+    //         let leftData = data.filter(d => parseFloat(d[bestSplit.feature]) <= finalThreshold);
+    //         let rightData = data.filter(d => parseFloat(d[bestSplit.feature]) > finalThreshold);
+    //         node.children['left'] = this.buildTree(leftData, activeFeatures);
+    //         node.children['right'] = this.buildTree(rightData, activeFeatures);
+    //     } else {
+    //         for (let v in bestSplit.splits) {
+    //             node.children[v] = this.buildTree(bestSplit.splits[v], nextFeatures);
+    //         }
+    //     }
+    //     return node;
+    // }
+
+
     buildTree(data, activeFeatures) {
         if (!data || data.length === 0) {
             return { isLeaf: true, label: 'Unknown', size: 0, errors: 0, counts: {} };
@@ -1428,7 +1993,6 @@ class DecisionTree {
 
         let candidateSplits = [];
         let totalGain = 0;
-        let validSplitCount = 0;
 
         activeFeatures.forEach(f => {
             let isNumeric = isColumnNumeric(data, f);
@@ -1437,18 +2001,33 @@ class DecisionTree {
                 let missingRows = data.filter(d => !(d[f] !== undefined && d[f] !== null && d[f] !== '' && !isNaN(parseFloat(d[f]))));
                 let missingRatio = data.length > 0 ? nonMissing.length / data.length : 1;
 
-                let numClasses = (this.classes && this.classes.length) ? this.classes.length : 2;
-                let minSplit = 0.1 * nonMissing.length / numClasses;
-                if (minSplit <= this.minNum) minSplit = this.minNum;
-                else if (minSplit > 25) minSplit = 25;
-
+                let minSplit = this.minNum;
                 if (nonMissing.length < 2 * minSplit) return;
 
                 let sorted = [...nonMissing].sort((a, b) => parseFloat(a[f]) - parseFloat(b[f]));
                 let baseEntNonMissing = this.entropy(nonMissing);
 
-                let bestGain = -1;
-                let bestThreshold = null;
+                // 🟢 1. CHUẨN WEKA C45Split: Đếm TẤT CẢ các điểm cắt ranh giới v1 < v2 thỏa mãn minNum
+                let numCutPoints = 0;
+                let totalDataLen = nonMissing.length;
+                for (let i = 0; i < totalDataLen - 1; i++) {
+                    let v1 = parseFloat(sorted[i][f]);
+                    let v2 = parseFloat(sorted[i + 1][f]);
+                    if (v1 < v2) {
+                        let leftLen = i + 1;
+                        let rightLen = totalDataLen - leftLen;
+                        if (leftLen >= minSplit && rightLen >= minSplit) {
+                            numCutPoints++;
+                        }
+                    }
+                }
+
+                if (numCutPoints === 0) return;
+                let mdlPenalty = Math.log2(numCutPoints) / data.length;
+
+                let bestGain = -Infinity;
+                let bestThreshold = null; // Ngưỡng hiển thị chuẩn Weka (v1)
+                let bestMidpoint = null;  // Ngưỡng chia nhánh thực tế (v1 + v2) / 2
                 let bestSplitInfo = 0;
                 let bestSplitsObj = null;
 
@@ -1456,9 +2035,8 @@ class DecisionTree {
                 nonMissing.forEach(d => { rightCounts[d[this.target]] = (rightCounts[d[this.target]] || 0) + 1; });
 
                 let leftSize = 0, rightSize = nonMissing.length;
-                let evaluatedSplitCount = 0;
 
-                for (let i = 0; i < sorted.length - 1; i++) {
+                for (let i = 0; i < totalDataLen - 1; i++) {
                     let currentClass = sorted[i][this.target];
                     leftCounts[currentClass] = (leftCounts[currentClass] || 0) + 1;
                     rightCounts[currentClass] = (rightCounts[currentClass] || 0) - 1;
@@ -1468,10 +2046,8 @@ class DecisionTree {
                     let v1 = parseFloat(sorted[i][f]);
                     let v2 = parseFloat(sorted[i + 1][f]);
 
-                    if (v1 + 1e-5 >= v2) continue;
+                    if (v1 >= v2 || Math.abs(v2 - v1) < 1e-9) continue;
                     if (leftSize < minSplit || rightSize < minSplit) continue;
-
-                    evaluatedSplitCount++;
 
                     let thresholdMid = (v1 + v2) / 2;
 
@@ -1488,15 +2064,18 @@ class DecisionTree {
                     }
 
                     let subsetEnt = (leftSize / nonMissing.length) * leftEnt + (rightSize / nonMissing.length) * rightEnt;
-                    let gain = (baseEntNonMissing - subsetEnt) * missingRatio;
+                    let gain = (baseEntNonMissing - subsetEnt) * missingRatio - mdlPenalty;
 
                     if (gain > bestGain) {
                         bestGain = gain;
-                        bestThreshold = thresholdMid;
-                        bestSplitInfo = - (leftSize / nonMissing.length) * Math.log2(leftSize / nonMissing.length) - (rightSize / nonMissing.length) * Math.log2(rightSize / nonMissing.length);
+                        bestThreshold = v1; // 🟢 CHUẨN WEKA: Lấy giá trị thực tế lớn nhất bên trái (0.6, 1.7, 4.9, 1.5)
+                        bestMidpoint = thresholdMid;
+                        let pL = leftSize / nonMissing.length;
+                        let pR = rightSize / nonMissing.length;
+                        bestSplitInfo = - pL * Math.log2(pL) - pR * Math.log2(pR);
 
-                        let leftFinal = nonMissing.filter(d => parseFloat(d[f]) <= bestThreshold);
-                        let rightFinal = nonMissing.filter(d => parseFloat(d[f]) > bestThreshold);
+                        let leftFinal = nonMissing.filter(d => parseFloat(d[f]) <= thresholdMid);
+                        let rightFinal = nonMissing.filter(d => parseFloat(d[f]) > thresholdMid);
                         if (missingRows.length > 0) {
                             if (leftFinal.length >= rightFinal.length) leftFinal = leftFinal.concat(missingRows);
                             else rightFinal = rightFinal.concat(missingRows);
@@ -1505,15 +2084,10 @@ class DecisionTree {
                     }
                 }
 
-                if (evaluatedSplitCount === 0) return;
-
-                bestGain = bestGain - (Math.log2(evaluatedSplitCount) / data.length);
-
-                if (bestGain > 0) {
+                if (bestGain > 1e-3) {
                     let bestGainRatio = bestSplitInfo > 0 ? bestGain / bestSplitInfo : 0;
-                    candidateSplits.push({ feature: f, gain: bestGain, gainRatio: bestGainRatio, threshold: bestThreshold, splits: bestSplitsObj });
+                    candidateSplits.push({ feature: f, gain: bestGain, gainRatio: bestGainRatio, threshold: bestThreshold, midpoint: bestMidpoint, splits: bestSplitsObj });
                     totalGain += bestGain;
-                    validSplitCount++;
                 }
             } else {
                 let nonMissing = data.filter(d => d[f] !== undefined && d[f] !== null && d[f] !== '');
@@ -1538,18 +2112,17 @@ class DecisionTree {
                     }
                     let splitsObj = {};
                     values.forEach((v, idx) => { splitsObj[v] = splits[idx]; });
-                    candidateSplits.push({ feature: f, gain: gain, gainRatio: gainRatio, threshold: null, splits: splitsObj });
+                    candidateSplits.push({ feature: f, gain: gain, gainRatio: gainRatio, threshold: null, midpoint: null, splits: splitsObj });
                     totalGain += gain;
-                    validSplitCount++;
                 }
             }
         });
 
-        if (validSplitCount === 0 || candidateSplits.length === 0) {
+        if (candidateSplits.length === 0) {
             return { isLeaf: true, label: majorityClass, size: data.length, errors: data.length - maxCount, localData: data, counts: counts };
         }
 
-        let avgGain = totalGain / validSplitCount;
+        let avgGain = totalGain / activeFeatures.length;
         let filteredSplits = candidateSplits.filter(s => s.gain >= avgGain - 1e-3);
         if (filteredSplits.length === 0) filteredSplits = candidateSplits;
 
@@ -1561,18 +2134,7 @@ class DecisionTree {
         }
 
         let finalThreshold = bestSplit.threshold;
-        if (finalThreshold !== null) {
-            let maxActual = -Infinity;
-            data.forEach(row => {
-                let val = parseFloat(row[bestSplit.feature]);
-                if (!isNaN(val) && val <= bestSplit.threshold && val > maxActual) {
-                    maxActual = val;
-                }
-            });
-            if (maxActual !== -Infinity) {
-                finalThreshold = maxActual;
-            }
-        }
+        let finalMidpoint = bestSplit.midpoint;
 
         let node = {
             isLeaf: false,
@@ -1588,8 +2150,8 @@ class DecisionTree {
 
         let nextFeatures = activeFeatures.filter(f => f !== bestSplit.feature);
         if (bestSplit.threshold !== null) {
-            let leftData = data.filter(d => parseFloat(d[bestSplit.feature]) <= finalThreshold);
-            let rightData = data.filter(d => parseFloat(d[bestSplit.feature]) > finalThreshold);
+            let leftData = data.filter(d => parseFloat(d[bestSplit.feature]) <= finalMidpoint);
+            let rightData = data.filter(d => parseFloat(d[bestSplit.feature]) > finalMidpoint);
             node.children['left'] = this.buildTree(leftData, activeFeatures);
             node.children['right'] = this.buildTree(rightData, activeFeatures);
         } else {
@@ -1662,6 +2224,55 @@ class DecisionTree {
         }
     }
 
+    // pessimisticPruning(node) {
+    //     if (node.isLeaf) return;
+
+    //     for (let k in node.children) {
+    //         this.pessimisticPruning(node.children[k]);
+    //     }
+
+    //     let largestChildKey = null;
+    //     let maxChildSize = -1;
+    //     for (let k in node.children) {
+    //         if (node.children[k].size > maxChildSize) {
+    //             maxChildSize = node.children[k].size;
+    //             largestChildKey = k;
+    //         }
+    //     }
+
+    //     let errorsLargestBranch = Infinity;
+    //     let largestChild = null;
+
+    //     if (largestChildKey !== null) {
+    //         largestChild = node.children[largestChildKey];
+    //         errorsLargestBranch = this.getBranchEstimatedErrors(largestChild, node.localData);
+    //     }
+
+    //     let errorsLeaf = this.getEstimatedErrors(node.size, node.errors);
+    //     let errorsTree = this.getSubtreeEstimatedErrors(node);
+
+    //     if (errorsLeaf <= errorsTree + 0.1 && errorsLeaf <= errorsLargestBranch + 0.1) {
+    //         node.isLeaf = true;
+    //         node.label = node.majorityClass;
+    //         node.children = null;
+    //         return;
+    //     }
+
+    //     if (errorsLargestBranch <= errorsTree + 0.1 && largestChild) {
+    //         node.isLeaf = largestChild.isLeaf;
+    //         node.feature = largestChild.feature;
+    //         node.threshold = largestChild.threshold;
+    //         node.majorityClass = largestChild.majorityClass;
+    //         node.children = largestChild.children;
+    //         node.label = largestChild.label;
+
+    //         this.resetDistribution(node, node.localData);
+
+    //         this.pessimisticPruning(node);
+    //     }
+    // }
+
+
     pessimisticPruning(node) {
         if (node.isLeaf) return;
 
@@ -1689,14 +2300,15 @@ class DecisionTree {
         let errorsLeaf = this.getEstimatedErrors(node.size, node.errors);
         let errorsTree = this.getSubtreeEstimatedErrors(node);
 
-        if (errorsLeaf <= errorsTree + 0.1 && errorsLeaf <= errorsLargestBranch + 0.1) {
+        // 🟢 4. CHUẨN WEKA: Dùng dung sai + 1e-3 (không dùng + 0.1)
+        if (errorsLeaf <= errorsTree + 1e-3 && errorsLeaf <= errorsLargestBranch + 1e-3) {
             node.isLeaf = true;
             node.label = node.majorityClass;
             node.children = null;
             return;
         }
 
-        if (errorsLargestBranch <= errorsTree + 0.1 && largestChild) {
+        if (errorsLargestBranch <= errorsTree + 1e-3 && largestChild) {
             node.isLeaf = largestChild.isLeaf;
             node.feature = largestChild.feature;
             node.threshold = largestChild.threshold;
@@ -1705,7 +2317,6 @@ class DecisionTree {
             node.label = largestChild.label;
 
             this.resetDistribution(node, node.localData);
-
             this.pessimisticPruning(node);
         }
     }
@@ -2540,7 +3151,7 @@ function drawDendrogram(canvas, rootNode) {
     _lastDendrogramCanvas = canvas;
     _lastDendrogramTree = rootNode;
 
-    const FIXED_SCALE = 4; 
+    const FIXED_SCALE = 1.5; 
     const dpr = Math.max(window.devicePixelRatio || 1, 1) * FIXED_SCALE;
 
     const rectW = canvas.clientWidth || 800;
@@ -2552,7 +3163,14 @@ function drawDendrogram(canvas, rootNode) {
     canvas.style.height = rectH + 'px';
     canvas.width = Math.round(rectW * dpr);
     canvas.height = Math.round(rectH * dpr);
-    const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, rectW, rectH);
+    const ctx = canvas.getContext('2d'); 
+    ctx.scale(dpr, dpr); 
+    ctx.clearRect(0, 0, rectW, rectH);
+
+    // 🟢 BỔ SUNG 2 DÒNG NÀY: Tô màu nền trắng rõ ràng cho Canvas trước khi vẽ cây
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, rectW, rectH);
+
     ctx.textRendering = 'optimizeLegibility';
     
     const margin = 190; const drawWidth = rectW - margin - 35; const drawHeight = rectH - padding * 2;
@@ -3306,6 +3924,12 @@ $(function () {
         const fullTree = new DecisionTree(cf, minNum, unpruned);
         fullTree.train(data, features, targetLabel);
 
+
+        // 🟢 BỔ SUNG DÒNG NÀY: Lưu cấu trúc cây vào currentClusteringState để đồng bộ Wikitext
+        if (currentClusteringState && currentClusteringState.resultData) {
+            currentClusteringState.resultData.treeStructure = fullTree.root;
+        }
+
         $('#decisionTreeCard').show();
         dtZoomLevel = 1.0;
         $('#dtZoomLabel').text('100%');
@@ -3525,29 +4149,139 @@ $(function () {
             if (act === predicted[idx]) correct++;
         });
 
-        let uniqueClasses = [...new Set(parsedData.map(d => d[targetLabel]))].sort();
-        predicted.forEach(p => {
-            if (p && !uniqueClasses.includes(p)) uniqueClasses.push(p);
-        });
 
-        let classMetrics = {};
-        uniqueClasses.forEach(c => {
-            let tp = 0, fp = 0, fn = 0, tn = 0;
-            for (let i = 0; i < testYCount; i++) {
+
+        // let uniqueClasses = [...new Set(parsedData.map(d => d[targetLabel]))].sort();
+        // predicted.forEach(p => {
+        //     if (p && !uniqueClasses.includes(p)) uniqueClasses.push(p);
+        // });
+
+        // let classMetrics = {};
+        // uniqueClasses.forEach(c => {
+        //     let tp = 0, fp = 0, fn = 0, tn = 0;
+        //     for (let i = 0; i < testYCount; i++) {
+        //         if (actuals[i] === c && predicted[i] === c) tp++;
+        //         else if (actuals[i] !== c && predicted[i] === c) fp++;
+        //         else if (actuals[i] === c && predicted[i] !== c) fn++;
+        //         else tn++;
+        //     }
+        //     let prec = (tp + fp) > 0 ? tp / (tp + fp) : 0;
+        //     let rec = (tp + fn) > 0 ? tp / (tp + fn) : 0;
+        //     let f1 = (prec + rec) > 0 ? (2 * prec * rec) / (prec + rec) : 0;
+        //     classMetrics[c] = { precision: prec, recall: rec, f1: f1, count: actuals.filter(a => a === c).length };
+        // });
+
+        // let weightedPrec = 0, weightedRec = 0, weightedF1 = 0;
+        // uniqueClasses.forEach(c => {
+        //     let w = classMetrics[c].count / testYCount;
+        //     weightedPrec += classMetrics[c].precision * w; 
+        //     weightedRec += classMetrics[c].recall * w; 
+        //     weightedF1 += classMetrics[c].f1 * w;
+        // });
+
+        // $('#classAcc').text(((correct / testYCount) * 100).toFixed(2) + ' %');
+        // $('#classPre').text((weightedPrec * 100).toFixed(2) + ' %');
+        // $('#classRec').text((weightedRec * 100).toFixed(2) + ' %');
+        // $('#classF1').text((weightedF1 * 100).toFixed(2) + ' %');
+
+        // currentClusteringState.type = 'classification';
+        // currentClusteringState.algorithm = algo;
+        // currentClusteringState.dataset = $('#fileName').text();
+        // currentClusteringState.resultData = {
+        //     targetLabel: targetLabel,
+        //     accuracy: ((correct / testYCount) * 100).toFixed(2),
+        //     precision: (weightedPrec * 100).toFixed(2),
+        //     recall: (weightedRec * 100).toFixed(2),
+        //     f1: (weightedF1 * 100).toFixed(2),
+        //     instances: testYCount,
+        //     uniqueClasses: uniqueClasses,
+        //     confusionMatrix: null
+        // };
+
+        // // CONFUSION MATRIX
+
+        // let cmHtml = `<table class="confusion-matrix-table"><thead><tr><th>Thực tế \\ Dự đoán</th>`;
+        // uniqueClasses.forEach(c => cmHtml += `<th>${c}</th>`); 
+        // cmHtml += `</tr></thead><tbody>`;
+
+        // let cmCounts = uniqueClasses.map(() => uniqueClasses.map(() => 0)); 
+        // let maxCellVal = 1;
+
+        // uniqueClasses.forEach((actClass, ai) => {
+        //     uniqueClasses.forEach((predClass, pi) => {
+        //         let cellCount = 0;
+        //         for (let i = 0; i < testYCount; i++) {
+        //             if (actuals[i] === actClass && predicted[i] === predClass) cellCount++;
+        //         }
+        //         cmCounts[ai][pi] = cellCount;
+        //         if (cellCount > maxCellVal) maxCellVal = cellCount;
+        //     });
+        // });
+
+        // uniqueClasses.forEach((actClass, ai) => {
+        //     cmHtml += `<tr><td style="text-align:left; font-weight:bold; background:#f8fafc;">${actClass}</td>`;
+        //     uniqueClasses.forEach((predClass, pi) => {
+        //         let cellCount = cmCounts[ai][pi];
+        //         let alpha = (cellCount / maxCellVal).toFixed(2);
+        //         let cellStyle = "";
+                
+        //         if (actClass === predClass) {
+        //             cellStyle = `background: rgba(34, 197, 94, ${Math.max(0.08, alpha)}); color: ${alpha > 0.4 ? '#064e3b' : '#15803d'}; font-weight: bold;`;
+        //         } else {
+        //             if (cellCount > 0) {
+        //                 cellStyle = `background: rgba(239, 68, 68, ${Math.max(0.08, alpha)}); color: #b91c1c; font-weight: bold;`;
+        //             } else {
+        //                 cellStyle = `color: #94a3b8;`;
+        //             }
+        //         }
+        //         cmHtml += `<td style="${cellStyle}; text-align:center;">${cellCount}</td>`;
+        //     });
+        //     cmHtml += `</tr>`;
+        // });
+        // cmHtml += `</tbody></table>`; 
+        
+        // $('#confusionMatrixWrap').html(cmHtml);
+        // currentClusteringState.resultData.confusionMatrix = cmCounts;
+
+        // 🟢 FIX LỖI 1 & 3: Xác định danh sách Class chuẩn xác từ domain ARFF và tập Test
+        var domainClasses = nominalDomains[targetLabel] ? [...nominalDomains[targetLabel]] : [];
+        var testClassesSet = new Set();
+        actuals.forEach(function(a) { if (a !== undefined && a !== null) testClassesSet.add(a); });
+        predicted.forEach(function(p) { if (p !== undefined && p !== null) testClassesSet.add(p); });
+
+        var uniqueClasses = [];
+        if (domainClasses.length > 0) {
+            uniqueClasses = domainClasses.filter(function(c) { return testClassesSet.has(c); });
+            testClassesSet.forEach(function(c) {
+                if (!uniqueClasses.includes(c)) uniqueClasses.push(c);
+            });
+        } else {
+            uniqueClasses = Array.from(testClassesSet).sort();
+        }
+
+        // 🟢 FIX LỖI 2: Tính toán chỉ số Metrics theo đúng số lượng thực tế tập Test (actuals)
+        var classMetrics = {};
+        uniqueClasses.forEach(function(c) {
+            var tp = 0, fp = 0, fn = 0, tn = 0;
+            var testCountForClass = 0;
+
+            for (var i = 0; i < testYCount; i++) {
+                if (actuals[i] === c) testCountForClass++;
+
                 if (actuals[i] === c && predicted[i] === c) tp++;
                 else if (actuals[i] !== c && predicted[i] === c) fp++;
                 else if (actuals[i] === c && predicted[i] !== c) fn++;
                 else tn++;
             }
-            let prec = (tp + fp) > 0 ? tp / (tp + fp) : 0;
-            let rec = (tp + fn) > 0 ? tp / (tp + fn) : 0;
-            let f1 = (prec + rec) > 0 ? (2 * prec * rec) / (prec + rec) : 0;
-            classMetrics[c] = { precision: prec, recall: rec, f1: f1, count: actuals.filter(a => a === c).length };
+            var prec = (tp + fp) > 0 ? tp / (tp + fp) : 0;
+            var rec = (tp + fn) > 0 ? tp / (tp + fn) : 0;
+            var f1 = (prec + rec) > 0 ? (2 * prec * rec) / (prec + rec) : 0;
+            classMetrics[c] = { precision: prec, recall: rec, f1: f1, count: testCountForClass };
         });
 
-        let weightedPrec = 0, weightedRec = 0, weightedF1 = 0;
-        uniqueClasses.forEach(c => {
-            let w = classMetrics[c].count / testYCount;
+        var weightedPrec = 0, weightedRec = 0, weightedF1 = 0;
+        uniqueClasses.forEach(function(c) {
+            var w = classMetrics[c].count / testYCount;
             weightedPrec += classMetrics[c].precision * w; 
             weightedRec += classMetrics[c].recall * w; 
             weightedF1 += classMetrics[c].f1 * w;
@@ -3572,47 +4306,49 @@ $(function () {
             confusionMatrix: null
         };
 
-        // CONFUSION MATRIX
+        // 🟢 FIX LỖI 4: Tối ưu tính Confusion Matrix về O(N)
+        var classMap = {};
+        uniqueClasses.forEach(function(c, idx) { classMap[c] = idx; });
 
-        let cmHtml = `<table class="confusion-matrix-table"><thead><tr><th>Thực tế \\ Dự đoán</th>`;
-        uniqueClasses.forEach(c => cmHtml += `<th>${c}</th>`); 
-        cmHtml += `</tr></thead><tbody>`;
+        var cmCounts = uniqueClasses.map(function() { return uniqueClasses.map(function() { return 0; }); });
+        var maxCellVal = 1;
 
-        let cmCounts = uniqueClasses.map(() => uniqueClasses.map(() => 0)); 
-        let maxCellVal = 1;
-
-        uniqueClasses.forEach((actClass, ai) => {
-            uniqueClasses.forEach((predClass, pi) => {
-                let cellCount = 0;
-                for (let i = 0; i < testYCount; i++) {
-                    if (actuals[i] === actClass && predicted[i] === predClass) cellCount++;
+        for (var i = 0; i < testYCount; i++) {
+            var actIdx = classMap[actuals[i]];
+            var predIdx = classMap[predicted[i]];
+            if (actIdx !== undefined && predIdx !== undefined) {
+                cmCounts[actIdx][predIdx]++;
+                if (cmCounts[actIdx][predIdx] > maxCellVal) {
+                    maxCellVal = cmCounts[actIdx][predIdx];
                 }
-                cmCounts[ai][pi] = cellCount;
-                if (cellCount > maxCellVal) maxCellVal = cellCount;
-            });
-        });
+            }
+        }
 
-        uniqueClasses.forEach((actClass, ai) => {
-            cmHtml += `<tr><td style="text-align:left; font-weight:bold; background:#f8fafc;">${actClass}</td>`;
-            uniqueClasses.forEach((predClass, pi) => {
-                let cellCount = cmCounts[ai][pi];
-                let alpha = (cellCount / maxCellVal).toFixed(2);
-                let cellStyle = "";
+        var cmHtml = '<table class="confusion-matrix-table"><thead><tr><th>Thực tế \\ Dự đoán</th>';
+        uniqueClasses.forEach(function(c) { cmHtml += '<th>' + c + '</th>'; }); 
+        cmHtml += '</tr></thead><tbody>';
+
+        uniqueClasses.forEach(function(actClass, ai) {
+            cmHtml += '<tr><td style="text-align:left; font-weight:bold; background:#f8fafc;">' + actClass + '</td>';
+            uniqueClasses.forEach(function(predClass, pi) {
+                var cellCount = cmCounts[ai][pi];
+                var alpha = (cellCount / maxCellVal).toFixed(2);
+                var cellStyle = "";
                 
                 if (actClass === predClass) {
-                    cellStyle = `background: rgba(34, 197, 94, ${Math.max(0.08, alpha)}); color: ${alpha > 0.4 ? '#064e3b' : '#15803d'}; font-weight: bold;`;
+                    cellStyle = "background: rgba(34, 197, 94, " + Math.max(0.08, alpha) + "); color: " + (alpha > 0.4 ? '#064e3b' : '#15803d') + "; font-weight: bold;";
                 } else {
                     if (cellCount > 0) {
-                        cellStyle = `background: rgba(239, 68, 68, ${Math.max(0.08, alpha)}); color: #b91c1c; font-weight: bold;`;
+                        cellStyle = "background: rgba(239, 68, 68, " + Math.max(0.08, alpha) + "); color: #b91c1c; font-weight: bold;";
                     } else {
-                        cellStyle = `color: #94a3b8;`;
+                        cellStyle = "color: #94a3b8;";
                     }
                 }
-                cmHtml += `<td style="${cellStyle}; text-align:center;">${cellCount}</td>`;
+                cmHtml += '<td style="' + cellStyle + ' text-align:center;">' + cellCount + '</td>';
             });
-            cmHtml += `</tr>`;
+            cmHtml += '</tr>';
         });
-        cmHtml += `</tbody></table>`; 
+        cmHtml += '</tbody></table>'; 
         
         $('#confusionMatrixWrap').html(cmHtml);
         currentClusteringState.resultData.confusionMatrix = cmCounts;
@@ -3737,8 +4473,7 @@ $(function () {
         ctx.stroke();
         ctx.setLineDash([]);
 
-        const classMap = {};
-        uniqueClasses.forEach((c, idx) => { classMap[c] = idx; });
+    
 
         actuals.forEach((act, idx) => {
             const pred = predicted[idx];
@@ -3780,6 +4515,63 @@ $(function () {
         $('#classResultSection').show();
     });
 
+    // $(document).on('click', '#btnUpdateWikiCrop, #btnUpdateWikiCropClass, #btnUpdateWikiCropReg', function () {
+    //     var btn = $(this);
+
+    //     showWikiCropPageSelector(function (selectedPage) {
+    //         btn.prop('disabled', true).text('⏳ Đang đồng bộ...');
+
+    //         var wikitext = buildResultWikitext();
+
+    //         // Chụp ảnh thẻ Canvas nếu chọn giải thuật sơ đồ
+    //         var canvasImage = null;
+    //         if (currentClusteringState.algorithm === 'hierarchical') {
+    //             var cv = document.getElementById('scatterChart');
+    //             if (cv) canvasImage = cv.toDataURL('image/png');
+    //         } else if (currentClusteringState.algorithm === 'decision_tree') {
+    //             var cv = document.getElementById('decisionTreeCanvas');
+    //             if (cv) canvasImage = cv.toDataURL('image/png');
+    //         }
+
+    //         $.ajax({
+    //             url: mw.config.get('wgScript') + '?title=Special:Clustering',
+    //             type: 'POST',
+    //             data: {
+    //                 clustering_action: 'save_latest',
+    //                 algorithm: currentClusteringState.algorithm,
+    //                 dataset: currentClusteringState.dataset,
+    //                 target_page: selectedPage,
+    //                 append_wikitext: wikitext,
+    //                 image_base64: canvasImage, // Gửi dữ liệu ảnh Canvas
+    //                 result_data: JSON.stringify(currentClusteringState.resultData),
+    //                 format: 'json'
+    //             },
+    //             dataType: 'json',
+    //             success: function (resp) {
+    //                 if (resp && resp.status === 'success') {
+    //                     btn.prop('disabled', false).text('✨ Đã đồng bộ!');
+    //                     showAppMessage(
+    //                         'Đồng bộ thành công',
+    //                         'Đã đồng bộ kết quả VÀ HÌNH ẢNH SƠ ĐỒ TRỰC QUAN lên bài viết "' + selectedPage + '". Đang mở bài viết...',
+    //                         'info'
+    //                     );
+    //                     setTimeout(function () {
+    //                         window.open(mw.util.getUrl(selectedPage), '_blank');
+    //                     }, 1200);
+    //                 } else {
+    //                     btn.prop('disabled', false).html('❌ Thất bại. Thử lại');
+    //                     showAppMessage('Lỗi ghi bài viết', (resp && resp.message) ? resp.message : 'Không rõ nguyên nhân.', 'error');
+    //                 }
+    //             },
+    //             error: function (xhr) {
+    //                 btn.prop('disabled', false).html('❌ Thất bại. Thử lại');
+    //                 showAppMessage('Lỗi kết nối', 'Không thể kết nối máy chủ.', 'error');
+    //             }
+    //         });
+    //     });
+    // });
+ 
+
     $(document).on('click', '#btnUpdateWikiCrop, #btnUpdateWikiCropClass, #btnUpdateWikiCropReg', function () {
         var btn = $(this);
 
@@ -3787,6 +4579,16 @@ $(function () {
             btn.prop('disabled', true).text('⏳ Đang đồng bộ...');
 
             var wikitext = buildResultWikitext();
+
+            // Chụp ảnh thẻ Canvas nhẹ nhàng
+            var canvasImage = null;
+            if (currentClusteringState.algorithm === 'hierarchical') {
+                var cv = document.getElementById('scatterChart');
+                if (cv) canvasImage = cv.toDataURL('image/png', 0.85);
+            } else if (currentClusteringState.algorithm === 'decision_tree') {
+                var cv = document.getElementById('decisionTreeCanvas');
+                if (cv) canvasImage = cv.toDataURL('image/png', 0.85);
+            }
 
             $.ajax({
                 url: mw.config.get('wgScript') + '?title=Special:Clustering',
@@ -3796,7 +4598,8 @@ $(function () {
                     algorithm: currentClusteringState.algorithm,
                     dataset: currentClusteringState.dataset,
                     target_page: selectedPage,
-                    append_wikitext: wikitext, // Nội dung sẽ được Bot hệ thống ghi nối vào cuối bài viết phía server
+                    append_wikitext: wikitext,
+                    image_base64: canvasImage,
                     result_data: JSON.stringify(currentClusteringState.resultData),
                     format: 'json'
                 },
@@ -3806,7 +4609,7 @@ $(function () {
                         btn.prop('disabled', false).text('✨ Đã đồng bộ!');
                         showAppMessage(
                             'Đồng bộ thành công',
-                            'Kết quả đã được ghi thêm vào CUỐI nội dung bài viết "' + selectedPage + '" (thực hiện bởi tài khoản Bot hệ thống). Đang mở bài viết để bạn kiểm tra...',
+                            'Đã ghi kết quả VÀ HÌNH ẢNH SƠ ĐỒ ĐỒ HỌA lên bài viết "' + selectedPage + '" thành công! Đang mở bài viết...',
                             'info'
                         );
                         setTimeout(function () {
@@ -3819,13 +4622,13 @@ $(function () {
                 },
                 error: function (xhr) {
                     btn.prop('disabled', false).html('❌ Thất bại. Thử lại');
-                    showAppMessage('Lỗi kết nối', 'Không thể kết nối tới máy chủ (mã lỗi ' + xhr.status + '). Vui lòng thử lại.', 'error');
+                    showAppMessage('Lỗi kết nối', 'Không thể kết nối máy chủ.', 'error');
                 }
             });
         });
     });
 
- 
+
     $('#btnRun').on('click', function () {
         if (parsedData.length === 0) { showAppMessage('Chưa nạp dữ liệu', 'Vui lòng tải tệp dữ liệu trong mục Data Loader trước.', 'error'); return; }
         const k = parseInt($('#kValue').val()) || 3; const seedValue = parseInt($('#randomSeed').val()) || 10; setSeed(seedValue);

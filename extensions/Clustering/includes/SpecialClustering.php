@@ -9,28 +9,26 @@ use ContentHandler;
 use CommentStoreComment;
 use MediaWiki\Revision\SlotRecord;
 
-
 class SpecialClustering extends SpecialPage {
 
-    /*Tên tài khoản Bot hệ thống dùng để ghi kết quả ML vào bài viết thay cho người dùng đang duyệt web */
+    /* Tên tài khoản Bot hệ thống dùng để ghi kết quả ML và tải ảnh lên bài viết */
     const BOT_USERNAME = 'WikiCropBot';
-    /**
-     * Lấy (hoặc tạo mới nếu chưa có) tài khoản Bot hệ thống nội bộ dùng riêng cho việc
-     * tự động ghi kết quả phân tích ML vào bài viết WikiCrop.
-     */
 
     public function __construct() {
-        // ✅ BẮT BUỘC CÓ: Gọi constructor lớp cha để đăng ký tên SpecialPage
+        // ✅ Gọi constructor lớp cha để đăng ký tên SpecialPage
         parent::__construct( 'Clustering' );
     }
-    
+
+    /**
+     * Lấy (hoặc tạo mới nếu chưa có) tài khoản Bot hệ thống nội bộ
+     */
     private function getOrCreateBotUser() {
         $bot = User::newFromName( self::BOT_USERNAME );
         if ( !$bot ) {
             throw new \Exception( 'Tên tài khoản Bot không hợp lệ.' );
         }
         if ( $bot->getId() === 0 ) {
-            // Tài khoản Bot chưa tồn tại trong CSDL -> tạo mới dưới dạng System User (không thể đăng nhập qua form thường)
+            // Tạo mới tài khoản dưới dạng System User nếu chưa tồn tại
             $bot = User::newSystemUser( self::BOT_USERNAME, [ 'steal' => true ] );
             if ( !$bot ) {
                 throw new \Exception( 'Không thể khởi tạo tài khoản Bot hệ thống.' );
@@ -43,7 +41,161 @@ class SpecialClustering extends SpecialPage {
         return $bot;
     }
 
-    /* nội dung wikitext vào CUỐI bài viết đích, thực hiện phía SERVER bằng tài khoản Bot hệ thống */
+   
+    // private function uploadCanvasImage( $base64Data, $fileName, $botUser ) {
+    //     if ( !$base64Data || strpos( $base64Data, 'data:image' ) === false ) {
+    //         return null;
+    //     }
+
+    //     $parts = explode( ',', $base64Data );
+    //     $decodedData = base64_decode( end( $parts ) );
+    //     if ( !$decodedData ) {
+    //         return null;
+    //     }
+
+    //     $tmpPath = sys_get_temp_dir() . '/' . $fileName;
+    //     file_put_contents( $tmpPath, $decodedData );
+
+    //     $services = MediaWikiServices::getInstance();
+    //     $repoGroup = $services->getRepoGroup();
+
+    //     $title = Title::makeTitleSafe( NS_FILE, $fileName );
+    //     if ( !$title ) {
+    //         @unlink( $tmpPath );
+    //         return null;
+    //     }
+
+    //     $file = $repoGroup->findFile( $title );
+    //     if ( !$file ) {
+    //         $file = $repoGroup->getLocalRepo()->newFile( $title );
+    //     }
+
+    //     // Tải file tạm vào thư mục lưu trữ local
+    //     $archive = $file->publish( $tmpPath );
+    //     if ( $archive->isOK() ) {
+    //         // 🟢 CHUẨN HÓA 6 THAM SỐ CỦA recordUpload2:
+    //         // 1: archive name, 2: comment, 3: page text, 4: props, 5: timestamp (false), 6: user ($botUser)
+    //         $file->recordUpload2(
+    //             $archive->value,
+    //             'Tải lên tự động sơ đồ cây từ WikiCrop AI',
+    //             'Sơ đồ đồ họa mô hình ML',
+    //             false,
+    //             false,   // 👈 Tham số thứ 5: $timestamp (đặt false để lấy thời gian hiện tại)
+    //             $botUser // 👈 Tham số thứ 6: $user (truyền botUser chuẩn vị trí)
+    //         );
+    //         @unlink( $tmpPath );
+    //         return $title->getDBkey();
+    //     }
+
+    //     @unlink( $tmpPath );
+    //     return null;
+    // }
+
+
+    /**
+     * Tải ảnh Base64 từ Canvas vào CSDL & Kho tệp tin của MediaWiki (Đã sửa lỗi publish)
+     */
+    private function uploadCanvasImage( $base64Data, $fileName, $botUser ) {
+        if ( !$base64Data || strpos( $base64Data, 'data:image' ) === false ) {
+            return null;
+        }
+
+        $parts = explode( ',', $base64Data );
+        $decodedData = base64_decode( end( $parts ) );
+        if ( !$decodedData ) {
+            return null;
+        }
+
+        $tmpPath = sys_get_temp_dir() . '/' . $fileName;
+        file_put_contents( $tmpPath, $decodedData );
+
+        $title = Title::makeTitleSafe( NS_FILE, $fileName );
+        if ( !$title ) {
+            @unlink( $tmpPath );
+            return null;
+        }
+
+        $services = MediaWikiServices::getInstance();
+        $repoGroup = $services->getRepoGroup();
+        $localRepo = $repoGroup->getLocalRepo();
+
+        // 1. Khởi tạo đối tượng File
+        $file = $localRepo->newFile( $title );
+
+        // // 2. Xác định đường dẫn lưu file chuẩn trong kho MediaWiki
+        // $dstRel = $localRepo->getHashPath( $title->getDBkey() ) . $title->getDBkey();
+        // $dstPath = $localRepo->getZonePath( 'public' ) . '/' . $dstRel;
+
+        // // 3. Dùng LocalRepo để publish file tạm vào kho chứa
+        // $status = $localRepo->publish( $tmpPath, $dstPath );
+
+        // if ( $status->isOK() ) {
+        //     // 4. Ghi nhận file vào cơ sở dữ liệu (bảng image) của MediaWiki
+        //     $file->recordUpload2(
+        //         '', // archive name (rỗng cho tệp mới)
+        //         'Tải lên tự động sơ đồ cây từ WikiCrop AI',
+        //         'Sơ đồ đồ họa mô hình ML',
+        //         false,
+        //         false,
+        //         $botUser
+        //     );
+        //     @unlink( $tmpPath );
+        //     return $title->getDBkey();
+        // }
+
+        // @unlink( $tmpPath );
+        // return null;
+
+        // 🟢 NATIVE API: $file->upload tự động di chuyển tệp, phân thư mục hash và đăng ký CSDL Cực kỳ chuẩn xác
+        $status = $file->upload(
+            $tmpPath,
+            'Tải lên tự động sơ đồ cây từ WikiCrop AI',
+            'Sơ đồ đồ họa mô hình ML',
+            0,
+            false,
+            false,
+            $botUser
+        );
+
+        @unlink( $tmpPath );
+
+        if ( $status->isOK() ) {
+            return $title->getDBkey();
+        }
+
+        return null;
+    }
+
+    /**
+     * Ghi nối nội dung wikitext vào CUỐI bài viết đích bằng tài khoản Bot
+     */
+    // private function appendToWikiPage( $pageTitle, $appendText, $summary ) {
+    //     $titleObj = Title::newFromText( $pageTitle );
+    //     if ( !$titleObj || !$titleObj->exists() ) {
+    //         throw new \Exception( 'Trang bài viết không tồn tại: ' . $pageTitle );
+    //     }
+
+    //     $services = MediaWikiServices::getInstance();
+    //     $wikiPage = $services->getWikiPageFactory()->newFromTitle( $titleObj );
+
+    //     $currentContent = $wikiPage->getContent();
+    //     $currentText = $currentContent ? $currentContent->getText() : '';
+    //     $newText = $currentText . $appendText;
+    //     $newContent = ContentHandler::makeContent( $newText, $titleObj );
+
+    //     $botUser = $this->getOrCreateBotUser();
+
+    //     $updater = $wikiPage->newPageUpdater( $botUser );
+    //     $updater->setContent( SlotRecord::MAIN, $newContent );
+    //     $comment = CommentStoreComment::newUnsavedComment( $summary );
+    //     $updater->saveRevision( $comment, EDIT_UPDATE );
+
+    //     if ( !$updater->wasSuccessful() ) {
+    //         throw new \Exception( 'Ghi bài viết thất bại: ' . $updater->getStatus()->getWikiText() );
+    //     }
+    // }
+
+
     private function appendToWikiPage( $pageTitle, $appendText, $summary ) {
         $titleObj = Title::newFromText( $pageTitle );
         if ( !$titleObj || !$titleObj->exists() ) {
@@ -69,6 +221,68 @@ class SpecialClustering extends SpecialPage {
             throw new \Exception( 'Ghi bài viết thất bại: ' . $updater->getStatus()->getWikiText() );
         }
     }
+    
+    // public function execute( $subPage ) {
+    //     $out = $this->getOutput();
+    //     $request = $this->getRequest();
+
+    //     if ( $request->getVal( 'clustering_action' ) === 'save_latest' && $request->wasPosted() ) {
+    //         $out->disable(); 
+    //         if ( ob_get_length() ) { ob_clean(); }
+    //         $request->response()->header( 'Content-Type: application/json' );
+
+    //         try {
+    //             $algorithm = $request->getVal( 'algorithm' );
+    //             $dataset = $request->getVal( 'dataset' );
+    //             $resultData = $request->getVal( 'result_data' );
+    //             $targetPage = $request->getVal( 'target_page' ); 
+    //             $appendWikitext = $request->getVal( 'append_wikitext' ); 
+    //             $imageBase64 = $request->getVal( 'image_base64' ); 
+
+    //             if ( $algorithm === null || $dataset === null || $resultData === null ) {
+    //                 throw new \Exception( 'Thiếu tham số bắt buộc.' );
+    //             }
+
+    //             $botUser = $this->getOrCreateBotUser();
+
+    //             // Tải ảnh sơ đồ vào hệ thống nếu có
+    //             if ( $imageBase64 ) {
+    //                 $cleanAlgo = preg_replace( '/[^a-zA-Z0-9_]/', '', $algorithm );
+    //                 $imageFileName = 'So_Do_Cay_' . $cleanAlgo . '_' . date( 'Ymd_His' ) . '.png';
+                    
+    //                 try {
+    //                     $uploadedFileName = $this->uploadCanvasImage( $imageBase64, $imageFileName, $botUser );
+    //                     if ( $uploadedFileName ) {
+    //                         $appendWikitext .= "\n\n=== Sơ đồ đồ họa mô hình (" . strtoupper($algorithm) . ") ===\n[[File:" . $uploadedFileName . "|center|thumb|800px|Sơ đồ trực quan phân nhánh cây kết quả]]\n";
+    //                     }
+    //                 } catch ( \Throwable $imgErr ) {
+    //                     // Bỏ qua lỗi ảnh nếu upload thất bại để vẫn lưu được nội dung bảng
+    //                 }
+    //             }
+
+    //             if ( $targetPage && $appendWikitext ) {
+    //                 $this->appendToWikiPage(
+    //                     $targetPage,
+    //                     $appendWikitext,
+    //                     'WikiCrop AI: cập nhật kết quả ' . ( $algorithm ? $algorithm : '' ) . ' (tự động qua Bot)'
+    //                 );
+    //             }
+
+    //             echo json_encode( [ 'status' => 'success', 'message' => 'Đã đồng bộ kết quả thành công!' ] );
+    //         } catch ( \Throwable $e ) { 
+    //             http_response_code( 200 ); 
+    //             echo json_encode( [ 'status' => 'error', 'message' => $e->getMessage() ] );
+    //         }
+    //         return;
+    //     }
+
+    //     $this->setHeaders();
+    //     $out->setHTMLTitle( 'Gom cụm và Phân lớp dữ liệu nông học - WikiCrop' );
+    //     $out->addModules( 'ext.clustering' );
+
+    //     $out->addHTML( $this->buildForm( 'null' ) );
+    // }
+
 
     public function execute( $subPage ) {
         $out = $this->getOutput();
@@ -76,9 +290,7 @@ class SpecialClustering extends SpecialPage {
 
         if ( $request->getVal( 'clustering_action' ) === 'save_latest' && $request->wasPosted() ) {
             $out->disable(); 
-
             if ( ob_get_length() ) { ob_clean(); }
-
             $request->response()->header( 'Content-Type: application/json' );
 
             try {
@@ -87,12 +299,29 @@ class SpecialClustering extends SpecialPage {
                 $resultData = $request->getVal( 'result_data' );
                 $targetPage = $request->getVal( 'target_page' ); 
                 $appendWikitext = $request->getVal( 'append_wikitext' ); 
+                $imageBase64 = $request->getVal( 'image_base64' ); 
 
                 if ( $algorithm === null || $dataset === null || $resultData === null ) {
-                    throw new \Exception( 'Thiếu tham số bắt buộc (algorithm/dataset/result_data).' );
+                    throw new \Exception( 'Thiếu tham số bắt buộc.' );
                 }
 
-                // Ghi nối nội dung vào bài viết bằng tài khoản Bot hệ thống phía SERVER
+                $botUser = $this->getOrCreateBotUser();
+
+                // Tải ảnh sơ đồ cây vào CSDL nếu có
+                if ( $imageBase64 ) {
+                    $cleanAlgo = preg_replace( '/[^a-zA-Z0-9_]/', '', $algorithm );
+                    $imageFileName = 'So_Do_Cay_' . $cleanAlgo . '_' . date( 'Ymd_His' ) . '.png';
+                    
+                    try {
+                        $uploadedFileName = $this->uploadCanvasImage( $imageBase64, $imageFileName, $botUser );
+                        if ( $uploadedFileName ) {
+                            $appendWikitext .= "\n\n=== Sơ đồ trực quan (" . strtoupper($algorithm) . ") ===\n[[Tập tin:" . $uploadedFileName . "|center|thumb|800px|Sơ đồ trực quan phân nhánh kết quả]]\n";
+                        }
+                    } catch ( \Throwable $imgErr ) {
+                        // Bỏ qua lỗi ảnh để vẫn ghi được bảng dữ liệu
+                    }
+                }
+
                 if ( $targetPage && $appendWikitext ) {
                     $this->appendToWikiPage(
                         $targetPage,
@@ -101,23 +330,7 @@ class SpecialClustering extends SpecialPage {
                     );
                 }
 
-                $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
-                $cacheData = [
-                    'algorithm' => $algorithm,
-                    'dataset' => $dataset,
-                    'result_data' => $resultData, 
-                    'target_page' => $targetPage,
-                    'timestamp' => time()
-                ];
-
-    
-                $cache->set( 'wikicrop-clustering-latest', $cacheData, 86400 * 14 );
-
-                if ( $targetPage ) {
-                    $cache->set( 'wikicrop-clustering-latest-' . md5( $targetPage ), $cacheData, 86400 * 14 );
-                }
-
-                echo json_encode( [ 'status' => 'success', 'message' => 'Đã ghi kết quả vào bài viết và lưu trạng thái thành công!' ] );
+                echo json_encode( [ 'status' => 'success', 'message' => 'Đã đồng bộ kết quả thành công!' ] );
             } catch ( \Throwable $e ) { 
                 http_response_code( 200 ); 
                 echo json_encode( [ 'status' => 'error', 'message' => $e->getMessage() ] );
@@ -129,17 +342,7 @@ class SpecialClustering extends SpecialPage {
         $out->setHTMLTitle( 'Gom cụm và Phân lớp dữ liệu nông học - WikiCrop' );
         $out->addModules( 'ext.clustering' );
 
-        $loadLatest = $request->getVal( 'load_latest' );
-        $preloadedJson = 'null';
-        if ( $loadLatest ) {
-            $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
-            $latest = $cache->get( 'wikicrop-clustering-latest' );
-            if ( $latest ) {
-                $preloadedJson = json_encode( $latest );
-            }
-        }
-
-        $out->addHTML( $this->buildForm( $preloadedJson ) );
+        $out->addHTML( $this->buildForm( 'null' ) );
     }
 
     private function buildForm( $preloadedJson ) {
@@ -148,7 +351,6 @@ class SpecialClustering extends SpecialPage {
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         
         <style>
-            
             #firstHeading, .firstHeading, .mw-first-heading, #siteSub, #contentSub, #contentSub2 {
                 display: none !important;
             }
