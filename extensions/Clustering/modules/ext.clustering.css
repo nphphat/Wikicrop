@@ -1,6 +1,4 @@
-/* =====================================================================
-   1. BIẾN MÀU SẮC & CÀI ĐẶT CƠ BẢN (VARIABLES & RESET)
-   ===================================================================== */
+/* BIẾN MÀU SẮC & CÀI ĐẶT CƠ BẢN (VARIABLES & RESET)*/
 :root {
     --primary: #4f46e5;
     --primary-hover: #4338ca;
@@ -32,9 +30,7 @@
     color: var(--text-dark);
 }
 
-/* =====================================================================
-   2. SIDEBAR (MENU TRÁI)
-   ===================================================================== */
+/* SIDEBAR (MENU TRÁI) */
 .clustering-sidebar {
     width: 260px;
     background: var(--bg-panel);
@@ -166,9 +162,7 @@
     font-weight: 600;
 }
 
-/* =====================================================================
-   3. NỘI DUNG CHÍNH (MAIN CONTENT) & TOPBAR
-   ===================================================================== */
+/* NỘI DUNG CHÍNH (MAIN CONTENT) & TOPBAR*/
 .clustering-main {
     flex: 1;
     display: flex;
@@ -209,9 +203,7 @@
     display: block;
 }
 
-/* =====================================================================
-   4. DATA LOADER TABS & THỐNG KÊ (OVERVIEW CARDS)
-   ===================================================================== */
+/* DATA LOADER TABS & THỐNG KÊ (OVERVIEW CARDS)*/
 .clustering-tabs {
     display: flex;
     gap: 32px;
@@ -304,9 +296,7 @@
     border-bottom: 1px solid var(--border);
 }
 
-/* =====================================================================
-   5. BẢNG DỮ LIỆU (TABLES)
-   ===================================================================== */
+/* BẢNG DỮ LIỆU */
 .clustering-table {
     width: 100%;
     border-collapse: collapse;
@@ -331,9 +321,7 @@
     background: #f1f5f9;
 }
 
-/* =====================================================================
-   6. ML TASK & PREPROCESS LAYOUT (CHIA CỘT TRÁI - PHẢI)
-   ===================================================================== */
+/* ML TASK & PREPROCESS LAYOUT (CHIA CỘT TRÁI - PHẢI) */
 .ml-task-header {
     background: #eef2ff;
     padding: 16px 20px;
@@ -426,9 +414,7 @@
     color: var(--text-dark);
 }
 
-/* =====================================================================
-   7. FORMS, INPUTS & CHUNG (BUTTONS)
-   ===================================================================== */
+/* FORMS, INPUTS & CHUNG (BUTTONS) */
 .form-group {
     margin-bottom: 16px;
 }
@@ -495,7 +481,7 @@
     background: var(--success-hover);
 }
 
-/* ======= TỐI ƯU CỤ THỂ CHO NÚT "APPLY FILTER" ======= */
+/* TỐI ƯU NÚT "APPLY FILTER" */
 #btnApplyFilter {
     margin-top: 16px;
     width: 100%;
@@ -512,9 +498,7 @@
     background-color: var(--primary-hover);
 }
 
-/* =====================================================================
-   8. VISUALIZATION (CHARTS MINI & TRẠNG THÁI TRỐNG)
-   ===================================================================== */
+/* VISUALIZATION (CHARTS MINI & TRẠNG THÁI TRỐNG) */
 .vis-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -585,9 +569,7 @@
     opacity: 0.5;
 }
 
-/* =====================================================================
-   9. TÍNH NĂNG THU GỌN SIDEBAR VÀ CONFIG (TOGGLE FEATURE)
-   ===================================================================== */
+/* TÍNH NĂNG THU GỌN SIDEBAR VÀ CONFIG */
 /* Ẩn Sidebar chính */
 #clustering-app.sidebar-hidden .clustering-sidebar {
     display: none;
@@ -611,9 +593,7 @@
     flex: 1 1 100%;
 }
 
-/* =====================================================================
-   10. CUSTOM ALERT BANNERS (THÔNG BÁO TRÙNG LẶP / OUTLIER)
-   ===================================================================== */
+/* CUSTOM ALERT BANNERS (THÔNG BÁO TRÙNG LẶP / OUTLIER) */
 #alert-container {
     display: flex;
     flex-direction: column;
@@ -793,9 +773,7 @@
     transform: translateY(0);
 }
 
-/* =====================================================================
-   BẢNG MA TRẬN NHẦM LẪN (CONFUSION MATRIX TABLE)
-   ===================================================================== */
+/* CONFUSION MATRIX TABLE) */
 .confusion-matrix-table {
     border-collapse: collapse;
     margin: 0 auto;
@@ -838,4 +816,35 @@
 
 #clustering-app ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+/* CĂN CHỈNH DÒNG CHỌN GIẢI THUẬT (SELECT BOX & LABEL)*/
+/* Căn lề trái/phải khung chứa tùy chọn */
+.ml-config-content {
+    padding: 20px !important;
+}
+
+/* Đảm bảo ô select chọn giải thuật kéo tràn 100% lề khung */
+.ml-config-content .form-group {
+    width: 100% !important;
+    margin-bottom: 16px !important;
+}
+
+.ml-config-content select.form-control {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
+    /* Độ cao chuẩn tạo sự cân đối */
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+}
+
+/* =====================================================================
+   CĂN THẲNG HÀNG TỰ ĐỘNG 2 DÒNG TIÊU ĐỀ (TOPBAR & ML TASK HEADER)
+   ===================================================================== */
+.ml-task-header {
+    /* Bỏ padding lề trái của khung xanh để chữ và icon dòng 2 chạm đúng mốc 24px */
+    padding-left: 0px !important;
+    background: transparent !important;
+    /* (Tùy chọn) Nếu muốn bỏ nền xanh để 2 dòng trông mượt như nhau */
 }
