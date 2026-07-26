@@ -1,37 +1,38 @@
 {
-	"name": "Clustering",
+	"name": "DataMining",
 	"version": "1.0.0",
 	"author": "Ma Quoc Dat",
-	"description": "dùng để gom cụm dữ liệu nông nghiệp",
+	"descriptionmsg": "datamining-desc",
 	"type": "special",
 	"SpecialPages": {
-		"Clustering": "Clustering\\SpecialClustering"
+		"DataMining": "DataMining\\SpecialDataMining"
 	},
 	"MessagesDirs": {
-		"Clustering": [
+		"DataMining": [
 			"i18n"
 		]
 	},
 	"AutoloadNamespaces": {
-		"Clustering\\": "includes/"
+		"DataMining\\": "includes/"
 	},
 	"Hooks": {
-		"BeforePageDisplay": "Clustering\\Hooks::onBeforePageDisplay"
+		"BeforePageDisplay": "DataMining\\Hooks::onBeforePageDisplay",
+		"SkinBuildSidebar": "DataMining\\Hooks::onSkinBuildSidebar"
 	},
 	"ResourceModules": {
-		"ext.clustering": {
+		"ext.datamining": {
 			"scripts": [
-				"modules/ext.clustering.js"
+				"modules/ext.datamining.js"
 			],
 			"styles": [
-				"modules/ext.clustering.css"
+				"modules/ext.datamining.css"
 			],
 			"dependencies": [
 				"mediawiki.util",
 				"jquery"
 			],
 			"localBasePath": "",
-            "remoteExtPath": "Clustering",
+			"remoteExtPath": "DataMining",
 			"targets": [
 				"desktop",
 				"mobile"

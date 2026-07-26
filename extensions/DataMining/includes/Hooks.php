@@ -1,10 +1,10 @@
 <?php
-namespace Clustering;
+namespace DataMining;
 
 use OutputPage;
 use Title;
 use MediaWiki\MediaWikiServices;
-
+use Skin;
 /**
  * Lớp Hooks quản lý các sự kiện xen ngang của MediaWiki
  */
@@ -14,6 +14,21 @@ class Hooks {
      * Chèn Banner thông báo kết quả phân cụm mới nhất lên đầu nội dung Trang chính
      * Dùng hook OutputPageBeforeHTML để có thể PREPEND vào $text (BeforePageDisplay không hỗ trợ việc này)
      */
+
+    public static function onSkinBuildSidebar( Skin $skin, array &$bar ) {
+        $title = Title::newFromText( 'Special:DataMining' );
+        if ( $title ) {
+            // Thêm mục mới vào nhóm "navigation" (Main menu)
+            $bar['navigation'][] = [
+                'text' => 'Phân tích dữ liệu',
+                'href' => $title->getLocalURL(),
+                'id'   => 'n-datamining',
+                'active' => $skin->getTitle()->isSpecial( 'DataMining' )
+            ];
+        }
+        return true;
+    }
+
     public static function onOutputPageBeforeHTML( OutputPage $out, &$text ) {
         $title = $out->getTitle();
 
@@ -32,7 +47,7 @@ class Hooks {
         $datasetName = htmlspecialchars( $latest['dataset'] );
         $timeStr = date( 'd/m/Y H:i', $latest['timestamp'] );
 
-        $specialPageTitle = Title::newFromText( 'Special:Clustering' );
+        $specialPageTitle = Title::newFromText( 'Special:DataMining ' );
         $url = $specialPageTitle ? $specialPageTitle->getLocalURL( [ 'load_latest' => 1 ] ) : '#';
 
         $html = "

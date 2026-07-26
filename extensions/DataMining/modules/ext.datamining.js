@@ -130,7 +130,7 @@ function buildResultWikitext() {
             });
             wikitext += '|}\n';
         }
-        // 🟢 ĐÃ XÓA PHẦN TẠO DANH SÁCH THỤT LỀ CHỮ CHO CÂY QUYẾT ĐỊNH
+        
 
     } else if (state.type === 'regression') {
         var rReg = state.resultData || {};
@@ -155,7 +155,7 @@ function buildResultWikitext() {
         wikitext += "|-\n| Số mẫu (Instances) || " + (r3.instances !== undefined ? r3.instances : '--') + "\n";
         wikitext += "|-\n| Khoảng cách gộp gốc (Root Merge Height) || " + rootHeight + "\n";
         wikitext += "|}\n";
-        // 🟢 ĐÃ XÓA PHẦN TẠO DANH SÁCH THỤT LỀ CHỮ CHO CÂY PHÂN CẤP
+        
 
     } else {
         var r2 = state.resultData || {};
@@ -190,12 +190,12 @@ function showWikiCropPageSelector(onConfirm) {
             return;
         }
         
-        // 1. Sắp xếp danh sách bài viết theo thứ tự bảng chữ cái tiếng Việt
+        // Sắp xếp danh sách bài viết theo thứ tự bảng chữ cái tiếng Việt
         rawPages.sort((a, b) => a.title.localeCompare(b.title, 'vi'));
 
         var allTitles = rawPages.map(p => p.title.trim().replace(/^["'“”‘’]+|["'“”‘’]+$/g, ''));
 
-        // 2. Tính độ sâu cấp bậc (depth) dựa trên tên bài cha
+        // Tính độ sâu cấp bậc (depth) dựa trên tên bài cha
         var pagesWithDepth = rawPages.map(p => {
             var rawTitle = p.title.trim();
             // Bóc tách sạch dấu ngoặc kép/đơn/cong
@@ -224,7 +224,7 @@ function showWikiCropPageSelector(onConfirm) {
             };
         });
 
-        // 3. Render HTML: Chỉ dùng padding-left để thụt lề (mỗi cấp thụt 20px)
+        // Render HTML: Chỉ dùng padding-left để thụt lề (mỗi cấp thụt 20px)
         var pagesHtml = pagesWithDepth.map((p, idx) => {
             var indentPx = 12 + (p.depth * 20); // Thụt lề tự động theo độ sâu
             var isParentStyle = p.depth === 0 ? 'font-weight: 700; color: #1e293b;' : 'font-weight: 400; color: #475569;';
@@ -273,12 +273,11 @@ function showWikiCropPageSelector(onConfirm) {
                         </div>
                     </div>
 
-                    <div class="wikicrop-action-bar" style="display:flex; justify-content:flex-end; gap:8px;">
-                        <button id="btn-view-wikicrop" class="wikicrop-btn">Xem</button>
+                    <div class="wikicrop-action-bar" style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
                         <button id="btn-edit-wikicrop" class="wikicrop-btn">Chỉnh sửa</button>
                         <button id="btn-confirm-wikicrop-modal" class="wikicrop-btn" style="background:#4f46e5; color:#fff;">Đồng bộ</button>
-                        <button id="btn-cancel-wikicrop-modal" class="wikicrop-btn wikicrop-btn-secondary">Đóng</button>
-                    </div>
+                        <button id="btn-cancel-wikicrop-modal" class="wikicrop-btn">Đóng</button>
+                    </div>         
                 </div>
             </div>
         `;
@@ -311,13 +310,7 @@ function showWikiCropPageSelector(onConfirm) {
             return $('input[name="wikicrop-page"]:visible:checked').val() || $('input[name="wikicrop-page"]:checked').val();
         }
 
-        // Xem
-        $('#btn-view-wikicrop').on('click', function() {
-            var title = getSelectedWikiPage();
-            if (!title) { mw.notify('Vui lòng chọn bài viết'); return; }
-            window.open(mw.util.getUrl(title), '_blank');
-        });
-
+    
         // Chỉnh sửa
         $('#btn-edit-wikicrop').on('click', function() {
             var title = getSelectedWikiPage();
@@ -346,6 +339,144 @@ function showWikiCropPageSelector(onConfirm) {
         mw.notify('Không thể tải danh sách bài viết từ hệ thống!', { type: 'error' });
     });
 }
+
+
+/* XỬ LÝ TỆP WIKICROP VÀO ĐÂY  */
+
+function loadDatasetFromUrl(fileName, fileUrl) {
+    showAppMessage('⏳ Đang tải tệp...', 'Đang nạp dữ liệu từ kho tập tin Wikicrop: ' + fileName, 'info');
+    const extension = fileName.split('.').pop().toLowerCase();
+    
+    $('#fileName').text(fileName);
+    $('#fileBadge').css('display', 'flex');
+
+    if (extension === 'xlsx' || extension === 'xls') {
+        fetch(fileUrl)
+            .then(res => res.arrayBuffer())
+            .then(buffer => {
+                const data = new Uint8Array(buffer);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const json = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+                $('#app-custom-modal').remove();
+                processLoadedData(json);
+            })
+            .catch(err => {
+                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp từ kho Wikicrop!', 'error');
+            });
+    } else {
+        fetch(fileUrl)
+            .then(res => res.text())
+            .then(text => {
+                let parsed = [];
+                if (extension === 'arff') {
+                    parsed = parseARFF(text);
+                } else {
+                    parsed = parseCSV(text);
+                }
+                $('#app-custom-modal').remove();
+                processLoadedData(parsed);
+            })
+            .catch(err => {
+                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp từ kho Wikicrop!', 'error');
+            });
+    }
+}
+
+function showWikiCropFileSelector() {
+    var api = new mw.Api();
+    showAppMessage('⏳ Đang tải...', 'Đang quét kho tệp tin dữ liệu trên Wikicrop...', 'info');
+
+    api.get({
+        action: 'query',
+        list: 'allimages',
+        ailimit: 'max',
+        aiprop: 'url|size|mime',
+        format: 'json'
+    }).done(function (data) {
+        $('#app-custom-modal').remove();
+        var allFiles = (data.query && data.query.allimages) ? data.query.allimages : [];
+        
+        var validExtensions = ['csv', 'arff', 'xlsx', 'xls'];
+        var datasetFiles = allFiles.filter(function (f) {
+            var ext = f.name.split('.').pop().toLowerCase();
+            return validExtensions.includes(ext);
+        });
+
+        if (datasetFiles.length === 0) {
+            showAppMessage('Thông báo', 'Không tìm thấy tệp dữ liệu nào (.csv, .arff, .xlsx) trong kho tập tin Wikicrop. Bạn có thể dùng tính năng "Tải lên tập tin" của hệ thống trước.', 'info');
+            return;
+        }
+
+        var filesHtml = datasetFiles.map(function (f, idx) {
+            var cleanName = f.name.replace(/^File:/i, '').replace(/_/g, ' ');
+            var sizeKb = (f.size / 1024).toFixed(1) + ' KB';
+            return `
+                <label class="wikicrop-file-item" style="display:flex; align-items:center; padding:10px 12px; cursor:pointer; border-bottom:1px solid #f1f5f9; gap:10px; margin:0;">
+                    <input type="radio" name="wikicrop-file" value="${f.url}" data-filename="${cleanName}" ${idx === 0 ? 'checked' : ''} style="cursor:pointer; flex-shrink:0;">
+                    <div style="flex:1; overflow:hidden;">
+                        <div class="wikicrop-file-name" style="font-size:13px; font-weight:600; color:#1e293b; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">📄 ${cleanName}</div>
+                        <div style="font-size:11px; color:#94a3b8;">Dung lượng: ${sizeKb}</div>
+                    </div>
+                </label>
+            `;
+        }).join('');
+
+        var modalHtml = `
+            <div id="app-custom-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; backdrop-filter:blur(4px);">
+                <div style="background:#ffffff; width:90%; max-width:520px; padding:26px; border-radius:12px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); border-top: 4px solid #059669;">
+                    <h3 style="margin:0 0 10px 0; font-size:18px; font-weight:700; color:#1e293b;">Kho tập tin dữ liệu Wikicrop</h3>
+                    <p style="margin:0 0 16px 0; font-size:13px; color:#64748b;">Tìm thấy <b>${datasetFiles.length}</b> tệp dữ liệu đã được tải lên hệ thống. Chọn tệp để nạp vào:</p>
+                    
+                    <div style="margin-bottom:20px;">
+                        <div style="margin-bottom:10px;">
+                            <input type="text" id="input-search-wikicrop-file" placeholder="🔍 Tìm tên tệp dữ liệu..." style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; outline:none; box-sizing:border-box;" />
+                        </div>
+                        <div id="wikicrop-file-list" style="max-height:230px; overflow-y:auto; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
+                            ${filesHtml}
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:flex-end; gap:8px;">
+                        <button id="btn-confirm-load-wikicrop-file" class="wikicrop-btn" style="background:#4f46e5; color:#fff;">Nạp dữ liệu</button>
+                        <button id="btn-cancel-app-modal" class="wikicrop-btn wikicrop-btn-secondary">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        $('body').append(modalHtml);
+
+        $('#input-search-wikicrop-file').focus();
+
+        $('#input-search-wikicrop-file').on('input', function () {
+            var kw = $(this).val().toLowerCase().trim();
+            $('.wikicrop-file-item').each(function () {
+                var txt = $(this).find('.wikicrop-file-name').text().toLowerCase();
+                $(this).toggle(txt.indexOf(kw) !== -1);
+            });
+        });
+
+        $(document).off('click', '#btn-cancel-app-modal').on('click', '#btn-cancel-app-modal', function () {
+            $('#app-custom-modal').remove();
+        });
+
+        $('#btn-confirm-load-wikicrop-file').on('click', function () {
+            var $selected = $('input[name="wikicrop-file"]:checked');
+            if (!$selected.length) {
+                mw.notify('Vui lòng chọn một tệp dữ liệu!');
+                return;
+            }
+            var fileUrl = $selected.val();
+            var fileName = $selected.data('filename');
+            loadDatasetFromUrl(fileName, fileUrl);
+        });
+
+    }).fail(function () {
+        showAppMessage('Lỗi kết nối', 'Không thể kết nối lấy danh sách tệp từ Wikicrop API!', 'error');
+    });
+}
+
 
 var nominalDomains = {};
 
@@ -3128,8 +3259,43 @@ $(function () {
     });
 
     $('.btn-new-session').on('click', function() { location.reload(); });
-    $('#btnUploadCenter').on('click', function (e) { e.stopPropagation(); $('#fileInput').trigger('click'); });
-    $('#empty-dataloader').on('click', function () { $('#fileInput').trigger('click'); });
+    // $('#btnUploadCenter').on('click', function (e) { e.stopPropagation(); $('#fileInput').trigger('click'); });
+
+
+    // // 🟢 CHÈN DÒNG NÀY NGAY BÊN DƯỚI #btnUploadCenter
+    // $(document).on('click', '#btnSelectWikiFile', function (e) {
+    //     e.stopPropagation();
+    //     showWikiCropFileSelector();
+    // });
+
+    // $('#empty-dataloader').on('click', function () { $('#fileInput').trigger('click'); });
+
+    // 🟢 1. Nút "Tải từ máy tính" -> Mở chọn tệp từ máy
+    $(document).off('click', '#btnUploadCenter').on('click', '#btnUploadCenter', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('#fileInput').trigger('click');
+    });
+
+    // 🟢 2. Nút "Chọn từ kho Wikicrop" -> CHỈ mở Modal Wikicrop
+    $(document).off('click', '#btnSelectWikiFile').on('click', '#btnSelectWikiFile', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        showWikiCropFileSelector();
+    });
+
+    // 🟢 3. Khung viền nét đứt -> Kiểm tra xem điểm bấm có thuộc về 2 nút bấm hay không
+    $(document).off('click', '#empty-dataloader').on('click', '#empty-dataloader', function (e) {
+        // Nếu nhấp trúng hoặc nằm trong 2 nút bấm "Chọn từ kho Wikicrop" / "Tải từ máy tính", HUỶ SỰ KIỆN KHUNG CHA NGAY LẬP TỨC
+        if ($(e.target).closest('#btnSelectWikiFile, #btnUploadCenter').length > 0) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+        
+        // Chỉ khi nhấp vào khoảng trống xung quanh trong khung mới mở chọn file máy tính
+        $('#fileInput').trigger('click');
+    });
 
     $('#fileInput').on('change', function (e) {
         const file = e.target.files[0]; if (!file) return;
@@ -3876,7 +4042,7 @@ $(function () {
             }
 
             $.ajax({
-                url: mw.config.get('wgScript') + '?title=Special:Clustering',
+                url: mw.config.get('wgScript') + '?title=Special:DataMining',
                 type: 'POST',
                 data: {
                     clustering_action: 'save_latest',

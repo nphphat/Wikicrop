@@ -1,5 +1,5 @@
 <?php
-namespace Clustering;
+namespace DataMining;
 
 use SpecialPage;
 use MediaWiki\MediaWikiServices;
@@ -9,14 +9,13 @@ use ContentHandler;
 use CommentStoreComment;
 use MediaWiki\Revision\SlotRecord;
 
-class SpecialClustering extends SpecialPage {
+class SpecialDataMining extends SpecialPage {
 
     /* Tên tài khoản Bot hệ thống dùng để ghi kết quả ML và tải ảnh lên bài viết */
     const BOT_USERNAME = 'WikiCropBot';
 
     public function __construct() {
-        // ✅ Gọi constructor lớp cha để đăng ký tên SpecialPage
-        parent::__construct( 'Clustering' );
+        parent::__construct( 'DataMining' );
     }
 
     /**
@@ -28,7 +27,6 @@ class SpecialClustering extends SpecialPage {
             throw new \Exception( 'Tên tài khoản Bot không hợp lệ.' );
         }
         if ( $bot->getId() === 0 ) {
-            // Tạo mới tài khoản dưới dạng System User nếu chưa tồn tại
             $bot = User::newSystemUser( self::BOT_USERNAME, [ 'steal' => true ] );
             if ( !$bot ) {
                 throw new \Exception( 'Không thể khởi tạo tài khoản Bot hệ thống.' );
@@ -42,7 +40,7 @@ class SpecialClustering extends SpecialPage {
     }
 
     /**
-     * Tải ảnh Base64 từ Canvas vào CSDL & Kho tệp tin của MediaWiki (Đã sửa lỗi publish)
+     * Tải ảnh Base64 từ Canvas vào CSDL & Kho tệp tin của MediaWiki
      */
     private function uploadCanvasImage( $base64Data, $fileName, $botUser ) {
         if ( !$base64Data || strpos( $base64Data, 'data:image' ) === false ) {
@@ -68,11 +66,8 @@ class SpecialClustering extends SpecialPage {
         $repoGroup = $services->getRepoGroup();
         $localRepo = $repoGroup->getLocalRepo();
 
-        // 1. Khởi tạo đối tượng File
         $file = $localRepo->newFile( $title );
 
-        
-        // 🟢 NATIVE API: $file->upload tự động di chuyển tệp, phân thư mục hash và đăng ký CSDL Cực kỳ chuẩn xác
         $status = $file->upload(
             $tmpPath,
             'Tải lên tự động sơ đồ cây từ WikiCrop AI',
@@ -92,7 +87,7 @@ class SpecialClustering extends SpecialPage {
         return null;
     }
 
-
+    /*Ghi nội dung wikitext vào bài viết trước tham khảo */
     private function appendToWikiPage( $pageTitle, $appendText, $summary ) {
         $titleObj = Title::newFromText( $pageTitle );
         if ( !$titleObj || !$titleObj->exists() ) {
@@ -104,7 +99,17 @@ class SpecialClustering extends SpecialPage {
 
         $currentContent = $wikiPage->getContent();
         $currentText = $currentContent ? $currentContent->getText() : '';
-        $newText = $currentText . $appendText;
+
+        // Dùng Regex quét các dạng tiêu đề Tham khảo phổ biến
+        $refPattern = '/(==\s*(?:Tài liệu tham khảo|Tham khảo|References?)\s*==)/i';
+
+        if ( preg_match( $refPattern, $currentText, $matches, PREG_OFFSET_CAPTURE ) ) {
+            $pos = $matches[0][1];
+            $newText = substr( $currentText, 0, $pos ) . $appendText . "\n\n" . substr( $currentText, $pos );
+        } else {
+            $newText = $currentText . $appendText;
+        }
+
         $newContent = ContentHandler::makeContent( $newText, $titleObj );
 
         $botUser = $this->getOrCreateBotUser();
@@ -118,8 +123,6 @@ class SpecialClustering extends SpecialPage {
             throw new \Exception( 'Ghi bài viết thất bại: ' . $updater->getStatus()->getWikiText() );
         }
     }
-    
-    
 
     public function execute( $subPage ) {
         $out = $this->getOutput();
@@ -144,7 +147,6 @@ class SpecialClustering extends SpecialPage {
 
                 $botUser = $this->getOrCreateBotUser();
 
-                // Tải ảnh sơ đồ cây vào CSDL nếu có
                 if ( $imageBase64 ) {
                     $cleanAlgo = preg_replace( '/[^a-zA-Z0-9_]/', '', $algorithm );
                     $imageFileName = 'So_Do_Cay_' . $cleanAlgo . '_' . date( 'Ymd_His' ) . '.png';
@@ -152,10 +154,21 @@ class SpecialClustering extends SpecialPage {
                     try {
                         $uploadedFileName = $this->uploadCanvasImage( $imageBase64, $imageFileName, $botUser );
                         if ( $uploadedFileName ) {
-                            $appendWikitext .= "\n\n=== Sơ đồ trực quan (" . strtoupper($algorithm) . ") ===\n[[Tập tin:" . $uploadedFileName . "|center|thumb|800px|Sơ đồ trực quan phân nhánh kết quả]]\n";
+                            $fileObj = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $uploadedFileName );
+                            $realWidth = $fileObj ? $fileObj->getWidth() : 0;
+
+                            if ( $realWidth > 600 ) {
+                                $sizeParam = '600px';
+                            } elseif ( $realWidth > 0 ) {
+                                $sizeParam = $realWidth . 'px';
+                            } else {
+                                $sizeParam = '600px';
+                            }
+
+                            $appendWikitext .= "\n\n=== Sơ đồ trực quan (" . strtoupper($algorithm) . ") ===\n[[Tập tin:" . $uploadedFileName . "|center|thumb|" . $sizeParam . "|Sơ đồ trực quan phân nhánh kết quả]]\n";
                         }
                     } catch ( \Throwable $imgErr ) {
-                        // Bỏ qua lỗi ảnh để vẫn ghi được bảng dữ liệu
+                       
                     }
                 }
 
@@ -176,8 +189,8 @@ class SpecialClustering extends SpecialPage {
         }
 
         $this->setHeaders();
-        $out->setHTMLTitle( 'Gom cụm và Phân lớp dữ liệu nông học - WikiCrop' );
-        $out->addModules( 'ext.clustering' );
+        $out->setHTMLTitle( 'Khai phá dữ liệu nông học (Data Mining) - WikiCrop' );
+        $out->addModules( 'ext.datamining' );
 
         $out->addHTML( $this->buildForm( 'null' ) );
     }
@@ -187,142 +200,7 @@ class SpecialClustering extends SpecialPage {
         <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         
-        <style>
-            #firstHeading, .firstHeading, .mw-first-heading, #siteSub, #contentSub, #contentSub2 {
-                display: none !important;
-            }
-
-            .clustering-sidebar .menu-label {
-                font-size: 13px !important;
-                font-weight: 700 !important;
-                color: #94a3b8 !important;
-                margin-top: 26px !important;
-                margin-bottom: 14px !important;
-                letter-spacing: 0.06em !important;
-                text-transform: uppercase !important;
-            }
-            .clustering-sidebar .clustering-menu .menu-item {
-                font-size: 15px !important;
-                font-weight: 600 !important;
-                padding: 13px 18px !important; 
-                margin-bottom: 8px !important; 
-                border-radius: 8px !important;
-                transition: all 0.2s ease-in-out !important;
-                display: flex !important;
-                align-items: center !important;
-                min-height: 48px !important;
-            }
-            .clustering-sidebar .clustering-menu .menu-item .step-circle {
-                width: 26px !important; 
-                height: 26px !important;
-                font-size: 13px !important;
-                font-weight: 700 !important;
-                margin-right: 12px !important;
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                border-radius: 50% !important;
-            }
-            .clustering-sidebar .clustering-menu .submenu {
-                padding: 0 !important;
-                margin: 0 !important;
-                list-style: none !important;
-            }
-            .clustering-sidebar .clustering-menu .submenu li {
-                font-size: 14px !important;
-                font-weight: 500 !important;
-                padding: 11px 18px 11px 56px !important; 
-                margin-top: 4px !important;
-                border-radius: 6px !important;
-                transition: all 0.2s ease-in-out !important;
-                list-style: none !important;
-                cursor: pointer;
-            }
-            .clustering-sidebar .btn-new-session {
-                padding: 13px 20px !important; 
-                font-size: 15px !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                margin-bottom: 20px !important;
-            }
-
-            #view-preprocess.active {
-                display: flex !important;
-                flex-direction: column !important;
-                min-height: calc(100vh - 140px) !important; 
-            }
-            #view-preprocess .ml-layout {
-                display: flex !important;
-                align-items: stretch !important; 
-                flex: 1 !important;
-                gap: 20px !important;
-            }
-            #view-preprocess .ml-config-panel {
-                width: 380px !important; 
-                display: flex !important;
-                flex-direction: column !important;
-            }
-            #view-preprocess .ml-config-content {
-                padding: 28px 24px !important; 
-                flex: 1 !important;
-            }
-            #view-preprocess .form-group {
-                margin-bottom: 30px !important; 
-            }
-            #view-preprocess .form-group label {
-                display: block !important;
-                margin-bottom: 12px !important; 
-                font-size: 14px !important;
-                font-weight: 600 !important;
-                color: #475569 !important;
-            }
-            #view-preprocess .form-control {
-                height: 46px !important; 
-                padding: 10px 14px !important;
-                font-size: 14px !important;
-                border-radius: 6px !important;
-            }
-            #view-preprocess #btnApplyFilter {
-                margin-top: 15px !important; 
-                padding: 13px 24px !important; 
-                font-size: 15px !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-            }
-            .ml-results-panel {
-                display: flex !important;
-                flex-direction: column !important;
-                flex: 1 !important;
-            }
-            #view-preprocess .result-card {
-                display: flex !important;
-                flex-direction: column !important;
-                flex: 1 !important; 
-                margin-top: 0 !important;
-                padding: 24px !important;
-            }
-            #view-preprocess .preprocess-table-container {
-                flex: 1 !important; 
-                overflow-y: auto !important; 
-                overflow-x: auto !important; 
-                border: 1px solid #e2e8f0 !important;
-                border-radius: 8px !important;
-                background: #ffffff !important;
-                margin-top: 12px !important;
-            }
-
-            /* Kéo lùi khung xanh lề trái 20px để Icon '<' Dòng 2 thẳng hàng tuyệt đối với Icon '<' Dòng 1 */
-            .ml-task-header {
-                margin-left: -20px !important;
-                margin-right: -20px !important;
-                padding: 12px 20px !important;
-                display: flex !important;
-                align-items: center !important;
-            }
-        </style>
-        
         <div id="clustering-app" data-preloaded="{$preloadedJson}">
-            
             <aside class="clustering-sidebar">
                 <div class="clustering-logo">
                     <span style="font-size: 24px;">🌱</span> WikiCrop 
@@ -346,7 +224,6 @@ class SpecialClustering extends SpecialPage {
             </aside>
 
             <main class="clustering-main">
-                
                 <header class="clustering-topbar">
                     <div class="topbar-left">
                         <span id="btn-toggle-sidebar" style="cursor:pointer; padding-right: 8px; font-weight: bold; font-size: 16px;">❮</span> 
@@ -361,18 +238,22 @@ class SpecialClustering extends SpecialPage {
                 </header>
 
                 <div class="clustering-content">
-                    
                     <div id="view-dataloader" class="view-section active">
-                        <style>
-                            #empty-dataloader { transition: all 0.2s ease-in-out; }
-                            #empty-dataloader:hover { border-color: #6366f1 !important; background-color: #f8fafc !important; }
-                        </style>
                         <div id="empty-dataloader-wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 0; min-height: 70vh;">
                             <div id="empty-dataloader" style="width: 100%; max-width: 650px; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; border: 2px dashed #cbd5e1; background: #ffffff; border-radius: 12px; cursor: pointer;">
                                 <div style="color: #6366f1; margin-bottom: 24px;"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
                                 <h3 style="color: #1e293b; margin-bottom: 8px; font-size: 26px; font-weight: 700;">Upload Your Dataset</h3>
                                 <p style="color: #64748b; font-size: 13px; font-weight: 500; margin-bottom: 24px; text-align: center;">Hỗ trợ các định dạng tệp tin Excel (.xlsx, .xls), CSV (.csv) và ARFF (.arff)</p>
-                                <button id="btnUploadCenter" style="background: #6366f1; color: white; border: none; padding: 14px 40px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;">Choose File</button>
+
+                                <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+                                    <button id="btnUploadCenter" style="background: #4f46e5; color: white; border: none; padding: 13px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                                        💻 Tải file từ thiết bị 
+                                    </button>
+                                    
+                                    <button id="btnSelectWikiFile" style="background: #059669; color: white; border: none; padding: 13px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                                        🌐 Chọn từ file đã upload Wikicrop
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -418,8 +299,8 @@ class SpecialClustering extends SpecialPage {
                     <div id="view-preprocess" class="view-section">
                         <div class="ml-task-header"><strong>Filter:</strong> Chọn bộ lọc để làm sạch và biến đổi dữ liệu trước khi chạy ML Task</div>
                         <div class="ml-layout">
-                            <div class="ml-config-panel" style="width: 350px; margin-top: 0; display: flex; flex-direction: column;">
-                                <div class="ml-config-content" style="flex: 1; text-align: left;">
+                            <div class="ml-config-panel">
+                                <div class="ml-config-content" style="text-align: left;">
                                     <h3>Choose Filter</h3>
                                     <div class="form-group">
                                         <label>Hành động (Filter Type)</label>
@@ -459,7 +340,7 @@ class SpecialClustering extends SpecialPage {
                             <strong>Clustering Task:</strong> <span id="lbl-algo-header">K-Means</span> &nbsp;|&nbsp; <strong>Evaluation:</strong> <span id="lbl-cluster-eval-header">Full training set</span>
                         </div>
                         <div class="ml-layout">
-                            <div class="ml-config-panel" style="width: 380px;">
+                            <div class="ml-config-panel">
                                 <div class="ml-config-tabs">
                                     <div class="ml-config-tab active" data-panel="panel-algo">Algorithm</div>
                                     <div class="ml-config-tab" data-panel="panel-eval">Evaluation</div>
@@ -481,8 +362,7 @@ class SpecialClustering extends SpecialPage {
                                     
                                     <h4 style="margin: 24px 0 12px 0; font-size: 14px; color:var(--text-dark);">Hyperparameters</h4>
                                     
-                                    <div class="hyperparams-grid" id="mainParamGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                        
+                                    <div class="hyperparams-grid" id="mainParamGrid">
                                         <div class="form-group" id="kValueContainer" style="margin:0;">
                                             <label id="kValueLabel">Number of Clusters</label>
                                             <input type="number" id="kValue" class="form-control" value="3">
@@ -516,7 +396,6 @@ class SpecialClustering extends SpecialPage {
                                             <label>Max Iterations</label>
                                             <input type="number" id="gmmMaxIter" class="form-control" value="100" min="1">
                                         </div>
-
                                     </div>
 
                                     <div class="form-group" style="margin-top: 15px;">
@@ -531,7 +410,6 @@ class SpecialClustering extends SpecialPage {
                                     <h3>Test Options</h3>
                                     <div class="form-group" style="margin-top: 16px;">
                                         <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; flex-direction:column; gap:12px;">
-                                            
                                             <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
                                                 <input type="radio" name="testopt" value="training" checked style="margin:0; cursor:pointer;">
                                                 <span>Full training set</span>
@@ -545,7 +423,6 @@ class SpecialClustering extends SpecialPage {
                                                 <input type="number" id="clusterTestPercent" class="form-control" value="20" disabled style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px; background:#f1f5f9; color:#64748b; border-color:#cbd5e1;">
                                                 <span>% test</span>
                                             </label>
-
                                         </div>
                                     </div>
                                 </div>
@@ -555,7 +432,6 @@ class SpecialClustering extends SpecialPage {
                             <div class="ml-results-panel">
                                 <div id="empty-results" class="empty-state"><div class="empty-icon">📊</div><h3>No Results Yet</h3></div>
                                 <div id="resultSection" style="display:none;">
-                                    
                                     <div class="result-card" id="metricsCard" style="padding-bottom: 12px;">
                                         <div class="result-header">
                                             <h3 style="color:var(--primary);">Performance Metrics</h3>
@@ -590,7 +466,7 @@ class SpecialClustering extends SpecialPage {
                             <strong>Classification Task:</strong> <span id="lbl-class-algo-header"> KNN </span> &nbsp;|&nbsp; <strong>Evaluation:</strong> <span id="lbl-class-eval-header">Full training set</span>
                         </div>
                         <div class="ml-layout">
-                            <div class="ml-config-panel" style="width: 380px;">
+                            <div class="ml-config-panel">
                                 <div class="ml-config-tabs">
                                     <div class="ml-config-tab active" data-panel="panel-class-algo">Algorithm</div>
                                     <div class="ml-config-tab" data-panel="panel-class-eval">Evaluation</div>
@@ -611,8 +487,7 @@ class SpecialClustering extends SpecialPage {
                                     
                                     <h4 style="margin: 24px 0 12px 0; font-size: 14px; color:var(--text-dark);">Hyperparameters</h4>
                                     
-                                    <div class="hyperparams-grid" id="classParamGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                        
+                                    <div class="hyperparams-grid" id="classParamGrid">
                                         <div class="form-group" id="knnNeighborsContainer" style="margin:0;">
                                             <label>KNN (K)</label>
                                             <input type="number" id="knnNeighbors" class="form-control" value="1" min="1">
@@ -660,7 +535,6 @@ class SpecialClustering extends SpecialPage {
                                             <input type="checkbox" id="nbSupervisedDiscretization" style="width: 16px; height: 16px;">
                                             <label for="nbSupervisedDiscretization" style="margin:0; cursor:pointer;">Use Supervised Discretization</label>
                                         </div>
-
                                     </div>
 
                                     <div class="form-group" style="margin-top: 15px;">
@@ -682,7 +556,6 @@ class SpecialClustering extends SpecialPage {
                                     <h3>Test Options</h3>
                                     <div class="form-group" style="margin-top: 16px;">
                                         <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; flex-direction:column; gap:12px;">
-                                            
                                             <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
                                                 <input type="radio" name="classTestopt" value="training" checked style="margin:0; cursor:pointer;">
                                                 <span>Full training set</span>
@@ -703,7 +576,6 @@ class SpecialClustering extends SpecialPage {
                                                 <input type="number" id="classCvFolds" class="form-control" value="10" min="2" max="20" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
                                                 <span>Folds</span>
                                             </label>
-
                                         </div>
                                     </div>
                                 </div>
@@ -714,7 +586,6 @@ class SpecialClustering extends SpecialPage {
                             <div class="ml-results-panel">
                                 <div id="class-empty-results" class="empty-state"><div class="empty-icon">📊</div><h3>No Results Yet</h3></div>
                                 <div id="classResultSection" style="display:none;">
-                                    
                                     <div class="result-card" style="margin-bottom:20px;">
                                         <div class="result-header">
                                             <h3 style="color:var(--primary);">Performance Metrics</h3>
@@ -780,7 +651,6 @@ class SpecialClustering extends SpecialPage {
                                         <div style="padding:20px; border-bottom:1px solid var(--border); font-weight:700; color:var(--text-dark);">Actual vs Predicted Instances Table</div>
                                         <div id="classPredictionTableWrap" style="overflow-x:auto; padding:20px; max-height:400px; overflow-y:auto;"></div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -791,7 +661,7 @@ class SpecialClustering extends SpecialPage {
                             <strong>Regression Task:</strong> <span id="lbl-reg-algo-header">Linear Regression</span> &nbsp;|&nbsp; <strong>Evaluation:</strong> <span id="lbl-reg-eval-header">Full training set</span>
                         </div>
                         <div class="ml-layout">
-                            <div class="ml-config-panel" style="width: 380px;">
+                            <div class="ml-config-panel">
                                 <div class="ml-config-tabs">
                                     <div class="ml-config-tab active" data-panel="panel-reg-algo">Algorithm</div>
                                     <div class="ml-config-tab" data-panel="panel-reg-eval">Evaluation</div>
@@ -846,7 +716,6 @@ class SpecialClustering extends SpecialPage {
                                     <h3>Test Options</h3>
                                     <div class="form-group" style="margin-top: 16px;">
                                         <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0; display:flex; flex-direction:column; gap:12px;">
-                                            
                                             <label style="font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer; margin:0; color:#1e293b;">
                                                 <input type="radio" name="regTestopt" value="training" checked style="margin:0; cursor:pointer;">
                                                 <span>Full training set</span>
@@ -867,7 +736,6 @@ class SpecialClustering extends SpecialPage {
                                                 <input type="number" id="regCvFolds" class="form-control" value="10" min="2" max="20" style="width:38px; padding:2px; height:26px !important; text-align:center; font-size:12px;">
                                                 <span>Folds</span>
                                             </label>
-
                                         </div>
                                     </div>
                                 </div>

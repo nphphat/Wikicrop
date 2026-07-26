@@ -8,17 +8,17 @@ Extension **Clustering** tích hợp phân hệ phân tích gom cụm học máy
 
 Đảm bảo bạn đã đổi tên thư mục gốc của Extension thành Clustering và đặt vào thư mục extensions/ của WikiCrop. Cấu trúc tệp tin bắt buộc phải như sau:
 
-Wikicrop/extensions/Clustering/  
+Wikicrop/extensions/DataMining/  
 ├── extension.json                    
 ├── includes/  
 │   ├── Hooks.php                    
-│   └── SpecialClustering.php         
+│   └── SpecialDataMining.php         
 ├── i18n/  
 │   ├── en.json                      
 │   └── vi.json                     
 ├── modules/  
-│   ├── ext.clustering.css            
-│   └── ext.clustering.js          
+│   ├── ext.datamining.css            
+│   └── ext.datamining.js          
 
 ### Bước 1.2: Kích hoạt Extension
 
@@ -32,7 +32,7 @@ Sau khi kích hoạt thành công, bạn có thể truy cập extension thông q
 
 1. **Cách 1 (Menu tự động):** Truy cập Menu chính ở thanh điều hướng bên trái (Sidebar), nhấn chọn mục **"Gom cụm dữ liệu"**.  
 2. **Cách 2 (Đường dẫn trực tiếp):** Nhập trực tiếp đường dẫn đặc biệt sau vào thanh địa chỉ trình duyệt:  
-   http://localhost/wikicrop/index.php/Special:Clustering
+   http://localhost/wikicrop/index.php/Special:DataMining
 
 ## 3.Các bước tiến hành gom cụm
 
