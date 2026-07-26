@@ -1,7 +1,12 @@
 .seedanalysis {
-    max-width: 1180px;
+    max-width: 1200px;
     margin: 0 auto;
     overflow-wrap: anywhere;
+}
+
+#firstHeading.mw-first-heading {
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 .seedanalysis,
@@ -14,7 +19,9 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
-    margin-bottom: 18px;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #eaecf0;
 }
 
 .seedanalysis-toolbar h2 {
@@ -23,6 +30,7 @@
 }
 
 .seedanalysis-toolbar p {
+    max-width: 760px;
     margin: 0;
     color: #54595d;
 }
@@ -71,13 +79,28 @@
 }
 
 .seedanalysis-form {
-    display: grid;
-    gap: 14px;
     padding: 16px;
-    margin-bottom: 14px;
-    background: #f8f9fa;
+    margin-bottom: 16px;
+    background: #fff;
     border: 1px solid #c8ccd1;
     border-radius: 6px;
+}
+
+.seedanalysis-form-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.seedanalysis-form.seedanalysis-has-preview .seedanalysis-form-main {
+    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+}
+
+.seedanalysis-upload-panel {
+    display: grid;
+    gap: 14px;
+    align-content: start;
 }
 
 .seedanalysis-file span,
@@ -118,6 +141,7 @@
 .seedanalysis-input-preview {
     display: grid;
     gap: 10px;
+    min-width: 0;
 }
 
 .seedanalysis-input-preview[hidden] {
@@ -143,9 +167,9 @@
 .seedanalysis-calibration-stage {
     display: grid;
     place-items: center;
-    min-height: 260px;
-    max-height: 420px;
-    background: #fff;
+    min-height: 300px;
+    max-height: 500px;
+    background: #f8f9fa;
     border: 1px solid #c8ccd1;
     border-radius: 6px;
     overflow: auto;
@@ -157,13 +181,13 @@
     position: relative;
     display: inline-flex;
     max-width: 100%;
-    max-height: 420px;
+    max-height: 500px;
 }
 
 .seedanalysis-calibration-frame img {
     display: block;
     max-width: 100%;
-    max-height: 420px;
+    max-height: 500px;
     object-fit: contain;
     user-select: none;
 }
@@ -201,9 +225,21 @@
     gap: 10px;
 }
 
+.seedanalysis-runbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    margin-top: 14px;
+    border-top: 1px solid #eaecf0;
+}
+
 .seedanalysis-status {
+    flex: 1 1 auto;
+    min-width: 0;
     min-height: 22px;
-    margin: 8px 0 16px;
+    margin: 0;
     color: #54595d;
 }
 
@@ -243,6 +279,7 @@
 }
 
 .seedanalysis-card {
+    min-width: 0;
     padding: 12px;
     background: #fff;
     border: 1px solid #c8ccd1;
@@ -521,6 +558,22 @@
     margin-bottom: 16px;
 }
 
+.seedanalysis-result-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(290px, 0.85fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.seedanalysis-result-media,
+.seedanalysis-result-summary {
+    min-width: 0;
+}
+
+.seedanalysis-result-summary .seedanalysis-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .seedanalysis-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -543,7 +596,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 220px;
+    min-height: 360px;
     background: #f8f9fa;
     border: 1px solid #c8ccd1;
     border-radius: 6px;
@@ -571,8 +624,18 @@
 }
 
 @media (max-width: 900px) {
+    .seedanalysis-form-main,
+    .seedanalysis-form.seedanalysis-has-preview .seedanalysis-form-main,
+    .seedanalysis-result-grid {
+        grid-template-columns: 1fr;
+    }
+
     .seedanalysis-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .seedanalysis-image-wrap {
+        min-height: 280px;
     }
 }
 
@@ -595,7 +658,20 @@
         flex-direction: column;
     }
 
+    .seedanalysis-runbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .seedanalysis-primary {
+        width: 100%;
+    }
+
     .seedanalysis-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .seedanalysis-result-summary .seedanalysis-cards {
         grid-template-columns: 1fr;
     }
 

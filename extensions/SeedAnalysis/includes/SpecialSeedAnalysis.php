@@ -48,11 +48,19 @@ class SpecialSeedAnalysis extends SpecialPage {
         }
         $html .= '</div>';
 
-        $html .= '<form id="seedanalysis-form" class="seedanalysis-form">';
+        $html .= '<form id="seedanalysis-form" class="seedanalysis-form" novalidate>';
+        $html .= '<div class="seedanalysis-form-main">';
+        $html .= '<div class="seedanalysis-upload-panel">';
         $html .= '<label class="seedanalysis-file">';
         $html .= '<span>' . htmlspecialchars( $this->msg( 'seedanalysis-select-image' )->text() ) . '</span>';
         $html .= '<input id="seedanalysis-image" name="image" type="file" accept="image/jpeg,image/png" required>';
         $html .= '</label>';
+
+        $html .= '<div class="seedanalysis-calibration">';
+        $html .= '<label><span>' . htmlspecialchars( $this->msg( 'seedanalysis-reference-pixels' )->text() ) . '</span><input name="referencePixels" type="number" min="0" step="0.01" placeholder="0"></label>';
+        $html .= '<label><span>' . htmlspecialchars( $this->msg( 'seedanalysis-reference-mm' )->text() ) . '</span><input name="referenceMm" type="number" min="0" step="0.01" placeholder="0"></label>';
+        $html .= '</div>';
+        $html .= '</div>';
 
         $html .= '<div id="seedanalysis-input-preview" class="seedanalysis-input-preview" hidden>';
         $html .= '<div class="seedanalysis-input-preview-head">';
@@ -74,10 +82,6 @@ class SpecialSeedAnalysis extends SpecialPage {
         $html .= '<button id="seedanalysis-clear-reference" class="seedanalysis-secondary" type="button">' . htmlspecialchars( $this->msg( 'seedanalysis-clear-reference' )->text() ) . '</button>';
         $html .= '</div>';
         $html .= '</div>';
-
-        $html .= '<div class="seedanalysis-calibration">';
-        $html .= '<label><span>' . htmlspecialchars( $this->msg( 'seedanalysis-reference-pixels' )->text() ) . '</span><input name="referencePixels" type="number" min="0" step="0.01" placeholder="0"></label>';
-        $html .= '<label><span>' . htmlspecialchars( $this->msg( 'seedanalysis-reference-mm' )->text() ) . '</span><input name="referenceMm" type="number" min="0" step="0.01" placeholder="0"></label>';
         $html .= '</div>';
         $html .= '<input name="referencePixelSpace" type="hidden" value="">';
         $html .= '<input name="referenceX1" type="hidden" value="">';
@@ -85,10 +89,12 @@ class SpecialSeedAnalysis extends SpecialPage {
         $html .= '<input name="referenceX2" type="hidden" value="">';
         $html .= '<input name="referenceY2" type="hidden" value="">';
 
+        $html .= '<div class="seedanalysis-runbar">';
+        $html .= '<div id="seedanalysis-status" class="seedanalysis-status" aria-live="polite"></div>';
         $html .= '<button id="seedanalysis-submit" class="seedanalysis-primary" type="submit">' . htmlspecialchars( $this->msg( 'seedanalysis-analyze' )->text() ) . '</button>';
+        $html .= '</div>';
         $html .= '</form>';
 
-        $html .= '<div id="seedanalysis-status" class="seedanalysis-status" aria-live="polite"></div>';
         $html .= '<div id="seedanalysis-result" class="seedanalysis-result" hidden></div>';
         $html .= '</div>';
 

@@ -38,7 +38,7 @@ def refine_instances_post(
     if not (enable_boundary_refine or enable_grabcut or enable_edge_snap or smooth_sigma > 0):
         return instances
 
-    padding      = max(int_param(params, "samBoxPadding"), int_param(params, "boundaryRefinePadding"))
+    padding      = int_param(params, "boundaryRefinePadding")
     grabcut_iter = int_param(params, "grabCutIter")
     snap_radius  = int_param(params, "edgeSnapRadius")
     snap_sigma   = float_param(params, "edgeSnapSigma")
@@ -85,7 +85,7 @@ def refine_instances_post(
                 max_area_change=boundary_max_area_change,
             )
 
-        if enable_grabcut:
+        if enable_grabcut and _allow_grabcut_for_shape(crop_mask):
             crop_mask = _grabcut_refine_crop(crop_rgb, crop_mask, iter_count=grabcut_iter)
             # Safety: if area changed by more than 60%, revert
             new_area = int(np.count_nonzero(crop_mask))
@@ -128,6 +128,7 @@ def refine_instances_post(
                     class_id=instance.class_id,
                     class_name=instance.class_name,
                     source=instance.source,
+                    bbox=(x1, y1, x2 - x1, y2 - y1),
                 )
             )
             added = True
@@ -135,6 +136,17 @@ def refine_instances_post(
             refined.append(instance)
 
     return refined
+
+
+def _allow_grabcut_for_shape(mask: np.ndarray) -> bool:
+    contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if not contours:
+        return False
+    contour = max(contours, key=cv2.contourArea)
+    (_, _), (rect_w, rect_h), _ = cv2.minAreaRect(contour)
+    short_side = max(min(float(rect_w), float(rect_h)), 1.0)
+    long_side = max(float(rect_w), float(rect_h), 1.0)
+    return (long_side / short_side) <= 2.45
 
 
 # ---------------------------------------------------------------------------

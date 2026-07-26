@@ -376,6 +376,7 @@
         currentChartMetric = 'length';
         $( '#seedanalysis-result' ).empty().prop( 'hidden', true );
         setStatus( '', '' );
+        $( '#seedanalysis-form' ).removeClass( 'seedanalysis-has-preview' );
         $( '#seedanalysis-input-preview' ).prop( 'hidden', true );
         $( '#seedanalysis-calibration-image' ).removeAttr( 'src' );
 
@@ -390,6 +391,7 @@
             }
             $( '#seedanalysis-calibration-image' ).attr( 'src', reader.result );
             $( '#seedanalysis-input-preview' ).prop( 'hidden', false ).removeAttr( 'hidden' );
+            $( '#seedanalysis-form' ).addClass( 'seedanalysis-has-preview' );
         };
         reader.onerror = function () {
             if ( requestId === inputPreviewRequest ) {
@@ -1322,6 +1324,8 @@
 
         var $result = $( '#seedanalysis-result' ).empty().prop( 'hidden', false );
         var $actions = $( '<div>' ).addClass( 'seedanalysis-actions' );
+        var $summary = $( '<div>' ).addClass( 'seedanalysis-result-summary' );
+        var $media = $( '<div>' ).addClass( 'seedanalysis-result-media' );
 
         if ( result.csv ) {
             $( '<button>' )
@@ -1334,13 +1338,19 @@
                 .appendTo( $actions );
         }
 
-        $result.append(
+        $summary.append(
             renderCards( result ),
             renderQcSummary( result ),
             renderSuspectEditor( result ),
-            renderStatistics( result ),
-            renderPreview( result ),
             $actions
+        );
+        $media.append( renderPreview( result ) );
+
+        $result.append(
+            $( '<div>' )
+                .addClass( 'seedanalysis-result-grid' )
+                .append( $media, $summary ),
+            renderStatistics( result )
         );
     }
 
@@ -1372,6 +1382,9 @@
         var input = document.getElementById( 'seedanalysis-image' );
         if ( !input || !input.files || !input.files[ 0 ] ) {
             setStatus( msg( 'error-no-image' ), 'error' );
+            if ( input ) {
+                input.focus();
+            }
             return;
         }
 

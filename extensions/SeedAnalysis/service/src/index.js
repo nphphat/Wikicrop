@@ -190,6 +190,7 @@ const compactAnalyzeResponse = ( result ) => ( {
     summary: result.summary || {},
     measurements: result.measurements || [],
     csv: result.csv || '',
+    original_png_base64: result.original_png_base64 || '',
     overlay_png_base64: result.overlay_png_base64 || '',
     sam_mask_png_base64: result.sam_mask_png_base64 || '',
     preprocessed_png_base64: result.preprocessed_png_base64 || '',

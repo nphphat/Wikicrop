@@ -38,6 +38,7 @@ class InstanceMask:
     class_id: int
     class_name: str
     source: str = "full"
+    bbox: tuple[int, int, int, int] | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -81,8 +82,10 @@ def predict_instances(rgb: np.ndarray, params: dict) -> list[InstanceMask]:
                 full_mask = np.zeros((height, width), dtype=bool)
                 th, tw = tile.shape[:2]
                 conf = item.confidence
+                item_source = source
                 if _touches_tile_margin(item.mask, touches_edge, float_param(params, "edgeMarginRatio")):
-                    conf *= 0.92
+                    conf *= 0.84
+                    item_source = f"{source}_edge"
                 full_mask[y_off: y_off + th, x_off: x_off + tw] = item.mask
                 instances.append(
                     InstanceMask(
@@ -90,7 +93,8 @@ def predict_instances(rgb: np.ndarray, params: dict) -> list[InstanceMask]:
                         confidence=conf,
                         class_id=item.class_id,
                         class_name=item.class_name,
-                        source=source,
+                        source=item_source,
+                        bbox=_offset_bbox(item.bbox, x_off, y_off, width, height),
                     )
                 )
 
@@ -143,6 +147,7 @@ def _predict_single_image(
         iou_thr=iou_thr,
         max_det=max_det,
         source=source,
+        params=params,
         boxes_are_xyxy=boxes_are_xyxy,
     )
 
@@ -165,6 +170,7 @@ def _decode_yolo_seg(
     iou_thr: float,
     max_det: int,
     source: str,
+    params: dict,
     boxes_are_xyxy: bool = False,
 ) -> list[InstanceMask]:
     """Decode raw YOLO-seg ONNX tensors into InstanceMask objects."""
@@ -216,33 +222,65 @@ def _decode_yolo_seg(
 
     instances: list[InstanceMask] = []
     for i in range(len(indices)):
-        # Crop mask to box region in proto space (avoids bleeding)
-        x1_p = int(boxes_xyxy[i, 0] / imgsz * proto_w)
-        y1_p = int(boxes_xyxy[i, 1] / imgsz * proto_h)
-        x2_p = int(np.ceil(boxes_xyxy[i, 2] / imgsz * proto_w))
-        y2_p = int(np.ceil(boxes_xyxy[i, 3] / imgsz * proto_h))
+        box_w = max(float(boxes_xyxy[i, 2] - boxes_xyxy[i, 0]), 1.0)
+        box_h = max(float(boxes_xyxy[i, 3] - boxes_xyxy[i, 1]), 1.0)
+        box_aspect = max(box_w, box_h) / max(min(box_w, box_h), 1.0)
+        is_long_box = box_aspect >= float_param(params, "longMaskAspectRatio", 2.15, 1.0, 20.0)
+        threshold = (
+            float_param(params, "longMaskThreshold", 0.40, 0.05, 0.95)
+            if is_long_box
+            else float_param(params, "maskThreshold", 0.50, 0.05, 0.95)
+        )
+        padding_ratio = (
+            float_param(params, "longMaskCropPaddingRatio", 0.08, 0.0, 0.30)
+            if is_long_box
+            else float_param(params, "maskCropPaddingRatio", 0.01, 0.0, 0.30)
+        )
+        crop_padding = max(1.0 if padding_ratio > 0 else 0.0, max(box_w, box_h) * padding_ratio)
+        crop_box = np.array(
+            [
+                boxes_xyxy[i, 0] - crop_padding,
+                boxes_xyxy[i, 1] - crop_padding,
+                boxes_xyxy[i, 2] + crop_padding,
+                boxes_xyxy[i, 3] + crop_padding,
+            ],
+            dtype=np.float32,
+        )
+
+        # Crop mask to a lightly padded box in proto space. Long seeds get a
+        # softer threshold/padding so low-confidence tips are not cut off.
+        x1_p = int(crop_box[0] / imgsz * proto_w)
+        y1_p = int(crop_box[1] / imgsz * proto_h)
+        x2_p = int(np.ceil(crop_box[2] / imgsz * proto_w))
+        y2_p = int(np.ceil(crop_box[3] / imgsz * proto_h))
         x1_p, y1_p = max(0, x1_p), max(0, y1_p)
         x2_p, y2_p = min(proto_w, x2_p), min(proto_h, y2_p)
 
-        # Upsample with high-quality interpolation
-        mask_f = masks_proto[i]
-        # Resize to padded size
-        mask_up = cv2.resize(
-            mask_f.astype(np.float32),
-            (pad_w, pad_h),
-            interpolation=cv2.INTER_LANCZOS4,
+        x1 = max(0, int(np.floor(crop_box[0] * scale_x)))
+        y1 = max(0, int(np.floor(crop_box[1] * scale_y)))
+        x2 = min(pad_w, int(np.ceil(crop_box[2] * scale_x)))
+        y2 = min(pad_h, int(np.ceil(crop_box[3] * scale_y)))
+
+        if x2 <= x1 or y2 <= y1 or x2_p <= x1_p or y2_p <= y1_p:
+            continue
+        proto_crop = masks_proto[i, y1_p:y2_p, x1_p:x2_p].astype(np.float32, copy=False)
+        crop_mask = cv2.resize(
+            proto_crop,
+            (x2 - x1, y2 - y1),
+            interpolation=cv2.INTER_LINEAR,
         )
-        x1 = max(0, int(np.floor(boxes_xyxy[i, 0] * scale_x)))
-        y1 = max(0, int(np.floor(boxes_xyxy[i, 1] * scale_y)))
-        x2 = min(pad_w, int(np.ceil(boxes_xyxy[i, 2] * scale_x)))
-        y2 = min(pad_h, int(np.ceil(boxes_xyxy[i, 3] * scale_y)))
-        cropped_mask = np.zeros_like(mask_up, dtype=np.float32)
-        if x2 > x1 and y2 > y1:
-            cropped_mask[y1:y2, x1:x2] = mask_up[y1:y2, x1:x2]
-        mask_up = cropped_mask
-        # Crop to original content area (remove padding)
-        mask_up = mask_up[:crop_h, :crop_w]
-        binary  = (mask_up > 0.5).astype(bool)
+        place_x1 = max(0, x1)
+        place_y1 = max(0, y1)
+        place_x2 = min(crop_w, x2)
+        place_y2 = min(crop_h, y2)
+        if place_x2 <= place_x1 or place_y2 <= place_y1:
+            continue
+        src_x1 = place_x1 - x1
+        src_y1 = place_y1 - y1
+        src_x2 = src_x1 + (place_x2 - place_x1)
+        src_y2 = src_y1 + (place_y2 - place_y1)
+        binary = np.zeros((crop_h, crop_w), dtype=bool)
+        binary[place_y1:place_y2, place_x1:place_x2] = crop_mask[src_y1:src_y2, src_x1:src_x2] > threshold
 
         if not np.any(binary):
             continue
@@ -254,6 +292,7 @@ def _decode_yolo_seg(
                 class_id=int(class_ids[i]),
                 class_name=class_name_for_id(int(class_ids[i])),
                 source=source,
+                bbox=(place_x1, place_y1, place_x2 - place_x1, place_y2 - place_y1),
             )
         )
 
@@ -388,7 +427,7 @@ def _merge_instances(
     selected: list[InstanceMask] = []
     selected_meta: list[tuple[InstanceMask, tuple[int, int, int, int], int]] = []
     for item in sorted(instances, key=lambda x: x.confidence, reverse=True):
-        item_bbox = _mask_bbox(item.mask)
+        item_bbox = _mask_bbox(item.mask, item.bbox)
         if item_bbox is None:
             continue
         item_area = int(np.count_nonzero(item.mask))
@@ -443,7 +482,18 @@ def _mask_overlap_with_areas(a: np.ndarray, area_a: int, b: np.ndarray, area_b: 
     return float(inter / max(smaller, 1))
 
 
-def _mask_bbox(mask: np.ndarray) -> tuple[int, int, int, int] | None:
+def _mask_bbox(mask: np.ndarray, bbox: tuple[int, int, int, int] | None = None) -> tuple[int, int, int, int] | None:
+    height, width = mask.shape[:2]
+    if bbox is not None:
+        x, y, w, h = bbox
+        x1 = max(0, int(x))
+        y1 = max(0, int(y))
+        x2 = min(width, x1 + max(0, int(w)))
+        y2 = min(height, y1 + max(0, int(h)))
+        if x2 > x1 and y2 > y1:
+            ys, xs = np.nonzero(mask[y1:y2, x1:x2])
+            if len(xs) > 0:
+                return int(xs.min()) + x1, int(ys.min()) + y1, int(xs.max()) + 1 + x1, int(ys.max()) + 1 + y1
     ys, xs = np.nonzero(mask)
     if len(xs) == 0:
         return None
@@ -452,3 +502,22 @@ def _mask_bbox(mask: np.ndarray) -> tuple[int, int, int, int] | None:
 
 def _bbox_intersects(a: tuple[int, int, int, int], b: tuple[int, int, int, int]) -> bool:
     return a[0] < b[2] and a[2] > b[0] and a[1] < b[3] and a[3] > b[1]
+
+
+def _offset_bbox(
+    bbox: tuple[int, int, int, int] | None,
+    x_offset: int,
+    y_offset: int,
+    width: int,
+    height: int,
+) -> tuple[int, int, int, int] | None:
+    if bbox is None:
+        return None
+    x, y, w, h = bbox
+    x1 = max(0, min(width, int(x) + int(x_offset)))
+    y1 = max(0, min(height, int(y) + int(y_offset)))
+    x2 = max(x1, min(width, x1 + max(0, int(w))))
+    y2 = max(y1, min(height, y1 + max(0, int(h))))
+    if x2 <= x1 or y2 <= y1:
+        return None
+    return x1, y1, x2 - x1, y2 - y1
