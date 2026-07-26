@@ -81,6 +81,10 @@ class SpecialSeedAnalysis extends SpecialPage {
         $html .= '<span id="seedanalysis-reference-status">' . htmlspecialchars( $this->msg( 'seedanalysis-reference-empty' )->text() ) . '</span>';
         $html .= '<button id="seedanalysis-clear-reference" class="seedanalysis-secondary" type="button">' . htmlspecialchars( $this->msg( 'seedanalysis-clear-reference' )->text() ) . '</button>';
         $html .= '</div>';
+        $html .= '<div id="seedanalysis-reference-suggestion" class="seedanalysis-reference-suggestion" hidden>';
+        $html .= '<strong>' . htmlspecialchars( $this->msg( 'seedanalysis-suggested-reference-title' )->text() ) . '</strong>';
+        $html .= '<span>' . htmlspecialchars( $this->msg( 'seedanalysis-suggested-reference-help' )->text() ) . '</span>';
+        $html .= '</div>';
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<input name="referencePixelSpace" type="hidden" value="">';

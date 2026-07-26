@@ -225,6 +225,29 @@
     gap: 10px;
 }
 
+.seedanalysis-reference-suggestion {
+    display: grid;
+    gap: 3px;
+    padding: 10px 12px;
+    border: 1px solid #a2d8c8;
+    border-radius: 6px;
+    background: #f0fff8;
+}
+
+.seedanalysis-reference-suggestion[hidden] {
+    display: none;
+}
+
+.seedanalysis-reference-suggestion strong {
+    color: #14532d;
+    font-size: 13px;
+}
+
+.seedanalysis-reference-suggestion span {
+    color: #54595d;
+    font-size: 13px;
+}
+
 .seedanalysis-runbar {
     display: flex;
     align-items: center;
@@ -265,6 +288,51 @@
 .seedanalysis-overview,
 .seedanalysis-statistics {
     margin-bottom: 20px;
+}
+
+.seedanalysis-reference-summary {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.seedanalysis-reference-group {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #c8ccd1;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.seedanalysis-reference-summary h3 {
+    margin: 0 0 9px;
+    font-size: 18px;
+}
+
+.seedanalysis-reference-rows {
+    display: grid;
+    gap: 8px;
+}
+
+.seedanalysis-reference-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.seedanalysis-reference-row span {
+    min-width: 0;
+    color: #54595d;
+    font-size: 13px;
+}
+
+.seedanalysis-reference-row strong {
+    min-width: 0;
+    color: #202122;
+    font-size: 14px;
+    text-align: right;
+    overflow-wrap: anywhere;
 }
 
 .seedanalysis-overview h3,
@@ -311,6 +379,10 @@
     border-color: #f2c078;
     background: #fff8e7;
     color: #7c2d12;
+}
+
+.seedanalysis-qc-suspect-ids {
+    font-weight: 600;
 }
 
 .seedanalysis-suspect-editor {
@@ -610,6 +682,9 @@
 }
 
 .seedanalysis-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin: 0 0 16px;
 }
 
@@ -656,6 +731,15 @@
     .seedanalysis-reference-tools {
         align-items: stretch;
         flex-direction: column;
+    }
+
+    .seedanalysis-reference-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .seedanalysis-reference-row strong {
+        text-align: left;
     }
 
     .seedanalysis-runbar {

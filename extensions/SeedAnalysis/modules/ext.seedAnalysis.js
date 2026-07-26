@@ -119,6 +119,31 @@
         return '-';
     }
 
+    function formNumberValue( name ) {
+        var form = document.getElementById( 'seedanalysis-form' );
+        var value = form ? $( form ).find( '[name="' + name + '"]' ).val() : '';
+        var numeric = Number( value );
+        return Number.isFinite( numeric ) ? numeric : 0;
+    }
+
+    function suggestedReferencePoint( suggestion, xKey, yKey ) {
+        var x = finiteNumber( suggestion && suggestion[ xKey ] );
+        var y = finiteNumber( suggestion && suggestion[ yKey ] );
+        if ( x === null || y === null ) {
+            return null;
+        }
+        return {
+            x: x,
+            y: y
+        };
+    }
+
+    function setSuggestedReferenceNotice( visible ) {
+        $( '#seedanalysis-reference-suggestion' )
+            .prop( 'hidden', !visible )
+            .toggleClass( 'is-visible', !!visible );
+    }
+
     function pickMetric( result, definition ) {
         var measurements = result.measurements || [];
         var calibrationEnabled = result.calibration && result.calibration.enabled === true;
@@ -362,7 +387,39 @@
         if ( form ) {
             setFormValue( form, 'referencePixels', '' );
         }
+        setSuggestedReferenceNotice( false );
         updateCalibrationOverlay();
+    }
+
+    function applySuggestedReference( result ) {
+        var suggestion = result && result.calibration && result.calibration.suggested_reference;
+        var start;
+        var end;
+
+        if (
+            !suggestion ||
+            suggestion.available !== true ||
+            ( result.calibration && result.calibration.enabled === true ) ||
+            calibrationPixels() > 1
+        ) {
+            setSuggestedReferenceNotice( false );
+            return false;
+        }
+
+        start = suggestedReferencePoint( suggestion, 'x1', 'y1' );
+        end = suggestedReferencePoint( suggestion, 'x2', 'y2' );
+        if ( !start || !end ) {
+            setSuggestedReferenceNotice( false );
+            return false;
+        }
+
+        calibration = {
+            start: start,
+            end: end
+        };
+        updateCalibrationOverlay();
+        setSuggestedReferenceNotice( true );
+        return true;
     }
 
     function setInputPreview( file ) {
@@ -376,6 +433,7 @@
         currentChartMetric = 'length';
         $( '#seedanalysis-result' ).empty().prop( 'hidden', true );
         setStatus( '', '' );
+        setSuggestedReferenceNotice( false );
         $( '#seedanalysis-form' ).removeClass( 'seedanalysis-has-preview' );
         $( '#seedanalysis-input-preview' ).prop( 'hidden', true );
         $( '#seedanalysis-calibration-image' ).removeAttr( 'src' );
@@ -543,8 +601,16 @@
         var summary = result.summary || {};
         var qc = summary.qc || {};
         var suspectCount = finiteNumber( qc.suspect_count ) || 0;
+        var suspectIds = ( qc.suspect_ids || [] )
+            .map( Number )
+            .filter( Number.isFinite )
+            .sort( function ( a, b ) {
+                return a - b;
+            } );
         var text;
         var type = 'is-ok';
+        var suspectIdText;
+        var $summary;
 
         if ( qc.robust_used_for_reporting === false ) {
             text = msg( 'qc-raw-warning' );
@@ -560,14 +626,71 @@
             text = msg( 'qc-ok' );
         }
 
-        return $( '<div>' )
+        $summary = $( '<div>' )
             .addClass( 'seedanalysis-qc-summary ' + type )
             .text( text );
+
+        if ( suspectIds.length ) {
+            suspectIdText = suspectIds.slice( 0, 8 ).map( function ( id ) {
+                return '#' + id;
+            } ).join( ', ' );
+            if ( suspectIds.length > 8 ) {
+                suspectIdText += ', ...';
+            }
+
+            $summary.append(
+                ' ',
+                $( '<span>' )
+                    .addClass( 'seedanalysis-qc-suspect-ids' )
+                    .text( mw.msg( 'seedanalysis-suspect-id-list', suspectIdText ) )
+            );
+        }
+
+        return $summary;
     }
 
     function roundValue( value, digits ) {
         var factor = Math.pow( 10, digits );
         return Math.round( value * factor ) / factor;
+    }
+
+    function qualitySummary( measurements ) {
+        var problemFlags = {
+            loose_mask: true,
+            touches_image_edge: true,
+            extreme_aspect: true,
+            partial_tile_mask: true
+        };
+        var flagCounts = {};
+        var problemCount = 0;
+        var labelConfusionCount;
+
+        measurements.forEach( function ( measurement ) {
+            String( measurement.quality_flags || '' )
+                .split( ',' )
+                .map( function ( flag ) {
+                    return flag.trim();
+                } )
+                .filter( Boolean )
+                .forEach( function ( flag ) {
+                    flagCounts[ flag ] = ( flagCounts[ flag ] || 0 ) + 1;
+                    if ( problemFlags[ flag ] ) {
+                        problemCount++;
+                    }
+                } );
+        } );
+
+        labelConfusionCount = flagCounts.model_label_ref_as_seed || 0;
+        return {
+            flag_counts: flagCounts,
+            problem_count: problemCount,
+            problem_ratio: measurements.length ? roundValue( problemCount / measurements.length, 6 ) : 0,
+            label_confusion_count: labelConfusionCount,
+            label_confusion_ratio: measurements.length ?
+                roundValue( labelConfusionCount / measurements.length, 6 ) : 0,
+            review_required: problemCount > 0,
+            status: problemCount > 0 ? 'review_required' : 'ok'
+        };
     }
 
     function recomputeSummaryFromMeasurements( previousSummary, measurements ) {
@@ -619,7 +742,8 @@
                     robust_used_for_reporting: true,
                     manual_override: true,
                     status: 'ok'
-                } )
+                } ),
+                quality: qualitySummary( [] )
             } );
         }
 
@@ -725,7 +849,8 @@
                 manual_override: true,
                 status: !robustUsedForReporting ?
                     'review_required' : ( suspectIds.length ? 'suspects_flagged' : 'ok' )
-            } )
+            } ),
+            quality: qualitySummary( measurements )
         } );
     }
 
@@ -744,7 +869,8 @@
             'id', 'area_px', 'length_px', 'width_px', 'area_mm2', 'length_mm',
             'width_mm', 'centroid_x', 'centroid_y', 'bbox_x', 'bbox_y', 'bbox_w',
             'bbox_h', 'angle_deg', 'solidity', 'extent', 'aspect_ratio', 'confidence',
-            'class_id', 'class_name', 'qc_outlier', 'qc_reason'
+            'class_id', 'class_name', 'detected_class_id', 'detected_class_name',
+            'quality_flags', 'qc_outlier', 'qc_reason'
         ];
 
         [ 'qc_manual_override', 'qc_manual_decision' ].forEach( function ( column ) {
@@ -1317,6 +1443,75 @@
         URL.revokeObjectURL( url );
     }
 
+    function downloadBase64Png( base64, filename ) {
+        var link = document.createElement( 'a' );
+        link.href = imageSrc( base64 );
+        link.download = filename;
+        document.body.appendChild( link );
+        link.click();
+        link.remove();
+    }
+
+    function referenceRow( label, value ) {
+        return $( '<div>' )
+            .addClass( 'seedanalysis-reference-row' )
+            .append(
+                $( '<span>' ).text( label ),
+                $( '<strong>' ).text( value )
+            );
+    }
+
+    function renderReferenceSummary( result ) {
+        var pixels = calibrationPixels();
+        var millimeters = formNumberValue( 'referenceMm' );
+        var calibrationReady = pixels > 1 && millimeters > 0;
+        var segmentCount = finiteNumber( result.segmentation && result.segmentation.segment_count );
+        var summaryCount = finiteNumber( result.summary && result.summary.count );
+        var totalMeasured = segmentCount !== null ? segmentCount : summaryCount;
+        var runId = result.run && result.run.id ?
+            String( result.run.id ).slice( -8 ).toUpperCase() :
+            '-';
+
+        return $( '<section>' )
+            .addClass( 'seedanalysis-reference-summary' )
+            .append(
+                $( '<div>' )
+                    .addClass( 'seedanalysis-reference-group' )
+                    .append(
+                        $( '<h3>' ).text( msg( 'reference-settings' ) ),
+                        $( '<div>' )
+                            .addClass( 'seedanalysis-reference-rows' )
+                            .append(
+                                referenceRow(
+                                    msg( 'measurement-unit' ),
+                                    calibrationReady ? msg( 'millimeter-unit' ) : msg( 'pixel-unit' )
+                                ),
+                                referenceRow(
+                                    msg( 'scale-ratio' ),
+                                    calibrationReady ?
+                                        formatNumber( pixels, 1 ) + ' ' + msg( 'px' ) + ' = ' +
+                                            formatNumber( millimeters, 2 ) + ' ' + msg( 'mm' ) :
+                                        msg( 'not-set' )
+                                )
+                            )
+                    ),
+                $( '<div>' )
+                    .addClass( 'seedanalysis-reference-group' )
+                    .append(
+                        $( '<h3>' ).text( msg( 'analysis-result' ) ),
+                        $( '<div>' )
+                            .addClass( 'seedanalysis-reference-rows' )
+                            .append(
+                                referenceRow( msg( 'run-id' ), runId ),
+                                referenceRow(
+                                    msg( 'total-measured-grains' ),
+                                    totalMeasured !== null ? formatNumber( totalMeasured, 0 ) : '-'
+                                )
+                            )
+                    )
+            );
+    }
+
     function renderResult( result ) {
         if ( !result ) {
             return;
@@ -1338,7 +1533,19 @@
                 .appendTo( $actions );
         }
 
+        if ( result.overlay_png_base64 ) {
+            $( '<button>' )
+                .attr( 'type', 'button' )
+                .addClass( 'seedanalysis-secondary' )
+                .text( msg( 'download-result-image' ) )
+                .on( 'click', function () {
+                    downloadBase64Png( result.overlay_png_base64, 'seed-analysis-result.png' );
+                } )
+                .appendTo( $actions );
+        }
+
         $summary.append(
+            renderReferenceSummary( result ),
             renderCards( result ),
             renderQcSummary( result ),
             renderSuspectEditor( result ),
@@ -1410,6 +1617,7 @@
             .then( function ( payload ) {
                 currentResult = payload.data || {};
                 currentPreview = currentResult.overlay_png_base64 ? 'overlay' : 'mask';
+                applySuggestedReference( currentResult );
                 renderResult( currentResult );
                 setStatus( payload.message || '', 'success' );
             } )
@@ -1461,6 +1669,7 @@
                 }
 
                 event.preventDefault();
+                setSuggestedReferenceNotice( false );
                 if ( this.setPointerCapture && nativeEvent.pointerId !== undefined ) {
                     this.setPointerCapture( nativeEvent.pointerId );
                 }
