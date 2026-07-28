@@ -352,7 +352,10 @@ function loadDatasetFromUrl(fileName, fileUrl) {
 
     if (extension === 'xlsx' || extension === 'xls') {
         fetch(fileUrl)
-            .then(res => res.arrayBuffer())
+            .then(res => {
+                if (!res.ok) throw new Error('Mã lỗi HTTP ' + res.status + ' khi tải tệp');
+                return res.arrayBuffer();
+            })
             .then(buffer => {
                 const data = new Uint8Array(buffer);
                 const workbook = XLSX.read(data, { type: 'array' });
@@ -363,27 +366,38 @@ function loadDatasetFromUrl(fileName, fileUrl) {
                 processLoadedData(json);
             })
             .catch(err => {
-                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp từ kho Wikicrop!', 'error');
+                $('#app-custom-modal').remove();
+                showAppMessage('Lỗi nạp tệp', 'Không thể đọc tệp Excel từ kho Wikicrop! Chi tiết: ' + err.message, 'error');
             });
     } else {
         fetch(fileUrl)
-            .then(res => res.text())
+            .then(res => {
+                if (!res.ok) throw new Error('Mã lỗi HTTP ' + res.status + ' khi tải tệp');
+                return res.text();
+            })
             .then(text => {
                 let parsed = [];
                 if (extension === 'arff') {
                     parsed = parseARFF(text);
+                } else if (extension === 'txt') {
+                    parsed = parseTXT(text); 
                 } else {
-                    parsed = parseCSV(text);
+                    parsed = parseCSV(text); 
                 }
+
+                if (!parsed || parsed.length === 0) {
+                    throw new Error('Dữ liệu tệp bị rỗng hoặc không đúng định dạng!');
+                }
+
                 $('#app-custom-modal').remove();
                 processLoadedData(parsed);
             })
             .catch(err => {
-                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp từ kho Wikicrop!', 'error');
+                $('#app-custom-modal').remove();
+                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp từ kho Wikicrop! Chi tiết: ' + err.message, 'error');
             });
     }
 }
-
 function showWikiCropFileSelector() {
     var api = new mw.Api();
     showAppMessage('⏳ Đang tải...', 'Đang quét kho tệp tin dữ liệu trên Wikicrop...', 'info');
@@ -398,7 +412,7 @@ function showWikiCropFileSelector() {
         $('#app-custom-modal').remove();
         var allFiles = (data.query && data.query.allimages) ? data.query.allimages : [];
         
-        var validExtensions = ['csv', 'arff', 'xlsx', 'xls'];
+        var validExtensions = ['csv', 'arff', 'xlsx', 'xls', 'txt'];
         var datasetFiles = allFiles.filter(function (f) {
             var ext = f.name.split('.').pop().toLowerCase();
             return validExtensions.includes(ext);
@@ -2651,6 +2665,61 @@ function parseCSV(text) {
     }).filter(row => Object.keys(row).length === headers.length);
 }
 
+
+/* xử lý các dạng tệp .txt */
+function parseTXT(text) {
+    if (!text || !text.trim()) return [];
+    
+    // Tách dòng hỗ trợ \r\n (Windows), \n (Linux) và \r (Mac)
+    const lines = text.trim().split(/\r?\n|\r/).filter(line => line.trim() !== '');
+    if (lines.length === 0) return [];
+
+    const candidates = ['\t', ',', ';', '|'];
+    const sampleLines = lines.slice(0, Math.min(5, lines.length));
+    
+    let bestDelimiter = null;
+    let maxAvgCols = 0;
+
+    for (const delim of candidates) {
+        let counts = sampleLines.map(line => line.split(delim).length);
+        let avg = counts.reduce((a, b) => a + b, 0) / counts.length;
+        if (avg > 1 && avg > maxAvgCols) {
+            maxAvgCols = avg;
+            bestDelimiter = delim;
+        }
+    }
+
+    function splitLine(line, delim) {
+        let rawTokens = [];
+        if (delim) {
+            rawTokens = line.split(delim);
+        } else {
+            rawTokens = line.match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g) || line.trim().split(/\s+/);
+        }
+        return rawTokens.map(v => String(v).trim().replace(/^["'“”‘’]+|["'“”‘’]+$/g, ''));
+    }
+
+    const headers = splitLine(lines[0], bestDelimiter);
+    if (headers.length === 0) return [];
+
+    const result = [];
+    for (let i = 1; i < lines.length; i++) {
+        const values = splitLine(lines[i], bestDelimiter);
+        if (values.length === 0 || (values.length === 1 && values[0] === '')) continue;
+
+        const obj = {};
+        headers.forEach((h, colIdx) => {
+            let rawVal = values[colIdx] !== undefined ? values[colIdx] : '';
+            if (rawVal !== '' && !isNaN(Number(rawVal))) {
+                obj[h] = Number(rawVal);
+            } else {
+                obj[h] = rawVal;
+            }
+        });
+        result.push(obj);
+    }
+    return result;
+}
 // kết quả sơ đồ
 var COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ec4899', '#6366f1', '#ef4444', '#14b8a6', '#f43f5e', '#84cc16', '#06b6d4', '#d946ef'];
 var parsedData = []; 
@@ -2889,13 +2958,18 @@ function renderDataLoader(data) {
     });
 
     function updateClassFeaturesDisabling() {
-        const selectedTarget = $('#targetLabelSelect').val();
-        $('.class-feat-checkbox').each(function() {
-            const val = $(this).val();
-            $(this).prop('disabled', false);
-            $(`#lbl-class-feat-${val}`).show(); 
-        });
-    }
+    const selectedTarget = $('#targetLabelSelect').val();
+    $('.class-feat-checkbox').each(function() {
+        const val = $(this).val();
+        $(this).prop('disabled', false);
+        
+        // Dùng getElementById thuần của JS để nhận diện tên cột có khoảng trắng và ngoặc (cm)
+        const elem = document.getElementById('lbl-class-feat-' + val);
+        if (elem) {
+            elem.style.display = 'block';
+        }
+    });
+}
 
     updateClassFeaturesDisabling();
     $('#targetLabelSelect').off('change').on('change', function() {
@@ -3319,9 +3393,15 @@ $(function () {
                 processLoadedData(parsed);
             };
             reader.readAsText(file, 'UTF-8');
+        } else if (extension === 'txt') {
+            reader.onload = function (evt) {
+                const parsed = parseTXT(evt.target.result); 
+                processLoadedData(parsed);
+            };
+            reader.readAsText(file, 'UTF-8');
         } else {
             reader.onload = function (evt) {
-                const parsed = parseCSV(evt.target.result);
+                const parsed = parseCSV(evt.target.result); 
                 processLoadedData(parsed);
             };
             reader.readAsText(file, 'UTF-8');
@@ -4045,7 +4125,7 @@ $(function () {
                 url: mw.config.get('wgScript') + '?title=Special:DataMining',
                 type: 'POST',
                 data: {
-                    clustering_action: 'save_latest',
+                    datamining_action: 'save_latest',
                     algorithm: currentClusteringState.algorithm,
                     dataset: currentClusteringState.dataset,
                     target_page: selectedPage,
@@ -4241,7 +4321,7 @@ $(function () {
                 displayResults = res.displayResults; renderChart(displayResults); renderClusterTables(displayResults);
             }
         }
-        showAppMessage('Khôi phục', 'Kết quả phân cụm mới nhất đã được tải ngược thành công từ WikiCrop AI Cache.', 'info');
+        showAppMessage('Khôi phục', 'Kết quả phân tích dữ liệu mới nhất đã được tải ngược thành công từ WikiCrop cache.', 'info');
     }
 
     

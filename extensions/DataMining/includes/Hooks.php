@@ -37,7 +37,7 @@ class Hooks {
         }
 
         $cache = MediaWikiServices::getInstance()->getMainObjectCache();
-        $latest = $cache->get( 'wikicrop-clustering-latest' );
+        $latest = $cache->get( 'wikicrop-datamining-latest' );
 
         if ( !$latest ) {
             return true;
@@ -47,7 +47,7 @@ class Hooks {
         $datasetName = htmlspecialchars( $latest['dataset'] );
         $timeStr = date( 'd/m/Y H:i', $latest['timestamp'] );
 
-        $specialPageTitle = Title::newFromText( 'Special:DataMining ' );
+        $specialPageTitle = Title::newFromText( 'Special:DataMining' );
         $url = $specialPageTitle ? $specialPageTitle->getLocalURL( [ 'load_latest' => 1 ] ) : '#';
 
         $html = "
@@ -88,7 +88,7 @@ class Hooks {
                 border-radius: 8px; font-weight: 600; font-size: 13px;
                 text-decoration: none; box-shadow: 0 4px 6px rgba(15, 23, 42, 0.15);
                 display: inline-flex; align-items: center; gap: 6px;
-            '>🔍 Xem kết quả gom cụm</a>
+            '>🔍 Xem kết quả phân tích</a>
         </div>
         ";
 

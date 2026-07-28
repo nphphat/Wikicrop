@@ -128,7 +128,7 @@ class SpecialDataMining extends SpecialPage {
         $out = $this->getOutput();
         $request = $this->getRequest();
 
-        if ( $request->getVal( 'clustering_action' ) === 'save_latest' && $request->wasPosted() ) {
+        if ( $request->getVal( 'datamining_action' ) === 'save_latest' && $request->wasPosted() ) {
             $out->disable(); 
             if ( ob_get_length() ) { ob_clean(); }
             $request->response()->header( 'Content-Type: application/json' );
@@ -230,7 +230,7 @@ class SpecialDataMining extends SpecialPage {
                         <span id="current-step-title"> Data Loader</span>
                     </div>
                     <div class="topbar-right">
-                        <input type="file" id="fileInput" accept=".csv, .xlsx, .xls, .arff" style="display:none">
+                        <input type="file" id="fileInput" accept=".csv, .xlsx, .xls, .arff, .txt" style="display:none">
                         <div id="fileBadge" style="display: none; background: #e0e7ff; color: #4338ca; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #c7d2fe; align-items: center; gap: 6px;">
                             🗄️ <span id="fileName"></span>
                         </div>
@@ -243,7 +243,7 @@ class SpecialDataMining extends SpecialPage {
                             <div id="empty-dataloader" style="width: 100%; max-width: 650px; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; border: 2px dashed #cbd5e1; background: #ffffff; border-radius: 12px; cursor: pointer;">
                                 <div style="color: #6366f1; margin-bottom: 24px;"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
                                 <h3 style="color: #1e293b; margin-bottom: 8px; font-size: 26px; font-weight: 700;">Upload Your Dataset</h3>
-                                <p style="color: #64748b; font-size: 13px; font-weight: 500; margin-bottom: 24px; text-align: center;">Hỗ trợ các định dạng tệp tin Excel (.xlsx, .xls), CSV (.csv) và ARFF (.arff)</p>
+                                <p style="color: #64748b; font-size: 13px; font-weight: 500; margin-bottom: 24px; text-align: center;">Hỗ trợ các định dạng tệp tin Excel (.xlsx, .xls), CSV (.csv) và ARFF (.arff) và TXT (.txt)</p>
 
                                 <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
                                     <button id="btnUploadCenter" style="background: #4f46e5; color: white; border: none; padding: 13px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
