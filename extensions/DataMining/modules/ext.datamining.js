@@ -439,7 +439,7 @@ function showWikiCropFileSelector() {
 
         var modalHtml = `
             <div id="app-custom-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; backdrop-filter:blur(4px);">
-                <div style="background:#ffffff; width:90%; max-width:520px; padding:26px; border-radius:12px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); border-top: 4px solid #059669;">
+                <<div style="background:#ffffff; width:95%; max-width:750px; padding:28px; border-radius:12px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); border-top: 4px solid #4f46e5;">
                     <h3 style="margin:0 0 10px 0; font-size:18px; font-weight:700; color:#1e293b;">Kho tập tin dữ liệu Wikicrop</h3>
                     <p style="margin:0 0 16px 0; font-size:13px; color:#64748b;">Tìm thấy <b>${datasetFiles.length}</b> tệp dữ liệu đã được tải lên hệ thống. Chọn tệp để nạp vào:</p>
                     
@@ -447,7 +447,7 @@ function showWikiCropFileSelector() {
                         <div style="margin-bottom:10px;">
                             <input type="text" id="input-search-wikicrop-file" placeholder="🔍 Tìm tên tệp dữ liệu..." style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; outline:none; box-sizing:border-box;" />
                         </div>
-                        <div id="wikicrop-file-list" style="max-height:230px; overflow-y:auto; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
+                        <div id="wikicrop-file-list" style="max-height:450px; overflow-y:auto; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
                             ${filesHtml}
                         </div>
                     </div>
