@@ -340,71 +340,75 @@ function showWikiCropPageSelector(onConfirm) {
     });
 }
 
-
-/* XỬ LÝ TỆP WIKICROP */
-function loadDatasetFromUrl(fileName, fileUrl) {
-    showAppMessage('⏳ Đang tải tệp...', 'Đang nạp dữ liệu từ kho tập tin Wikicrop: ' + fileName, 'info');
+/* XỬ LÝ TỆP WIKICROP ĐỌC DỮ LIỆU TỪ PHP SERVER-SIDE */
+function loadDatasetFromUrl(fileName) {
+    showAppMessage('⏳ Đang tải tệp...', 'Server đang đọc dữ liệu từ kho Wikicrop: ' + fileName, 'info');
     const extension = fileName.split('.').pop().toLowerCase();
     
     $('#fileName').text(fileName);
     $('#fileBadge').css('display', 'flex');
 
-    // Chuyển URL tuyệt đối thành đường dẫn tương đối 
-    let fetchUrl = fileUrl;
-    try {
-        const parsedUrl = new URL(fileUrl, window.location.href);
-        fetchUrl = parsedUrl.pathname + parsedUrl.search;
-    } catch (e) {
-        fetchUrl = fileUrl;
-    }
+    // Gửi yêu cầu AJAX lên SpecialDataMining để PHP đọc tệp trực tiếp từ Server
+    $.ajax({
+        url: mw.config.get('wgScript') + '?title=Special:DataMining',
+        type: 'POST',
+        data: {
+            datamining_action: 'get_file_content',
+            file_name: fileName,
+            format: 'json'
+        },
+        dataType: 'json',
+        success: function (resp) {
+            $('#app-custom-modal').remove();
 
-    if (extension === 'xlsx' || extension === 'xls') {
-        fetch(fetchUrl)
-            .then(res => {
-                if (!res.ok) throw new Error('Mã lỗi HTTP ' + res.status + ' khi tải tệp');
-                return res.arrayBuffer();
-            })
-            .then(buffer => {
-                const data = new Uint8Array(buffer);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                const json = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-                $('#app-custom-modal').remove();
-                processLoadedData(json);
-            })
-            .catch(err => {
-                $('#app-custom-modal').remove();
-                showAppMessage('Lỗi nạp tệp', 'Không thể nạp tệp Excel! Chi tiết: ' + err.message, 'error');
-            });
-    } else {
-        fetch(fetchUrl)
-            .then(res => {
-                if (!res.ok) throw new Error('Mã lỗi HTTP ' + res.status + ' khi tải tệp');
-                return res.text();
-            })
-            .then(text => {
-                let parsed = [];
-                if (extension === 'arff') {
-                    parsed = parseARFF(text);
-                } else if (extension === 'txt') {
-                    parsed = parseTXT(text); 
-                } else {
-                    parsed = parseCSV(text); 
+            if (resp && resp.status === 'success' && resp.base64) {
+                try {
+                    // Giải mã chuỗi Base64 trả về từ PHP
+                    const binaryString = atob(resp.base64);
+                    const bytes = new Uint8Array(binaryString.length);
+                    for (let i = 0; i < binaryString.length; i++) {
+                        bytes[i] = binaryString.charCodeAt(i);
+                    }
+
+                    let parsed = [];
+
+                    if (resp.is_binary || extension === 'xlsx' || extension === 'xls') {
+                        // Đọc file nhị phân Excel
+                        const workbook = XLSX.read(bytes, { type: 'array' });
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        parsed = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+                    } else {
+                        // Giải mã UTF-8 an toàn cho tiếng Việt & ký tự đặc biệt
+                        const text = new TextDecoder('utf-8').decode(bytes);
+
+                        if (extension === 'arff') {
+                            parsed = parseARFF(text);
+                        } else if (extension === 'txt') {
+                            parsed = parseTXT(text);
+                        } else {
+                            parsed = parseCSV(text);
+                        }
+                    }
+
+                    if (!parsed || parsed.length === 0) {
+                        showAppMessage('Lỗi nạp tệp', 'Dữ liệu tệp bị rỗng hoặc không đúng định dạng!', 'error');
+                        return;
+                    }
+
+                    processLoadedData(parsed);
+                } catch (err) {
+                    showAppMessage('Lỗi giải mã', 'Không thể giải mã nội dung tệp! Chi tiết: ' + err.message, 'error');
                 }
-
-                if (!parsed || parsed.length === 0) {
-                    throw new Error('Dữ liệu tệp bị rỗng hoặc không đúng định dạng!');
-                }
-
-                $('#app-custom-modal').remove();
-                processLoadedData(parsed);
-            })
-            .catch(err => {
-                $('#app-custom-modal').remove();
-                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp! Chi tiết: ' + err.message, 'error');
-            });
-    }
+            } else {
+                showAppMessage('Lỗi nạp tệp', (resp && resp.message) ? resp.message : 'Không thể đọc tệp từ Server!', 'error');
+            }
+        },
+        error: function (xhr, status, error) {
+            $('#app-custom-modal').remove();
+            showAppMessage('Lỗi kết nối', 'Không thể kết nối với máy chủ Wikicrop API!', 'error');
+        }
+    });
 }
 
 function showWikiCropFileSelector() {
@@ -490,9 +494,8 @@ function showWikiCropFileSelector() {
                 mw.notify('Vui lòng chọn một tệp dữ liệu!');
                 return;
             }
-            var fileUrl = $selected.val();
             var fileName = $selected.data('filename');
-            loadDatasetFromUrl(fileName, fileUrl);
+            loadDatasetFromUrl(fileName);// Truyền trực tiếp fileName vào hàm
         });
 
     }).fail(function () {

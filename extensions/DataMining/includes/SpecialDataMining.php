@@ -18,9 +18,6 @@ class SpecialDataMining extends SpecialPage {
         parent::__construct( 'DataMining' );
     }
 
-    /**
-     * Lấy (hoặc tạo mới nếu chưa có) tài khoản Bot hệ thống nội bộ
-     */
     private function getOrCreateBotUser() {
         $bot = User::newFromName( self::BOT_USERNAME );
         if ( !$bot ) {
@@ -39,9 +36,6 @@ class SpecialDataMining extends SpecialPage {
         return $bot;
     }
 
-    /**
-     * Tải ảnh Base64 từ Canvas vào CSDL & Kho tệp tin của MediaWiki
-     */
     private function uploadCanvasImage( $base64Data, $fileName, $botUser ) {
         if ( !$base64Data || strpos( $base64Data, 'data:image' ) === false ) {
             return null;
@@ -87,7 +81,6 @@ class SpecialDataMining extends SpecialPage {
         return null;
     }
 
-    /*Ghi nội dung wikitext vào bài viết trước tham khảo */
     private function appendToWikiPage( $pageTitle, $appendText, $summary ) {
         $titleObj = Title::newFromText( $pageTitle );
         if ( !$titleObj || !$titleObj->exists() ) {
@@ -100,7 +93,6 @@ class SpecialDataMining extends SpecialPage {
         $currentContent = $wikiPage->getContent();
         $currentText = $currentContent ? $currentContent->getText() : '';
 
-        // Dùng Regex quét các dạng tiêu đề Tham khảo phổ biến
         $refPattern = '/(==\s*(?:Tài liệu tham khảo|Tham khảo|References?)\s*==)/i';
 
         if ( preg_match( $refPattern, $currentText, $matches, PREG_OFFSET_CAPTURE ) ) {
@@ -127,6 +119,53 @@ class SpecialDataMining extends SpecialPage {
     public function execute( $subPage ) {
         $out = $this->getOutput();
         $request = $this->getRequest();
+
+        // 🟢 CÁCH B: ACTION ĐỌC FILE TRỰC TIẾP TỪ Ổ ĐĨA SERVER QUA REPO GROUP
+        if ( $request->getVal( 'datamining_action' ) === 'get_file_content' && $request->wasPosted() ) {
+            $out->disable(); 
+            if ( ob_get_length() ) { ob_clean(); }
+            $request->response()->header( 'Content-Type: application/json' );
+
+            try {
+                $fileName = $request->getVal( 'file_name' );
+                if ( !$fileName ) {
+                    throw new \Exception( 'Thiếu tên tệp tin.' );
+                }
+
+                // Chuẩn hóa tên file cho RepoGroup
+                $cleanName = str_replace( ' ', '_', trim( $fileName ) );
+                $repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
+                $fileObj = $repoGroup->findFile( $cleanName );
+
+                if ( !$fileObj || !$fileObj->exists() ) {
+                    throw new \Exception( 'Tệp tin "' . $fileName . '" không tồn tại trong kho tập tin Wikicrop.' );
+                }
+
+                $filePath = $fileObj->getLocalRefPath();
+                if ( !$filePath || !file_exists( $filePath ) ) {
+                    throw new \Exception( 'Không tìm thấy đường dẫn đĩa vật lý của tệp tin trên Server.' );
+                }
+
+                $rawContent = file_get_contents( $filePath );
+                if ( $rawContent === false ) {
+                    throw new \Exception( 'Không thể đọc nội dung tệp tin từ Server.' );
+                }
+
+                $extension = strtolower( pathinfo( $cleanName, PATHINFO_EXTENSION ) );
+                $isBinary = in_array( $extension, [ 'xlsx', 'xls' ] );
+
+                echo json_encode( [
+                    'status' => 'success',
+                    'base64' => base64_encode( $rawContent ),
+                    'is_binary' => $isBinary,
+                    'extension' => $extension
+                ] );
+            } catch ( \Throwable $e ) { 
+                http_response_code( 200 ); 
+                echo json_encode( [ 'status' => 'error', 'message' => $e->getMessage() ] );
+            }
+            return;
+        }
 
         if ( $request->getVal( 'datamining_action' ) === 'save_latest' && $request->wasPosted() ) {
             $out->disable(); 
