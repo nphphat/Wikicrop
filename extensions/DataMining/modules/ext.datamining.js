@@ -341,8 +341,7 @@ function showWikiCropPageSelector(onConfirm) {
 }
 
 
-/* XỬ LÝ TỆP WIKICROP VÀO ĐÂY  */
-
+/* XỬ LÝ TỆP WIKICROP */
 function loadDatasetFromUrl(fileName, fileUrl) {
     showAppMessage('⏳ Đang tải tệp...', 'Đang nạp dữ liệu từ kho tập tin Wikicrop: ' + fileName, 'info');
     const extension = fileName.split('.').pop().toLowerCase();
@@ -350,8 +349,17 @@ function loadDatasetFromUrl(fileName, fileUrl) {
     $('#fileName').text(fileName);
     $('#fileBadge').css('display', 'flex');
 
+    // Chuyển URL tuyệt đối thành đường dẫn tương đối 
+    let fetchUrl = fileUrl;
+    try {
+        const parsedUrl = new URL(fileUrl, window.location.href);
+        fetchUrl = parsedUrl.pathname + parsedUrl.search;
+    } catch (e) {
+        fetchUrl = fileUrl;
+    }
+
     if (extension === 'xlsx' || extension === 'xls') {
-        fetch(fileUrl)
+        fetch(fetchUrl)
             .then(res => {
                 if (!res.ok) throw new Error('Mã lỗi HTTP ' + res.status + ' khi tải tệp');
                 return res.arrayBuffer();
@@ -367,10 +375,10 @@ function loadDatasetFromUrl(fileName, fileUrl) {
             })
             .catch(err => {
                 $('#app-custom-modal').remove();
-                showAppMessage('Lỗi nạp tệp', 'Không thể đọc tệp Excel từ kho Wikicrop! Chi tiết: ' + err.message, 'error');
+                showAppMessage('Lỗi nạp tệp', 'Không thể nạp tệp Excel! Chi tiết: ' + err.message, 'error');
             });
     } else {
-        fetch(fileUrl)
+        fetch(fetchUrl)
             .then(res => {
                 if (!res.ok) throw new Error('Mã lỗi HTTP ' + res.status + ' khi tải tệp');
                 return res.text();
@@ -394,10 +402,11 @@ function loadDatasetFromUrl(fileName, fileUrl) {
             })
             .catch(err => {
                 $('#app-custom-modal').remove();
-                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp từ kho Wikicrop! Chi tiết: ' + err.message, 'error');
+                showAppMessage('Lỗi nạp tệp', 'Không thể đọc nội dung tệp! Chi tiết: ' + err.message, 'error');
             });
     }
 }
+
 function showWikiCropFileSelector() {
     var api = new mw.Api();
     showAppMessage('⏳ Đang tải...', 'Đang quét kho tệp tin dữ liệu trên Wikicrop...', 'info');
