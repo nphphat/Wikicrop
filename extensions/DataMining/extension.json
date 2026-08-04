@@ -1,0 +1,43 @@
+{
+	"name": "DataMining",
+	"version": "1.0.0",
+	"author": "Ma Quoc Dat",
+	"descriptionmsg": "datamining-desc",
+	"type": "special",
+	"SpecialPages": {
+		"DataMining": "DataMining\\SpecialDataMining"
+	},
+	"MessagesDirs": {
+		"DataMining": [
+			"i18n"
+		]
+	},
+	"AutoloadNamespaces": {
+		"DataMining\\": "includes/"
+	},
+	"Hooks": {
+		"BeforePageDisplay": "DataMining\\Hooks::onBeforePageDisplay",
+		"SkinBuildSidebar": "DataMining\\Hooks::onSkinBuildSidebar"
+	},
+	"ResourceModules": {
+		"ext.datamining": {
+			"scripts": [
+				"modules/ext.datamining.js"
+			],
+			"styles": [
+				"modules/ext.datamining.css"
+			],
+			"dependencies": [
+				"mediawiki.util",
+				"jquery"
+			],
+			"localBasePath": "",
+			"remoteExtPath": "DataMining",
+			"targets": [
+				"desktop",
+				"mobile"
+			]
+		}
+	},
+	"manifest_version": 2
+}
