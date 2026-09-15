@@ -1,0 +1,146 @@
+{
+  "name": "SeedAnalysis",
+  "version": "0.4.0",
+  "author": [
+    "Seed",
+    "WikiCrop"
+  ],
+  "descriptionmsg": "seedanalysis-desc",
+  "type": "specialpage",
+  "requires": {
+    "MediaWiki": ">= 1.35.0"
+  },
+  "AutoloadClasses": {
+    "SpecialSeedAnalysis": "includes/SpecialSeedAnalysis.php",
+    "SeedAnalysisHooks": "includes/SeedAnalysisHooks.php"
+  },
+  "SpecialPages": {
+    "SeedAnalysis": "SpecialSeedAnalysis"
+  },
+  "Hooks": {
+    "SkinBuildSidebar": "main"
+  },
+  "HookHandlers": {
+    "main": {
+      "class": "SeedAnalysisHooks"
+    }
+  },
+  "MessagesDirs": {
+    "SeedAnalysis": [
+      "i18n"
+    ]
+  },
+  "ExtensionMessagesFiles": {
+    "SeedAnalysisAlias": "SeedAnalysis.alias.php"
+  },
+  "ResourceModules": {
+    "ext.seedAnalysis": {
+      "localBasePath": "",
+      "remoteExtPath": "SeedAnalysis",
+      "scripts": "modules/ext.seedAnalysis.js",
+      "styles": "modules/ext.seedAnalysis.css",
+      "dependencies": [
+        "jquery",
+        "mediawiki.util"
+      ],
+      "messages": [
+        "seedanalysis-select-image",
+        "seedanalysis-analyze",
+        "seedanalysis-analyzing",
+        "seedanalysis-error-no-image",
+        "seedanalysis-error-service",
+        "seedanalysis-error-preview",
+        "seedanalysis-reference-preview-title",
+        "seedanalysis-reference-preview-help",
+        "seedanalysis-reference-empty",
+        "seedanalysis-reference-pixels-ready",
+        "seedanalysis-clear-reference",
+        "seedanalysis-suggested-reference-title",
+        "seedanalysis-suggested-reference-help",
+        "seedanalysis-reference-settings",
+        "seedanalysis-measurement-unit",
+        "seedanalysis-millimeter-unit",
+        "seedanalysis-pixel-unit",
+        "seedanalysis-scale-ratio",
+        "seedanalysis-not-set",
+        "seedanalysis-analysis-result",
+        "seedanalysis-run-id",
+        "seedanalysis-total-measured-grains",
+        "seedanalysis-results-heading",
+        "seedanalysis-results-help",
+        "seedanalysis-detected-count",
+        "seedanalysis-valid-count",
+        "seedanalysis-length",
+        "seedanalysis-width",
+        "seedanalysis-area",
+        "seedanalysis-std-length",
+        "seedanalysis-std-width",
+        "seedanalysis-std-area",
+        "seedanalysis-suspects",
+        "seedanalysis-qc-ok",
+        "seedanalysis-qc-robust-note",
+        "seedanalysis-qc-raw-warning",
+        "seedanalysis-suspect-id-list",
+        "seedanalysis-edit-suspects",
+        "seedanalysis-edit-suspects-help",
+        "seedanalysis-confirm",
+        "seedanalysis-delete",
+        "seedanalysis-confirm-grain",
+        "seedanalysis-delete-detection",
+        "seedanalysis-edit-updating",
+        "seedanalysis-edit-preview-warning",
+        "seedanalysis-confirm-success",
+        "seedanalysis-delete-success",
+        "seedanalysis-preview-overlay",
+        "seedanalysis-preview-mask",
+        "seedanalysis-preview-labels",
+        "seedanalysis-download-csv",
+        "seedanalysis-download-result-image",
+        "seedanalysis-no-preview",
+        "seedanalysis-px",
+        "seedanalysis-px2",
+        "seedanalysis-mm",
+        "seedanalysis-mm2",
+        "seedanalysis-statistics-heading",
+        "seedanalysis-statistics-help",
+        "seedanalysis-metric-length",
+        "seedanalysis-metric-width",
+        "seedanalysis-metric-area",
+        "seedanalysis-metric-all",
+        "seedanalysis-distribution-length",
+        "seedanalysis-distribution-width",
+        "seedanalysis-distribution-area",
+        "seedanalysis-valid-sample",
+        "seedanalysis-typical-size",
+        "seedanalysis-median-help",
+        "seedanalysis-common-range",
+        "seedanalysis-common-range-help",
+        "seedanalysis-variation",
+        "seedanalysis-variation-help",
+        "seedanalysis-size-groups",
+        "seedanalysis-size-small",
+        "seedanalysis-size-typical",
+        "seedanalysis-size-large",
+        "seedanalysis-grains",
+        "seedanalysis-distribution-chart",
+        "seedanalysis-distribution-chart-help",
+        "seedanalysis-no-chart-data"
+      ],
+      "targets": [
+        "desktop",
+        "mobile"
+      ]
+    }
+  },
+  "config": {
+    "SeedAnalysisApiUrl": {
+      "value": "http://127.0.0.1:3001/api",
+      "description": "Base URL for the Seed analysis service API. Example: http://seed-analysis:3000/api"
+    },
+    "SeedAnalysisPlayStoreUrl": {
+      "value": "",
+      "description": "Optional SeedVision Play Store URL shown as a mobile fallback link."
+    }
+  },
+  "manifest_version": 2
+}

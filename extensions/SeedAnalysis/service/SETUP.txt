@@ -1,0 +1,42 @@
+SeedAnalysis service
+====================
+
+This service is the self-contained Seed backend used by the WikiCrop
+SeedAnalysis extension. It exposes:
+
+GET  /api/grain/health
+POST /api/grain/analyze-public
+
+Local run:
+
+1. Install Node dependencies:
+   npm install
+
+2. Create a Python virtual environment and install pipeline dependencies:
+   python -m venv .venv
+   .venv\Scripts\python.exe -m pip install -r python\requirements.txt
+
+3. Start the service:
+   $env:PORT='3001'
+   $env:GRAIN_PYTHON_BIN='.venv\Scripts\python.exe'
+   npm start
+
+4. Load the extension in WikiCrop LocalSettings.php:
+   wfLoadExtension( 'SeedAnalysis' );
+   $wgSeedAnalysisApiUrl = getenv( 'SEED_ANALYSIS_API_URL' ) ?: 'http://127.0.0.1:3001/api';
+
+The browser posts uploads to Special:SeedAnalysis on the same WikiCrop origin.
+PHP then proxies the image to $wgSeedAnalysisApiUrl, so production installs can
+use an internal URL such as http://seed-analysis:3000/api.
+
+Docker run:
+
+   docker build -t wikicrop-seed-analysis .
+   docker run --rm -p 3001:3000 wikicrop-seed-analysis
+
+Docker Compose from this service directory:
+
+   docker compose up --build
+
+For Docker Compose, mount or build this directory as a service and point
+$wgSeedAnalysisApiUrl to http://seed-analysis:3000/api.

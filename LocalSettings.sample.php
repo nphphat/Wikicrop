@@ -349,6 +349,11 @@ wfLoadExtension( 'ApiPlantDB' );
 
 wfLoadExtension( 'NongNghiep40' );
 wfLoadExtension( 'QuanLyNongNghiep40' );
+// SeedAnalysis - module phan tich hat giong tu Seed.
+// Chay service noi bo tai extensions/SeedAnalysis/service, mac dinh port 3001.
+wfLoadExtension( 'SeedAnalysis' );
+$wgSeedAnalysisApiUrl = getenv( 'SEED_ANALYSIS_API_URL' ) ?: 'http://127.0.0.1:3001/api';
+$wgSeedAnalysisPlayStoreUrl = ''; // Set a public listing URL to show the optional app button.
 $wgQuanLyNongNghiep40GeminiKey = 'GEMINI_API_KEY'; // Thay thế bằng Gemini Key của bạn
 
 wfLoadExtension( 'ReplaceText' );

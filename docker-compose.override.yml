@@ -1,0 +1,15 @@
+services:
+  mediawiki:
+    environment:
+      SEED_ANALYSIS_API_URL: "http://seed-analysis:3000/api"
+    depends_on:
+      - seed-analysis
+
+  seed-analysis:
+    build: ./extensions/SeedAnalysis/service
+    ports:
+      - "3001:3000"
+    environment:
+      PORT: "3000"
+      GRAIN_PYTHON_BIN: "python3"
+      SEED_ANALYSIS_ALLOWED_ORIGINS: "*"

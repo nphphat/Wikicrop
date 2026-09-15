@@ -1,0 +1,9 @@
+services:
+  seed-analysis:
+    build: .
+    ports:
+      - "3001:3000"
+    environment:
+      PORT: "3000"
+      GRAIN_PYTHON_BIN: "python3"
+      SEED_ANALYSIS_ALLOWED_ORIGINS: "*"
